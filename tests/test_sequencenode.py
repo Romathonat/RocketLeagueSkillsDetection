@@ -20,5 +20,6 @@ def test_possible_children():
     seq = SequenceNode([{'A'}, {'B'}], None, {'A', 'B'})
     possible_children = seq.possible_children
     assert sequence_mutable_to_immutable([{'A', 'B'}, {'B'}]) in possible_children
+    assert len(possible_children) == 6
     # check if no duplicate
 

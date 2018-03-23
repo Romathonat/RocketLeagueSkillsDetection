@@ -10,7 +10,7 @@ class SequenceNode():
         self.sequence = sequence
         self.parent = parent
         self.quality = 0
-        self.number_visit = 0
+        self.number_visit = 1
         self.is_fully_expanded = False
 
         # useless ?
