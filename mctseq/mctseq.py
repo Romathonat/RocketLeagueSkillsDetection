@@ -36,7 +36,6 @@ class MCTSeq():
         :param node: the node from where we begin to search
         :return: the selected node
         """
-        pass
 
     def expand(self, node):
         """
@@ -77,9 +76,8 @@ class MCTSeq():
                 best_node = child
 
 
-
 # Todo: command line interface, with pathfile of data
 
 ITEMS = set()
-data = read_data('/home/romain/Documents/contextPrefixSpan.txt')
+DATA = read_data('/home/romain/Documents/contextPrefixSpan.txt')
 items = extract_items(data)
