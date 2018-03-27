@@ -36,6 +36,12 @@ class MCTSeq():
         :param node: the node from where we begin to search
         :return: the selected node
         """
+        while not node.is_terminal:
+            if not node.is_fully_expanded:
+                return node
+            else:
+                node = self.best_child(node)
+        return node
 
     def expand(self, node):
         """
@@ -74,6 +80,8 @@ class MCTSeq():
             if uct(node, child) > max_score:
                 max_score = child.quality
                 best_node = child
+
+        return best_node
 
 
 # Todo: command line interface, with pathfile of data

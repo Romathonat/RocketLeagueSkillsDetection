@@ -12,11 +12,10 @@ class SequenceNode():
         self.parent = parent
         self.quality = 0
         self.number_visit = 1
-        self.is_fully_expanded = False
         self.data = data
         self.candidate_items = candidate_items
+        self.is_fully_expanded = False
         self.is_terminal = False
-
         self.support = self.calculate_support()
 
         # List of patterns
@@ -37,10 +36,25 @@ class SequenceNode():
 
         self.support = support
 
+    def update_node_state(self):
+        """
+        Update states is_terminal and is_fully_expanded
+        """
+        if len(self.non_generated_children) == 0:
+            self.is_fully_expanded = True
+
+            # if at least one children have support > 0, it is not a terminal node
+            test_terminal = True
+            for child in self.generated_children:
+                if child.support > 0:
+                    test_terminal = False
+
+            self.is_terminal = test_terminal
+
     def expand(self):
         """
         Create a random children, and add it to generated children. Removes
-        considered pattern from the poss
+        considered pattern from the possible_children
         :return: the SequenceNode created
         """
         index_pattern_children = random.randint(0, len(
@@ -49,8 +63,7 @@ class SequenceNode():
         pattern_children = self.non_generated_children.pop(
             index_pattern_children)
 
-        if len(self.non_generated_children) == 0:
-            self.is_terminal = True
+        self.update_node_state()
 
         expanded_node = SequenceNode(pattern_children, self,
                                      self.candidate_items, self.data)
