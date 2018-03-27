@@ -3,6 +3,7 @@
 """Main module."""
 import datetime
 import random
+from heapq import heappush, heappop
 
 from mctseq.utils import read_data, extract_items, uct
 from mctseq.SequenceNode import SequenceNode
@@ -31,6 +32,12 @@ class MCTSeq():
             node_expand = self.expand(node_sel)
             reward = self.roll_out(node_expand)
             self.update(node_expand, reward)
+
+        # Now we need to explore the tree to get interesting subgroups
+        # We use a priority queue to store elements, sorted by their quality
+        sorted_patterns = []
+
+        self.explore_children(root_node, sorted_patterns)
 
     def select(self, node):
         """
@@ -105,7 +112,8 @@ class MCTSeq():
 
         return best_node
 
-
+    def explore_children(self, node, sorted_children):
+        
 # Todo: command line interface, with pathfile of data
 
 ITEMS = set()

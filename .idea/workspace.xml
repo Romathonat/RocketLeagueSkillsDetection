@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/mctseq/PrioritySet.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/mctseq/SequenceNode.py" afterPath="$PROJECT_DIR$/mctseq/SequenceNode.py" />
       <change beforePath="$PROJECT_DIR$/mctseq/mctseq.py" afterPath="$PROJECT_DIR$/mctseq/mctseq.py" />
-      <change beforePath="$PROJECT_DIR$/mctseq/utils.py" afterPath="$PROJECT_DIR$/mctseq/utils.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="mctseq.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mctseq.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mctseq/mctseq.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="86" column="8" lean-forward="false" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="8" />
+            <state relative-caret-position="522">
+              <caret line="115" column="7" lean-forward="false" selection-start-line="115" selection-start-column="7" selection-end-line="115" selection-end-column="7" />
               <folding>
                 <element signature="e#44#59#0" expanded="true" />
               </folding>
@@ -31,11 +30,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="PrioritySet.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mctseq/PrioritySet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="17" column="8" lean-forward="false" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SequenceNode.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mctseq/SequenceNode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+            <state relative-caret-position="396">
+              <caret line="77" column="58" lean-forward="false" selection-start-line="77" selection-start-column="58" selection-end-line="77" selection-end-column="58" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -106,6 +115,7 @@
         <option value="$PROJECT_DIR$/mctseq/utils.py" />
         <option value="$PROJECT_DIR$/mctseq/SequenceNode.py" />
         <option value="$PROJECT_DIR$/mctseq/mctseq.py" />
+        <option value="$PROJECT_DIR$/mctseq/PrioritySet.py" />
       </list>
     </option>
   </component>
@@ -227,13 +237,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/test_mctseq.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mctseq/SequenceNode.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -551,16 +554,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mctseq/SequenceNode.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/promoters.names">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -587,13 +580,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mctseq/SequenceNode.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="77" column="58" lean-forward="false" selection-start-line="77" selection-start-column="58" selection-end-line="77" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mctseq/mctseq.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="86" column="8" lean-forward="false" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="8" />
+        <state relative-caret-position="522">
+          <caret line="115" column="7" lean-forward="false" selection-start-line="115" selection-start-column="7" selection-end-line="115" selection-end-column="7" />
           <folding>
             <element signature="e#44#59#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mctseq/PrioritySet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="8" lean-forward="false" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
