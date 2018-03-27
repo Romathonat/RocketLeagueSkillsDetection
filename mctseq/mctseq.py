@@ -6,8 +6,8 @@ import random
 from heapq import heappush, heappop
 
 from mctseq.utils import read_data, extract_items, uct
-from mctseq.SequenceNode import SequenceNode
-
+from mctseq.sequencenode import SequenceNode
+from mctseq.priorityset import PrioritySetQuality
 
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget):
@@ -35,9 +35,11 @@ class MCTSeq():
 
         # Now we need to explore the tree to get interesting subgroups
         # We use a priority queue to store elements, sorted by their quality
-        sorted_patterns = []
+        sorted_patterns = PrioritySetQuality()
 
         self.explore_children(root_node, sorted_patterns)
+
+        return sorted_patterns
 
     def select(self, node):
         """
@@ -113,7 +115,16 @@ class MCTSeq():
         return best_node
 
     def explore_children(self, node, sorted_children):
-        
+        """
+        Find children of node and add them to sorted_children
+        :param node: the parent from which we explore childre
+        :param sorted_children: PrioritySetQuality.
+        :return: None
+        """
+        for child in node.generated_children:
+            sorted_children.add(child)
+            self.explore_children(child)
+
 # Todo: command line interface, with pathfile of data
 
 ITEMS = set()
