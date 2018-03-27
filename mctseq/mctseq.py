@@ -3,20 +3,21 @@
 """Main module."""
 import datetime
 import random
-from heapq import heappush, heappop
 
 from mctseq.utils import read_data, extract_items, uct
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
+
 class MCTSeq():
-    def __init__(self, pattern_number, items, data, time_budget):
+    def __init__(self, pattern_number, items, data, time_budget, target_class):
         self.pattern_number = pattern_number
         self.items = items
         self.time_budget = time_budget
         self.data = data
+        self.target_class = target_class
 
-    def launch(self, pattern_number):
+    def launch(self):
         """
         Launch the algorithm, specifying how many patterns we want to mine
         :return:
@@ -24,7 +25,7 @@ class MCTSeq():
         begin = datetime.datetime.utcnow()
 
         # current_node is root
-        root_node = SequenceNode([], None, items)
+        root_node = SequenceNode([], None, items, self.data, self.target_class)
         current_node = root_node
 
         while datetime.datetime.utcnow() - begin < self.time_budget:
@@ -39,7 +40,7 @@ class MCTSeq():
 
         self.explore_children(root_node, sorted_patterns)
 
-        return sorted_patterns
+        return sorted_patterns.get_top_k(self.pattern_number)
 
     def select(self, node):
         """
@@ -80,7 +81,8 @@ class MCTSeq():
             pattern_child = node.non_generated_children[index_pattern_child]
 
             # we create successively all node, without remembering them (easy coding for now)
-            node = SequenceNode(pattern_child, node, self.items, self.data)
+            node = SequenceNode(pattern_child, node, self.items, self.data,
+                                node.target_class)
             max_quality = max(max_quality, node.quality)
 
         return max_quality
@@ -94,10 +96,9 @@ class MCTSeq():
         """
         # mean-update
         current_node = node_expand
-        while(current_node.parent != None):
+        while (current_node.parent != None):
             current_node.update(reward)
             current_node = current_node.parent
-
 
     def best_child(self, node):
         """
@@ -117,7 +118,7 @@ class MCTSeq():
     def explore_children(self, node, sorted_children):
         """
         Find children of node and add them to sorted_children
-        :param node: the parent from which we explore childre
+        :param node: the parent from which we explore children
         :param sorted_children: PrioritySetQuality.
         :return: None
         """
@@ -125,8 +126,11 @@ class MCTSeq():
             sorted_children.add(child)
             self.explore_children(child)
 
-# Todo: command line interface, with pathfile of data
+
+# TODO: command line interface, with pathfile of data, number of patterns and max_time
 
 ITEMS = set()
-DATA = read_data('/home/romain/Documents/contextPrefixSpan.txt')
+DATA = read_data('../data/promoters.data')
 items = extract_items(DATA)
+
+mcts = MCTSeq(5, ITEMS, DATA, 5, '+')

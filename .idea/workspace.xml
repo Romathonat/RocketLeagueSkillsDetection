@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/mctseq/PrioritySet.py" afterPath="$PROJECT_DIR$/mctseq/priorityset.py" />
-      <change beforePath="$PROJECT_DIR$/mctseq/SequenceNode.py" afterPath="$PROJECT_DIR$/mctseq/sequencenode.py" />
       <change beforePath="$PROJECT_DIR$/mctseq/mctseq.py" afterPath="$PROJECT_DIR$/mctseq/mctseq.py" />
+      <change beforePath="$PROJECT_DIR$/mctseq/sequencenode.py" afterPath="$PROJECT_DIR$/mctseq/sequencenode.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,8 +20,8 @@
       <file leaf-file-name="mctseq.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mctseq/mctseq.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="41" column="30" lean-forward="false" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+            <state relative-caret-position="594">
+              <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
               <folding>
                 <element signature="e#44#59#0" expanded="true" />
               </folding>
@@ -30,11 +29,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sequencenode.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="sequencenode.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mctseq/sequencenode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="447">
+              <caret line="40" column="11" lean-forward="false" selection-start-line="40" selection-start-column="11" selection-end-line="40" selection-end-column="11" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -42,11 +41,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="priorityset.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="priorityset.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mctseq/priorityset.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="468">
+              <caret line="26" column="25" lean-forward="false" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -115,7 +114,9 @@
         <option value="$PROJECT_DIR$/mctseq/utils.py" />
         <option value="$PROJECT_DIR$/mctseq/SequenceNode.py" />
         <option value="$PROJECT_DIR$/mctseq/PrioritySet.py" />
+        <option value="$PROJECT_DIR$/mctseq/priorityset.py" />
         <option value="$PROJECT_DIR$/mctseq/mctseq.py" />
+        <option value="$PROJECT_DIR$/mctseq/sequencenode.py" />
       </list>
     </option>
   </component>
@@ -537,20 +538,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mctseq/SequenceNode.py" />
     <entry file="file://$PROJECT_DIR$/mctseq/PrioritySet.py" />
-    <entry file="file://$PROJECT_DIR$/mctseq/sequencenode.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mctseq/mctseq.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="41" column="30" lean-forward="false" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+        <state relative-caret-position="594">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
           <folding>
             <element signature="e#44#59#0" expanded="true" />
           </folding>
@@ -559,9 +550,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mctseq/priorityset.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="468">
+          <caret line="26" column="25" lean-forward="false" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mctseq/sequencenode.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="40" column="11" lean-forward="false" selection-start-line="40" selection-start-column="11" selection-end-line="40" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

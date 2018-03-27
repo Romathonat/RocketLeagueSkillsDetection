@@ -6,8 +6,10 @@ from mctseq.utils import sequence_immutable_to_mutable, \
 
 
 class SequenceNode():
-    def __init__(self, sequence, parent, candidate_items, data):
+    def __init__(self, sequence, parent, candidate_items, data, target_class):
         # the pattern is in the form [{}, {}, ... ]
+        # data is in the form [[class, {}, {}, ...], [class, {}, {}, ...]]
+
         self.sequence = sequence
         self.parent = parent
         self.number_visit = 1
@@ -15,8 +17,14 @@ class SequenceNode():
         self.candidate_items = candidate_items
         self.is_fully_expanded = False
         self.is_terminal = False
-        self.quality = self.calculate_quality()
-        self.support = self.calculate_support()
+        self.target_class = target_class
+
+        # those variables are here to compute WRacc
+        self.class_pattern_ratio = 0
+        self.class_data_ratio = 0
+
+        self.support = self.compute_support()
+        self.quality = self.compute_quality()
 
         # List of patterns
         self.non_generated_children = self.get_non_generated_children()
@@ -24,21 +32,27 @@ class SequenceNode():
         # Set of generated children
         self.generated_children = set()
 
-    def calculate_support(self):
+    def compute_support(self):
         """
         Calculate the support of current element
         """
         # TODO: Optimize it (vertical representation, like in prefixspan ?)
         support = 0
-        for row in self.data:
-            if is_subsequence(self.sequence, row):
-                support += 1
 
+        for row in self.data:
+            if is_subsequence(self.sequence, row[1:]):
+                support += 1
         self.support = support
 
-    def calculate_quality(self):
-        # TODO: update quality with WRAcc
-        pass
+    def compute_quality(self, target_class):
+        # TODO: Maybe there is a better way to optimize this
+        occurency_ratio = self.support / len(self.data)
+
+        # we find the number of elements who have the right target_class
+        class_pattern_ratio = 0
+
+        class_data_ratio = 0
+
 
     def update_node_state(self):
         """
@@ -81,7 +95,7 @@ class SequenceNode():
         self.update_node_state()
 
         expanded_node = SequenceNode(pattern_children, self,
-                                     self.candidate_items, self.data)
+                                     self.candidate_items, self.data, self.target_class)
         self.generated_children.add(expanded_node)
 
         return expanded_node
