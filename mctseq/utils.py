@@ -17,6 +17,10 @@ def sequence_immutable_to_mutable(sequence):
     return [set(i) for i in sequence]
 
 
+def WRAcc(data):
+    pass
+
+
 def is_subsequence(a, b):
     """ check if sequence a is a subsequence of b
     """
@@ -69,5 +73,5 @@ def extract_items(data):
 
 
 def uct(node, child_node):
-    return child_node.quality + math.sqrt(
+    return child_node.quality + 2 / math.sqrt(2) * math.sqrt(
         2 * math.log(node.number_visit) / child_node.number_visit)

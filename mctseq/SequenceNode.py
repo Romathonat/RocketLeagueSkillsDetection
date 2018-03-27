@@ -10,12 +10,12 @@ class SequenceNode():
         # the pattern is in the form [{}, {}, ... ]
         self.sequence = sequence
         self.parent = parent
-        self.quality = 0
         self.number_visit = 1
         self.data = data
         self.candidate_items = candidate_items
         self.is_fully_expanded = False
         self.is_terminal = False
+        self.quality = self.calculate_quality()
         self.support = self.calculate_support()
 
         # List of patterns
@@ -36,6 +36,10 @@ class SequenceNode():
 
         self.support = support
 
+    def calculate_quality(self):
+        # TODO: update quality with WRAcc
+        pass
+
     def update_node_state(self):
         """
         Update states is_terminal and is_fully_expanded
@@ -50,6 +54,17 @@ class SequenceNode():
                     test_terminal = False
 
             self.is_terminal = test_terminal
+
+    def update(self, reward):
+        """
+        Update the quality of the node
+        :param reward: the roll-out score
+        :return: None
+        """
+        # Mean-update
+        self.number_visit += 1
+        self.quality = (self.number_visit * self.quality + reward) / (
+                self.number_visit + 1)
 
     def expand(self):
         """
