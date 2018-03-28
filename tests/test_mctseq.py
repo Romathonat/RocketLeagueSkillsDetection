@@ -4,7 +4,7 @@
 """Tests for `mctseq` package."""
 
 
-from mctseq import mctseq
+from mctseq import mctseq_main
 
 
 class test_pass():

@@ -32,6 +32,13 @@ def count_target_class_data(data, target_class):
     return count
 
 
+def k_length(sequence):
+    """
+    :param sequence: the considered sequence
+    :return: the length of the sequence
+    """
+    return sum([len(i) for i in sequence])
+
 def is_subsequence(a, b):
     """ check if sequence a is a subsequence of b
     """

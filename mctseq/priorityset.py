@@ -2,7 +2,7 @@ import heapq
 
 class PrioritySetQuality(object):
     """
-    This class is a priority queue, removing duplicates and using node quality
+    This class is a priority queue, removing duplicates and using node wracc
     as the metric to order the priority queue
     """
     def __init__(self):
@@ -11,7 +11,7 @@ class PrioritySetQuality(object):
 
     def add(self, node):
         if not node in self.set:
-            heapq.heappush(self.heap, (node.quality, node))
+            heapq.heappush(self.heap, (node.wracc, node))
             self.set.add(node)
 
     def get(self):

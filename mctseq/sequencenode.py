@@ -26,8 +26,9 @@ class SequenceNode():
 
         self.support = self.compute_support()
         self.quality = self.compute_quality()
+        self.wracc = self.quality
 
-        # List of patterns
+        # set of patterns
         self.non_generated_children = self.get_non_generated_children()
 
         # Set of generated children
@@ -82,9 +83,9 @@ class SequenceNode():
         :return: None
         """
         # Mean-update
-        self.number_visit += 1
         self.quality = (self.number_visit * self.quality + reward) / (
             self.number_visit + 1)
+        self.number_visit += 1
 
     def expand(self):
         """
@@ -92,24 +93,24 @@ class SequenceNode():
         considered pattern from the possible_children
         :return: the SequenceNode created
         """
-        index_pattern_children = random.randint(0, len(
-            self.non_generated_children))
 
-        pattern_children = self.non_generated_children.pop(
-            index_pattern_children)
+        pattern_children = random.sample(self.non_generated_children, 1)[0]
+
+        self.non_generated_children.remove(pattern_children)
 
         self.update_node_state()
 
         expanded_node = SequenceNode(pattern_children, self,
                                      self.candidate_items, self.data,
-                                     self.target_class)
+                                     self.target_class, self.class_data_count)
+
         self.generated_children.add(expanded_node)
 
         return expanded_node
 
     def get_non_generated_children(self):
         """
-        :return: the list of sequences that we can generate from the current one
+        :return: the set of sequences that we can generate from the current one
         NB: We convert to mutable/immutable object in order to have a set of subsequence,
         which automatically removes duplicates
         """

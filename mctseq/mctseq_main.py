@@ -13,7 +13,7 @@ class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class):
         self.pattern_number = pattern_number
         self.items = items
-        self.time_budget = time_budget
+        self.time_budget = datetime.timedelta(seconds=time_budget)
         self.data = data
         self.target_class = target_class
         self.target_class_data_count = count_target_class_data(data,
@@ -133,8 +133,11 @@ class MCTSeq():
 
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 
-ITEMS = set()
-DATA = read_data('./data/promoters.data')
-items = extract_items(DATA)
+if __name__ == '__main__':
 
-mcts = MCTSeq(5, ITEMS, DATA, 5, '+')
+    ITEMS = set()
+    DATA = read_data('../data/promoters.data')
+    items = extract_items(DATA)
+
+    mcts = MCTSeq(5, ITEMS, DATA, 5, '+')
+    print(mcts.launch())
