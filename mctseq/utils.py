@@ -17,8 +17,19 @@ def sequence_immutable_to_mutable(sequence):
     return [set(i) for i in sequence]
 
 
-def WRAcc(data):
-    pass
+def count_target_class_data(data, target_class):
+    """
+    Count the number of occurences of target_class in the data
+    :param data: sequential data
+    :param target_class: the targeted class
+    :return: the count
+    """
+    count = 0
+    for row in data:
+        if data[0] == target_class:
+            count += 0
+
+    return count
 
 
 def is_subsequence(a, b):

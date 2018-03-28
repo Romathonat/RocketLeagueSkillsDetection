@@ -4,7 +4,7 @@
 import datetime
 import random
 
-from mctseq.utils import read_data, extract_items, uct
+from mctseq.utils import read_data, extract_items, uct, count_target_class_data
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
@@ -16,6 +16,8 @@ class MCTSeq():
         self.time_budget = time_budget
         self.data = data
         self.target_class = target_class
+        self.target_class_data_count = count_target_class_data(data,
+                                                               target_class)
 
     def launch(self):
         """
@@ -25,7 +27,8 @@ class MCTSeq():
         begin = datetime.datetime.utcnow()
 
         # current_node is root
-        root_node = SequenceNode([], None, items, self.data, self.target_class)
+        root_node = SequenceNode([], None, items, self.data, self.target_class,
+                                 self.target_class_data_count)
         current_node = root_node
 
         while datetime.datetime.utcnow() - begin < self.time_budget:
@@ -82,7 +85,8 @@ class MCTSeq():
 
             # we create successively all node, without remembering them (easy coding for now)
             node = SequenceNode(pattern_child, node, self.items, self.data,
-                                node.target_class)
+                                node.target_class,
+                                self.target_class_data_count)
             max_quality = max(max_quality, node.quality)
 
         return max_quality

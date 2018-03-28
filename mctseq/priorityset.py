@@ -3,7 +3,7 @@ import heapq
 class PrioritySetQuality(object):
     """
     This class is a priority queue, removing duplicates and using node quality
-    as reference
+    as the metric to order the priority queue
     """
     def __init__(self):
         self.heap = []

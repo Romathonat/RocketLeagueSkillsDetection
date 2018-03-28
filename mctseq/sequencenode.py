@@ -6,7 +6,8 @@ from mctseq.utils import sequence_immutable_to_mutable, \
 
 
 class SequenceNode():
-    def __init__(self, sequence, parent, candidate_items, data, target_class):
+    def __init__(self, sequence, parent, candidate_items, data, target_class,
+                 class_data_count):
         # the pattern is in the form [{}, {}, ... ]
         # data is in the form [[class, {}, {}, ...], [class, {}, {}, ...]]
 
@@ -20,8 +21,8 @@ class SequenceNode():
         self.target_class = target_class
 
         # those variables are here to compute WRacc
-        self.class_pattern_ratio = 0
-        self.class_data_ratio = 0
+        self.class_pattern_count = 0
+        self.class_data_count = class_data_count
 
         self.support = self.compute_support()
         self.quality = self.compute_quality()
@@ -34,7 +35,7 @@ class SequenceNode():
 
     def compute_support(self):
         """
-        Calculate the support of current element
+        Compute the support of current element and class_pattern_count
         """
         # TODO: Optimize it (vertical representation, like in prefixspan ?)
         support = 0
@@ -42,6 +43,8 @@ class SequenceNode():
         for row in self.data:
             if is_subsequence(self.sequence, row[1:]):
                 support += 1
+                if row[0] == self.target_class:
+                    self.class_pattern_count += 1
         self.support = support
 
     def compute_quality(self, target_class):
@@ -49,10 +52,10 @@ class SequenceNode():
         occurency_ratio = self.support / len(self.data)
 
         # we find the number of elements who have the right target_class
-        class_pattern_ratio = 0
+        class_pattern_ratio = self.class_pattern_count / self.support
+        class_data_ratio = self.class_data_count / len(self.data)
 
-        class_data_ratio = 0
-
+        return occurency_ratio * (class_pattern_ratio - class_data_ratio)
 
     def update_node_state(self):
         """
@@ -78,7 +81,7 @@ class SequenceNode():
         # Mean-update
         self.number_visit += 1
         self.quality = (self.number_visit * self.quality + reward) / (
-                self.number_visit + 1)
+            self.number_visit + 1)
 
     def expand(self):
         """
@@ -95,7 +98,8 @@ class SequenceNode():
         self.update_node_state()
 
         expanded_node = SequenceNode(pattern_children, self,
-                                     self.candidate_items, self.data, self.target_class)
+                                     self.candidate_items, self.data,
+                                     self.target_class)
         self.generated_children.add(expanded_node)
 
         return expanded_node
