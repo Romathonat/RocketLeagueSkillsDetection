@@ -45,17 +45,20 @@ class SequenceNode():
                 support += 1
                 if row[0] == self.target_class:
                     self.class_pattern_count += 1
-        self.support = support
+        return support
 
-    def compute_quality(self, target_class):
+    def compute_quality(self):
         # TODO: Maybe there is a better way to optimize this
-        occurency_ratio = self.support / len(self.data)
+        try:
+            occurency_ratio = self.support / len(self.data)
 
-        # we find the number of elements who have the right target_class
-        class_pattern_ratio = self.class_pattern_count / self.support
-        class_data_ratio = self.class_data_count / len(self.data)
+            # we find the number of elements who have the right target_class
+            class_pattern_ratio = self.class_pattern_count / self.support
+            class_data_ratio = self.class_data_count / len(self.data)
 
-        return occurency_ratio * (class_pattern_ratio - class_data_ratio)
+            return occurency_ratio * (class_pattern_ratio - class_data_ratio)
+        except ZeroDivisionError:
+            return 0
 
     def update_node_state(self):
         """

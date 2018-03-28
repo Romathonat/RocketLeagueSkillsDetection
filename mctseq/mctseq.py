@@ -134,7 +134,7 @@ class MCTSeq():
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 
 ITEMS = set()
-DATA = read_data('../data/promoters.data')
+DATA = read_data('./data/promoters.data')
 items = extract_items(DATA)
 
 mcts = MCTSeq(5, ITEMS, DATA, 5, '+')
