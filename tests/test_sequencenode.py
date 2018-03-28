@@ -8,8 +8,10 @@ from mctseq.utils import sequence_mutable_to_immutable
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 
 def test_create_sequence():
-    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0)
+    seq = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1)
     assert seq != None
+    assert seq.support == 1
+    assert seq.quality == 0.25
 
 
 def test_possible_children():

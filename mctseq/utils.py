@@ -20,14 +20,14 @@ def sequence_immutable_to_mutable(sequence):
 def count_target_class_data(data, target_class):
     """
     Count the number of occurences of target_class in the data
-    :param data: sequential data
+    :param data: sequential data of for [[class, {}, {} ...], [class, {}, {}], ...]
     :param target_class: the targeted class
     :return: the count
     """
     count = 0
     for row in data:
-        if data[0] == target_class:
-            count += 0
+        if row[0] == target_class:
+            count += 1
 
     return count
 
