@@ -27,14 +27,16 @@ class MCTSeq():
         begin = datetime.datetime.utcnow()
 
         # current_node is root
-        root_node = SequenceNode([], None, items, self.data, self.target_class,
+        root_node = SequenceNode([], None, self.items, self.data, self.target_class,
                                  self.target_class_data_count)
         current_node = root_node
 
         while datetime.datetime.utcnow() - begin < self.time_budget:
             node_sel = self.select(current_node)
             node_expand = self.expand(node_sel)
-            reward = self.roll_out(node_expand)
+
+            # TODO:give argument for max length
+            reward = self.roll_out(node_expand, 5)
             self.update(node_expand, reward)
 
         # Now we need to explore the tree to get interesting subgroups
@@ -51,7 +53,7 @@ class MCTSeq():
         :param node: the node from where we begin to search
         :return: the selected node
         """
-        # TODO: What do we do in the case where the node is terminal (we don't want to generate children)
+        # TODO: What do we do in the case the node is terminal (we don't want to generate children)
         while not node.is_terminal:
             if not node.is_fully_expanded:
                 return node
@@ -79,13 +81,12 @@ class MCTSeq():
         max_quality = node.quality
 
         for i in range(max_length):
-            index_pattern_child = random.randint(0,
-                                                 node.non_generated_children)
-            pattern_child = node.non_generated_children[index_pattern_child]
+
+            pattern_child = random.sample(node.non_generated_children, 1)[0]
 
             # we create successively all node, without remembering them (easy coding for now)
             node = SequenceNode(pattern_child, node, self.items, self.data,
-                                node.target_class,
+                                self.target_class,
                                 self.target_class_data_count)
             max_quality = max(max_quality, node.quality)
 
@@ -128,16 +129,17 @@ class MCTSeq():
         """
         for child in node.generated_children:
             sorted_children.add(child)
-            self.explore_children(child)
+            self.explore_children(child, sorted_children)
 
 
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 
 if __name__ == '__main__':
-
     ITEMS = set()
     DATA = read_data('../data/promoters.data')
+
+    # TODO: clean those data
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, ITEMS, DATA, 5, '+')
+    mcts = MCTSeq(5, items, DATA, 50, '+')
     print(mcts.launch())

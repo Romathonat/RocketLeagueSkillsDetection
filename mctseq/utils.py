@@ -76,15 +76,22 @@ def read_data(filename):
     sequences = []
     with open(filename) as f:
         for line in f:
-            sequence = [set(i.replace(' ', '')) for i in line[:-3].split('-1')]
+            line_split = line.split(',')
+            sequence = [line_split[0]]
+            sequence += line_split[2].strip()
+
             sequences.append(sequence)
     return sequences
 
 
 def extract_items(data):
+    """
+    :param data: date muste be on the form [[class, {}, {}, ...], [class, {}, {}, ...]]
+    :return: set of items extracted
+    """
     items = set()
     for sequence in data:
-        for itemset in sequence:
+        for itemset in sequence[1:]:
             for item in itemset:
                 items.add(item)
     return items

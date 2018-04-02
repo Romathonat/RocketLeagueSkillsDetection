@@ -98,13 +98,13 @@ class SequenceNode():
 
         self.non_generated_children.remove(pattern_children)
 
-        self.update_node_state()
 
         expanded_node = SequenceNode(pattern_children, self,
                                      self.candidate_items, self.data,
                                      self.target_class, self.class_data_count)
 
         self.generated_children.add(expanded_node)
+        self.update_node_state()
 
         return expanded_node
 
