@@ -10,7 +10,8 @@ from mctseq.priorityset import PrioritySetQuality
 
 
 class MCTSeq():
-    def __init__(self, pattern_number, items, data, time_budget, target_class):
+    def __init__(self, pattern_number, items, data, time_budget, target_class,
+                 enable_i):
         self.pattern_number = pattern_number
         self.items = items
         self.time_budget = datetime.timedelta(seconds=time_budget)
@@ -18,6 +19,7 @@ class MCTSeq():
         self.target_class = target_class
         self.target_class_data_count = count_target_class_data(data,
                                                                target_class)
+        self.enable_i = enable_i
 
     def launch(self):
         """
@@ -27,8 +29,9 @@ class MCTSeq():
         begin = datetime.datetime.utcnow()
 
         # current_node is root
-        root_node = SequenceNode([], None, self.items, self.data, self.target_class,
-                                 self.target_class_data_count)
+        root_node = SequenceNode([], None, self.items, self.data,
+                                 self.target_class,
+                                 self.target_class_data_count, self.enable_i)
         current_node = root_node
 
         while datetime.datetime.utcnow() - begin < self.time_budget:
@@ -81,13 +84,13 @@ class MCTSeq():
         max_quality = node.quality
 
         for i in range(max_length):
-
             pattern_child = random.sample(node.non_generated_children, 1)[0]
 
             # we create successively all node, without remembering them (easy coding for now)
             node = SequenceNode(pattern_child, node, self.items, self.data,
                                 self.target_class,
-                                self.target_class_data_count)
+                                self.target_class_data_count,
+                                self.enable_i)
             max_quality = max(max_quality, node.quality)
 
         return max_quality

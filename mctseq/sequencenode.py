@@ -7,7 +7,7 @@ from mctseq.utils import sequence_immutable_to_mutable, \
 
 class SequenceNode():
     def __init__(self, sequence, parent, candidate_items, data, target_class,
-                 class_data_count):
+                 class_data_count, enable_i=True):
         # the pattern is in the form [{}, {}, ... ]
         # data is in the form [[class, {}, {}, ...], [class, {}, {}, ...]]
 
@@ -29,7 +29,7 @@ class SequenceNode():
         self.wracc = self.quality
 
         # set of patterns
-        self.non_generated_children = self.get_non_generated_children()
+        self.non_generated_children = self.get_non_generated_children(enable_i)
 
         # Set of generated children
         self.generated_children = set()
@@ -108,8 +108,10 @@ class SequenceNode():
 
         return expanded_node
 
-    def get_non_generated_children(self):
+    def get_non_generated_children(self, enable_i=True):
+
         """
+        :param enable_i: enable i_extensions or not. Useful when sequences are singletons like DNA
         :return: the set of sequences that we can generate from the current one
         NB: We convert to mutable/immutable object in order to have a set of subsequence,
         which automatically removes duplicates
@@ -129,19 +131,21 @@ class SequenceNode():
                     sequence_mutable_to_immutable(s_extension)
                 )
 
-                pseudo_i_extension = sequence_immutable_to_mutable(
-                    copy.deepcopy(subsequence)
-                )
-                add = pseudo_i_extension[index].add(item)
-
-                length_i_ext = sum([len(i) for i in pseudo_i_extension])
-                len_subsequence = sum([len(i) for i in subsequence])
-
-                # we prevent the case where we add an existing element to itemset
-                if (length_i_ext > len_subsequence):
-                    new_subsequences.add(
-                        sequence_mutable_to_immutable(pseudo_i_extension)
+                if enable_i:
+                    pseudo_i_extension = sequence_immutable_to_mutable(
+                        copy.deepcopy(subsequence)
                     )
+
+                    pseudo_i_extension[index].add(item)
+
+                    length_i_ext = sum([len(i) for i in pseudo_i_extension])
+                    len_subsequence = sum([len(i) for i in subsequence])
+
+                    # we prevent the case where we add an existing element to itemset
+                    if (length_i_ext > len_subsequence):
+                        new_subsequences.add(
+                            sequence_mutable_to_immutable(pseudo_i_extension)
+                        )
 
             new_subsequence = sequence_immutable_to_mutable(
                 copy.deepcopy(subsequence)
