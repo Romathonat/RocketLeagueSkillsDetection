@@ -39,6 +39,18 @@ class SequenceNode():
         # Set of generated children
         self.generated_children = set()
 
+    def __lt__(self, other):
+        return self.quality < other.quality
+
+    def __gt__(self, other):
+        return self.quality > other.quality
+
+    def __str__(self):
+        return '{}'.format(self.sequence)
+
+    def __repr__(self):
+        return '{}'.format(self.sequence)
+
     def compute_support(self):
         """
         Compute the support of current element and class_pattern_count
@@ -64,7 +76,7 @@ class SequenceNode():
 
             return occurency_ratio * (class_pattern_ratio - class_data_ratio)
         except ZeroDivisionError:
-            return 0.0
+            return 0
 
     def update_node_state(self):
         """
@@ -172,9 +184,3 @@ class SequenceNode():
                 sequence_mutable_to_immutable(new_subsequence))
 
         return new_subsequences
-
-    def __lt__(self, other):
-        return self.quality < other.quality
-
-    def __gt__(self, other):
-        return self.quality > other.quality

@@ -147,5 +147,5 @@ if __name__ == '__main__':
     # TODO: clean those data
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 5, '+')
+    mcts = MCTSeq(5, items, DATA, 500, '+')
     print(mcts.launch())
