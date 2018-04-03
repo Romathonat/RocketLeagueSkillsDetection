@@ -11,7 +11,7 @@ from mctseq.priorityset import PrioritySetQuality
 
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class,
-                 enable_i):
+                 enable_i=True):
         self.pattern_number = pattern_number
         self.items = items
         self.time_budget = datetime.timedelta(seconds=time_budget)
@@ -57,11 +57,13 @@ class MCTSeq():
         :return: the selected node
         """
         # TODO: What do we do in the case the node is terminal (we don't want to generate children)
-        while not node.is_terminal:
+        while not node.is_dead_end:
             if not node.is_fully_expanded:
                 return node
             else:
                 node = self.best_child(node)
+
+        # if we reach this point, it means the tree is finished
         return node
 
     def expand(self, node):
@@ -110,29 +112,30 @@ class MCTSeq():
 
     def best_child(self, node):
         """
-        Return the best child, based on UCT
+        Return the best child, based on UCT. Can only return a child which is
+        not a dead_end
         :param node:
         :return: the best child
         """
         best_node = None
         max_score = -float("inf")
         for child in node.generated_children:
-            if uct(node, child) > max_score:
+            if uct(node, child) > max_score and not child.is_dead_end:
                 max_score = child.quality
                 best_node = child
 
         return best_node
 
-    def explore_children(self, node, sorted_children):
+    def explore_children(self, node, sorted_patterns):
         """
         Find children of node and add them to sorted_children
         :param node: the parent from which we explore children
-        :param sorted_children: PrioritySetQuality.
+        :param sorted_patterns: PrioritySetQuality.
         :return: None
         """
         for child in node.generated_children:
-            sorted_children.add(child)
-            self.explore_children(child, sorted_children)
+            sorted_patterns.add(child)
+            self.explore_children(child, sorted_patterns)
 
 
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
@@ -144,5 +147,5 @@ if __name__ == '__main__':
     # TODO: clean those data
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 50, '+')
+    mcts = MCTSeq(5, items, DATA, 5, '+')
     print(mcts.launch())

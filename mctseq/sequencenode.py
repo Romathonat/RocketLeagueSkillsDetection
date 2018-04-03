@@ -18,6 +18,11 @@ class SequenceNode():
         self.candidate_items = candidate_items
         self.is_fully_expanded = False
         self.is_terminal = False
+
+        # a node is a dead end if is terminal, or if all its children are dead_end too
+        # It means that is is useless to explore it, because it lead to terminal children
+        self.is_dead_end = False
+
         self.target_class = target_class
 
         # those variables are here to compute WRacc
@@ -59,22 +64,33 @@ class SequenceNode():
 
             return occurency_ratio * (class_pattern_ratio - class_data_ratio)
         except ZeroDivisionError:
-            return 0
+            return 0.0
 
     def update_node_state(self):
         """
-        Update states is_terminal and is_fully_expanded
+        Update states is_terminal, is_fully_expanded and is_dead_end
         """
+        # a node cannot be terminal if one or more of its children are not expanded
         if len(self.non_generated_children) == 0:
             self.is_fully_expanded = True
 
             # if at least one children have support > 0, it is not a terminal node
             test_terminal = True
+            test_dead_end = True
             for child in self.generated_children:
                 if child.support > 0:
                     test_terminal = False
 
+                if not child.is_dead_end:
+                    test_dead_end = False
+
             self.is_terminal = test_terminal
+            self.is_dead_end = test_dead_end
+
+            # now we need to recursively update parents of current child, to
+            # update if they are dead_end or not
+            if self.is_dead_end:
+                self.parent.update_node_state()
 
     def update(self, reward):
         """
@@ -97,7 +113,6 @@ class SequenceNode():
         pattern_children = random.sample(self.non_generated_children, 1)[0]
 
         self.non_generated_children.remove(pattern_children)
-
 
         expanded_node = SequenceNode(pattern_children, self,
                                      self.candidate_items, self.data,
@@ -154,7 +169,12 @@ class SequenceNode():
             new_subsequence.insert(len(new_subsequence), {item})
 
             new_subsequences.add(
-                sequence_mutable_to_immutable(new_subsequence)
-            )
+                sequence_mutable_to_immutable(new_subsequence))
 
         return new_subsequences
+
+    def __lt__(self, other):
+        return self.quality < other.quality
+
+    def __gt__(self, other):
+        return self.quality > other.quality
