@@ -18,6 +18,7 @@ class SequenceNode():
         self.candidate_items = candidate_items
         self.is_fully_expanded = False
         self.is_terminal = False
+        self.enable_i = enable_i
 
         # a node is a dead end if is terminal, or if all its children are dead_end too
         # It means that is is useless to explore it, because it lead to terminal children
@@ -128,7 +129,8 @@ class SequenceNode():
 
         expanded_node = SequenceNode(pattern_children, self,
                                      self.candidate_items, self.data,
-                                     self.target_class, self.class_data_count)
+                                     self.target_class, self.class_data_count,
+                                     self.enable_i)
 
         self.generated_children.add(expanded_node)
         self.update_node_state()

@@ -8,7 +8,9 @@ from mctseq.utils import read_data, extract_items, uct, count_target_class_data
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
-
+#TODO: stop when exaustive search has been made
+#TODO: filter redondant elements (post process)
+#TODO: Normalize Wracc !!!
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class,
                  enable_i=True):
@@ -147,5 +149,5 @@ if __name__ == '__main__':
     # TODO: clean those data
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 500, '+')
+    mcts = MCTSeq(5, items, DATA, 30, '+', False)
     print(mcts.launch())
