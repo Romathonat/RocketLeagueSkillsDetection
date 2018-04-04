@@ -12,10 +12,13 @@ from mctseq.priorityset import PrioritySetQuality
 # TODO: stop when exaustive search has been made
 # TODO: filter redondant elements (post process)
 # TODO: Normalize Wracc !!!
-# TODO: use bit set to keep extend
+
+# TODO: use bit set to keep extend -> see SPADE too know how to make a temporal join,
+# and optimize a lot
+# TODO: optimize is_subsequence (not necessary if we do the previous step)
+
 # TODO: Add memory (for rollouts)
 # TODO: add permutation unification
-# TODO: optimize is_subsequence
 # TODO: implement misere with Wracc
 # TODO: meilleures stratégies de rollout
 
@@ -38,7 +41,7 @@ class MCTSeq():
         self.target_class_data_count = count_target_class_data(data,
                                                                target_class)
         self.enable_i = enable_i
-
+        self.sorted_patterns = PrioritySetQuality()
     def launch(self):
         """
         Launch the algorithm, specifying how many patterns we want to mine
@@ -62,11 +65,10 @@ class MCTSeq():
 
         # Now we need to explore the tree to get interesting subgroups
         # We use a priority queue to store elements, sorted by their quality
-        sorted_patterns = PrioritySetQuality()
 
-        self.explore_children(root_node, sorted_patterns)
+        self.explore_children(root_node, self.sorted_patterns)
 
-        return sorted_patterns.get_top_k(self.pattern_number)
+        return self.sorted_patterns.get_top_k(self.pattern_number)
 
     def select(self, node):
         """
@@ -102,6 +104,7 @@ class MCTSeq():
         # naive-roll-out
         # max-reward
         max_quality = node.quality
+        top_node = node
 
         for i in range(max_length):
             pattern_child = random.sample(node.non_generated_children, 1)[0]
@@ -111,7 +114,13 @@ class MCTSeq():
                                 self.target_class,
                                 self.target_class_data_count,
                                 self.enable_i)
-            max_quality = max(max_quality, node.quality)
+
+            if max_quality < node.quality:
+                max_quality = node.quality
+                top_node = node
+
+        # we add the top node to sorted patterns
+        self.sorted_patterns.add(top_node)
 
         return max_quality
 
@@ -165,5 +174,5 @@ if __name__ == '__main__':
     # TODO: clean those data
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 30, '+', False)
+    mcts = MCTSeq(5, items, DATA, 50, '+', False)
     print(mcts.launch())
