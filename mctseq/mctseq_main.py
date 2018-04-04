@@ -8,9 +8,25 @@ from mctseq.utils import read_data, extract_items, uct, count_target_class_data
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
-#TODO: stop when exaustive search has been made
-#TODO: filter redondant elements (post process)
-#TODO: Normalize Wracc !!!
+
+# TODO: stop when exaustive search has been made
+# TODO: filter redondant elements (post process)
+# TODO: Normalize Wracc !!!
+# TODO: use bit set to keep extend
+# TODO: Add memory (for rollouts)
+# TODO: add permutation unification
+# TODO: optimize is_subsequence
+# TODO: implement misere with Wracc
+# TODO: meilleures stratégies de rollout
+
+### LATER
+# TODO: Suplementary material notebook
+# TODO: Visualisation graph
+
+
+# IDEA: instead of beginning with the null sequence, take the sequence of max
+# length, and enumerate its subsequences (future paper)
+
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class,
                  enable_i=True):
