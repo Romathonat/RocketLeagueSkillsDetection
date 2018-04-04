@@ -4,7 +4,8 @@
 import datetime
 import random
 
-from mctseq.utils import read_data, extract_items, uct, count_target_class_data
+from mctseq.utils import read_data, extract_items, uct, \
+    count_target_class_data, sequence_mutable_to_immutable
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
@@ -17,10 +18,9 @@ from mctseq.priorityset import PrioritySetQuality
 # and optimize a lot
 # TODO: optimize is_subsequence (not necessary if we do the previous step)
 
-# TODO: Add memory (for rollouts)
 # TODO: add permutation unification
 # TODO: implement misere with Wracc
-# TODO: meilleures stratégies de rollout
+# TODO: better rollout strategies
 
 ### LATER
 # TODO: Suplementary material notebook
@@ -42,6 +42,10 @@ class MCTSeq():
                                                                target_class)
         self.enable_i = enable_i
         self.sorted_patterns = PrioritySetQuality()
+
+        # contains sequence-SequenceNode for permutation-unification
+        self.node_hashmap = {}
+
     def launch(self):
         """
         Launch the algorithm, specifying how many patterns we want to mine
@@ -53,6 +57,11 @@ class MCTSeq():
         root_node = SequenceNode([], None, self.items, self.data,
                                  self.target_class,
                                  self.target_class_data_count, self.enable_i)
+
+        # TODO: simplify by transforming [] to ()
+        root_key = sequence_mutable_to_immutable(root_node.sequence)
+        self.node_hashmap[root_key] = root_node
+
         current_node = root_node
 
         while datetime.datetime.utcnow() - begin < self.time_budget:
@@ -74,9 +83,8 @@ class MCTSeq():
         """
         Select the best node, using exploration-exploitation tradeoff
         :param node: the node from where we begin to search
-        :return: the selected node
+        :return: the selected node, or node if exploration is finished
         """
-        # TODO: What do we do in the case the node is terminal (we don't want to generate children)
         while not node.is_dead_end:
             if not node.is_fully_expanded:
                 return node
@@ -92,7 +100,7 @@ class MCTSeq():
         :param node: the node from wich we want to expand
         :return: the expanded node
         """
-        return node.expand()
+        return node.expand(self.node_hashmap)
 
     def roll_out(self, node, max_length):
         """
@@ -124,18 +132,19 @@ class MCTSeq():
 
         return max_quality
 
-    def update(self, node_expand, reward):
+    def update(self, node, reward):
         """
-        Backtrack the path from node_expand and update each node until the root
-        :param node_expand: the node from wich we launched the simulation
+        Backtrack: update the node and recursively update all nodes until the root
+        :param node: the node we want to update
         :param reward: the reward we got
         :return: None
         """
         # mean-update
-        current_node = node_expand
-        while (current_node.parent != None):
-            current_node.update(reward)
-            current_node = current_node.parent
+        node.update(reward)
+
+        for parent in node.parents:
+            if parent != None:
+                self.update(parent, reward)
 
     def best_child(self, node):
         """

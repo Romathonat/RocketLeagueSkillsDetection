@@ -12,7 +12,7 @@ class SequenceNode():
         # data is in the form [[class, {}, {}, ...], [class, {}, {}, ...]]
 
         self.sequence = sequence
-        self.parent = parent
+        self.parents = [parent]
         self.number_visit = 1
         self.data = data
         self.candidate_items = candidate_items
@@ -103,7 +103,8 @@ class SequenceNode():
             # now we need to recursively update parents of current child, to
             # update if they are dead_end or not
             if self.is_dead_end:
-                self.parent.update_node_state()
+                for parent in self.parents:
+                    parent.update_node_state()
 
     def update(self, reward):
         """
@@ -116,7 +117,7 @@ class SequenceNode():
             self.number_visit + 1)
         self.number_visit += 1
 
-    def expand(self):
+    def expand(self, node_hashmap):
         """
         Create a random children, and add it to generated children. Removes
         considered pattern from the possible_children
@@ -127,10 +128,17 @@ class SequenceNode():
 
         self.non_generated_children.remove(pattern_children)
 
-        expanded_node = SequenceNode(pattern_children, self,
-                                     self.candidate_items, self.data,
-                                     self.target_class, self.class_data_count,
-                                     self.enable_i)
+        if pattern_children in node_hashmap:
+            expanded_node = node_hashmap[pattern_children]
+            expanded_node.parents.append(self)
+        else:
+            expanded_node = SequenceNode(pattern_children, self,
+                                         self.candidate_items, self.data,
+                                         self.target_class,
+                                         self.class_data_count,
+                                         self.enable_i)
+
+            node_hashmap[pattern_children] = expanded_node
 
         self.generated_children.add(expanded_node)
         self.update_node_state()
@@ -142,7 +150,7 @@ class SequenceNode():
         """
         :param enable_i: enable i_extensions or not. Useful when sequences are singletons like DNA
         :return: the set of sequences that we can generate from the current one
-        NB: We convert to mutable/immutable object in order to have a set of subsequence,
+        NB: We convert to mutable/immutable object in order to have a set of subsequences,
         which automatically removes duplicates
         """
         new_subsequences = set()
