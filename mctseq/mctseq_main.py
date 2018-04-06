@@ -44,6 +44,11 @@ class MCTSeq():
         self.sorted_patterns = PrioritySetQuality()
 
         # contains sequence-SequenceNode for permutation-unification
+        self.root_node = SequenceNode([], None, self.items, self.data,
+                                      self.target_class,
+                                      self.target_class_data_count,
+                                      self.enable_i)
+
         self.node_hashmap = {}
 
     def launch(self):
@@ -54,15 +59,12 @@ class MCTSeq():
         begin = datetime.datetime.utcnow()
 
         # current_node is root
-        root_node = SequenceNode([], None, self.items, self.data,
-                                 self.target_class,
-                                 self.target_class_data_count, self.enable_i)
 
         # TODO: simplify by transforming [] to ()
-        root_key = sequence_mutable_to_immutable(root_node.sequence)
-        self.node_hashmap[root_key] = root_node
+        root_key = sequence_mutable_to_immutable(self.root_node.sequence)
+        self.node_hashmap[root_key] = self.root_node
 
-        current_node = root_node
+        current_node = self.root_node
 
         while datetime.datetime.utcnow() - begin < self.time_budget:
             node_sel = self.select(current_node)
@@ -75,7 +77,7 @@ class MCTSeq():
         # Now we need to explore the tree to get interesting subgroups
         # We use a priority queue to store elements, sorted by their quality
 
-        self.explore_children(root_node, self.sorted_patterns)
+        self.explore_children(self.root_node, self.sorted_patterns)
 
         return self.sorted_patterns.get_top_k(self.pattern_number)
 
@@ -178,7 +180,8 @@ class MCTSeq():
 
 if __name__ == '__main__':
     ITEMS = set()
-    DATA = read_data('../data/promoters.data')
+    #DATA = read_data('../data/promoters.data')
+    DATA = [['+', {'A'}, {'B'}]]
 
     # TODO: clean those data
     items = extract_items(DATA)

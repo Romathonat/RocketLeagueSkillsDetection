@@ -17,6 +17,17 @@ def sequence_immutable_to_mutable(sequence):
     return [set(i) for i in sequence]
 
 
+def immutable_seq(sequence):
+    """
+    :param sequence: a seq wich is mutable or not
+    :return: an immutable seq
+    """
+    if type(sequence) == list:
+        return sequence_mutable_to_immutable(sequence)
+    else:
+        return sequence
+
+
 def count_target_class_data(data, target_class):
     """
     Count the number of occurences of target_class in the data
@@ -38,6 +49,7 @@ def k_length(sequence):
     :return: the length of the sequence
     """
     return sum([len(i) for i in sequence])
+
 
 def is_subsequence(a, b):
     """ check if sequence a is a subsequence of b

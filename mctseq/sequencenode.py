@@ -2,7 +2,7 @@ import copy
 import random
 
 from mctseq.utils import sequence_immutable_to_mutable, \
-    sequence_mutable_to_immutable, is_subsequence
+    sequence_mutable_to_immutable, is_subsequence, immutable_seq
 
 
 class SequenceNode():
@@ -11,7 +11,7 @@ class SequenceNode():
         # the pattern is in the form [{}, {}, ... ]
         # data is in the form [[class, {}, {}, ...], [class, {}, {}, ...]]
 
-        self.sequence = sequence
+        self.sequence = immutable_seq(sequence)
         self.parents = [parent]
         self.number_visit = 1
         self.data = data
@@ -39,6 +39,15 @@ class SequenceNode():
 
         # Set of generated children
         self.generated_children = set()
+
+    def __eq__(self, other):
+        try:
+            return self.sequence == other.sequence
+        except AttributeError:
+            return False
+
+    def __hash__(self):
+        return hash(self.sequence)
 
     def __lt__(self, other):
         return self.quality < other.quality
@@ -121,6 +130,7 @@ class SequenceNode():
         """
         Create a random children, and add it to generated children. Removes
         considered pattern from the possible_children
+        :param node_hashmap: the hashmap of MCTS nodes
         :return: the SequenceNode created
         """
 

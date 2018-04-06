@@ -40,7 +40,7 @@ def test_update():
 def test_expand():
     seq = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1)
     non_expanded_children_nb = len(seq.non_generated_children)
-    child = seq.expand()
+    child = seq.expand({})
 
     assert k_length(child.sequence) == k_length(seq.sequence) + 1
     assert non_expanded_children_nb == len(seq.non_generated_children) + 1
