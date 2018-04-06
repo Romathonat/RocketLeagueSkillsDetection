@@ -33,8 +33,8 @@ def test_possible_children_without_i():
 
 def test_update():
     seq = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1)
-    seq.update(1)
-    assert seq.quality == 0.625
+    seq.update(0.5)
+    assert seq.quality == 0.75
 
 
 def test_expand():

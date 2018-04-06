@@ -13,7 +13,7 @@ class SequenceNode():
 
         self.sequence = immutable_seq(sequence)
         self.parents = [parent]
-        self.number_visit = 1
+        self.number_visit = 0
         self.data = data
         self.candidate_items = candidate_items
         self.is_fully_expanded = False

@@ -10,6 +10,8 @@ from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
 
+# TODO: Dead_end (stopping search after terminal or dead_end) is not working actually
+
 # TODO: stop when exaustive search has been made
 # TODO: filter redondant elements (post process)
 # TODO: Normalize Wracc !!!
@@ -58,21 +60,22 @@ class MCTSeq():
         """
         begin = datetime.datetime.utcnow()
 
-        # current_node is root
-
-        # TODO: simplify by transforming [] to ()
-        root_key = sequence_mutable_to_immutable(self.root_node.sequence)
-        self.node_hashmap[root_key] = self.root_node
+        self.node_hashmap[self.root_node.sequence] = self.root_node
 
         current_node = self.root_node
 
         while datetime.datetime.utcnow() - begin < self.time_budget:
             node_sel = self.select(current_node)
-            node_expand = self.expand(node_sel)
 
-            # TODO:give argument for max length
-            reward = self.roll_out(node_expand, 5)
-            self.update(node_expand, reward)
+            if node_sel != None:
+                node_expand = self.expand(node_sel)
+                reward = self.roll_out(node_expand, 5)
+                self.update(node_expand, reward)
+            else:
+                # we enter here if we have a terminal node. In that case, there
+                # is no rollout: the reward is directly the quality of the node
+                # TODO: Ask Mehdi if it is a good idea
+                self.update(current_node, current_node.quality)
 
         # Now we need to explore the tree to get interesting subgroups
         # We use a priority queue to store elements, sorted by their quality
@@ -87,14 +90,14 @@ class MCTSeq():
         :param node: the node from where we begin to search
         :return: the selected node, or node if exploration is finished
         """
-        while not node.is_dead_end:
+        while not node.is_terminal:
             if not node.is_fully_expanded:
                 return node
             else:
                 node = self.best_child(node)
 
-        # if we reach this point, it means the tree is finished
-        return node
+        # if we reach this point, it means we reached a terminal node
+        return None
 
     def expand(self, node):
         """
@@ -157,9 +160,11 @@ class MCTSeq():
         """
         best_node = None
         max_score = -float("inf")
+
         for child in node.generated_children:
-            if uct(node, child) > max_score and not child.is_dead_end:
-                max_score = child.quality
+            current_uct = uct(node, child)
+            if current_uct > max_score and not child.is_dead_end:
+                max_score = current_uct
                 best_node = child
 
         return best_node
@@ -180,11 +185,11 @@ class MCTSeq():
 
 if __name__ == '__main__':
     ITEMS = set()
-    #DATA = read_data('../data/promoters.data')
+    # DATA = read_data('../data/promoters.data')
     DATA = [['+', {'A'}, {'B'}]]
 
     # TODO: clean those data
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 50, '+', False)
+    mcts = MCTSeq(5, items, DATA, 5, '+', False)
     print(mcts.launch())

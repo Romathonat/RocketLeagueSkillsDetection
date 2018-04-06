@@ -110,5 +110,5 @@ def extract_items(data):
 
 
 def uct(node, child_node):
-    return child_node.quality + 2 / math.sqrt(2) * math.sqrt(
-        2 * math.log(node.number_visit) / child_node.number_visit)
+    return child_node.quality + (2 / math.sqrt(2)) * math.sqrt(
+        (2 * math.log(node.number_visit)) / child_node.number_visit)
