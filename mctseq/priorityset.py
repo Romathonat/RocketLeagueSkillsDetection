@@ -17,9 +17,9 @@ class PrioritySetQuality(object):
             self.set.add(node)
 
     def get(self):
-        quality, node = heapq.heappop(self.heap)
+        wracc, node = heapq.heappop(self.heap)
         self.set.remove(node)
-        return (quality, node)
+        return (wracc, node)
 
     def get_top_k(self, k):
         return heapq.nlargest(k, self.heap)

@@ -12,7 +12,11 @@ class SequenceNode():
         # data is in the form [[class, {}, {}, ...], [class, {}, {}, ...]]
 
         self.sequence = immutable_seq(sequence)
-        self.parents = [parent]
+        if parent != None:
+            self.parents = [parent]
+        else:
+            self.parents = []
+
         self.number_visit = 0
         self.data = data
         self.candidate_items = candidate_items
@@ -39,6 +43,9 @@ class SequenceNode():
 
         # Set of generated children
         self.generated_children = set()
+
+        # we update node state, in case supp = 0 it is a dead end
+        self.update_node_state()
 
     def __eq__(self, other):
         try:
@@ -73,6 +80,7 @@ class SequenceNode():
                 support += 1
                 if row[0] == self.target_class:
                     self.class_pattern_count += 1
+
         return support
 
     def compute_quality(self):
@@ -114,6 +122,10 @@ class SequenceNode():
             if self.is_dead_end:
                 for parent in self.parents:
                     parent.update_node_state()
+
+        # in all cases, if support is null it is a dead end
+        if self.support == 0:
+            self.is_dead_end = True
 
     def update(self, reward):
         """

@@ -24,3 +24,5 @@ def test_permutation_unification():
 
     # we count elements from the root
     assert count_mcts_recursive(mcts.root_node, 0) == 5
+
+test_permutation_unification()

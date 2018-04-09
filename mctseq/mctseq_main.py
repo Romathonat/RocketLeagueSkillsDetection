@@ -20,7 +20,6 @@ from mctseq.priorityset import PrioritySetQuality
 # and optimize a lot
 # TODO: optimize is_subsequence (not necessary if we do the previous step)
 
-# TODO: add permutation unification
 # TODO: implement misere with Wracc
 # TODO: better rollout strategies
 
@@ -30,7 +29,7 @@ from mctseq.priorityset import PrioritySetQuality
 
 
 # IDEA: instead of beginning with the null sequence, take the sequence of max
-# length, and enumerate its subsequences (future paper)
+# length, and enumerate its subsequences (future paper ?)
 
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class,
@@ -72,10 +71,10 @@ class MCTSeq():
                 reward = self.roll_out(node_expand, 5)
                 self.update(node_expand, reward)
             else:
-                # we enter here if we have a terminal node. In that case, there
+                # we enter here if we have a terminal node/dead_end. In that case, there
                 # is no rollout: the reward is directly the quality of the node
-                # TODO: Ask Mehdi if it is a good idea
-                self.update(current_node, current_node.quality)
+                # self.update(current_node, current_node.quality)
+                break
 
         # Now we need to explore the tree to get interesting subgroups
         # We use a priority queue to store elements, sorted by their quality
@@ -88,13 +87,17 @@ class MCTSeq():
         """
         Select the best node, using exploration-exploitation tradeoff
         :param node: the node from where we begin to search
-        :return: the selected node, or node if exploration is finished
+        :return: the selected node, or None if exploration is finished
         """
         while not node.is_terminal:
             if not node.is_fully_expanded:
                 return node
             else:
                 node = self.best_child(node)
+
+                # In that case, it means we reached a dead_end
+                if node is None:
+                    return None
 
         # if we reach this point, it means we reached a terminal node
         return None
@@ -123,7 +126,7 @@ class MCTSeq():
             pattern_child = random.sample(node.non_generated_children, 1)[0]
 
             # we create successively all node, without remembering them (easy coding for now)
-            node = SequenceNode(pattern_child, node, self.items, self.data,
+            node = SequenceNode(pattern_child, None, self.items, self.data,
                                 self.target_class,
                                 self.target_class_data_count,
                                 self.enable_i)
@@ -156,7 +159,7 @@ class MCTSeq():
         Return the best child, based on UCT. Can only return a child which is
         not a dead_end
         :param node:
-        :return: the best child
+        :return: the best child, or None if we reached a dead_end
         """
         best_node = None
         max_score = -float("inf")
