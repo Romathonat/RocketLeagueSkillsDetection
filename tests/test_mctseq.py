@@ -6,6 +6,21 @@ from mctseq.mctseq_main import MCTSeq
 data = [['+', {'A'}, {'B'}]]
 
 
+def count_mcts_recursive(node, count, known_nodes):
+    if node in known_nodes:
+        return 0
+    else:
+        known_nodes.add(node)
+
+    if len(node.generated_children) == 0:
+        return 1
+
+    current_count = count
+    for child in node.generated_children:
+        current_count += count_mcts_recursive(child, count, known_nodes)
+    return current_count + 1
+
+
 def test_permutation_unification():
     # also test if exploration of full latice
     items = extract_items(data)
@@ -14,5 +29,5 @@ def test_permutation_unification():
     mcts.launch()
 
     # we count elements from the root
-    assert len(mcts.node_hashmap) == 11
+    assert count_mcts_recursive(mcts.root_node, 0, set()) == 11
 
