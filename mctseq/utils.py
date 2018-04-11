@@ -93,6 +93,11 @@ def read_data(filename):
             sequence += line_split[2].strip()
 
             sequences.append(sequence)
+
+    for sequence in sequences:
+        for itemset_i in range(1, len(sequence)):
+            sequence[itemset_i] = set(sequence[itemset_i])
+
     return sequences
 
 

@@ -10,9 +10,7 @@ from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
 
-# TODO: Dead_end (stopping search after terminal or dead_end) is not working actually
 
-# TODO: stop when exaustive search has been made
 # TODO: filter redondant elements (post process)
 # TODO: Normalize Wracc !!!
 
@@ -187,11 +185,8 @@ class MCTSeq():
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 
 if __name__ == '__main__':
-    ITEMS = set()
-    # DATA = read_data('../data/promoters.data')
-    DATA = [['+', {'A'}, {'B'}]]
+    DATA = read_data('../data/promoters.data')
 
-    # TODO: clean those data
     items = extract_items(DATA)
 
     mcts = MCTSeq(5, items, DATA, 5, '+', False)
