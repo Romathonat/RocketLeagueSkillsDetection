@@ -35,7 +35,7 @@ class PrioritySet(object):
         self.set = set()
 
     def add(self, sequence, wracc):
-        if sequence in self.set:
+        if sequence not in self.set:
             heapq.heappush(self.heap, (wracc, sequence))
             self.set.add(sequence)
 

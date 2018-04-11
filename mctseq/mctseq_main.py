@@ -5,10 +5,9 @@ import datetime
 import random
 
 from mctseq.utils import read_data, extract_items, uct, \
-    count_target_class_data, sequence_mutable_to_immutable
+    count_target_class_data, sequence_mutable_to_immutable, print_results_mcts
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
-
 
 
 # TODO: filter redondant elements (post process)
@@ -31,11 +30,13 @@ from mctseq.priorityset import PrioritySetQuality
 
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class,
+                 max_length_rollout=5,
                  enable_i=True):
         self.pattern_number = pattern_number
         self.items = items
         self.time_budget = datetime.timedelta(seconds=time_budget)
         self.data = data
+        self.max_length_rollout = max_length_rollout
         self.target_class = target_class
         self.target_class_data_count = count_target_class_data(data,
                                                                target_class)
@@ -66,7 +67,7 @@ class MCTSeq():
 
             if node_sel != None:
                 node_expand = self.expand(node_sel)
-                reward = self.roll_out(node_expand, 5)
+                reward = self.roll_out(node_expand, self.max_length_rollout)
                 self.update(node_expand, reward)
             else:
                 # we enter here if we have a terminal node/dead_end. In that case, there
@@ -183,11 +184,11 @@ class MCTSeq():
 
 
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
-
 if __name__ == '__main__':
     DATA = read_data('../data/promoters.data')
 
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 5, '+', False)
-    print(mcts.launch())
+    mcts = MCTSeq(5, items, DATA, 50, '+', max_length_rollout=10, enable_i=False)
+    result = mcts.launch()
+    print_results_mcts(result)

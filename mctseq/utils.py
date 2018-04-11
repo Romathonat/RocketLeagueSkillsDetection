@@ -103,7 +103,7 @@ def read_data(filename):
 
 def extract_items(data):
     """
-    :param data: date muste be on the form [[class, {}, {}, ...], [class, {}, {}, ...]]
+    :param data: date must be on the form [[class, {}, {}, ...], [class, {}, {}, ...]]
     :return: set of items extracted
     """
     items = set()
@@ -117,3 +117,22 @@ def extract_items(data):
 def uct(node, child_node):
     return child_node.quality + (2 / math.sqrt(2)) * math.sqrt(
         (2 * math.log(node.number_visit)) / child_node.number_visit)
+
+def print_results(results):
+    for result in results:
+        pattern_display = ''
+
+        for itemset in result[1]:
+            pattern_display += repr(set(itemset))
+
+        print('WRAcc: {}, Pattern: {}'.format(result[0], pattern_display))
+
+def print_results_mcts(results):
+    for result in results:
+        pattern_display = ''
+
+        for itemset in result[1].sequence:
+            pattern_display += repr(set(itemset))
+
+        print('WRAcc: {}, Pattern: {}'.format(result[0], pattern_display))
+

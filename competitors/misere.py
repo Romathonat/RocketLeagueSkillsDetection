@@ -4,30 +4,32 @@ import copy
 import math
 
 from mctseq.utils import read_data, extract_items, uct, \
-    is_subsequence, sequence_mutable_to_immutable
+    is_subsequence, sequence_mutable_to_immutable, print_results
+
 from mctseq.priorityset import PrioritySet
 
 
 def compute_WRAcc(data, subsequence, target_class):
     subsequence_supp = 0
     data_supp = len(data)
-    target_subsequence_supp = 0
-    target_data_supp = 0
+    class_subsequence_supp = 0
+    class_data_supp = 0
+
     for sequence in data:
-        current_class = sequence[1]
+        current_class = sequence[0]
         sequence = sequence[1:]
 
         if is_subsequence(subsequence, sequence):
             subsequence_supp += 1
             if current_class == target_class:
-                target_subsequence_supp += 1
+                class_subsequence_supp += 1
 
         if current_class == target_class:
-            target_data_supp += 1
+            class_data_supp += 1
 
     return (subsequence_supp / data_supp) * (
-            target_subsequence_supp / subsequence_supp -
-            target_data_supp / data_supp)
+            class_subsequence_supp / subsequence_supp -
+            class_data_supp / data_supp)
 
 
 def misere(data, time_budget, top_k=5):
@@ -75,7 +77,8 @@ def misere(data, time_budget, top_k=5):
 
     return sorted_patterns.get_top_k(top_k)
 
-
 DATA = read_data('../data/promoters.data')
 
-print(misere(DATA, 5))
+results = misere(DATA, 50)
+
+print_results(results)
