@@ -79,6 +79,6 @@ def misere(data, time_budget, top_k=5):
 
 DATA = read_data('../data/promoters.data')
 
-results = misere(DATA, 50)
+results = misere(DATA, 5)
 
 print_results(results)

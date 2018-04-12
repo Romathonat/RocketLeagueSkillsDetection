@@ -83,6 +83,38 @@ def is_subsequence(a, b):
 
     return True
 
+def subsequence_indices(a, b):
+    """ Return itemset indices of b that itemset of a are included in
+    """
+    index_b_mem = 0
+    indices_b = []
+    for index_a, itemset_a in enumerate(a):
+        for index_b in range(index_b_mem, len(b)):
+            if index_b == len(b) - 1:
+                # we mark as finished
+                index_b_mem = len(b)
+
+            itemset_b = b[index_b]
+
+            if itemset_a.issubset(itemset_b):
+                indices_b.append(index_b)
+                index_b_mem = index_b + 1
+                break
+
+        if index_b_mem == len(b):
+            if index_a < len(a) - 1:
+                # we reach the end of b and there are still elements in a
+                return indices_b
+            elif itemset_a.issubset(b[-1]):
+                # we reach the end of a and b, a_last_elt is included in
+                # b_last_elt
+                return indices_b
+            else:
+                # we reach the end of a and b, a_last_elt is not included in
+                # b_last_elt
+                return indices_b
+
+    return indices_b
 
 def read_data(filename):
     sequences = []

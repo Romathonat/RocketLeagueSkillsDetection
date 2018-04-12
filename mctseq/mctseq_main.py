@@ -2,10 +2,13 @@
 
 """Main module."""
 import datetime
+import copy
 import random
+import math
 
 from mctseq.utils import read_data, extract_items, uct, \
-    count_target_class_data, sequence_mutable_to_immutable, print_results_mcts
+    count_target_class_data, sequence_mutable_to_immutable, print_results_mcts, \
+    subsequence_indices, sequence_immutable_to_mutable
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
@@ -30,13 +33,11 @@ from mctseq.priorityset import PrioritySetQuality
 
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class,
-                 max_length_rollout=5,
                  enable_i=True):
         self.pattern_number = pattern_number
         self.items = items
         self.time_budget = datetime.timedelta(seconds=time_budget)
         self.data = data
-        self.max_length_rollout = max_length_rollout
         self.target_class = target_class
         self.target_class_data_count = count_target_class_data(data,
                                                                target_class)
@@ -62,19 +63,22 @@ class MCTSeq():
 
         current_node = self.root_node
 
+        iteration_count = 0
         while datetime.datetime.utcnow() - begin < self.time_budget:
             node_sel = self.select(current_node)
 
             if node_sel != None:
                 node_expand = self.expand(node_sel)
-                reward = self.roll_out(node_expand, self.max_length_rollout)
+                reward = self.roll_out(node_expand)
                 self.update(node_expand, reward)
             else:
                 # we enter here if we have a terminal node/dead_end. In that case, there
                 # is no rollout: the reward is directly the quality of the node
                 # self.update(current_node, current_node.quality)
                 break
+            iteration_count += 1
 
+        print('Nomber iteration: {}'.format(iteration_count))
         # Now we need to explore the tree to get interesting subgroups
         # We use a priority queue to store elements, sorted by their quality
 
@@ -109,35 +113,63 @@ class MCTSeq():
         """
         return node.expand(self.node_hashmap)
 
-    def roll_out(self, node, max_length):
+    def roll_out(self, node):
         """
-        Equivalent to simulation in classical MCTS
+        Use the same idea as Misere (see paper)
         :param node: the node from wich launch the roll_out
-        :param max_length: the number of refinements we make
         :return: the quality measure, depending on the reward agregation policy
         """
-        # naive-roll-out
-        # max-reward
-        max_quality = node.quality
-        top_node = node
+        # we have at max 5 elements of the dataset wich are superset
+        # we take the top-5 elements of misere sampling
+        # we pick one sequence, and launch several generalization
 
-        for i in range(max_length):
-            pattern_child = random.sample(node.non_generated_children, 1)[0]
+        best_patterns = PrioritySetQuality()
 
-            # we create successively all node, without remembering them (easy coding for now)
-            node = SequenceNode(pattern_child, None, self.items, self.data,
-                                self.target_class,
-                                self.target_class_data_count,
-                                self.enable_i)
+        for sequence in node.dataset_sequences:
+            # for now we consider this upper bound (try better later)
+            items = set([i for j_set in sequence for i in j_set])
+            ads = len(items) * (2 * len(sequence) - 1)
 
-            if max_quality < node.quality:
-                max_quality = node.quality
-                top_node = node
+            for i in range(int(math.log(ads))):
+                subsequence = copy.deepcopy(sequence)
 
-        # we add the top node to sorted patterns
-        self.sorted_patterns.add(top_node)
+                # we remove z items randomly, if they are not in the intersection
+                # between expanded_node and sursequences
+                forbiden_itemsets = subsequence_indices(node.sequence, sequence)
 
-        return max_quality
+                seq_items_nb = len([i for j_set in subsequence for i in j_set])
+                z = random.randint(1, seq_items_nb - 2)
+
+                subsequence = sequence_immutable_to_mutable(subsequence)
+
+                for _ in range(z):
+                    chosen_itemset_i = random.randint(0, len(subsequence) - 1)
+                    chosen_itemset = subsequence[chosen_itemset_i]
+
+                    # here we check if chosen_itemset is not a forbidden one.
+                    if chosen_itemset_i not in forbiden_itemsets:
+                        chosen_itemset.remove(random.sample(chosen_itemset, 1)[0])
+
+                        if len(chosen_itemset) == 0:
+                            subsequence.pop(chosen_itemset_i)
+
+                created_node = SequenceNode(subsequence, None,
+                                            self.items, self.data,
+                                            self.target_class,
+                                            self.target_class_data_count,
+                                            self.enable_i)
+
+                best_patterns.add(created_node)
+
+        top_k_patterns = best_patterns.get_top_k(5)
+
+        for i in top_k_patterns:
+            self.sorted_patterns.add(i[1])
+
+        mean_quality = sum([i[0] for i in top_k_patterns]) / len(
+            top_k_patterns)
+
+        return mean_quality
 
     def update(self, node, reward):
         """
@@ -189,6 +221,7 @@ if __name__ == '__main__':
 
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 50, '+', max_length_rollout=10, enable_i=False)
+    mcts = MCTSeq(5, items, DATA, 5, '+',
+                  enable_i=False)
     result = mcts.launch()
     print_results_mcts(result)

@@ -34,7 +34,9 @@ class SequenceNode():
         self.class_pattern_count = 0
         self.class_data_count = class_data_count
 
-        self.support = self.compute_support()
+        # dataset_sequences contains at max 5 sursequences of dataset
+        self.support, self.dataset_sequences = self.compute_support()
+
         self.quality = self.compute_quality()
         self.wracc = self.quality
 
@@ -43,6 +45,7 @@ class SequenceNode():
 
         # Set of generated children
         self.generated_children = set()
+
 
         # we update node state, in case supp = 0 it is a dead end
         self.update_node_state()
@@ -70,18 +73,29 @@ class SequenceNode():
 
     def compute_support(self):
         """
-        Compute the support of current element and class_pattern_count
+        Compute the support of current element and class_pattern_count.
+        Also returns at max supersequences_nb of sursequences of dataset
+        :return:  (support, sursequences)
         """
         # TODO: Optimize it (vertical representation, like in prefixspan ?)
         support = 0
+        sursequences = set()
+        supersequences_nb = 10
 
         for row in self.data:
             if is_subsequence(self.sequence, row[1:]):
+                sursequences.add(sequence_mutable_to_immutable(row[1:]))
                 support += 1
                 if row[0] == self.target_class:
                     self.class_pattern_count += 1
 
-        return support
+        try:
+            sursequences = random.sample(sursequences, supersequences_nb)
+        except ValueError:
+            # we enter here if  the number of elements of subsequence is < supersequences_nb
+            pass
+
+        return support, sursequences
 
     def compute_quality(self):
         # TODO: Maybe there is a better way to optimize this
