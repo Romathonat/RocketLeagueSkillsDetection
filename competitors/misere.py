@@ -32,7 +32,7 @@ def compute_WRAcc(data, subsequence, target_class):
             class_data_supp / data_supp)
 
 
-def misere(data, time_budget, top_k=5):
+def misere(data, time_budget, target_class, top_k=5):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -41,7 +41,6 @@ def misere(data, time_budget, top_k=5):
 
     while datetime.datetime.utcnow() - begin < time_budget:
         sequence = copy.deepcopy(random.choice(data))
-        target_class = sequence[0]
         sequence = sequence[1:]
 
         # for now we consider this upper bound (try better later)
@@ -79,6 +78,6 @@ def misere(data, time_budget, top_k=5):
 
 DATA = read_data('../data/promoters.data')
 
-results = misere(DATA, 5)
+results = misere(DATA, 50, '+')
 
 print_results(results)

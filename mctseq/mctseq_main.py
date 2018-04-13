@@ -14,22 +14,17 @@ from mctseq.priorityset import PrioritySetQuality
 
 
 # TODO: filter redondant elements (post process)
-# TODO: Normalize Wracc !!!
+# TODO: Normalize Wracc (not sure is really neccesary)
 
 # TODO: use bit set to keep extend -> see SPADE too know how to make a temporal join,
 # and optimize a lot
 # TODO: optimize is_subsequence (not necessary if we do the previous step)
 
-# TODO: implement misere with Wracc
-# TODO: better rollout strategies
-
 ### LATER
 # TODO: Suplementary material notebook
 # TODO: Visualisation graph
 
-
-# IDEA: instead of beginning with the null sequence, take the sequence of max
-# length, and enumerate its subsequences (future paper ?)
+# WRAcc: 0.04716981132075471, Pattern: {'a'}{'a'}{'a'}{'t'}{'g'}{'t'}{'a'}{'c'}{'a'}{'g'}{'t'}{'a'}{'t'}{'a'}{'a'}
 
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class,
@@ -78,10 +73,10 @@ class MCTSeq():
                 break
             iteration_count += 1
 
-        print('Nomber iteration: {}'.format(iteration_count))
+        print('Number iteration: {}'.format(iteration_count))
+
         # Now we need to explore the tree to get interesting subgroups
         # We use a priority queue to store elements, sorted by their quality
-
         self.explore_children(self.root_node, self.sorted_patterns)
 
         return self.sorted_patterns.get_top_k(self.pattern_number)
@@ -128,8 +123,8 @@ class MCTSeq():
         for sequence in node.dataset_sequences:
             # for now we consider this upper bound (try better later)
             items = set([i for j_set in sequence for i in j_set])
-            ads = len(items) * (2 * len(sequence) - 1)
-
+            # ads = len(items) * (2 * len(sequence) - 1)
+            ads = 5
             for i in range(int(math.log(ads))):
                 subsequence = copy.deepcopy(sequence)
 
@@ -138,7 +133,7 @@ class MCTSeq():
                 forbiden_itemsets = subsequence_indices(node.sequence, sequence)
 
                 seq_items_nb = len([i for j_set in subsequence for i in j_set])
-                z = random.randint(1, seq_items_nb - 2)
+                z = random.randint(1, seq_items_nb - 1)
 
                 subsequence = sequence_immutable_to_mutable(subsequence)
 
@@ -163,11 +158,16 @@ class MCTSeq():
 
         top_k_patterns = best_patterns.get_top_k(5)
 
+
         for i in top_k_patterns:
             self.sorted_patterns.add(i[1])
 
-        mean_quality = sum([i[0] for i in top_k_patterns]) / len(
-            top_k_patterns)
+        # we can come to this case if the we have a node wich is not present in data
+        try:
+            mean_quality = sum([i[0] for i in top_k_patterns]) / len(
+                top_k_patterns)
+        except ZeroDivisionError:
+            mean_quality = 0
 
         return mean_quality
 
@@ -221,7 +221,7 @@ if __name__ == '__main__':
 
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 5, '+',
+    mcts = MCTSeq(5, items, DATA, 50, '+',
                   enable_i=False)
     result = mcts.launch()
     print_results_mcts(result)

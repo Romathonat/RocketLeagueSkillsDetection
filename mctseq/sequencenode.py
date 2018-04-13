@@ -80,7 +80,7 @@ class SequenceNode():
         # TODO: Optimize it (vertical representation, like in prefixspan ?)
         support = 0
         sursequences = set()
-        supersequences_nb = 10
+        supersequences_nb = 1
 
         for row in self.data:
             if is_subsequence(self.sequence, row[1:]):
@@ -98,7 +98,6 @@ class SequenceNode():
         return support, sursequences
 
     def compute_quality(self):
-        # TODO: Maybe there is a better way to optimize this
         try:
             occurency_ratio = self.support / len(self.data)
 
