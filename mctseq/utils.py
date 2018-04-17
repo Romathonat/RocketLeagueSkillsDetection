@@ -83,8 +83,10 @@ def is_subsequence(a, b):
 
     return True
 
+
 def subsequence_indices(a, b):
     """ Return itemset indices of b that itemset of a are included in
+        Precondition: a is a subset of b
     """
     index_b_mem = 0
     indices_b = []
@@ -102,19 +104,10 @@ def subsequence_indices(a, b):
                 break
 
         if index_b_mem == len(b):
-            if index_a < len(a) - 1:
-                # we reach the end of b and there are still elements in a
-                return indices_b
-            elif itemset_a.issubset(b[-1]):
-                # we reach the end of a and b, a_last_elt is included in
-                # b_last_elt
-                return indices_b
-            else:
-                # we reach the end of a and b, a_last_elt is not included in
-                # b_last_elt
-                return indices_b
+            return indices_b
 
     return indices_b
+
 
 def read_data(filename):
     sequences = []
@@ -131,6 +124,29 @@ def read_data(filename):
             sequence[itemset_i] = set(sequence[itemset_i])
 
     return sequences
+
+
+def read_data_r8(filename):
+    """
+
+    :param filename:
+    :return: [[class, {}, {}, ...], [class, {}, {}, ...]]
+    """
+    data = []
+    count = 0
+    with open(filename) as f:
+        for line in f:
+            count += 1
+            line_split = line.split()
+
+            sequence = [line_split[0]]
+            for itemset in line_split[1:10]:
+                sequence.append({itemset})
+            data.append(sequence)
+
+            if count > 100:
+                return data
+    return data
 
 
 def extract_items(data):
@@ -150,6 +166,7 @@ def uct(node, child_node):
     return child_node.quality + (2 / math.sqrt(2)) * math.sqrt(
         (2 * math.log(node.number_visit)) / child_node.number_visit)
 
+
 def print_results(results):
     for result in results:
         pattern_display = ''
@@ -159,6 +176,7 @@ def print_results(results):
 
         print('WRAcc: {}, Pattern: {}'.format(result[0], pattern_display))
 
+
 def print_results_mcts(results):
     for result in results:
         pattern_display = ''
@@ -167,4 +185,3 @@ def print_results_mcts(results):
             pattern_display += repr(set(itemset))
 
         print('WRAcc: {}, Pattern: {}'.format(result[0], pattern_display))
-

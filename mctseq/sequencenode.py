@@ -79,23 +79,23 @@ class SequenceNode():
         """
         # TODO: Optimize it (vertical representation, like in prefixspan ?)
         support = 0
-        sursequences = set()
+        supersequences = set()
         supersequences_nb = 1
 
         for row in self.data:
             if is_subsequence(self.sequence, row[1:]):
-                sursequences.add(sequence_mutable_to_immutable(row[1:]))
+                supersequences.add(sequence_mutable_to_immutable(row[1:]))
                 support += 1
                 if row[0] == self.target_class:
                     self.class_pattern_count += 1
 
         try:
-            sursequences = random.sample(sursequences, supersequences_nb)
+            supersequences = random.sample(supersequences, supersequences_nb)
         except ValueError:
             # we enter here if  the number of elements of subsequence is < supersequences_nb
             pass
 
-        return support, sursequences
+        return support, supersequences
 
     def compute_quality(self):
         try:

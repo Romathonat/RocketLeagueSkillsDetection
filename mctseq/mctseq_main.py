@@ -6,7 +6,7 @@ import copy
 import random
 import math
 
-from mctseq.utils import read_data, extract_items, uct, \
+from mctseq.utils import read_data, read_data_r8, extract_items, uct, \
     count_target_class_data, sequence_mutable_to_immutable, print_results_mcts, \
     subsequence_indices, sequence_immutable_to_mutable
 from mctseq.sequencenode import SequenceNode
@@ -39,12 +39,12 @@ class MCTSeq():
         self.enable_i = enable_i
         self.sorted_patterns = PrioritySetQuality()
 
-        # contains sequence-SequenceNode for permutation-unification
         self.root_node = SequenceNode([], None, self.items, self.data,
                                       self.target_class,
                                       self.target_class_data_count,
                                       self.enable_i)
 
+        # contains sequence-SequenceNode for permutation-unification
         self.node_hashmap = {}
 
     def launch(self):
@@ -67,9 +67,7 @@ class MCTSeq():
                 reward = self.roll_out(node_expand)
                 self.update(node_expand, reward)
             else:
-                # we enter here if we have a terminal node/dead_end. In that case, there
-                # is no rollout: the reward is directly the quality of the node
-                # self.update(current_node, current_node.quality)
+                # we enter here if we have a terminal node/dead_end.
                 break
             iteration_count += 1
 
@@ -78,6 +76,7 @@ class MCTSeq():
         # Now we need to explore the tree to get interesting subgroups
         # We use a priority queue to store elements, sorted by their quality
         self.explore_children(self.root_node, self.sorted_patterns)
+        print('Number of nodes: {}'.format(len(self.sorted_patterns.set)))
 
         return self.sorted_patterns.get_top_k(self.pattern_number)
 
@@ -93,7 +92,7 @@ class MCTSeq():
             else:
                 node = self.best_child(node)
 
-                # In that case, it means we reached a dead_end
+                # In we reach this point, it means we reached a dead_end
                 if node is None:
                     return None
 
@@ -114,17 +113,18 @@ class MCTSeq():
         :param node: the node from wich launch the roll_out
         :return: the quality measure, depending on the reward agregation policy
         """
-        # we have at max 5 elements of the dataset wich are superset
-        # we take the top-5 elements of misere sampling
-        # we pick one sequence, and launch several generalization
+        # we have take iterate on supersequences (present in data) of sequenceNode
+        # for each, we launch a number of generalisation, and we get the top-k
+        # element
 
         best_patterns = PrioritySetQuality()
 
         for sequence in node.dataset_sequences:
             # for now we consider this upper bound (try better later)
-            items = set([i for j_set in sequence for i in j_set])
+            # items = set([i for j_set in sequence for i in j_set])
             # ads = len(items) * (2 * len(sequence) - 1)
-            ads = 5
+
+            ads = 3
             for i in range(int(math.log(ads))):
                 subsequence = copy.deepcopy(sequence)
 
@@ -156,13 +156,13 @@ class MCTSeq():
 
                 best_patterns.add(created_node)
 
-        top_k_patterns = best_patterns.get_top_k(5)
-
+        # we take only the best element
+        top_k_patterns = best_patterns.get_top_k(1)
 
         for i in top_k_patterns:
             self.sorted_patterns.add(i[1])
 
-        # we can come to this case if the we have a node wich is not present in data
+        # we can come to this case if we have a node wich is not present in data
         try:
             mean_quality = sum([i[0] for i in top_k_patterns]) / len(
                 top_k_patterns)
@@ -218,10 +218,11 @@ class MCTSeq():
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 if __name__ == '__main__':
     DATA = read_data('../data/promoters.data')
+    # DATA = read_data_r8('../data/r8.txt')
 
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 50, '+',
+    mcts = MCTSeq(5, items, DATA, 5, '+',
                   enable_i=False)
     result = mcts.launch()
     print_results_mcts(result)

@@ -3,7 +3,7 @@ import random
 import copy
 import math
 
-from mctseq.utils import read_data, extract_items, uct, \
+from mctseq.utils import read_data, read_data_r8, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results
 
 from mctseq.priorityset import PrioritySet
@@ -36,7 +36,6 @@ def misere(data, time_budget, target_class, top_k=5):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
-    # patterns with
     sorted_patterns = PrioritySet()
 
     while datetime.datetime.utcnow() - begin < time_budget:
@@ -76,8 +75,9 @@ def misere(data, time_budget, target_class, top_k=5):
 
     return sorted_patterns.get_top_k(top_k)
 
-DATA = read_data('../data/promoters.data')
+# DATA = read_data('../data/promoters.data')
+DATA = read_data_r8('../data/r8.txt')
 
-results = misere(DATA, 50, '+')
+results = misere(DATA, 20, 'earn')
 
 print_results(results)
