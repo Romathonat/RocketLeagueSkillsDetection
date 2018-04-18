@@ -64,3 +64,12 @@ def test_expand():
 
     assert k_length(child.sequence) == k_length(seq4.sequence) + 1
     assert non_expanded_children_nb == len(seq4.non_generated_children) + 1
+
+def test_quality():
+    data = [['+', {'A', 'B'}, {'A', 'C'}], ['+', {'A'}], ['+', {'B'}], ['+', {'A', 'B'}], ['-', {'A'}, {'B'}]]
+    itemsets_bitsets = {}
+    seq = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 3, 2, itemsets_bitsets)
+    seq.number_visit = 1
+    assert seq.class_pattern_count == 3
+
+test_quality()

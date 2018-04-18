@@ -12,6 +12,8 @@ from mctseq.utils import read_data, read_data_r8, extract_items, uct, \
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
+# Remember: The count for positive classes if false with this dataset !
+
 # TODO: what do we do in case the expanded node is a dead_end ?
 
 # TODO: filter redondant elements (post process)
@@ -242,7 +244,7 @@ if __name__ == '__main__':
 
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 5, '+',
+    mcts = MCTSeq(5, items, DATA, 50, '+',
                   enable_i=False)
     result = mcts.launch()
     print_results_mcts(result)
