@@ -1,7 +1,7 @@
 from mctseq.sequencenode import SequenceNode
 from mctseq.utils import sequence_mutable_to_immutable, \
     sequence_immutable_to_mutable, count_target_class_data, is_subsequence, \
-    following_ones
+    following_ones, generate_bitset
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 
@@ -59,6 +59,14 @@ def test_is_subsequence():
 def test_following_ones():
     a = int('01000010', 2)
 
-    assert following_ones(a, 4) == int('01110011', 2)
+    assert following_ones(a, 4) == int('00110001', 2)
+
+
+def test_generate_bitset():
+    bitset = generate_bitset({'A'}, data, 2)
+    assert bitset == int('1010', 2)
+
+    bitset = generate_bitset({'A'}, data, 4)
+    assert bitset == int('10001000', 2)
 
 test_following_ones()

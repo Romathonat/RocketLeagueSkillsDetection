@@ -98,7 +98,7 @@ class SequenceNode():
             bitset = self.generate_bitset(self.sequence[0])
         else:
             # general case
-            final_bitset = 2 ** (len(self.data) * self.bitset_slot_size) - 1
+            bitset = 2 ** (len(self.data) * self.bitset_slot_size) - 1
             for itemset in self.sequence:
                 try:
                     itemset_bitset = itemsets_bitsets[itemset]
@@ -107,11 +107,12 @@ class SequenceNode():
                     # an optimisation would be to find a subset of size k-1, and to make a
                     # & with item bitset
 
-                    itemset_bitset = generate_bitset(itemset)
+                    itemset_bitset = generate_bitset(itemset, self.data,
+                                                     self.bitset_slot_size)
                     itemsets_bitsets[itemset] = itemset_bitset
 
-                final_bitset = following_ones(final_bitset)
-                final_bitset &= itemsets_bitsets
+                bitset = following_ones(bitset, self.bitset_slot_size)
+                bitset &= itemset_bitset
 
         # now we just need to extract support, supersequence and class_pattern_count
 
@@ -119,12 +120,12 @@ class SequenceNode():
         class_pattern_count = 0
         supersequence = None
 
-        for i in range(final_bitset.bit_length(), 0, -1):
-            if final_bitset >> i & 1:
+        for i in range(bitset.bit_length(), -1, -1):
+            if bitset >> i & 1:
                 support += 1
 
                 index_data = (
-                    (final_bitset.bit_length() - i) /
+                    (bitset.bit_length() - i) /
                     self.bitset_slot_size)
 
                 if self.data[index_data][0] == self.target_class:

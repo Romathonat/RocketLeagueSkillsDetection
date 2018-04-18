@@ -170,57 +170,63 @@ def uct(node, child_node):
 def following_ones(bitset, bitset_slot_size):
     """
     Transform bitset with 1 following for each 1 encoutered, for
-    each bitslot.
+    each bitset.
     :param bitset:
     :param bitset_slot_size: the size of a slot in the bitset
     :return: a bitset (number)
     """
     change = False
+
     for i in range(bitset.bit_length(), -1, -1):
         if (i + 1) % bitset_slot_size == 0:
-            change = False
+            ones = False
 
-        if not change and bitset >> i & 1:
-            change = True
-
-        if change:
+        if ones:
             bitset = bitset | 2 ** i
+
+        if not ones and bitset >> i & 1:
+            ones = True
+            bitset = bitset ^ 2 ** i
 
     return bitset
 
 
-def generate_bitset(itemset):
+def generate_bitset(itemset, data, bitset_slot_size):
     """
     Generate the bitset of itemset
 
     :param itemset: the itemset we want to get the bitset
+    :param data: the dataset
     :return: the bitset of itemset
     """
 
     bitset = 0
 
     # we compute the extend by scanning the database
-    for line in self.data:
-        target = line[0]
+    for line in data:
+        line = line[1:]
         sequence_bitset = 0
-        for itemset_line in reversed(line):
+        for itemset_line in line:
             if itemset.issubset(itemset_line):
                 bit = 1
             else:
                 bit = 0
 
             sequence_bitset |= bit
-            sequence_bitset << 1
+            sequence_bitset = sequence_bitset << 1
+
+        # for last element we need to reshift
+        sequence_bitset = sequence_bitset >> 1
 
         # we shift to complete with 0
-        sequence_bitset << self.bitset_slot_size - len(line)
+        sequence_bitset = sequence_bitset << bitset_slot_size - (len(line))
 
         # we add this bit vector to bitset
         bitset |= sequence_bitset
-        bitset << self.bitset_slot_size
+        bitset = bitset << bitset_slot_size
 
-    # for the last element we need to shift
-    bitset >> self.bitset_slot_size
+    # for the last element we need to reshift
+    bitset = bitset >> bitset_slot_size
 
     return bitset
 

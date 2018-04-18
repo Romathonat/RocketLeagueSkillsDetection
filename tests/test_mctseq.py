@@ -32,4 +32,3 @@ def test_permutation_unification():
     assert count_mcts_recursive(mcts.root_node, 0, set()) == 11
 
 
-test_permutation_unification()
