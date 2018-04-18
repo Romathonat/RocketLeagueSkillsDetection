@@ -9,23 +9,32 @@ data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 
 
 def test_create_sequence():
-    seq = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
+    seq = SequenceNode([{'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
     assert seq != None
     assert seq.support == 1
     assert seq.quality == 0.25
 
 
 def test_possible_children():
-    seq = SequenceNode([{'A'}, {'B'}], None, {'A', 'B'}, data, '+', 0, 2, {})
-    possible_children = seq.non_generated_children
+    itemsets_bitsets = {}
+    seq1 = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq2 = SequenceNode([{'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq3 = SequenceNode([{'A'}, {'B'}], seq1, {'A', 'B'}, data, '+', 0, 2, itemsets_bitsets)
+
+    possible_children = seq3.non_generated_children
+
     assert sequence_mutable_to_immutable(
         [{'A', 'B'}, {'B'}]) in possible_children
     assert len(possible_children) == 6
+    assert seq3.support == 1
 
 
 def test_possible_children_without_i():
-    seq = SequenceNode([{'A'}, {'B'}], None, {'A', 'B'}, data, '+', 0, 2, {}, False)
-    possible_children = seq.non_generated_children
+    itemsets_bitsets = {}
+    seq1 = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq2 = SequenceNode([{'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq3 = SequenceNode([{'A'}, {'B'}], seq1, {'A', 'B'}, data, '+', 0, 2, itemsets_bitsets, False)
+    possible_children = seq3.non_generated_children
     assert sequence_mutable_to_immutable(
         [{'A'}, {'B'}, {'B'}]) in possible_children
 
@@ -33,16 +42,25 @@ def test_possible_children_without_i():
 
 
 def test_update():
-    seq = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
-    seq.number_visit = 1
-    seq.update(0.5)
-    assert seq.quality == 0.375
+    itemsets_bitsets = {}
+    seq1 = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq2 = SequenceNode([{'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq3 = SequenceNode([{'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq4 = SequenceNode([{'A'}, {'C'}], seq1, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq4.number_visit = 1
+    seq4.update(0.5)
+    assert seq4.quality == 0.375
 
 
 def test_expand():
-    seq = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
-    non_expanded_children_nb = len(seq.non_generated_children)
-    child = seq.expand({})
+    itemsets_bitsets = {}
+    seq1 = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq2 = SequenceNode([{'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq3 = SequenceNode([{'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
+    seq4 = SequenceNode([{'A'}, {'C'}], seq1, {'A', 'B', 'C'}, data, '+', 1, 2, itemsets_bitsets)
 
-    assert k_length(child.sequence) == k_length(seq.sequence) + 1
-    assert non_expanded_children_nb == len(seq.non_generated_children) + 1
+    non_expanded_children_nb = len(seq4.non_generated_children)
+    child = seq4.expand({})
+
+    assert k_length(child.sequence) == k_length(seq4.sequence) + 1
+    assert non_expanded_children_nb == len(seq4.non_generated_children) + 1

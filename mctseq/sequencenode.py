@@ -28,6 +28,7 @@ class SequenceNode():
         self.is_terminal = False
         self.enable_i = enable_i
         self.bitset_slot_size = bitset_slot_size
+        self.itemsets_bitsets = itemsets_bitsets
 
         # a node is a dead end if is terminal, or if all its children are dead_end too
         # It means that is is useless to explore it, because it lead to terminal children
@@ -95,10 +96,13 @@ class SequenceNode():
             class_pattern_count = self.class_data_count
 
         elif length == 1:
-            bitset = self.generate_bitset(self.sequence[0])
+            bitset = generate_bitset(self.sequence[0], self.data,
+                                     self.bitset_slot_size)
+            itemsets_bitsets[self.sequence[0]] = bitset
         else:
             # general case
             bitset = 2 ** (len(self.data) * self.bitset_slot_size) - 1
+            first_iteration = True
             for itemset in self.sequence:
                 try:
                     itemset_bitset = itemsets_bitsets[itemset]
@@ -111,7 +115,11 @@ class SequenceNode():
                                                      self.bitset_slot_size)
                     itemsets_bitsets[itemset] = itemset_bitset
 
-                bitset = following_ones(bitset, self.bitset_slot_size)
+                if first_iteration:
+                    first_iteration = False
+                else:
+                    bitset = following_ones(bitset, self.bitset_slot_size)
+
                 bitset &= itemset_bitset
 
         # now we just need to extract support, supersequence and class_pattern_count
@@ -120,11 +128,11 @@ class SequenceNode():
         class_pattern_count = 0
         supersequence = None
 
-        for i in range(bitset.bit_length(), -1, -1):
-            if bitset >> i & 1:
+        for i in range(bitset.bit_length(), 0, -1):
+            if bitset >> (i - 1) & 1:
                 support += 1
 
-                index_data = (
+                index_data = int(
                     (bitset.bit_length() - i) /
                     self.bitset_slot_size)
 
@@ -138,140 +146,136 @@ class SequenceNode():
 
         return support, supersequence, class_pattern_count, bitset
 
+    def compute_quality(self):
+        try:
+            occurency_ratio = self.support / len(self.data)
 
-def compute_quality(self):
-    try:
-        occurency_ratio = self.support / len(self.data)
+            # we find the number of elements who have the right target_class
+            class_pattern_ratio = self.class_pattern_count / self.support
+            class_data_ratio = self.class_data_count / len(self.data)
 
-        # we find the number of elements who have the right target_class
-        class_pattern_ratio = self.class_pattern_count / self.support
-        class_data_ratio = self.class_data_count / len(self.data)
+            return occurency_ratio * (class_pattern_ratio - class_data_ratio)
+        except ZeroDivisionError:
+            return 0
 
-        return occurency_ratio * (class_pattern_ratio - class_data_ratio)
-    except ZeroDivisionError:
-        return 0
+    def update_node_state(self):
+        """
+        Update states is_terminal, is_fully_expanded and is_dead_end
+        """
+        # a node cannot be terminal if one or more of its children are not expanded
+        if len(self.non_generated_children) == 0:
+            self.is_fully_expanded = True
 
+            # if at least one children have support > 0, it is not a terminal node
+            test_terminal = True
+            test_dead_end = True
+            for child in self.generated_children:
+                if child.support > 0:
+                    test_terminal = False
 
-def update_node_state(self):
-    """
-    Update states is_terminal, is_fully_expanded and is_dead_end
-    """
-    # a node cannot be terminal if one or more of its children are not expanded
-    if len(self.non_generated_children) == 0:
-        self.is_fully_expanded = True
+                if not child.is_dead_end:
+                    test_dead_end = False
 
-        # if at least one children have support > 0, it is not a terminal node
-        test_terminal = True
-        test_dead_end = True
-        for child in self.generated_children:
-            if child.support > 0:
-                test_terminal = False
+            self.is_terminal = test_terminal
+            self.is_dead_end = test_dead_end
 
-            if not child.is_dead_end:
-                test_dead_end = False
+            # now we need to recursively update parents of current child, to
+            # update if they are dead_end or not
+            if self.is_dead_end:
+                for parent in self.parents:
+                    parent.update_node_state()
 
-        self.is_terminal = test_terminal
-        self.is_dead_end = test_dead_end
+        # in all cases, if support is null it is a dead end
+        if self.support == 0:
+            self.is_dead_end = True
 
-        # now we need to recursively update parents of current child, to
-        # update if they are dead_end or not
-        if self.is_dead_end:
-            for parent in self.parents:
-                parent.update_node_state()
+    def update(self, reward):
+        """
+        Update the quality of the node
+        :param reward: the roll-out score
+        :return: None
+        """
+        # Mean-update
+        self.quality = (self.number_visit * self.quality + reward) / (
+            self.number_visit + 1)
+        self.number_visit += 1
 
-    # in all cases, if support is null it is a dead end
-    if self.support == 0:
-        self.is_dead_end = True
+    def expand(self, node_hashmap):
+        """
+        Create a random children, and add it to generated children. Removes
+        considered pattern from the possible_children
+        :param node_hashmap: the hashmap of MCTS nodes
+        :return: the SequenceNode created
+        """
 
+        pattern_children = random.sample(self.non_generated_children, 1)[0]
 
-def update(self, reward):
-    """
-    Update the quality of the node
-    :param reward: the roll-out score
-    :return: None
-    """
-    # Mean-update
-    self.quality = (self.number_visit * self.quality + reward) / (
-        self.number_visit + 1)
-    self.number_visit += 1
+        self.non_generated_children.remove(pattern_children)
 
+        if pattern_children in node_hashmap:
+            expanded_node = node_hashmap[pattern_children]
+            expanded_node.parents.append(self)
+        else:
+            expanded_node = SequenceNode(pattern_children, self,
+                                         self.candidate_items, self.data,
+                                         self.target_class,
+                                         self.class_data_count,
+                                         self.bitset_slot_size,
+                                         self.itemsets_bitsets,
+                                         self.enable_i)
 
-def expand(self, node_hashmap):
-    """
-    Create a random children, and add it to generated children. Removes
-    considered pattern from the possible_children
-    :param node_hashmap: the hashmap of MCTS nodes
-    :return: the SequenceNode created
-    """
+            node_hashmap[pattern_children] = expanded_node
 
-    pattern_children = random.sample(self.non_generated_children, 1)[0]
+        self.generated_children.add(expanded_node)
+        self.update_node_state()
 
-    self.non_generated_children.remove(pattern_children)
+        return expanded_node
 
-    if pattern_children in node_hashmap:
-        expanded_node = node_hashmap[pattern_children]
-        expanded_node.parents.append(self)
-    else:
-        expanded_node = SequenceNode(pattern_children, self,
-                                     self.candidate_items, self.data,
-                                     self.target_class,
-                                     self.class_data_count,
-                                     self.bitset_slot_size,
-                                     self.enable_i)
+    def get_non_generated_children(self, enable_i=True):
+        """
+        :param enable_i: enable i_extensions or not. Useful when sequences are singletons like DNA
+        :return: the set of sequences that we can generate from the current one
+        NB: We convert to mutable/immutable object in order to have a set of subsequences,
+        which automatically removes duplicates
+        """
+        new_subsequences = set()
+        subsequence = self.sequence
 
-        node_hashmap[pattern_children] = expanded_node
-
-    self.generated_children.add(expanded_node)
-    self.update_node_state()
-
-    return expanded_node
-
-
-def get_non_generated_children(self, enable_i=True):
-    """
-    :param enable_i: enable i_extensions or not. Useful when sequences are singletons like DNA
-    :return: the set of sequences that we can generate from the current one
-    NB: We convert to mutable/immutable object in order to have a set of subsequences,
-    which automatically removes duplicates
-    """
-    new_subsequences = set()
-    subsequence = self.sequence
-
-    for item in self.candidate_items:
-        for index, itemset in enumerate(subsequence):
-            s_extension = sequence_immutable_to_mutable(
-                copy.deepcopy(subsequence)
-            )
-
-            s_extension.insert(index, {item})
-
-            new_subsequences.add(
-                sequence_mutable_to_immutable(s_extension)
-            )
-
-            if enable_i:
-                pseudo_i_extension = sequence_immutable_to_mutable(
+        for item in self.candidate_items:
+            for index, itemset in enumerate(subsequence):
+                s_extension = sequence_immutable_to_mutable(
                     copy.deepcopy(subsequence)
                 )
 
-                pseudo_i_extension[index].add(item)
+                s_extension.insert(index, {item})
 
-                length_i_ext = sum([len(i) for i in pseudo_i_extension])
-                len_subsequence = sum([len(i) for i in subsequence])
+                new_subsequences.add(
+                    sequence_mutable_to_immutable(s_extension)
+                )
 
-                # we prevent the case where we add an existing element to itemset
-                if (length_i_ext > len_subsequence):
-                    new_subsequences.add(
-                        sequence_mutable_to_immutable(pseudo_i_extension)
+                if enable_i:
+                    pseudo_i_extension = sequence_immutable_to_mutable(
+                        copy.deepcopy(subsequence)
                     )
 
-        new_subsequence = sequence_immutable_to_mutable(
-            copy.deepcopy(subsequence)
-        )
+                    pseudo_i_extension[index].add(item)
 
-        new_subsequence.insert(len(new_subsequence), {item})
+                    length_i_ext = sum([len(i) for i in pseudo_i_extension])
+                    len_subsequence = sum([len(i) for i in subsequence])
 
-        new_subsequences.add(
-            sequence_mutable_to_immutable(new_subsequence))
+                    # we prevent the case where we add an existing element to itemset
+                    if (length_i_ext > len_subsequence):
+                        new_subsequences.add(
+                            sequence_mutable_to_immutable(pseudo_i_extension)
+                        )
 
-    return new_subsequences
+            new_subsequence = sequence_immutable_to_mutable(
+                copy.deepcopy(subsequence)
+            )
+
+            new_subsequence.insert(len(new_subsequence), {item})
+
+            new_subsequences.add(
+                sequence_mutable_to_immutable(new_subsequence))
+
+        return new_subsequences

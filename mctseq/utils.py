@@ -169,24 +169,24 @@ def uct(node, child_node):
 
 def following_ones(bitset, bitset_slot_size):
     """
-    Transform bitset with 1 following for each 1 encoutered, for
-    each bitset.
+    Transform bitset with 1s following for each 1 encoutered, for
+    each bitset_slot.
     :param bitset:
     :param bitset_slot_size: the size of a slot in the bitset
     :return: a bitset (number)
     """
-    change = False
+    ones = False
 
-    for i in range(bitset.bit_length(), -1, -1):
-        if (i + 1) % bitset_slot_size == 0:
+    for i in range(bitset.bit_length(), 0, -1):
+        if i % bitset_slot_size == 0:
             ones = False
 
         if ones:
-            bitset = bitset | 2 ** i
+            bitset = bitset | 2 ** (i - 1)
 
-        if not ones and bitset >> i & 1:
+        if not ones and bitset >> (i - 1) & 1:
             ones = True
-            bitset = bitset ^ 2 ** i
+            bitset = bitset ^ 2 ** (i - 1)
 
     return bitset
 

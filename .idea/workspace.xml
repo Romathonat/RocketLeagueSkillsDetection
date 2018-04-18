@@ -4,7 +4,6 @@
     <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/mctseq/sequencenode.py" afterPath="$PROJECT_DIR$/mctseq/sequencenode.py" />
       <change beforePath="$PROJECT_DIR$/mctseq/utils.py" afterPath="$PROJECT_DIR$/mctseq/utils.py" />
-      <change beforePath="$PROJECT_DIR$/tests/test_mctseq.py" afterPath="$PROJECT_DIR$/tests/test_mctseq.py" />
       <change beforePath="$PROJECT_DIR$/tests/test_sequencenode.py" afterPath="$PROJECT_DIR$/tests/test_sequencenode.py" />
       <change beforePath="$PROJECT_DIR$/tests/test_utils.py" afterPath="$PROJECT_DIR$/tests/test_utils.py" />
     </list>
@@ -23,7 +22,7 @@
       <file leaf-file-name="mctseq_main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mctseq/mctseq_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
+            <state relative-caret-position="18">
               <caret line="21" column="43" lean-forward="false" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
               <folding>
                 <element signature="e#44#59#0" expanded="true" />
@@ -32,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sequencenode.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="sequencenode.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mctseq/sequencenode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="122" column="45" lean-forward="false" selection-start-line="122" selection-start-column="45" selection-end-line="122" selection-end-column="45" />
+            <state relative-caret-position="509">
+              <caret line="121" column="0" lean-forward="false" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -47,18 +46,20 @@
       <file leaf-file-name="test_sequencenode.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_sequencenode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="47" column="73" lean-forward="false" selection-start-line="47" selection-start-column="73" selection-end-line="47" selection-end-column="73" />
-              <folding />
+            <state relative-caret-position="180">
+              <caret line="12" column="21" lean-forward="false" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+              <folding>
+                <element signature="e#48#92#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mctseq/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="188" column="0" lean-forward="false" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
+            <state relative-caret-position="288">
+              <caret line="180" column="11" lean-forward="false" selection-start-line="180" selection-start-column="11" selection-end-line="180" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -67,8 +68,8 @@
       <file leaf-file-name="test_utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="44" column="34" lean-forward="false" selection-start-line="44" selection-start-column="34" selection-end-line="44" selection-end-column="34" />
+            <state relative-caret-position="584">
+              <caret line="65" column="51" lean-forward="false" selection-start-line="65" selection-start-column="51" selection-end-line="65" selection-end-column="51" />
               <folding>
                 <element signature="e#0#44#0" expanded="true" />
               </folding>
@@ -102,10 +103,10 @@
         <option value="$PROJECT_DIR$/competitors/misere.py" />
         <option value="$PROJECT_DIR$/mctseq/mctseq_main.py" />
         <option value="$PROJECT_DIR$/tests/test_mctseq.py" />
-        <option value="$PROJECT_DIR$/tests/test_sequencenode.py" />
-        <option value="$PROJECT_DIR$/mctseq/sequencenode.py" />
-        <option value="$PROJECT_DIR$/tests/test_utils.py" />
         <option value="$PROJECT_DIR$/mctseq/utils.py" />
+        <option value="$PROJECT_DIR$/tests/test_sequencenode.py" />
+        <option value="$PROJECT_DIR$/tests/test_utils.py" />
+        <option value="$PROJECT_DIR$/mctseq/sequencenode.py" />
       </list>
     </option>
   </component>
@@ -195,7 +196,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.test_utils">
+  <component name="RunManager" selected="Python.test_sequencenode">
     <configuration name="mctseq" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -232,24 +233,6 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="sequencenode" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/mctseq" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="mctseq" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mctseq/sequencenode.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
     <configuration name="test_mctseq" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -263,6 +246,24 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mctseq" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/test_mctseq.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="test_sequencenode" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mctseq" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/test_sequencenode.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -287,19 +288,19 @@
       <option name="MODULE_MODE" value="false" />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.sequencenode" />
-      <item index="1" class="java.lang.String" itemvalue="Python.mctseq" />
-      <item index="2" class="java.lang.String" itemvalue="Python.test_mctseq" />
-      <item index="3" class="java.lang.String" itemvalue="Python.misere" />
-      <item index="4" class="java.lang.String" itemvalue="Python.test_utils" />
+      <item index="0" class="java.lang.String" itemvalue="Python.mctseq" />
+      <item index="1" class="java.lang.String" itemvalue="Python.test_mctseq" />
+      <item index="2" class="java.lang.String" itemvalue="Python.misere" />
+      <item index="3" class="java.lang.String" itemvalue="Python.test_utils" />
+      <item index="4" class="java.lang.String" itemvalue="Python.test_sequencenode" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.test_utils" />
-        <item index="1" class="java.lang.String" itemvalue="Python.mctseq" />
-        <item index="2" class="java.lang.String" itemvalue="Python.misere" />
-        <item index="3" class="java.lang.String" itemvalue="Python.test_mctseq" />
-        <item index="4" class="java.lang.String" itemvalue="Python.sequencenode" />
+        <item index="0" class="java.lang.String" itemvalue="Python.test_sequencenode" />
+        <item index="1" class="java.lang.String" itemvalue="Python.test_utils" />
+        <item index="2" class="java.lang.String" itemvalue="Python.mctseq" />
+        <item index="3" class="java.lang.String" itemvalue="Python.misere" />
+        <item index="4" class="java.lang.String" itemvalue="Python.test_mctseq" />
       </list>
     </recent_temporary>
   </component>
@@ -331,7 +332,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27272728" sideWeight="0.4978903" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37632135" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29598308" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5055292" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -349,9 +350,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mctseq/utils.py</url>
-          <line>177</line>
-          <option name="timeStamp" value="97" />
+          <url>file://$PROJECT_DIR$/mctseq/sequencenode.py</url>
+          <line>87</line>
+          <option name="timeStamp" value="104" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -364,7 +365,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="98" />
+      <option name="time" value="105" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -637,16 +638,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mctseq/mctseq_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="21" column="43" lean-forward="false" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
-          <folding>
-            <element signature="e#44#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_mctseq.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
@@ -655,28 +646,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_sequencenode.py">
+    <entry file="file://$PROJECT_DIR$/mctseq/mctseq_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="47" column="73" lean-forward="false" selection-start-line="47" selection-start-column="73" selection-end-line="47" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mctseq/sequencenode.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="122" column="45" lean-forward="false" selection-start-line="122" selection-start-column="45" selection-end-line="122" selection-end-column="45" />
+        <state relative-caret-position="18">
+          <caret line="21" column="43" lean-forward="false" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#44#59#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="44" column="34" lean-forward="false" selection-start-line="44" selection-start-column="34" selection-end-line="44" selection-end-column="34" />
+        <state relative-caret-position="584">
+          <caret line="65" column="51" lean-forward="false" selection-start-line="65" selection-start-column="51" selection-end-line="65" selection-end-column="51" />
           <folding>
             <element signature="e#0#44#0" expanded="true" />
           </folding>
@@ -685,9 +668,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mctseq/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="188" column="0" lean-forward="false" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
+        <state relative-caret-position="288">
+          <caret line="180" column="11" lean-forward="false" selection-start-line="180" selection-start-column="11" selection-end-line="180" selection-end-column="11" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_sequencenode.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="21" lean-forward="false" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+          <folding>
+            <element signature="e#48#92#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mctseq/sequencenode.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="509">
+          <caret line="121" column="0" lean-forward="false" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

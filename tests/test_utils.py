@@ -61,6 +61,11 @@ def test_following_ones():
 
     assert following_ones(a, 4) == int('00110001', 2)
 
+    a = int('00011111', 2)
+
+    assert following_ones(a, 2) == int('00000101', 2)
+
+test_following_ones()
 
 def test_generate_bitset():
     bitset = generate_bitset({'A'}, data, 2)
@@ -69,4 +74,3 @@ def test_generate_bitset():
     bitset = generate_bitset({'A'}, data, 4)
     assert bitset == int('10001000', 2)
 
-test_following_ones()
