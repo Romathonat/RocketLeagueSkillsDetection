@@ -167,6 +167,64 @@ def uct(node, child_node):
         (2 * math.log(node.number_visit)) / child_node.number_visit)
 
 
+def following_ones(bitset, bitset_slot_size):
+    """
+    Transform bitset with 1 following for each 1 encoutered, for
+    each bitslot.
+    :param bitset:
+    :param bitset_slot_size: the size of a slot in the bitset
+    :return: a bitset (number)
+    """
+    change = False
+    for i in range(bitset.bit_length(), -1, -1):
+        if (i + 1) % bitset_slot_size == 0:
+            change = False
+
+        if not change and bitset >> i & 1:
+            change = True
+
+        if change:
+            bitset = bitset | 2 ** i
+
+    return bitset
+
+
+def generate_bitset(itemset):
+    """
+    Generate the bitset of itemset
+
+    :param itemset: the itemset we want to get the bitset
+    :return: the bitset of itemset
+    """
+
+    bitset = 0
+
+    # we compute the extend by scanning the database
+    for line in self.data:
+        target = line[0]
+        sequence_bitset = 0
+        for itemset_line in reversed(line):
+            if itemset.issubset(itemset_line):
+                bit = 1
+            else:
+                bit = 0
+
+            sequence_bitset |= bit
+            sequence_bitset << 1
+
+        # we shift to complete with 0
+        sequence_bitset << self.bitset_slot_size - len(line)
+
+        # we add this bit vector to bitset
+        bitset |= sequence_bitset
+        bitset << self.bitset_slot_size
+
+    # for the last element we need to shift
+    bitset >> self.bitset_slot_size
+
+    return bitset
+
+
 def print_results(results):
     for result in results:
         pattern_display = ''

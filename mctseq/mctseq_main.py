@@ -19,6 +19,7 @@ from mctseq.priorityset import PrioritySetQuality
 # TODO: use bit set to keep extend -> see SPADE too know how to make a temporal join,
 # and optimize a lot
 # TODO: optimize is_subsequence (not necessary if we do the previous step)
+# TODO: add one hot encoding on attributes !
 
 ### LATER
 # TODO: Suplementary material notebook
@@ -31,6 +32,7 @@ class MCTSeq():
                  enable_i=True):
         self.pattern_number = pattern_number
         self.items = items
+
         self.time_budget = datetime.timedelta(seconds=time_budget)
         self.data = data
         self.target_class = target_class
@@ -39,9 +41,17 @@ class MCTSeq():
         self.enable_i = enable_i
         self.sorted_patterns = PrioritySetQuality()
 
+        # the bitset_slot_size is the number max of itemset in all sequences
+        self.bitset_slot_size = len(max(self.data, key=lambda x: len(x)))
+
+        # this hashmap is a memory of bitsets of itemsets composing sequences.
+        # {frozenset: bitset}
+        self.itemsets_bitsets = {}
+
         self.root_node = SequenceNode([], None, self.items, self.data,
                                       self.target_class,
                                       self.target_class_data_count,
+                                      self.bitset_slot_size,
                                       self.enable_i)
 
         # contains sequence-SequenceNode for permutation-unification
@@ -50,7 +60,6 @@ class MCTSeq():
     def launch(self):
         """
         Launch the algorithm, specifying how many patterns we want to mine
-        :return:
         """
         begin = datetime.datetime.utcnow()
 
@@ -130,7 +139,8 @@ class MCTSeq():
 
                 # we remove z items randomly, if they are not in the intersection
                 # between expanded_node and sursequences
-                forbiden_itemsets = subsequence_indices(node.sequence, sequence)
+                forbiden_itemsets = subsequence_indices(node.sequence,
+                                                        sequence)
 
                 seq_items_nb = len([i for j_set in subsequence for i in j_set])
                 z = random.randint(1, seq_items_nb - 1)
@@ -143,7 +153,8 @@ class MCTSeq():
 
                     # here we check if chosen_itemset is not a forbidden one.
                     if chosen_itemset_i not in forbiden_itemsets:
-                        chosen_itemset.remove(random.sample(chosen_itemset, 1)[0])
+                        chosen_itemset.remove(
+                            random.sample(chosen_itemset, 1)[0])
 
                         if len(chosen_itemset) == 0:
                             subsequence.pop(chosen_itemset_i)
@@ -152,6 +163,7 @@ class MCTSeq():
                                             self.items, self.data,
                                             self.target_class,
                                             self.target_class_data_count,
+                                            self.bitset_slot_size,
                                             self.enable_i)
 
                 best_patterns.add(created_node)

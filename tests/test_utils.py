@@ -1,6 +1,7 @@
 from mctseq.sequencenode import SequenceNode
 from mctseq.utils import sequence_mutable_to_immutable, \
-    sequence_immutable_to_mutable, count_target_class_data, is_subsequence
+    sequence_immutable_to_mutable, count_target_class_data, is_subsequence, \
+    following_ones
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 
@@ -53,3 +54,11 @@ def test_is_subsequence():
 
     assert is_subsequence(a, b)
     assert not is_subsequence(b, a)
+
+
+def test_following_ones():
+    a = int('01000010', 2)
+
+    assert following_ones(a, 4) == int('01110011', 2)
+
+test_following_ones()
