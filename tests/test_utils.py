@@ -7,7 +7,7 @@ data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 
 
 def test_sequence_mutable_to_imutable():
-    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0)
+    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0, 2, {})
     immutable = sequence_mutable_to_immutable(seq.sequence)
 
     assert len(immutable) == 2
@@ -15,7 +15,7 @@ def test_sequence_mutable_to_imutable():
 
 
 def test_sequence_imutable_to_mutable():
-    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0)
+    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0, 2, {})
     immutable = sequence_mutable_to_immutable(seq.sequence)
 
     mutable = sequence_immutable_to_mutable(immutable)

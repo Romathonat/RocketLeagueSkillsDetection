@@ -12,6 +12,7 @@ from mctseq.utils import read_data, read_data_r8, extract_items, uct, \
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
+# TODO: what do we do in case the expanded node is a dead_end ?
 
 # TODO: filter redondant elements (post process)
 # TODO: Normalize Wracc (not sure is really neccesary)
@@ -52,6 +53,7 @@ class MCTSeq():
                                       self.target_class,
                                       self.target_class_data_count,
                                       self.bitset_slot_size,
+                                      self.itemsets_bitsets,
                                       self.enable_i)
 
         # contains sequence-SequenceNode for permutation-unification
@@ -128,7 +130,12 @@ class MCTSeq():
 
         best_patterns = PrioritySetQuality()
 
-        for sequence in node.dataset_sequences:
+
+        # UGLY SOLUTION FOR NOW (see First TODO)
+        if node.is_dead_end:
+            return 0
+
+        for sequence in node.dataset_sequence:
             # for now we consider this upper bound (try better later)
             # items = set([i for j_set in sequence for i in j_set])
             # ads = len(items) * (2 * len(sequence) - 1)
@@ -164,6 +171,7 @@ class MCTSeq():
                                             self.target_class,
                                             self.target_class_data_count,
                                             self.bitset_slot_size,
+                                            self.itemsets_bitsets,
                                             self.enable_i)
 
                 best_patterns.add(created_node)

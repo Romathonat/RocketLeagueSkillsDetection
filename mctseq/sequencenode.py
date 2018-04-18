@@ -126,25 +126,25 @@ class SequenceNode():
 
         support = 0
         class_pattern_count = 0
-        supersequence = None
+
+        # supersequence = self.data[0]
+        supersequence = 0
 
         for i in range(bitset.bit_length(), 0, -1):
             if bitset >> (i - 1) & 1:
                 support += 1
 
-                index_data = int(
-                    (bitset.bit_length() - i) /
-                    self.bitset_slot_size)
+                index_data = len(self.data) - int(i / self.bitset_slot_size) - 1
 
                 if self.data[index_data][0] == self.target_class:
                     class_pattern_count += 1
 
                 # this means that the last super_sequence is taken (may induce a strong bias)
-                supersequence = self.data[index_data]
+                supersequence = self.data[index_data][1:]
 
                 i += self.bitset_slot_size - (i % self.bitset_slot_size) + 1
 
-        return support, supersequence, class_pattern_count, bitset
+        return support, [supersequence], class_pattern_count, bitset
 
     def compute_quality(self):
         try:

@@ -5,11 +5,15 @@ data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 
 
 def test_priorityset():
-    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1)
-    child = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1)
-    child2 = SequenceNode([{'A'}, {'B'}], None, {'A', 'B', 'C'}, data, '+', 1)
+    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
+    seq2 = SequenceNode([{'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
+    seq3 = SequenceNode([{'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
+    seq4 = SequenceNode([{'B', 'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
+
+    child = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
+    child2 = SequenceNode([{'A'}, {'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
     child3 = SequenceNode([{'A'}, {'B', 'C'}], None, {'A', 'B', 'C'}, data,
-                          '+', 1)
+                          '+', 1, 2, {})
 
     priority = PrioritySetQuality()
     priority.add(root)
@@ -24,8 +28,8 @@ def test_priorityset():
 
 
 def test_unique():
-    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1)
-    child = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1)
+    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
+    child = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
 
     priority = PrioritySetQuality()
     priority.add(root)

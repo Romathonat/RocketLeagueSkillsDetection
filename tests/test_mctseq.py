@@ -25,10 +25,11 @@ def test_permutation_unification():
     # also test if exploration of full latice
     items = extract_items(data)
 
-    mcts = MCTSeq(5, items, data, 1, '+', False)
+    mcts = MCTSeq(5, items, data, 500, '+', False)
     mcts.launch()
 
     # we count elements from the root
     assert count_mcts_recursive(mcts.root_node, 0, set()) == 11
 
+test_permutation_unification()
 
