@@ -5,6 +5,7 @@ import datetime
 import copy
 import random
 import math
+import cProfile
 
 from mctseq.utils import read_data, read_data_r8, extract_items, uct, \
     count_target_class_data, sequence_mutable_to_immutable, print_results_mcts, \
@@ -246,5 +247,7 @@ if __name__ == '__main__':
 
     mcts = MCTSeq(5, items, DATA, 50, '+',
                   enable_i=False)
+
     result = mcts.launch()
     print_results_mcts(result)
+    #cProfile.run('mcts.launch()')

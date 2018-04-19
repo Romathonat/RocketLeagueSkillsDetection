@@ -175,20 +175,30 @@ def following_ones(bitset, bitset_slot_size):
     :param bitset_slot_size: the size of a slot in the bitset
     :return: a bitset (number)
     """
-    ones = False
+    #ones = False
 
-    for i in range(bitset.bit_length(), 0, -1):
-        if i % bitset_slot_size == 0:
-            ones = False
+    #for i in range(bitset.bit_length(), 0, -1):
+    #    if i % bitset_slot_size == 0:
+    #        ones = False
 
-        if ones:
-            bitset = bitset | 2 ** (i - 1)
+    #    if ones:
+    #        bitset = bitset | 2 ** (i - 1)
 
-        if not ones and bitset >> (i - 1) & 1:
-            ones = True
-            bitset = bitset ^ 2 ** (i - 1)
+    #    if not ones and bitset >> (i - 1) & 1:
+    #        ones = True
+    #        bitset = bitset ^ 2 ** (i - 1)
 
-    return bitset
+    new_bitset = 0
+    i = bitset.bit_length()
+    while i > 0:
+        if bitset & (1 << (i - 1)):
+            # we create vector by vectors
+            new_bitset |= (2 ** ((i - 1) % bitset_slot_size) - 1) << i - 1 - (i - 1) % bitset_slot_size
+
+            i = i - ((i - 1) % bitset_slot_size)
+        i -= 1
+
+    return new_bitset
 
 
 def generate_bitset(itemset, data, bitset_slot_size):
