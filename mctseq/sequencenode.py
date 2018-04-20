@@ -1,11 +1,10 @@
-import copy
 import random
 
 from bitarray import bitarray
 
 from mctseq.utils import sequence_immutable_to_mutable, \
     sequence_mutable_to_immutable, is_subsequence, immutable_seq, k_length, \
-    generate_bitset, following_ones
+    generate_bitset, following_ones, create_s_extension, create_i_extension
 
 
 class SequenceNode():
@@ -135,7 +134,8 @@ class SequenceNode():
             if bitset >> (i - 1) & 1:
                 support += 1
 
-                index_data = len(self.data) - int((i-1) / self.bitset_slot_size) - 1
+                index_data = len(self.data) - int(
+                    (i - 1) / self.bitset_slot_size) - 1
 
                 if self.data[index_data][0] == self.target_class:
                     class_pattern_count += 1
@@ -246,39 +246,26 @@ class SequenceNode():
 
         for item in self.candidate_items:
             for index, itemset in enumerate(subsequence):
-                s_extension = sequence_immutable_to_mutable(
-                    copy.deepcopy(subsequence)
-                )
-
-                s_extension.insert(index, {item})
-
                 new_subsequences.add(
-                    sequence_mutable_to_immutable(s_extension)
+                        create_s_extension(subsequence, item, index)
                 )
 
                 if enable_i:
-                    pseudo_i_extension = sequence_immutable_to_mutable(
-                        copy.deepcopy(subsequence)
-                    )
-
-                    pseudo_i_extension[index].add(item)
+                    pseudo_i_extension = create_i_extension(subsequence, item, index)
 
                     length_i_ext = sum([len(i) for i in pseudo_i_extension])
                     len_subsequence = sum([len(i) for i in subsequence])
 
                     # we prevent the case where we add an existing element to itemset
                     if (length_i_ext > len_subsequence):
-                        new_subsequences.add(
-                            sequence_mutable_to_immutable(pseudo_i_extension)
-                        )
+                        new_subsequences.add(pseudo_i_extension)
 
-            new_subsequence = sequence_immutable_to_mutable(
-                copy.deepcopy(subsequence)
-            )
+
+            new_subsequence = sequence_immutable_to_mutable((subsequence))
 
             new_subsequence.insert(len(new_subsequence), {item})
 
-            new_subsequences.add(
-                sequence_mutable_to_immutable(new_subsequence))
+            new_subsequences.add(create_s_extension(subsequence, item, len(subsequence)))
+
 
         return new_subsequences

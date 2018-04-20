@@ -17,6 +17,48 @@ def sequence_immutable_to_mutable(sequence):
     return [set(i) for i in sequence]
 
 
+def create_s_extension(sequence, item, index):
+    """
+    Perform an s-extension
+    :param sequence: the sequence we are extending
+    :param item: the item to insert (not a set, an item !)
+    :param index: the index to add the item
+    :return: an immutable sequence
+    """
+
+    new_sequence = []
+    appended = False
+    for i, itemset in enumerate(sequence):
+        if i == index:
+            new_sequence.append(frozenset({item}))
+            appended = True
+        new_sequence.append(itemset)
+
+    if not appended:
+        new_sequence.append(frozenset({item}))
+
+    return tuple(new_sequence)
+
+
+def create_i_extension(sequence, item, index):
+    """
+    Perform an i-extension
+    :param sequence: the sequence we are extending
+    :param item: the item to merge to(not a set, an item !)
+    :param index: the index to add the item
+    :return: an immutable sequence
+    """
+    new_sequence = []
+
+    for i, itemset in enumerate(sequence):
+        if i == index:
+            new_sequence.append(frozenset({item}).union(itemset))
+        else:
+            new_sequence.append(itemset)
+
+    return tuple(new_sequence)
+
+
 def immutable_seq(sequence):
     """
     :param sequence: a seq wich is mutable or not
@@ -140,7 +182,7 @@ def read_data_r8(filename):
             line_split = line.split()
 
             sequence = [line_split[0]]
-            for itemset in line_split[1:10]:
+            for itemset in line_split[1:50]:
                 sequence.append({itemset})
             data.append(sequence)
 
@@ -175,30 +217,26 @@ def following_ones(bitset, bitset_slot_size):
     :param bitset_slot_size: the size of a slot in the bitset
     :return: a bitset (number)
     """
-    #ones = False
 
-    #for i in range(bitset.bit_length(), 0, -1):
-    #    if i % bitset_slot_size == 0:
-    #        ones = False
+    first_zero = 2 ** (bitset_slot_size - 1) - 1
+    first_zero_mask = 0
 
-    #    if ones:
-    #        bitset = bitset | 2 ** (i - 1)
+    for i in range(int(bitset.bit_length() / bitset_slot_size) + 1):
+        first_zero_mask |= first_zero << i * bitset_slot_size
 
-    #    if not ones and bitset >> (i - 1) & 1:
-    #        ones = True
-    #        bitset = bitset ^ 2 ** (i - 1)
+    # the first one need to be a zero
+    bitset = bitset >> 1
+    bitset = bitset & first_zero_mask
 
-    new_bitset = 0
-    i = bitset.bit_length()
-    while i > 0:
-        if bitset & (1 << (i - 1)):
-            # we create vector by vectors
-            new_bitset |= (2 ** ((i - 1) % bitset_slot_size) - 1) << i - 1 - (i - 1) % bitset_slot_size
+    temp = bitset
 
-            i = i - ((i - 1) % bitset_slot_size)
-        i -= 1
+    for i in range(bitset_slot_size - 1):
+        temp = temp >> 1
+        temp = temp & first_zero_mask
+        bitset |= temp
 
-    return new_bitset
+    return bitset
+
 
 
 def generate_bitset(itemset, data, bitset_slot_size):

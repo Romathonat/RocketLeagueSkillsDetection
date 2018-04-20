@@ -1,13 +1,14 @@
 from mctseq.sequencenode import SequenceNode
 from mctseq.utils import sequence_mutable_to_immutable, \
     sequence_immutable_to_mutable, count_target_class_data, is_subsequence, \
-    following_ones, generate_bitset
+    following_ones, generate_bitset, create_s_extension, create_i_extension
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 
 
 def test_sequence_mutable_to_imutable():
-    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0, 2, {})
+    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0, 2,
+                       {})
     immutable = sequence_mutable_to_immutable(seq.sequence)
 
     assert len(immutable) == 2
@@ -15,13 +16,36 @@ def test_sequence_mutable_to_imutable():
 
 
 def test_sequence_imutable_to_mutable():
-    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0, 2, {})
+    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0, 2,
+                       {})
     immutable = sequence_mutable_to_immutable(seq.sequence)
 
     mutable = sequence_immutable_to_mutable(immutable)
 
     assert len(mutable) == 2
     assert isinstance(mutable, list)
+
+
+def test_create_s_extension():
+    sequence = (frozenset({'A'}), frozenset({'C'}))
+    s_ext = create_s_extension(sequence, 'B', 0)
+    assert s_ext == (frozenset({'B'}), frozenset({'A'}), frozenset({'C'}))
+
+    s_ext = create_s_extension(sequence, 'B', 1)
+    assert s_ext == (frozenset({'A'}), frozenset({'B'}), frozenset({'C'}))
+
+    s_ext = create_s_extension(sequence, 'B', 2)
+    assert s_ext == (frozenset({'A'}), frozenset({'C'}), frozenset({'B'}))
+
+
+def test_create_i_extension():
+    sequence = (frozenset({'A'}), frozenset({'C'}))
+
+    s_ext = create_i_extension(sequence, 'B', 0)
+    assert s_ext == (frozenset({'A', 'B'}), frozenset({'C'}))
+
+    s_ext = create_i_extension(sequence, 'B', 1)
+    assert s_ext == (frozenset({'A'}), frozenset({'B', 'C'}))
 
 
 def test_count_target_class_date():
@@ -65,6 +89,7 @@ def test_following_ones():
 
     assert following_ones(a, 2) == int('00000101', 2)
 
+
 test_following_ones()
 
 def test_generate_bitset():
@@ -73,4 +98,3 @@ def test_generate_bitset():
 
     bitset = generate_bitset({'A'}, data, 4)
     assert bitset == int('10001000', 2)
-

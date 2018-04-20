@@ -8,28 +8,22 @@ import math
 import cProfile
 
 from mctseq.utils import read_data, read_data_r8, extract_items, uct, \
-    count_target_class_data, sequence_mutable_to_immutable, print_results_mcts, \
+    count_target_class_data, print_results_mcts, \
     subsequence_indices, sequence_immutable_to_mutable
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
-# Remember: The count for positive classes if false with this dataset !
 
-# TODO: what do we do in case the expanded node is a dead_end ?
+
+# TODO: remove support once full expanded ?
+
+# TODO: generate bitset should find a similar itemset and extend it
 
 # TODO: filter redondant elements (post process)
 # TODO: Normalize Wracc (not sure is really neccesary)
 
-# TODO: use bit set to keep extend -> see SPADE too know how to make a temporal join,
-# and optimize a lot
-# TODO: optimize is_subsequence (not necessary if we do the previous step)
 # TODO: add one hot encoding on attributes !
 
-### LATER
-# TODO: Suplementary material notebook
-# TODO: Visualisation graph
-
-# WRAcc: 0.04716981132075471, Pattern: {'a'}{'a'}{'a'}{'t'}{'g'}{'t'}{'a'}{'c'}{'a'}{'g'}{'t'}{'a'}{'t'}{'a'}{'a'}
 
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class,
@@ -133,29 +127,26 @@ class MCTSeq():
 
         best_patterns = PrioritySetQuality()
 
-
-        # UGLY SOLUTION FOR NOW (see First TODO)
         if node.is_dead_end:
             return 0
 
         for sequence in node.dataset_sequence:
-            # for now we consider this upper bound (try better later)
             # items = set([i for j_set in sequence for i in j_set])
             # ads = len(items) * (2 * len(sequence) - 1)
 
+            # define here the number of generealisation we try. 1 for now
             ads = 3
-            for i in range(int(math.log(ads))):
-                subsequence = copy.deepcopy(sequence)
 
+            for i in range(int(math.log(ads))):
                 # we remove z items randomly, if they are not in the intersection
                 # between expanded_node and sursequences
                 forbiden_itemsets = subsequence_indices(node.sequence,
                                                         sequence)
 
-                seq_items_nb = len([i for j_set in subsequence for i in j_set])
+                seq_items_nb = len([i for j_set in sequence for i in j_set])
                 z = random.randint(1, seq_items_nb - 1)
 
-                subsequence = sequence_immutable_to_mutable(subsequence)
+                subsequence = sequence_immutable_to_mutable(sequence)
 
                 for _ in range(z):
                     chosen_itemset_i = random.randint(0, len(subsequence) - 1)
@@ -168,6 +159,7 @@ class MCTSeq():
 
                         if len(chosen_itemset) == 0:
                             subsequence.pop(chosen_itemset_i)
+
 
                 created_node = SequenceNode(subsequence, None,
                                             self.items, self.data,
@@ -241,7 +233,7 @@ class MCTSeq():
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 if __name__ == '__main__':
     DATA = read_data('../data/promoters.data')
-    # DATA = read_data_r8('../data/r8.txt')
+    #DATA = read_data_r8('../data/r8.txt')
 
     items = extract_items(DATA)
 
@@ -250,4 +242,4 @@ if __name__ == '__main__':
 
     result = mcts.launch()
     print_results_mcts(result)
-    #cProfile.run('mcts.launch()')
+    # cProfile.run('mcts.launch()')
