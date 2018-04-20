@@ -209,7 +209,17 @@ def uct(node, child_node):
         (2 * math.log(node.number_visit)) / child_node.number_visit)
 
 
-def following_ones(bitset, bitset_slot_size):
+def compute_first_zero_mask(data_length, bitset_slot_size):
+    first_zero = 2 ** (bitset_slot_size - 1) - 1
+    first_zero_mask = 0
+
+    for i in range(data_length):
+        first_zero_mask |= first_zero << i * bitset_slot_size
+
+    return first_zero_mask
+
+
+def following_ones(bitset, bitset_slot_size, first_zero_mask):
     """
     Transform bitset with 1s following for each 1 encoutered, for
     each bitset_slot.
@@ -217,13 +227,6 @@ def following_ones(bitset, bitset_slot_size):
     :param bitset_slot_size: the size of a slot in the bitset
     :return: a bitset (number)
     """
-
-    first_zero = 2 ** (bitset_slot_size - 1) - 1
-    first_zero_mask = 0
-
-    for i in range(int(bitset.bit_length() / bitset_slot_size) + 1):
-        first_zero_mask |= first_zero << i * bitset_slot_size
-
     # the first one need to be a zero
     bitset = bitset >> 1
     bitset = bitset & first_zero_mask

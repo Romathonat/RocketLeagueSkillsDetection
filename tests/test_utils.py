@@ -4,11 +4,11 @@ from mctseq.utils import sequence_mutable_to_immutable, \
     following_ones, generate_bitset, create_s_extension, create_i_extension
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
-
+first_zero_mask = int('0101', 2)
 
 def test_sequence_mutable_to_imutable():
     seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0, 2,
-                       {})
+                       {}, first_zero_mask)
     immutable = sequence_mutable_to_immutable(seq.sequence)
 
     assert len(immutable) == 2
@@ -17,7 +17,7 @@ def test_sequence_mutable_to_imutable():
 
 def test_sequence_imutable_to_mutable():
     seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0, 2,
-                       {})
+                       {}, first_zero_mask)
     immutable = sequence_mutable_to_immutable(seq.sequence)
 
     mutable = sequence_immutable_to_mutable(immutable)
@@ -82,12 +82,12 @@ def test_is_subsequence():
 
 def test_following_ones():
     a = int('01000010', 2)
-
-    assert following_ones(a, 4) == int('00110001', 2)
+    zero_mask = int('01110111', 2)
+    assert following_ones(a, 4, zero_mask) == int('00110001', 2)
 
     a = int('00011111', 2)
 
-    assert following_ones(a, 2) == int('00000101', 2)
+    assert following_ones(a, 4, zero_mask) == int('00000111', 2)
 
 
 test_following_ones()

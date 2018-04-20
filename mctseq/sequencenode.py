@@ -9,7 +9,7 @@ from mctseq.utils import sequence_immutable_to_mutable, \
 
 class SequenceNode():
     def __init__(self, sequence, parent, candidate_items, data, target_class,
-                 class_data_count, bitset_slot_size, itemsets_bitsets,
+                 class_data_count, bitset_slot_size, itemsets_bitsets, first_zero_mask,
                  enable_i=True):
         # the pattern is in the form [{}, {}, ... ]
         # data is in the form [[class, {}, {}, ...], [class, {}, {}, ...]]
@@ -25,6 +25,7 @@ class SequenceNode():
         self.candidate_items = candidate_items
         self.is_fully_expanded = False
         self.is_terminal = False
+        self.first_zero_mask = first_zero_mask
         self.enable_i = enable_i
         self.bitset_slot_size = bitset_slot_size
         self.itemsets_bitsets = itemsets_bitsets
@@ -41,7 +42,7 @@ class SequenceNode():
 
         # dataset_sequence contains one super-sequence present in the dataset
         (self.support, self.dataset_sequence, self.class_pattern_count,
-         self.bitset) = self.compute_support(itemsets_bitsets)
+         self.bitset) = self.compute_support(itemsets_bitsets, first_zero_mask)
 
         self.quality = self.compute_quality()
         self.wracc = self.quality
@@ -76,7 +77,7 @@ class SequenceNode():
     def __repr__(self):
         return '{}'.format(self.sequence)
 
-    def compute_support(self, itemsets_bitsets):
+    def compute_support(self, itemsets_bitsets, first_zero_mask):
         """
         :param itemsets_bitsets: the hashmap of biteset of itemsets known
         Compute the support of current element and class_pattern_count.
@@ -117,7 +118,7 @@ class SequenceNode():
                 if first_iteration:
                     first_iteration = False
                 else:
-                    bitset = following_ones(bitset, self.bitset_slot_size)
+                    bitset = following_ones(bitset, self.bitset_slot_size, first_zero_mask)
 
                 bitset &= itemset_bitset
 
@@ -225,6 +226,7 @@ class SequenceNode():
                                          self.class_data_count,
                                          self.bitset_slot_size,
                                          self.itemsets_bitsets,
+                                         self.first_zero_mask,
                                          self.enable_i)
 
             node_hashmap[pattern_children] = expanded_node

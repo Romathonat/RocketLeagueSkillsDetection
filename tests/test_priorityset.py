@@ -2,18 +2,18 @@ from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
-
+first_zero_mask = int('0101', 2)
 
 def test_priorityset():
-    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
-    seq2 = SequenceNode([{'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
-    seq3 = SequenceNode([{'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
-    seq4 = SequenceNode([{'B', 'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
+    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
+    seq2 = SequenceNode([{'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
+    seq3 = SequenceNode([{'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
+    seq4 = SequenceNode([{'B', 'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
 
-    child = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
-    child2 = SequenceNode([{'A'}, {'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
+    child = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
+    child2 = SequenceNode([{'A'}, {'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
     child3 = SequenceNode([{'A'}, {'B', 'C'}], None, {'A', 'B', 'C'}, data,
-                          '+', 1, 2, {})
+                          '+', 1, 2, {}, first_zero_mask)
 
     priority = PrioritySetQuality()
     priority.add(root)
@@ -28,8 +28,8 @@ def test_priorityset():
 
 
 def test_unique():
-    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
-    child = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {})
+    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
+    child = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
 
     priority = PrioritySetQuality()
     priority.add(root)

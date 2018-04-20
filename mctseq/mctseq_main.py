@@ -9,10 +9,9 @@ import cProfile
 
 from mctseq.utils import read_data, read_data_r8, extract_items, uct, \
     count_target_class_data, print_results_mcts, \
-    subsequence_indices, sequence_immutable_to_mutable
+    subsequence_indices, sequence_immutable_to_mutable, compute_first_zero_mask
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
-
 
 
 # TODO: remove support once full expanded ?
@@ -45,12 +44,15 @@ class MCTSeq():
         # this hashmap is a memory of bitsets of itemsets composing sequences.
         # {frozenset: bitset}
         self.itemsets_bitsets = {}
+        self.first_zero_mask = compute_first_zero_mask(len(data),
+                                                       self.bitset_slot_size)
 
         self.root_node = SequenceNode([], None, self.items, self.data,
                                       self.target_class,
                                       self.target_class_data_count,
                                       self.bitset_slot_size,
                                       self.itemsets_bitsets,
+                                      self.first_zero_mask,
                                       self.enable_i)
 
         # contains sequence-SequenceNode for permutation-unification
@@ -160,13 +162,13 @@ class MCTSeq():
                         if len(chosen_itemset) == 0:
                             subsequence.pop(chosen_itemset_i)
 
-
                 created_node = SequenceNode(subsequence, None,
                                             self.items, self.data,
                                             self.target_class,
                                             self.target_class_data_count,
                                             self.bitset_slot_size,
                                             self.itemsets_bitsets,
+                                            self.first_zero_mask,
                                             self.enable_i)
 
                 best_patterns.add(created_node)
@@ -233,13 +235,13 @@ class MCTSeq():
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 if __name__ == '__main__':
     DATA = read_data('../data/promoters.data')
-    #DATA = read_data_r8('../data/r8.txt')
+    # DATA = read_data_r8('../data/r8.txt')
 
     items = extract_items(DATA)
 
     mcts = MCTSeq(5, items, DATA, 50, '+',
                   enable_i=False)
 
-    result = mcts.launch()
-    print_results_mcts(result)
-    # cProfile.run('mcts.launch()')
+    #result = mcts.launch()
+    #print_results_mcts(result)
+    cProfile.run('mcts.launch()')
