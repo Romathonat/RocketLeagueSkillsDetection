@@ -20,6 +20,8 @@ class SequenceNode():
         else:
             self.parents = []
 
+        self.number_supersequences = 5
+
         self.number_visit = 0
         self.data = data
         self.candidate_items = candidate_items
@@ -41,7 +43,7 @@ class SequenceNode():
         self.class_data_count = class_data_count
 
         # dataset_sequence contains one super-sequence present in the dataset
-        (self.support, self.dataset_sequence, self.class_pattern_count,
+        (self.support, self.dataset_sequences, self.class_pattern_count,
          self.bitset) = self.compute_support(itemsets_bitsets, first_zero_mask)
 
         self.quality = self.compute_quality()
@@ -81,7 +83,7 @@ class SequenceNode():
         """
         :param itemsets_bitsets: the hashmap of biteset of itemsets known
         Compute the support of current element and class_pattern_count.
-        :return:  support, sursequence, class_pattern_sequence, and bitset, a n
+        :return:  support, sursequences, class_pattern_sequence, and bitset, a n
         number with its bit reprensentation representing data
         """
         # we have two cases: if length is <= 1, or not
@@ -91,10 +93,6 @@ class SequenceNode():
             # the empty node is present everywhere
             # we just have to create a vector of ones
             bitset = 2 ** (len(self.data) * self.bitset_slot_size) - 1
-            support = len(self.data)
-            supersequence = self.data[random.randint(0, len(self.data) - 1)]
-            class_pattern_count = self.class_data_count
-
         elif length == 1:
             bitset = generate_bitset(self.sequence[0], self.data,
                                      self.bitset_slot_size)
@@ -128,7 +126,9 @@ class SequenceNode():
         class_pattern_count = 0
 
         # supersequence = self.data[0]
-        supersequence = 0
+        supersequences = []
+
+        # TODO: make a function of that
 
         i = bitset.bit_length()
         while i > 0:
@@ -141,14 +141,18 @@ class SequenceNode():
                 if self.data[index_data][0] == self.target_class:
                     class_pattern_count += 1
 
-                # this means that the last super_sequence is taken (may induce a strong bias)
-                supersequence = self.data[index_data][1:]
+                supersequences.append(self.data[index_data][1:])
 
                 i = i - ((i - 1) % self.bitset_slot_size)
 
             i -= 1
 
-        return support, [supersequence], class_pattern_count, bitset
+        try:
+            supersequences = random.sample(supersequences, self.number_supersequences)
+        except ValueError:
+            pass
+
+        return support, supersequences, class_pattern_count, bitset
 
     def compute_quality(self):
         try:

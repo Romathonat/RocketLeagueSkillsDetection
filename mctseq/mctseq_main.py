@@ -14,6 +14,8 @@ from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
 
+# TODO: try without memory random: many iterations and very few nodes : wtf!
+
 # TODO: remove support once full expanded ?
 
 # TODO: generate bitset should find a similar itemset and extend it
@@ -132,14 +134,12 @@ class MCTSeq():
         if node.is_dead_end:
             return 0
 
-        for sequence in node.dataset_sequence:
+        for sequence in node.dataset_sequences:
             # items = set([i for j_set in sequence for i in j_set])
             # ads = len(items) * (2 * len(sequence) - 1)
 
-            # define here the number of generealisation we try. 1 for now
-            ads = 3
-
-            for i in range(int(math.log(ads))):
+            # define here the number of generalisation we try. 2 for now
+            for i in range(2):
                 # we remove z items randomly, if they are not in the intersection
                 # between expanded_node and sursequences
                 forbiden_itemsets = subsequence_indices(node.sequence,
@@ -177,7 +177,7 @@ class MCTSeq():
         top_k_patterns = best_patterns.get_top_k(1)
 
         for i in top_k_patterns:
-            self.sorted_patterns.add(i[1])
+           self.sorted_patterns.add(i[1])
 
         # we can come to this case if we have a node wich is not present in data
         try:
@@ -242,6 +242,6 @@ if __name__ == '__main__':
     mcts = MCTSeq(5, items, DATA, 50, '+',
                   enable_i=False)
 
-    #result = mcts.launch()
-    #print_results_mcts(result)
-    cProfile.run('mcts.launch()')
+    result = mcts.launch()
+    print_results_mcts(result)
+    # cProfile.run('mcts.launch()')
