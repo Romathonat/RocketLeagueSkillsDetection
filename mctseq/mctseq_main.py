@@ -2,28 +2,27 @@
 
 """Main module."""
 import datetime
-import copy
 import random
-import math
 import cProfile
+from pympler import classtracker
 
 from mctseq.utils import read_data, read_data_r8, extract_items, uct, \
     count_target_class_data, print_results_mcts, \
-    subsequence_indices, sequence_immutable_to_mutable, compute_first_zero_mask
+    subsequence_indices, sequence_immutable_to_mutable, \
+    compute_first_zero_mask, encode_items, encode_data, decode_sequence
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
 
-# TODO: try without memory random: many iterations and very few nodes : wtf!
-
 # TODO: remove support once full expanded ?
 
-# TODO: generate bitset should find a similar itemset and extend it
+
+# TODO: add encoding on attributes !
+
+# TODO: generate bitset should find a similar itemset and extend it ?
 
 # TODO: filter redondant elements (post process)
 # TODO: Normalize Wracc (not sure is really neccesary)
-
-# TODO: add one hot encoding on attributes !
 
 
 class MCTSeq():
@@ -177,7 +176,7 @@ class MCTSeq():
         top_k_patterns = best_patterns.get_top_k(1)
 
         for i in top_k_patterns:
-           self.sorted_patterns.add(i[1])
+            self.sorted_patterns.add(i[1])
 
         # we can come to this case if we have a node wich is not present in data
         try:
@@ -234,14 +233,18 @@ class MCTSeq():
 
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 if __name__ == '__main__':
-    DATA = read_data('../data/promoters.data')
-    # DATA = read_data_r8('../data/r8.txt')
+    # DATA = read_data('../data/promoters.data')
+    DATA = read_data_r8('../data/r8.txt')
 
     items = extract_items(DATA)
 
-    mcts = MCTSeq(5, items, DATA, 50, '+',
+    items, item_to_encoding, encoding_to_item = encode_items(items)
+    DATA = encode_data(DATA, item_to_encoding)
+
+    mcts = MCTSeq(5, items, DATA, 50, 'earn',
                   enable_i=False)
 
     result = mcts.launch()
-    print_results_mcts(result)
+
+    print_results_mcts(result, encoding_to_item)
     # cProfile.run('mcts.launch()')

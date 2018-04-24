@@ -191,6 +191,52 @@ def read_data_r8(filename):
     return data
 
 
+def encode_data(data, item_to_encoding):
+    """
+    Replaces all item in data by its encoding
+    :param data:
+    :param item_to_encoding:
+    :return:
+    """
+    for line in data:
+        for i, itemset in enumerate(line[1:]):
+            encoded_itemset = set()
+            for item in itemset:
+                encoded_itemset.add(item_to_encoding[item])
+            line[i + 1] = encoded_itemset
+
+    return data
+
+
+def decode_sequence(sequence, encoding_to_item):
+    """
+    Give the true values of sequence
+    :param sequence: the sequence to decode in the form [{}, ..., {}]
+    :return: the decoded sequence
+    """
+    return_sequence = []
+
+    for i, itemset in enumerate(sequence):
+        decoded_itemset = set()
+        for item in itemset:
+            decoded_itemset.add(encoding_to_item[item])
+        return_sequence.append(decoded_itemset)
+    return return_sequence
+
+
+def encode_items(items):
+    item_to_encoding = {}
+    encoding_to_item = {}
+    new_items = set()
+
+    for i, item in enumerate(items):
+        item_to_encoding[item] = i
+        encoding_to_item[i] = item
+        new_items.add(i)
+
+    return new_items, item_to_encoding, encoding_to_item
+
+
 def extract_items(data):
     """
     :param data: date must be on the form [[class, {}, {}, ...], [class, {}, {}, ...]]
@@ -239,7 +285,6 @@ def following_ones(bitset, bitset_slot_size, first_zero_mask):
         bitset |= temp
 
     return bitset
-
 
 
 def generate_bitset(itemset, data, bitset_slot_size):
@@ -292,11 +337,12 @@ def print_results(results):
         print('WRAcc: {}, Pattern: {}'.format(result[0], pattern_display))
 
 
-def print_results_mcts(results):
+def print_results_mcts(results, encoding_to_items):
     for result in results:
         pattern_display = ''
 
-        for itemset in result[1].sequence:
+        sequence = decode_sequence(result[1].sequence, encoding_to_items)
+        for itemset in sequence:
             pattern_display += repr(set(itemset))
 
         print('WRAcc: {}, Pattern: {}'.format(result[0], pattern_display))
