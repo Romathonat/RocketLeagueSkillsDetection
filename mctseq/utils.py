@@ -273,7 +273,7 @@ def following_ones(bitset, bitset_slot_size, first_zero_mask):
     :param bitset_slot_size: the size of a slot in the bitset
     :return: a bitset (number)
     """
-    # the first one need to be a zero
+    # the first one needs to be a zero
     bitset = bitset >> 1
     bitset = bitset & first_zero_mask
 
@@ -346,3 +346,65 @@ def print_results_mcts(results, encoding_to_items):
             pattern_display += repr(set(itemset))
 
         print('WRAcc: {}, Pattern: {}'.format(result[0], pattern_display))
+
+
+def format_sequence_graph(sequence):
+    sequence_string = ''
+    for itemset in sequence:
+        itemset_string = ''
+
+        for item in itemset:
+            itemset_string += str(item)
+
+        itemset_string = '{{{}}}, '.format(itemset_string)
+        sequence_string += itemset_string
+
+    sequence_string = '<{}>'.format(sequence_string[:-1])
+    return sequence_string
+
+
+# Require Graphviz
+# Launch command:
+# dot -Tps graph.gv -o MCTSgraph.ps
+def create_graph(root_node):
+    sequences = {}
+    explore_graph(root_node, sequences)
+
+    k_number = max(sequences)
+    k_string = ''
+
+    for i in range(k_number + 1):
+        k_string += '{} -> '.format(i)
+    k_string = k_string[:-4]
+
+    graph_construction = ''
+
+    for key, level_sequences in sequences.items():
+        level_string = ''
+
+        for level_sequence in level_sequences:
+            level_string += '"{}"; '.format(
+                format_sequence_graph(level_sequence))
+
+        level_string = '{{ rank = same; {}; {} }} \n'.format(key, level_string)
+        graph_construction += level_string
+
+    graphviz_string = """
+    digraph MCTSGraph {{
+        {{
+            {}; 
+        }} 
+        node[label=""];
+        {} 
+    }}
+    """.format(k_string, graph_construction)
+
+    with open('./graph.gv', 'w+') as f:
+        f.write(graphviz_string)
+
+
+def explore_graph(node, sequences):
+    k = k_length(node.sequence)
+    sequences.setdefault(k, []).append(node.sequence)
+    for child in node.generated_children:
+        explore_graph(child, sequences)

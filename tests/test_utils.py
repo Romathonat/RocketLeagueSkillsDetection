@@ -86,8 +86,10 @@ def test_following_ones():
     assert following_ones(a, 4, zero_mask) == int('00110001', 2)
 
     a = int('00011111', 2)
-
     assert following_ones(a, 4, zero_mask) == int('00000111', 2)
+
+    a = int('10000000')
+    assert following_ones(a, 4, zero_mask) == int('01110000', 2)
 
 
 test_following_ones()

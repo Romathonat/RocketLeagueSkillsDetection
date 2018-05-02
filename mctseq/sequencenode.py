@@ -42,7 +42,7 @@ class SequenceNode():
         self.class_pattern_count = 0
         self.class_data_count = class_data_count
 
-        # dataset_sequence contains one super-sequence present in the dataset
+        # dataset_sequence contains self.number_supersequences super-sequences present in the dataset
         (self.support, self.dataset_sequences, self.class_pattern_count,
          self.bitset) = self.compute_support(itemsets_bitsets, first_zero_mask)
 

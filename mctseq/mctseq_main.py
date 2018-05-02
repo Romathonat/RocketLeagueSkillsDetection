@@ -9,15 +9,10 @@ from pympler import classtracker
 from mctseq.utils import read_data, read_data_r8, extract_items, uct, \
     count_target_class_data, print_results_mcts, \
     subsequence_indices, sequence_immutable_to_mutable, \
-    compute_first_zero_mask, encode_items, encode_data, decode_sequence
+    compute_first_zero_mask, encode_items, encode_data, decode_sequence, create_graph
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
-
-# TODO: remove support once full expanded ?
-
-
-# TODO: add encoding on attributes !
 
 # TODO: generate bitset should find a similar itemset and extend it ?
 
@@ -82,11 +77,14 @@ class MCTSeq():
                 break
             iteration_count += 1
 
-        print('Number iteration: {}'.format(iteration_count))
 
         # Now we need to explore the tree to get interesting subgroups
         # We use a priority queue to store elements, sorted by their quality
         self.explore_children(self.root_node, self.sorted_patterns)
+
+
+        create_graph(self.root_node)
+        print('Number iteration: {}'.format(iteration_count))
         print('Number of nodes: {}'.format(len(self.sorted_patterns.set)))
 
         return self.sorted_patterns.get_top_k(self.pattern_number)
@@ -233,16 +231,16 @@ class MCTSeq():
 
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 if __name__ == '__main__':
-    # DATA = read_data('../data/promoters.data')
-    DATA = read_data_r8('../data/r8.txt')
+    DATA = read_data('../data/promoters.data')
+    #DATA = read_data_r8('../data/r8.txt')
 
     items = extract_items(DATA)
 
     items, item_to_encoding, encoding_to_item = encode_items(items)
     DATA = encode_data(DATA, item_to_encoding)
 
-    mcts = MCTSeq(5, items, DATA, 50, 'earn',
-                  enable_i=False)
+    mcts = MCTSeq(5, items, DATA, 5, '+', enable_i=False)
+    #mcts = MCTSeq(5, items, DATA, 50, 'earn', enable_i=False)
 
     result = mcts.launch()
 
