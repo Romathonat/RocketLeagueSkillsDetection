@@ -168,26 +168,26 @@ def read_data(filename):
     return sequences
 
 
-def read_data_r8(filename):
+def read_data_kosarak(filename):
     """
-
     :param filename:
     :return: [[class, {}, {}, ...], [class, {}, {}, ...]]
     """
     data = []
-    count = 0
     with open(filename) as f:
         for line in f:
-            count += 1
-            line_split = line.split()
+            sequence = []
+            sequence.append(line[-2])
+            line = line[:-2]
 
-            sequence = [line_split[0]]
-            for itemset in line_split[1:50]:
-                sequence.append({itemset})
+            line_split = line.split("-1")[:-1]
+
+            for itemset in line_split:
+                items = itemset.split()
+                new_itemset = set(items)
+                sequence.append(new_itemset)
+
             data.append(sequence)
-
-            if count > 100:
-                return data
     return data
 
 
@@ -365,10 +365,11 @@ def format_sequence_graph(sequence):
 
 # Require Graphviz
 # Launch command:
-# dot -Tps graph.gv -o MCTSgraph.ps
+# dot -Tpng graph.gv -o MCTSgraph.png
 def create_graph(root_node):
     sequences = {}
-    explore_graph(root_node, sequences)
+
+    explore_graph(root_node, root_node, sequences, set())
 
     k_number = max(sequences)
     k_string = ''
@@ -378,13 +379,15 @@ def create_graph(root_node):
     k_string = k_string[:-4]
 
     graph_construction = ''
+    edges_construction = ''
 
     for key, level_sequences in sequences.items():
         level_string = ''
 
         for level_sequence in level_sequences:
             level_string += '"{}"; '.format(
-                format_sequence_graph(level_sequence))
+                level_sequence[0])
+            edges_construction += '{}'.format(level_sequence[1])
 
         level_string = '{{ rank = same; {}; {} }} \n'.format(key, level_string)
         graph_construction += level_string
@@ -396,15 +399,23 @@ def create_graph(root_node):
         }} 
         node[label=""];
         {} 
+        {}
     }}
-    """.format(k_string, graph_construction)
+    """.format(k_string, graph_construction, edges_construction)
 
-    with open('./graph.gv', 'w+') as f:
+    with open('../graph.gv', 'w+') as f:
         f.write(graphviz_string)
 
 
-def explore_graph(node, sequences):
+def explore_graph(node, parent, sequences, seen):
     k = k_length(node.sequence)
-    sequences.setdefault(k, []).append(node.sequence)
-    for child in node.generated_children:
-        explore_graph(child, sequences)
+    sequences.setdefault(k, []).append(
+        (node.sequence,
+         '"{}" -> "{}"; \n'.format(parent.sequence, node.sequence)))
+
+    # we add child only if this node has not been seen before
+    if node.sequence not in seen:
+        for child in node.generated_children:
+            explore_graph(child, node, sequences, seen)
+        seen.add(node.sequence)
+

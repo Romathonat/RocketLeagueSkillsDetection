@@ -3,7 +3,7 @@ import random
 import copy
 import math
 
-from mctseq.utils import read_data, read_data_r8, uct, \
+from mctseq.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results
 
 from mctseq.priorityset import PrioritySet
@@ -32,7 +32,7 @@ def compute_WRAcc(data, subsequence, target_class):
             class_data_supp / data_supp)
 
 
-def misere(data, time_budget, target_class, top_k=5):
+def misere(data, time_budget, target_class, top_k=10):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -43,23 +43,24 @@ def misere(data, time_budget, target_class, top_k=5):
         sequence = sequence[1:]
 
         # for now we consider this upper bound (try better later)
-        items = set([i for j_set in sequence[1:] for i in j_set])
+        items = set([i for j_set in sequence for i in j_set])
         ads = len(items) * (2 * len(sequence) - 1)
 
         for i in range(int(math.log(ads))):
             subsequence = copy.deepcopy(sequence)
 
             # we remove z items randomly
+
             seq_items_nb = len([i for j_set in subsequence for i in j_set])
             # print(seq_items_nb)
-            z = random.randint(1, seq_items_nb - 2)
+            z = random.randint(1, seq_items_nb - 1)
 
             for _ in range(z):
                 chosen_itemset_i = random.randint(0, len(subsequence) - 1)
                 chosen_itemset = subsequence[chosen_itemset_i]
 
-                # print(sequence)
-                # print(chosen_itemset)
+                #print(subsequence)
+                #print(chosen_itemset)
 
                 chosen_itemset.remove(random.sample(chosen_itemset, 1)[0])
 
@@ -75,9 +76,8 @@ def misere(data, time_budget, target_class, top_k=5):
 
     return sorted_patterns.get_top_k(top_k)
 
-# DATA = read_data('../data/promoters.data')
-DATA = read_data_r8('../data/r8.txt')
-
-results = misere(DATA, 20, 'earn')
+#DATA = read_data('../data/promoters.data')
+DATA = read_data_kosarak('../data/all.csv')
+results = misere(DATA, 50, '+')
 
 print_results(results)

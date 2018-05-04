@@ -6,7 +6,7 @@ import random
 import cProfile
 from pympler import classtracker
 
-from mctseq.utils import read_data, read_data_r8, extract_items, uct, \
+from mctseq.utils import read_data, read_data_kosarak, extract_items, uct, \
     count_target_class_data, print_results_mcts, \
     subsequence_indices, sequence_immutable_to_mutable, \
     compute_first_zero_mask, encode_items, encode_data, decode_sequence, create_graph
@@ -14,11 +14,10 @@ from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
 
-# TODO: generate bitset should find a similar itemset and extend it ?
-
 # TODO: filter redondant elements (post process)
 # TODO: Normalize Wracc (not sure is really neccesary)
-
+# IDEA: relax expand by adding a parameter alpha: if expanded_nodes number > alpha, we can select this node
+# (no need to be full expanded)
 
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class,
@@ -143,7 +142,7 @@ class MCTSeq():
                                                         sequence)
 
                 seq_items_nb = len([i for j_set in sequence for i in j_set])
-                z = random.randint(1, seq_items_nb - 1)
+                z = random.randint(1, seq_items_nb)
 
                 subsequence = sequence_immutable_to_mutable(sequence)
 
@@ -185,6 +184,9 @@ class MCTSeq():
 
         return mean_quality
 
+        # we return the best patter we found we this roll-out
+        #return max(top_k_patterns, key=lambda x: x[0])[0]
+
     def update(self, node, reward):
         """
         Backtrack: update the node and recursively update all nodes until the root
@@ -192,7 +194,6 @@ class MCTSeq():
         :param reward: the reward we got
         :return: None
         """
-        # mean-update
         node.update(reward)
 
         for parent in node.parents:
@@ -231,16 +232,15 @@ class MCTSeq():
 
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 if __name__ == '__main__':
-    DATA = read_data('../data/promoters.data')
-    #DATA = read_data_r8('../data/r8.txt')
+    #DATA = read_data('../data/promoters.data')
+    DATA = read_data_kosarak('../data/all.csv')
 
     items = extract_items(DATA)
 
     items, item_to_encoding, encoding_to_item = encode_items(items)
     DATA = encode_data(DATA, item_to_encoding)
 
-    mcts = MCTSeq(5, items, DATA, 5, '+', enable_i=False)
-    #mcts = MCTSeq(5, items, DATA, 50, 'earn', enable_i=False)
+    mcts = MCTSeq(10, items, DATA, 50, '+', enable_i=False)
 
     result = mcts.launch()
 

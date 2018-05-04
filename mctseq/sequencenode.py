@@ -204,8 +204,11 @@ class SequenceNode():
         :return: None
         """
         # Mean-update
+        '''
         self.quality = (self.number_visit * self.quality + reward) / (
             self.number_visit + 1)
+        '''
+        self.quality = max(self.quality, reward)
         self.number_visit += 1
 
     def expand(self, node_hashmap):
