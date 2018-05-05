@@ -237,6 +237,21 @@ def encode_items(items):
     return new_items, item_to_encoding, encoding_to_item
 
 
+def hamming_weight(vector):
+    w = 0
+    while vector:
+        w += 1
+        vector &= vector - 1
+    return w
+
+
+def jaccard_measure(node1, node2):
+    intersec = hamming_weight(node1.bitset & node2.bitset)
+    union = hamming_weight(node1.bitset | node2.bitset)
+
+    return intersec/union
+
+
 def extract_items(data):
     """
     :param data: date must be on the form [[class, {}, {}, ...], [class, {}, {}, ...]]
@@ -418,4 +433,3 @@ def explore_graph(node, parent, sequences, seen):
         for child in node.generated_children:
             explore_graph(child, node, sequences, seen)
         seen.add(node.sequence)
-

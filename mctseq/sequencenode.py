@@ -9,7 +9,8 @@ from mctseq.utils import sequence_immutable_to_mutable, \
 
 class SequenceNode():
     def __init__(self, sequence, parent, candidate_items, data, target_class,
-                 class_data_count, bitset_slot_size, itemsets_bitsets, first_zero_mask,
+                 class_data_count, bitset_slot_size, itemsets_bitsets,
+                 first_zero_mask,
                  enable_i=True):
         # the pattern is in the form [{}, {}, ... ]
         # data is in the form [[class, {}, {}, ...], [class, {}, {}, ...]]
@@ -116,7 +117,8 @@ class SequenceNode():
                 if first_iteration:
                     first_iteration = False
                 else:
-                    bitset = following_ones(bitset, self.bitset_slot_size, first_zero_mask)
+                    bitset = following_ones(bitset, self.bitset_slot_size,
+                                            first_zero_mask)
 
                 bitset &= itemset_bitset
 
@@ -148,7 +150,8 @@ class SequenceNode():
             i -= 1
 
         try:
-            supersequences = random.sample(supersequences, self.number_supersequences)
+            supersequences = random.sample(supersequences,
+                                           self.number_supersequences)
         except ValueError:
             pass
 
@@ -211,6 +214,19 @@ class SequenceNode():
         self.quality = max(self.quality, reward)
         self.number_visit += 1
 
+    def is_enough_expanded(self):
+        """
+        Draw a random proportion. If superior to proportion of generated child,
+        This node is considered expanded
+        :return:
+        """
+        random_nb = random.uniform(0, 1)
+        if random_nb > len(self.generated_children) / (
+            len(self.non_generated_children) + len(self.generated_children)):
+            return False
+        else:
+            return True
+
     def expand(self, node_hashmap):
         """
         Create a random children, and add it to generated children. Removes
@@ -256,11 +272,12 @@ class SequenceNode():
         for item in self.candidate_items:
             for index, itemset in enumerate(subsequence):
                 new_subsequences.add(
-                        create_s_extension(subsequence, item, index)
+                    create_s_extension(subsequence, item, index)
                 )
 
                 if enable_i:
-                    pseudo_i_extension = create_i_extension(subsequence, item, index)
+                    pseudo_i_extension = create_i_extension(subsequence, item,
+                                                            index)
 
                     length_i_ext = sum([len(i) for i in pseudo_i_extension])
                     len_subsequence = sum([len(i) for i in subsequence])
@@ -269,12 +286,11 @@ class SequenceNode():
                     if (length_i_ext > len_subsequence):
                         new_subsequences.add(pseudo_i_extension)
 
-
             new_subsequence = sequence_immutable_to_mutable((subsequence))
 
             new_subsequence.insert(len(new_subsequence), {item})
 
-            new_subsequences.add(create_s_extension(subsequence, item, len(subsequence)))
-
+            new_subsequences.add(
+                create_s_extension(subsequence, item, len(subsequence)))
 
         return new_subsequences

@@ -15,9 +15,20 @@ from mctseq.priorityset import PrioritySetQuality
 
 
 # TODO: filter redondant elements (post process)
-# TODO: Normalize Wracc (not sure is really neccesary)
+
 # IDEA: relax expand by adding a parameter alpha: if expanded_nodes number > alpha, we can select this node
+# OR if random [0;1] > proportion elements generated, we go select a child
 # (no need to be full expanded)
+# see paper (FUSE ?)
+
+# Try lectic order -> normalize tree, works better, much more optimized because
+# we will only do s and i extension at the end of the sequence!
+
+# When expanding a node, we expand all nodes, we group them by similarity. We have groups
+# which are similar, it decreases the branching factor a lot !
+
+
+# Roll-out needs to be very quick !
 
 class MCTSeq():
     def __init__(self, pattern_number, items, data, time_budget, target_class,
@@ -100,7 +111,7 @@ class MCTSeq():
             else:
                 node = self.best_child(node)
 
-                # In we reach this point, it means we reached a dead_end
+                # If we reach this point, it means we reached a dead_end
                 if node is None:
                     return None
 
@@ -232,8 +243,8 @@ class MCTSeq():
 
 # TODO: command line interface, with pathfile of data, number of patterns and max_time
 if __name__ == '__main__':
-    #DATA = read_data('../data/promoters.data')
-    DATA = read_data_kosarak('../data/all.csv')
+    DATA = read_data('../data/promoters.data')
+    #DATA = read_data_kosarak('../data/all.csv')
 
     items = extract_items(DATA)
 
