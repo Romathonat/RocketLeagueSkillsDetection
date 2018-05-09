@@ -99,16 +99,19 @@ def test_following_ones():
     a = int('10000000')
     assert following_ones(a, 4, zero_mask) == int('01110000', 2)
 
+    a = int('00000001')
+    assert following_ones(a, 4, zero_mask) == int('00000000', 2)
+
 
 def test_get_support_from_vector():
     a = int('01000010', 2)
     zero_mask = int('01110111', 2)
     ones_mask = int('00010001', 2)
 
-    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == 2
+    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == (2, int('11', 2))
 
     a = int('00100000', 2)
-    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == 1
+    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == (1, int('10', 2))
 
 
 def test_generate_bitset():

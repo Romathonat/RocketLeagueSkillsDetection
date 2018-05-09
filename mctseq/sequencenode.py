@@ -5,7 +5,7 @@ from bitarray import bitarray
 from mctseq.utils import sequence_immutable_to_mutable, \
     sequence_mutable_to_immutable, is_subsequence, immutable_seq, k_length, \
     generate_bitset, following_ones, create_s_extension, create_i_extension, \
-    jaccard_measure
+    jaccard_measure, get_support_from_vector
 
 
 class SequenceNode():
@@ -137,7 +137,7 @@ class SequenceNode():
         supersequences = []
 
         # TODO: make a function of that
-
+        '''
         i = bitset.bit_length()
         bitset_simple = 0
         while i > 0:
@@ -156,6 +156,25 @@ class SequenceNode():
                 supersequences.append(self.data[index_data][1:])
 
                 i = i - ((i - 1) % self.bitset_slot_size)
+
+            i -= 1
+        '''
+
+        support, bitset_simple = get_support_from_vector(bitset,
+                                                         self.bitset_slot_size,
+                                                         self.first_zero_mask,
+                                                         self.last_ones_mask)
+        # find supersequences and count class pattern:
+        i = bitset_simple.bit_length() - 1
+
+        while i > 0:
+            if bitset_simple >> i & 1:
+                index_data = len(self.data) - i - 1
+
+                if self.data[index_data][0] == self.target_class:
+                        class_pattern_count += 1
+
+                supersequences.append(self.data[index_data][1:])
 
             i -= 1
 
@@ -295,14 +314,14 @@ class SequenceNode():
             expanded_node.parents.append(self)
         else:
             expanded_node = SequenceNode(pattern_children, self,
-                                              self.candidate_items, self.data,
-                                              self.target_class,
-                                              self.class_data_count,
-                                              self.itemsets_bitsets,
-                                              self.enable_i,
-                                              bitset_slot_size=self.bitset_slot_size,
-                                              first_zero_mask=self.first_zero_mask,
-                                              last_ones_mask=self.last_ones_mask)
+                                         self.candidate_items, self.data,
+                                         self.target_class,
+                                         self.class_data_count,
+                                         self.itemsets_bitsets,
+                                         self.enable_i,
+                                         bitset_slot_size=self.bitset_slot_size,
+                                         first_zero_mask=self.first_zero_mask,
+                                         last_ones_mask=self.last_ones_mask)
 
             node_hashmap[pattern_children] = expanded_node
 

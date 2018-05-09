@@ -305,6 +305,11 @@ def following_ones(bitset, bitset_slot_size, first_zero_mask):
     bitset = bitset >> 1
     bitset = bitset & first_zero_mask
 
+    temp = bitset >> 1
+    temp = temp & first_zero_mask
+
+    bitset |= temp
+
     temp = bitset
 
     for i in range(bitset_slot_size - 1):
@@ -317,9 +322,10 @@ def following_ones(bitset, bitset_slot_size, first_zero_mask):
 
 def get_support_from_vector(bitset, bitset_slot_size, first_zero_mask,
                             last_ones_mask):
+    temp = bitset >> 1
+    temp = temp & first_zero_mask
 
-    bitset = bitset >> 1
-    bitset = bitset & first_zero_mask
+    bitset |= temp
 
     temp = bitset
 
@@ -330,9 +336,23 @@ def get_support_from_vector(bitset, bitset_slot_size, first_zero_mask,
 
     bitset = bitset & last_ones_mask
 
+    i = bitset.bit_length()
+
+    data_length = math.ceil(i / bitset_slot_size)
+
+    bitset_simple = 0
+    count = 0
+
+    while i > 0:
+        if bitset >> (i - 1) & 1:
+            bitset_simple |= 1 << (data_length - count - 1)
+
+        count += 1
+        i -= bitset_slot_size
+
     # now we have a vector with ones or 0 at the end of each slot. We just need to
     # compute the hamming distance
-    return hamming_weight(bitset)
+    return hamming_weight(bitset_simple), bitset_simple
 
 
 def generate_bitset(itemset, data, bitset_slot_size):
