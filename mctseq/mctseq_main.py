@@ -9,7 +9,9 @@ from pympler import classtracker
 from mctseq.utils import read_data, read_data_kosarak, extract_items, uct, \
     count_target_class_data, print_results_mcts, \
     subsequence_indices, sequence_immutable_to_mutable, \
-    compute_first_zero_mask, encode_items, encode_data, decode_sequence, create_graph
+    compute_first_zero_mask, compute_last_ones_mask, encode_items, encode_data, \
+    decode_sequence, \
+    create_graph
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
@@ -26,7 +28,6 @@ from mctseq.priorityset import PrioritySetQuality
 
 # When expanding a node, we expand all nodes, we group them by similarity. We have groups
 # which are similar, it decreases the branching factor a lot !
-
 
 # Roll-out needs to be very quick !
 
@@ -52,14 +53,16 @@ class MCTSeq():
         self.itemsets_bitsets = {}
         self.first_zero_mask = compute_first_zero_mask(len(data),
                                                        self.bitset_slot_size)
-
+        self.last_zero_mask = compute_last_ones_mask(len(data),
+                                                     self.bitset_slot_size)
         self.root_node = SequenceNode([], None, self.items, self.data,
                                       self.target_class,
                                       self.target_class_data_count,
-                                      self.bitset_slot_size,
                                       self.itemsets_bitsets,
-                                      self.first_zero_mask,
-                                      self.enable_i)
+                                      self.enable_i,
+                                      bitset_slot_size=self.bitset_slot_size,
+                                      first_zero_mask=self.first_zero_mask,
+                                      last_ones_mask=self.last_ones_mask)
 
         # contains sequence-SequenceNode for permutation-unification
         self.node_hashmap = {}
@@ -87,11 +90,9 @@ class MCTSeq():
                 break
             iteration_count += 1
 
-
         # Now we need to explore the tree to get interesting subgroups
         # We use a priority queue to store elements, sorted by their quality
         self.explore_children(self.root_node, self.sorted_patterns)
-
 
         create_graph(self.root_node)
         print('Number iteration: {}'.format(iteration_count))
@@ -124,7 +125,10 @@ class MCTSeq():
         :param node: the node from wich we want to expand
         :return: the expanded node
         """
-        return node.expand(self.node_hashmap)
+        expanded_node = node.expand(self.node_hashmap)
+        node.expand_children(self.node_hashmap)
+
+        return expanded_node
 
     def roll_out(self, node):
         """
@@ -173,10 +177,11 @@ class MCTSeq():
                                             self.items, self.data,
                                             self.target_class,
                                             self.target_class_data_count,
-                                            self.bitset_slot_size,
                                             self.itemsets_bitsets,
-                                            self.first_zero_mask,
-                                            self.enable_i)
+                                            self.enable_i,
+                                            bitset_slot_size=self.bitset_slot_size,
+                                            first_zero_mask=self.first_zero_mask,
+                                            last_ones_mask=self.last_zero_mask)
 
                 best_patterns.add(created_node)
 
@@ -196,7 +201,7 @@ class MCTSeq():
         return mean_quality
 
         # we return the best patter we found we this roll-out
-        #return max(top_k_patterns, key=lambda x: x[0])[0]
+        # return max(top_k_patterns, key=lambda x: x[0])[0]
 
     def update(self, node, reward):
         """
@@ -241,10 +246,9 @@ class MCTSeq():
             self.explore_children(child, sorted_patterns)
 
 
-# TODO: command line interface, with pathfile of data, number of patterns and max_time
 if __name__ == '__main__':
     DATA = read_data('../data/promoters.data')
-    #DATA = read_data_kosarak('../data/all.csv')
+    # DATA = read_data_kosarak('../data/all.csv')
 
     items = extract_items(DATA)
 
@@ -255,5 +259,5 @@ if __name__ == '__main__':
 
     result = mcts.launch()
 
-    print_results_mcts(result, encoding_to_item)
-    # cProfile.run('mcts.launch()')
+    # print_results_mcts(result, encoding_to_item)
+    cProfile.run('mcts.launch()')

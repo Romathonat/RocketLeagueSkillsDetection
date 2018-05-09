@@ -3,17 +3,23 @@ from mctseq.priorityset import PrioritySetQuality
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 first_zero_mask = int('0101', 2)
+last_ones_mask = int('0101', 2)
+bitset_slot_size = 2
+
+kwargs = {'first_zero_mask': first_zero_mask, 'last_ones_mask': last_ones_mask,
+          'bitset_slot_size': bitset_slot_size}
+
 
 def test_priorityset():
-    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
-    seq2 = SequenceNode([{'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
-    seq3 = SequenceNode([{'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
-    seq4 = SequenceNode([{'B', 'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
+    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, {}, **kwargs)
+    seq2 = SequenceNode([{'B'}], None, {'A', 'B', 'C'}, data, '+', 1, {}, **kwargs)
+    seq3 = SequenceNode([{'C'}], None, {'A', 'B', 'C'}, data, '+', 1, {}, **kwargs)
+    seq4 = SequenceNode([{'B', 'C'}], None, {'A', 'B', 'C'}, data, '+', 1, {}, **kwargs)
 
-    child = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
-    child2 = SequenceNode([{'A'}, {'B'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
+    child = SequenceNode([{'A'}, {'C'}], None, {'A', 'B', 'C'}, data, '+', 1, {}, **kwargs)
+    child2 = SequenceNode([{'A'}, {'B'}], None, {'A', 'B', 'C'}, data, '+', 1, {}, **kwargs)
     child3 = SequenceNode([{'A'}, {'B', 'C'}], None, {'A', 'B', 'C'}, data,
-                          '+', 1, 2, {}, first_zero_mask)
+                          '+', 1, {}, **kwargs)
 
     priority = PrioritySetQuality()
     priority.add(root)
@@ -28,8 +34,8 @@ def test_priorityset():
 
 
 def test_unique():
-    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
-    child = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, 2, {}, first_zero_mask)
+    root = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, {}, **kwargs)
+    child = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1, {}, **kwargs)
 
     priority = PrioritySetQuality()
     priority.add(root)

@@ -4,14 +4,14 @@ from bitarray import bitarray
 
 from mctseq.utils import sequence_immutable_to_mutable, \
     sequence_mutable_to_immutable, is_subsequence, immutable_seq, k_length, \
-    generate_bitset, following_ones, create_s_extension, create_i_extension
+    generate_bitset, following_ones, create_s_extension, create_i_extension, \
+    jaccard_measure
 
 
 class SequenceNode():
     def __init__(self, sequence, parent, candidate_items, data, target_class,
-                 class_data_count, bitset_slot_size, itemsets_bitsets,
-                 first_zero_mask,
-                 enable_i=True):
+                 class_data_count, itemsets_bitsets,
+                 enable_i=True, **kwargs):
         # the pattern is in the form [{}, {}, ... ]
         # data is in the form [[class, {}, {}, ...], [class, {}, {}, ...]]
 
@@ -28,10 +28,15 @@ class SequenceNode():
         self.candidate_items = candidate_items
         self.is_fully_expanded = False
         self.is_terminal = False
-        self.first_zero_mask = first_zero_mask
+
+        self.first_zero_mask = kwargs['first_zero_mask']
+        self.last_ones_mask = kwargs['last_ones_mask']
+
         self.enable_i = enable_i
-        self.bitset_slot_size = bitset_slot_size
+        self.bitset_slot_size = kwargs['bitset_slot_size']
         self.itemsets_bitsets = itemsets_bitsets
+
+        self.theta_similarity = 0.95
 
         # a node is a dead end if is terminal, or if all its children are dead_end too
         # It means that is is useless to explore it, because it lead to terminal children
@@ -45,7 +50,8 @@ class SequenceNode():
 
         # dataset_sequence contains self.number_supersequences super-sequences present in the dataset
         (self.support, self.dataset_sequences, self.class_pattern_count,
-         self.bitset) = self.compute_support(itemsets_bitsets, first_zero_mask)
+         self.bitset, self.bitset_simple) = self.compute_support(
+            itemsets_bitsets, self.first_zero_mask)
 
         self.quality = self.compute_quality()
         self.wracc = self.quality
@@ -133,12 +139,16 @@ class SequenceNode():
         # TODO: make a function of that
 
         i = bitset.bit_length()
+        bitset_simple = 0
         while i > 0:
             if bitset >> (i - 1) & 1:
                 support += 1
 
                 index_data = len(self.data) - int(
                     (i - 1) / self.bitset_slot_size) - 1
+
+                # WARNING: reverse !
+                bitset_simple |= 2 ** (index_data)
 
                 if self.data[index_data][0] == self.target_class:
                     class_pattern_count += 1
@@ -155,7 +165,7 @@ class SequenceNode():
         except ValueError:
             pass
 
-        return support, supersequences, class_pattern_count, bitset
+        return support, supersequences, class_pattern_count, bitset, bitset_simple
 
     def compute_quality(self):
         try:
@@ -207,11 +217,9 @@ class SequenceNode():
         :return: None
         """
         # Mean-update
-        '''
         self.quality = (self.number_visit * self.quality + reward) / (
             self.number_visit + 1)
-        '''
-        self.quality = max(self.quality, reward)
+        # self.quality = max(self.quality, reward)
         self.number_visit += 1
 
     def is_enough_expanded(self):
@@ -226,6 +234,49 @@ class SequenceNode():
             return False
         else:
             return True
+
+    def expand_children(self, node_hashmap):
+        """
+        Expand all children. Filter them so that there is no redondant pattern
+        :param node_hashmap:
+        :return:
+        """
+        for pattern_child in self.non_generated_children:
+            if pattern_child in node_hashmap:
+                expanded_child = node_hashmap[pattern_child]
+                expanded_child.parents.append(self)
+            else:
+                expanded_child = SequenceNode(pattern_child, self,
+                                              self.candidate_items, self.data,
+                                              self.target_class,
+                                              self.class_data_count,
+                                              self.itemsets_bitsets,
+                                              self.enable_i,
+                                              bitset_slot_size=self.bitset_slot_size,
+                                              first_zero_mask=self.first_zero_mask,
+                                              last_ones_mask=self.last_ones_mask)
+
+            expanded_child.number_visit = 1
+            self.generated_children.add(expanded_child)
+
+        self.non_generated_children = {}
+        generated_children_list = list(self.generated_children)
+        generated_children_list.sort(key=lambda x: x.quality, reverse=True)
+
+        filtered_children = []
+
+        for child in self.generated_children:
+            similar = False
+            for filtered_child in filtered_children:
+                if jaccard_measure(child,
+                                   filtered_child) > self.theta_similarity:
+                    similar = True
+
+            if not similar:
+                filtered_children.append(child)
+
+        self.generated_children = filtered_children
+        self.update_node_state()
 
     def expand(self, node_hashmap):
         """
@@ -244,13 +295,14 @@ class SequenceNode():
             expanded_node.parents.append(self)
         else:
             expanded_node = SequenceNode(pattern_children, self,
-                                         self.candidate_items, self.data,
-                                         self.target_class,
-                                         self.class_data_count,
-                                         self.bitset_slot_size,
-                                         self.itemsets_bitsets,
-                                         self.first_zero_mask,
-                                         self.enable_i)
+                                              self.candidate_items, self.data,
+                                              self.target_class,
+                                              self.class_data_count,
+                                              self.itemsets_bitsets,
+                                              self.enable_i,
+                                              bitset_slot_size=self.bitset_slot_size,
+                                              first_zero_mask=self.first_zero_mask,
+                                              last_ones_mask=self.last_ones_mask)
 
             node_hashmap[pattern_children] = expanded_node
 

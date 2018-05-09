@@ -246,10 +246,13 @@ def hamming_weight(vector):
 
 
 def jaccard_measure(node1, node2):
-    intersec = hamming_weight(node1.bitset & node2.bitset)
-    union = hamming_weight(node1.bitset | node2.bitset)
+    intersec = hamming_weight(node1.bitset_simple & node2.bitset_simple)
+    union = hamming_weight(node1.bitset_simple | node2.bitset_simple)
 
-    return intersec/union
+    try:
+        return intersec / union
+    except ZeroDivisionError:
+        return 0
 
 
 def extract_items(data):
@@ -280,6 +283,16 @@ def compute_first_zero_mask(data_length, bitset_slot_size):
     return first_zero_mask
 
 
+def compute_last_ones_mask(data_length, bitset_slot_size):
+    last_ones = 1
+    last_ones_mask = 1
+
+    for i in range(data_length):
+        last_ones_mask |= last_ones << i * bitset_slot_size
+
+    return last_ones_mask
+
+
 def following_ones(bitset, bitset_slot_size, first_zero_mask):
     """
     Transform bitset with 1s following for each 1 encoutered, for
@@ -300,6 +313,26 @@ def following_ones(bitset, bitset_slot_size, first_zero_mask):
         bitset |= temp
 
     return bitset
+
+
+def get_support_from_vector(bitset, bitset_slot_size, first_zero_mask,
+                            last_ones_mask):
+
+    bitset = bitset >> 1
+    bitset = bitset & first_zero_mask
+
+    temp = bitset
+
+    for i in range(bitset_slot_size - 1):
+        temp = temp >> 1
+        temp = temp & first_zero_mask
+        bitset |= temp
+
+    bitset = bitset & last_ones_mask
+
+    # now we have a vector with ones or 0 at the end of each slot. We just need to
+    # compute the hamming distance
+    return hamming_weight(bitset)
 
 
 def generate_bitset(itemset, data, bitset_slot_size):

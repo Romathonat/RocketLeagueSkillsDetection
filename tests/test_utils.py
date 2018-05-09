@@ -1,14 +1,22 @@
 from mctseq.sequencenode import SequenceNode
 from mctseq.utils import sequence_mutable_to_immutable, \
     sequence_immutable_to_mutable, count_target_class_data, is_subsequence, \
-    following_ones, generate_bitset, create_s_extension, create_i_extension
+    following_ones, generate_bitset, create_s_extension, create_i_extension, \
+    get_support_from_vector
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 first_zero_mask = int('0101', 2)
+first_zero_mask = int('0101', 2)
+last_ones_mask = int('0101', 2)
+bitset_slot_size = 2
+
+kwargs = {'first_zero_mask': first_zero_mask, 'last_ones_mask': last_ones_mask,
+          'bitset_slot_size': bitset_slot_size}
+
 
 def test_sequence_mutable_to_imutable():
-    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0, 2,
-                       {}, first_zero_mask)
+    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0,
+                       {}, **kwargs)
     immutable = sequence_mutable_to_immutable(seq.sequence)
 
     assert len(immutable) == 2
@@ -16,8 +24,8 @@ def test_sequence_mutable_to_imutable():
 
 
 def test_sequence_imutable_to_mutable():
-    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0, 2,
-                       {}, first_zero_mask)
+    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0,
+                       {}, **kwargs)
     immutable = sequence_mutable_to_immutable(seq.sequence)
 
     mutable = sequence_immutable_to_mutable(immutable)
@@ -92,7 +100,16 @@ def test_following_ones():
     assert following_ones(a, 4, zero_mask) == int('01110000', 2)
 
 
-test_following_ones()
+def test_get_support_from_vector():
+    a = int('01000010', 2)
+    zero_mask = int('01110111', 2)
+    ones_mask = int('00010001', 2)
+
+    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == 2
+
+    a = int('00100000', 2)
+    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == 1
+
 
 def test_generate_bitset():
     bitset = generate_bitset({'A'}, data, 2)
