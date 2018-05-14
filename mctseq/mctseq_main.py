@@ -53,7 +53,7 @@ class MCTSeq():
         self.itemsets_bitsets = {}
         self.first_zero_mask = compute_first_zero_mask(len(data),
                                                        self.bitset_slot_size)
-        self.last_zero_mask = compute_last_ones_mask(len(data),
+        self.last_ones_mask = compute_last_ones_mask(len(data),
                                                      self.bitset_slot_size)
         self.root_node = SequenceNode([], None, self.items, self.data,
                                       self.target_class,
@@ -181,7 +181,7 @@ class MCTSeq():
                                             self.enable_i,
                                             bitset_slot_size=self.bitset_slot_size,
                                             first_zero_mask=self.first_zero_mask,
-                                            last_ones_mask=self.last_zero_mask)
+                                            last_ones_mask=self.last_ones_mask)
 
                 best_patterns.add(created_node)
 
@@ -247,8 +247,8 @@ class MCTSeq():
 
 
 if __name__ == '__main__':
-    DATA = read_data('../data/promoters.data')
-    # DATA = read_data_kosarak('../data/all.csv')
+    #DATA = read_data('../data/promoters.data')
+    DATA = read_data_kosarak('../data/out.data')
 
     items = extract_items(DATA)
 
@@ -259,5 +259,5 @@ if __name__ == '__main__':
 
     result = mcts.launch()
 
-    # print_results_mcts(result, encoding_to_item)
-    cProfile.run('mcts.launch()')
+    print_results_mcts(result, encoding_to_item)
+    # cProfile.run('mcts.launch()')

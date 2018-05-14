@@ -177,8 +177,8 @@ def read_data_kosarak(filename):
     with open(filename) as f:
         for line in f:
             sequence = []
-            sequence.append(line[-2])
-            line = line[:-2]
+            sequence.append(line[-3])
+            line = line[:-3]
 
             line_split = line.split("-1")[:-1]
 

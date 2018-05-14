@@ -113,6 +113,9 @@ def test_get_support_from_vector():
     a = int('00100000', 2)
     assert get_support_from_vector(a, 4, zero_mask, ones_mask) == (1, int('10', 2))
 
+    a = int('00010001', 2)
+    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == (2, int('11', 2))
+
 
 def test_generate_bitset():
     bitset = generate_bitset({'A'}, data, 2)
