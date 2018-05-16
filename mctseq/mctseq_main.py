@@ -258,6 +258,5 @@ if __name__ == '__main__':
     mcts = MCTSeq(10, items, DATA, 50, '+', enable_i=False)
 
     result = mcts.launch()
-
     print_results_mcts(result, encoding_to_item)
     # cProfile.run('mcts.launch()')

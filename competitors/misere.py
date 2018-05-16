@@ -76,8 +76,8 @@ def misere(data, time_budget, target_class, top_k=10):
 
     return sorted_patterns.get_top_k(top_k)
 
-DATA = read_data('../data/promoters.data')
+#DATA = read_data('../data/promoters.data')
 #DATA = read_data_kosarak('../data/all.csv')
-results = misere(DATA, 50, '+')
+#results = misere(DATA, 50, '+')
 
-print_results(results)
+#print_results(results)

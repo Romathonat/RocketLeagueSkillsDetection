@@ -1,15 +1,15 @@
 import random
 import copy
 
-from mctseq.utils import k_length
+from mctseq.utils import k_length, compute_WRAcc
 
-SEQUENCE_NB = 1000
-K_LENGTH = 15
+SEQUENCE_NB = 300
+K_LENGTH = 40
 ITEM_NB = 5
 ITEMS = set(range(5))
 ITEMSET_SIZE = (1, 5)
-PATTERN_SIZE = (1, 12)
-PATTERN_NUMBER = 10
+PATTERN_SIZE = (5, 10)
+PATTERN_NUMBER = 8
 PATTERN_POS_PROBA = 0.8
 
 
@@ -77,7 +77,7 @@ def generate_noise():
 
     output = kosarak_translate(pattern)
 
-    if random.random() > 0.5:
+    if random.random() > 0.00005:
         output += '- \n'
     else:
         output += '+ \n'
@@ -109,7 +109,7 @@ for pattern_i in range(PATTERN_NUMBER):
     patterns.append(pattern)
 
     # we add patterns in data
-    pattern_occurency = random.randint(0.02 * SEQUENCE_NB, 0.05 * SEQUENCE_NB)
+    pattern_occurency = random.randint(int(0.02 * SEQUENCE_NB), int(0.05 * SEQUENCE_NB))
 
     for _ in range(pattern_occurency):
         noisy_pattern = generate_noisy_pattern(pattern)
@@ -131,5 +131,5 @@ with open('patterns', 'w') as f:
 
     f.write(patterns_out)
 
-with open('out.data', 'w') as f:
+with open('../data/out.data', 'w') as f:
     f.write(output)

@@ -38,7 +38,6 @@ def test_possible_children():
     assert len(possible_children) == 6
     assert seq3.support == 1
 
-test_possible_children()
 def test_possible_children_without_i():
     itemsets_bitsets = {}
     seq1 = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data, '+', 1,

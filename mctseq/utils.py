@@ -93,6 +93,29 @@ def k_length(sequence):
     return sum([len(i) for i in sequence])
 
 
+def compute_WRAcc(data, subsequence, target_class):
+    subsequence_supp = 0
+    data_supp = len(data)
+    class_subsequence_supp = 0
+    class_data_supp = 0
+
+    for sequence in data:
+        current_class = sequence[0]
+        sequence = sequence[1:]
+
+        if is_subsequence(subsequence, sequence):
+            subsequence_supp += 1
+            if current_class == target_class:
+                class_subsequence_supp += 1
+
+        if current_class == target_class:
+            class_data_supp += 1
+
+    return (subsequence_supp / data_supp) * (
+        class_subsequence_supp / subsequence_supp -
+        class_data_supp / data_supp)
+
+
 def is_subsequence(a, b):
     """ check if sequence a is a subsequence of b
     """
