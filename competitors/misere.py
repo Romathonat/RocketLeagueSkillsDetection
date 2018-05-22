@@ -50,7 +50,6 @@ def misere(data, time_budget, target_class, top_k=10):
             subsequence = copy.deepcopy(sequence)
 
             # we remove z items randomly
-
             seq_items_nb = len([i for j_set in subsequence for i in j_set])
             # print(seq_items_nb)
             z = random.randint(1, seq_items_nb - 1)

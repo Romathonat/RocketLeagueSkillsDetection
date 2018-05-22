@@ -36,7 +36,7 @@ class SequenceNode():
         self.bitset_slot_size = kwargs['bitset_slot_size']
         self.itemsets_bitsets = itemsets_bitsets
 
-        self.theta_similarity = 1
+        self.theta_similarity = 0.9
 
         # a node is a dead end if is terminal, or if all its children are dead_end too
         # It means that is is useless to explore it, because it lead to terminal children
@@ -284,7 +284,7 @@ class SequenceNode():
 
         filtered_children = []
 
-        for child in self.generated_children:
+        for child in generated_children_list:
             similar = False
             for filtered_child in filtered_children:
                 if jaccard_measure(child,

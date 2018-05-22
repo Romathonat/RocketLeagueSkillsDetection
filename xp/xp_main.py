@@ -3,14 +3,16 @@ from multiprocessing.pool import Pool
 
 from mctseq.mctseq_main import MCTSeq
 from competitors.misere import misere
-from mctseq.utils import read_data_kosarak, extract_items, encode_items, \
+from mctseq.utils import read_data, read_data_kosarak, extract_items, encode_items, \
     encode_data, print_results_mcts, print_results
 
 import sys
 
-sys.setrecursionlimit(50000)
+sys.setrecursionlimit(500000)
 
-DATA = read_data_kosarak('../data/out.data')
+# DATA = read_data_kosarak('../data/out.data')
+DATA = read_data('../data/promoters.data')
+
 items = extract_items(DATA)
 items, item_to_encoding, encoding_to_item = encode_items(items)
 DATA = encode_data(DATA, item_to_encoding)
