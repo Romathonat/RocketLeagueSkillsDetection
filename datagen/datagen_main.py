@@ -4,7 +4,7 @@ import copy
 from mctseq.utils import k_length, compute_WRAcc
 
 SEQUENCE_NB = 100
-K_LENGTH = 400
+K_LENGTH = 700
 
 # ITEM_NB = 5
 
@@ -27,18 +27,19 @@ def generate_pattern():
     return pattern
 
 
-def is_subset(itemset, itemsets):
+def is_superset(itemset, itemsets):
     """
     :param itemsets: set of all itemsets
-    :return: True if itemset is a subset of a least on element of itemsets,
+    :return: True if itemset is a superset of a least on element of itemsets,
     else False
     """
     for itemset_i in itemsets:
-        if itemset.issubset(itemset_i):
+        if itemset_i.issubset(itemset):
             return True
 
     return False
 
+# TODO: try to reach K_LENGTH
 def generate_noisy_pattern(pattern):
     new_pattern = []
 
@@ -102,8 +103,8 @@ def generate_noise(patterns):
     while k_length(pattern) < k_length_random:
         itemset = set(random.sample(ITEMS, random.randint(ITEMSET_SIZE[0],
                                                       ITEMSET_SIZE[1])))
-        # simple approach: we forbid the use of itemsets from generated patterns
-        if not is_subset(itemset, forbidden_itemsets):
+        # simple approach: we forbid the use of supersets of itemsets present in generated pattern
+        if not is_superset(itemset, forbidden_itemsets):
             pattern.append(itemset)
 
     output = kosarak_translate(pattern)
