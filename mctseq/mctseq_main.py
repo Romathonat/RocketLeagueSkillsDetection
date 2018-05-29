@@ -10,24 +10,13 @@ from mctseq.utils import read_data, read_data_kosarak, extract_items, uct, \
     count_target_class_data, print_results_mcts, \
     subsequence_indices, sequence_immutable_to_mutable, \
     compute_first_zero_mask, compute_last_ones_mask, encode_items, encode_data, \
-    decode_sequence, \
-    create_graph
+    decode_sequence, filter_results, create_graph
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
 
 # TODO: filter redondant elements (post process)
 
-# IDEA: relax expand by adding a parameter alpha: if expanded_nodes number > alpha, we can select this node
-# OR if random [0;1] > proportion elements generated, we go select a child
-# (no need to be full expanded)
-# see paper (FUSE ?)
-
-# Try lectic order -> normalize tree, works better, much more optimized because
-# we will only do s and i extension at the end of the sequence!
-
-# When expanding a node, we expand all nodes, we group them by similarity. We have groups
-# which are similar, it decreases the branching factor a lot !
 
 # Roll-out needs to be very quick !
 
@@ -98,7 +87,8 @@ class MCTSeq():
         print('Number iteration: {}'.format(iteration_count))
         print('Number of nodes: {}'.format(len(self.sorted_patterns.set)))
 
-        return self.sorted_patterns.get_top_k(self.pattern_number)
+
+        return self.sorted_patterns.get_top_k_non_redundant(self.pattern_number)
 
     def select(self, node):
         """
@@ -126,7 +116,7 @@ class MCTSeq():
         :return: the expanded node
         """
         expanded_node = node.expand(self.node_hashmap)
-        node.expand_children(self.node_hashmap)
+        #node.expand_children(self.node_hashmap)
 
         return expanded_node
 
@@ -149,8 +139,8 @@ class MCTSeq():
             # items = set([i for j_set in sequence for i in j_set])
             # ads = len(items) * (2 * len(sequence) - 1)
 
-            # define here the number of generalisation we try. 2 for now
-            for i in range(2):
+            # define here the number of generalisation we try. 1 for now
+            for i in range(5):
                 # we remove z items randomly, if they are not in the intersection
                 # between expanded_node and sursequences
                 forbiden_itemsets = subsequence_indices(node.sequence,
@@ -247,8 +237,8 @@ class MCTSeq():
 
 
 if __name__ == '__main__':
-    #DATA = read_data('../data/promoters.data')
-    DATA = read_data_kosarak('../data/out.data')
+    DATA = read_data('../data/splice.data')
+    # DATA = read_data_kosarak('../data/out.data')
 
     items = extract_items(DATA)
 

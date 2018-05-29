@@ -419,16 +419,20 @@ def generate_bitset(itemset, data, bitset_slot_size):
 
 
 def print_results(results):
+    sum_result = 0
     for result in results:
         pattern_display = ''
-
         for itemset in result[1]:
             pattern_display += repr(set(itemset))
 
+        sum_result += result[0]
+
         print('WRAcc: {}, Pattern: {}'.format(result[0], pattern_display))
 
+    print('Average score :{}'.format(sum_result / len(results)))
 
 def print_results_mcts(results, encoding_to_items):
+    sum_result = 0
     for result in results:
         pattern_display = ''
 
@@ -437,6 +441,9 @@ def print_results_mcts(results, encoding_to_items):
             pattern_display += repr(set(itemset))
 
         print('WRAcc: {}, Pattern: {}'.format(result[0], pattern_display))
+        sum_result += result[0]
+
+    print('Average score :{}'.format(sum_result / len(results)))
 
 
 def format_sequence_graph(sequence):
@@ -453,6 +460,30 @@ def format_sequence_graph(sequence):
     sequence_string = '<{}>'.format(sequence_string[:-1])
     return sequence_string
 
+def filter_results(results, theta):
+    """
+    Filter redundant elements
+    :param results: must be a node
+    :param theta:
+    :return: filtered list
+    """
+    results_list = list(results)
+    results_list.sort(key=lambda x: x.quality, reverse=True)
+
+    filtered_elements = []
+
+    for result in results_list:
+        similar = False
+
+        for filtered_element in filtered_elements:
+            if jaccard_measure(result,
+                               filtered_element) > theta:
+                similar = True
+
+        if not similar:
+            filtered_elements.append(result)
+
+    return filtered_elements
 
 # Require Graphviz
 # Launch command:

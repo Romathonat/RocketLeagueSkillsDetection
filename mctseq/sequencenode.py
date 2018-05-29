@@ -5,7 +5,7 @@ from bitarray import bitarray
 from mctseq.utils import sequence_immutable_to_mutable, \
     sequence_mutable_to_immutable, is_subsequence, immutable_seq, k_length, \
     generate_bitset, following_ones, create_s_extension, create_i_extension, \
-    jaccard_measure, get_support_from_vector
+    jaccard_measure, get_support_from_vector, filter_results
 
 
 class SequenceNode():
@@ -21,7 +21,7 @@ class SequenceNode():
         else:
             self.parents = []
 
-        self.number_supersequences = 5
+        self.number_supersequences = 1
 
         self.number_visit = 0
         self.data = data
@@ -36,7 +36,7 @@ class SequenceNode():
         self.bitset_slot_size = kwargs['bitset_slot_size']
         self.itemsets_bitsets = itemsets_bitsets
 
-        self.theta_similarity = 0.955555
+        self.theta_similarity = 0.90
 
         # a node is a dead end if is terminal, or if all its children are dead_end too
         # It means that is is useless to explore it, because it lead to terminal children
@@ -220,16 +220,16 @@ class SequenceNode():
 
     def is_enough_expanded(self):
         """
-        Draw a random proportion. If superior to proportion of generated child,
+        Draw a random proportion. If lower than proportion of generated child,
         This node is considered expanded
         :return:
         """
         random_nb = random.uniform(0, 1)
-        if random_nb > len(self.generated_children) / (
+        if random_nb < len(self.generated_children) / (
             len(self.non_generated_children) + len(self.generated_children)):
-            return False
-        else:
             return True
+        else:
+            return False
 
     def expand_children(self, node_hashmap):
         """
@@ -256,22 +256,9 @@ class SequenceNode():
             self.generated_children.add(expanded_child)
 
         self.non_generated_children = {}
-        generated_children_list = list(self.generated_children)
-        generated_children_list.sort(key=lambda x: x.quality, reverse=True)
 
-        filtered_children = []
+        self.generated_children = filter_results(self.generated_children, self.theta_similarity)
 
-        for child in generated_children_list:
-            similar = False
-            for filtered_child in filtered_children:
-                if jaccard_measure(child,
-                                   filtered_child) > self.theta_similarity:
-                    similar = True
-
-            if not similar:
-                filtered_children.append(child)
-
-        self.generated_children = filtered_children
         self.update_node_state()
 
     def expand(self, node_hashmap):
@@ -283,7 +270,7 @@ class SequenceNode():
         """
 
         pattern_children = random.sample(self.non_generated_children, 1)[0]
-
+        #pattern_children = self.non_generated_children[0]
         self.non_generated_children.remove(pattern_children)
 
         if pattern_children in node_hashmap:

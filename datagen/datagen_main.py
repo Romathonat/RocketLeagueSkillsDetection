@@ -3,16 +3,16 @@ import copy
 
 from mctseq.utils import k_length, compute_WRAcc
 
-SEQUENCE_NB = 100
-K_LENGTH = 700
+SEQUENCE_NB = 50
+K_LENGTH = 500
 
 # ITEM_NB = 5
 
-ITEMS = set(range(8))
-ITEMSET_SIZE = (1, 5)
+ITEMS = set(range(10))
+ITEMSET_SIZE = (1, 10)
 PATTERN_SIZE = (5, 8)
-PATTERN_NUMBER = 4
-PATTERN_PROPORTION = 0.6
+PATTERN_NUMBER = 2
+PATTERN_PROPORTION = 0.1
 
 
 def generate_pattern():
@@ -39,7 +39,7 @@ def is_superset(itemset, itemsets):
 
     return False
 
-# TODO: try to reach K_LENGTH
+
 def generate_noisy_pattern(pattern):
     new_pattern = []
 
@@ -102,7 +102,7 @@ def generate_noise(patterns):
     forbidden_itemsets = extract_itemsets_pattern(patterns)
     while k_length(pattern) < k_length_random:
         itemset = set(random.sample(ITEMS, random.randint(ITEMSET_SIZE[0],
-                                                      ITEMSET_SIZE[1])))
+                                                          ITEMSET_SIZE[1])))
         # simple approach: we forbid the use of supersets of itemsets present in generated pattern
         if not is_superset(itemset, forbidden_itemsets):
             pattern.append(itemset)
@@ -149,6 +149,11 @@ for pattern_i in range(PATTERN_NUMBER):
 
     for _ in range(pattern_occurency):
         noisy_pattern, noisy_pattern_python = generate_noisy_pattern(pattern)
+
+        while k_length(noisy_pattern_python) < K_LENGTH:
+            noisy_pattern, noisy_pattern_python = generate_noisy_pattern(
+                noisy_pattern_python[1:])
+
         data.append(noisy_pattern_python)
 
         output += noisy_pattern
