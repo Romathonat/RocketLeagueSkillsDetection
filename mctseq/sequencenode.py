@@ -36,7 +36,7 @@ class SequenceNode():
         self.bitset_slot_size = kwargs['bitset_slot_size']
         self.itemsets_bitsets = itemsets_bitsets
 
-        self.theta_similarity = 0.90
+        self.theta_similarity = 0.95
 
         # a node is a dead end if is terminal, or if all its children are dead_end too
         # It means that is is useless to explore it, because it lead to terminal children
@@ -261,6 +261,7 @@ class SequenceNode():
 
         self.update_node_state()
 
+
     def expand(self, node_hashmap):
         """
         Create a random children, and add it to generated children. Removes
@@ -269,6 +270,38 @@ class SequenceNode():
         :return: the SequenceNode created
         """
 
+        pattern_children = random.sample(self.non_generated_children, 1)[0]
+        #pattern_children = self.non_generated_children[0]
+        self.non_generated_children.remove(pattern_children)
+
+        if pattern_children in node_hashmap:
+            expanded_node = node_hashmap[pattern_children]
+            expanded_node.parents.append(self)
+        else:
+            expanded_node = SequenceNode(pattern_children, self,
+                                         self.candidate_items, self.data,
+                                         self.target_class,
+                                         self.class_data_count,
+                                         self.itemsets_bitsets,
+                                         self.enable_i,
+                                         bitset_slot_size=self.bitset_slot_size,
+                                         first_zero_mask=self.first_zero_mask,
+                                         last_ones_mask=self.last_ones_mask)
+
+            node_hashmap[pattern_children] = expanded_node
+
+        self.generated_children.add(expanded_node)
+        self.update_node_state()
+
+        return expanded_node
+
+    def label_expand(self, node_hashmap):
+        """
+        Creates a children whose label will change
+        considered pattern from the possible_children
+        :param node_hashmap: the hashmap of MCTS nodes
+        :return: the SequenceNode created
+        """
         pattern_children = random.sample(self.non_generated_children, 1)[0]
         #pattern_children = self.non_generated_children[0]
         self.non_generated_children.remove(pattern_children)

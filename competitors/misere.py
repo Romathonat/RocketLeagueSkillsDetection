@@ -73,10 +73,12 @@ def misere(data, time_budget, target_class, top_k=10):
             sorted_patterns.add(sequence_mutable_to_immutable(subsequence),
                                 wracc)
 
-    return sorted_patterns.get_top_k(top_k)
+    return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
-#DATA = read_data('../data/promoters.data')
+'''
+DATA = read_data('../data/promoters.data')
 #DATA = read_data_kosarak('../data/all.csv')
-#results = misere(DATA, 50, '+')
+results = misere(DATA, 5, '+')
 
-#print_results(results)
+print_results(results)
+'''

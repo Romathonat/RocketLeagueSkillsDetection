@@ -214,6 +214,30 @@ def read_data_kosarak(filename):
     return data
 
 
+def read_data_sc2(filename):
+    """
+    :param filename:
+    :return: [[class, {}, {}, ...], [class, {}, {}, ...]]
+    """
+    data = []
+    with open(filename) as f:
+        for line in f:
+            sequence = []
+            sequence.append(line[-8])
+            line = line[:-8]
+
+            line_split = line.split("-1")[:-2]
+
+            for itemset in line_split:
+                items = itemset.split()
+                new_itemset = set(items)
+                sequence.append(new_itemset)
+
+            if len(sequence) > 1:
+                data.append(sequence)
+    return data
+
+
 def encode_data(data, item_to_encoding):
     """
     Replaces all item in data by its encoding
@@ -431,6 +455,7 @@ def print_results(results):
 
     print('Average score :{}'.format(sum_result / len(results)))
 
+
 def print_results_mcts(results, encoding_to_items):
     sum_result = 0
     for result in results:
@@ -446,6 +471,14 @@ def print_results_mcts(results, encoding_to_items):
     print('Average score :{}'.format(sum_result / len(results)))
 
 
+def average_results(results):
+    sum_result = 0
+    for result in results:
+        sum_result += result[0]
+
+    return sum_result / len(results)
+
+
 def format_sequence_graph(sequence):
     sequence_string = ''
     for itemset in sequence:
@@ -459,6 +492,7 @@ def format_sequence_graph(sequence):
 
     sequence_string = '<{}>'.format(sequence_string[:-1])
     return sequence_string
+
 
 def filter_results(results, theta):
     """
@@ -484,6 +518,7 @@ def filter_results(results, theta):
             filtered_elements.append(result)
 
     return filtered_elements
+
 
 # Require Graphviz
 # Launch command:

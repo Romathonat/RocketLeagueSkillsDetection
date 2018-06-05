@@ -6,7 +6,8 @@ import random
 import cProfile
 from pympler import classtracker
 
-from mctseq.utils import read_data, read_data_kosarak, extract_items, uct, \
+from mctseq.utils import read_data, read_data_kosarak, read_data_sc2, \
+    extract_items, uct, \
     count_target_class_data, print_results_mcts, \
     subsequence_indices, sequence_immutable_to_mutable, \
     compute_first_zero_mask, compute_last_ones_mask, encode_items, encode_data, \
@@ -14,8 +15,6 @@ from mctseq.utils import read_data, read_data_kosarak, extract_items, uct, \
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
-
-# TODO: filter redondant elements (post process)
 
 
 # Roll-out needs to be very quick !
@@ -67,6 +66,7 @@ class MCTSeq():
         current_node = self.root_node
 
         iteration_count = 0
+
         while datetime.datetime.utcnow() - begin < self.time_budget:
             node_sel = self.select(current_node)
 
@@ -87,8 +87,8 @@ class MCTSeq():
         print('Number iteration: {}'.format(iteration_count))
         print('Number of nodes: {}'.format(len(self.sorted_patterns.set)))
 
-
-        return self.sorted_patterns.get_top_k_non_redundant(self.pattern_number)
+        return self.sorted_patterns.get_top_k_non_redundant(
+            self.pattern_number)
 
     def select(self, node):
         """
@@ -116,7 +116,7 @@ class MCTSeq():
         :return: the expanded node
         """
         expanded_node = node.expand(self.node_hashmap)
-        #node.expand_children(self.node_hashmap)
+        node.expand_children(self.node_hashmap)
 
         return expanded_node
 
@@ -237,16 +237,17 @@ class MCTSeq():
 
 
 if __name__ == '__main__':
-    DATA = read_data('../data/splice.data')
+    DATA = read_data('../data/promoters.data')
     # DATA = read_data_kosarak('../data/out.data')
+    #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
 
     items = extract_items(DATA)
 
     items, item_to_encoding, encoding_to_item = encode_items(items)
     DATA = encode_data(DATA, item_to_encoding)
 
-    mcts = MCTSeq(10, items, DATA, 50, '+', enable_i=False)
+    mcts = MCTSeq(10, items, DATA, 10, '+', enable_i=False)
 
     result = mcts.launch()
     print_results_mcts(result, encoding_to_item)
-    # cProfile.run('mcts.launch()')
+    #cProfile.run('mcts.launch()')
