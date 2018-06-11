@@ -73,6 +73,8 @@ def misere(data, time_budget, target_class, top_k=10):
             sorted_patterns.add(sequence_mutable_to_immutable(subsequence),
                                 wracc)
 
+    print('Iterations misere: {}'.format(len(sorted_patterns.set)))
+
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 '''

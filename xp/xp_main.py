@@ -27,7 +27,7 @@ target_class = '1'
 
 
 def basic_xp():
-    TIME = 100
+    TIME = 50
     pool = Pool(processes=2)
 
     mcts = MCTSeq(10, items, DATA, TIME, target_class, enable_i=True)

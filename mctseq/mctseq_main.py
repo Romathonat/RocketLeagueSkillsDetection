@@ -84,7 +84,7 @@ class MCTSeq():
         self.explore_children(self.root_node, self.sorted_patterns)
 
         create_graph(self.root_node)
-        print('Number iteration: {}'.format(iteration_count))
+        print('Number iteration mcts: {}'.format(iteration_count))
         print('Number of nodes: {}'.format(len(self.sorted_patterns.set)))
 
         return self.sorted_patterns.get_top_k_non_redundant(

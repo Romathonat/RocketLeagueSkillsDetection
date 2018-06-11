@@ -36,7 +36,7 @@ class SequenceNode():
         self.bitset_slot_size = kwargs['bitset_slot_size']
         self.itemsets_bitsets = itemsets_bitsets
 
-        self.theta_similarity = 0.95
+        self.theta_similarity = 0.80
 
         # a node is a dead end if is terminal, or if all its children are dead_end too
         # It means that is is useless to explore it, because it lead to terminal children
@@ -85,6 +85,41 @@ class SequenceNode():
 
     def __repr__(self):
         return '{}'.format(self.sequence)
+
+    def compute_support_alt(self):
+        subsequence_supp = 0
+        data_supp = len(self.data)
+        class_subsequence_supp = 0
+        class_data_supp = 0
+
+        supersequences = []
+        bitset = 0
+        bitset_simple = 0
+
+        for sequence in self.data:
+            current_class = sequence[0]
+            sequence = sequence[1:]
+
+            if is_subsequence(self.sequence, sequence):
+                subsequence_supp += 1
+                if current_class == self.target_class:
+                    class_subsequence_supp += 1
+                    supersequences.append(sequence)
+                bitset_simple = (bitset_simple << 1 ) | 1
+            else:
+                bitset_simple = (bitset_simple << 1) & 0
+
+            if current_class == self.target_class:
+                class_data_supp += 1
+
+        supersequences = random.sample(supersequences,
+                                       self.number_supersequences)
+
+        support = (subsequence_supp / data_supp) * (
+            class_subsequence_supp / subsequence_supp -
+            class_data_supp / data_supp)
+
+        return support, supersequences, class_subsequence_supp, bitset, bitset_simple
 
     def compute_support(self, itemsets_bitsets, first_zero_mask):
         """
@@ -136,11 +171,11 @@ class SequenceNode():
         # supersequence = self.data[0]
         supersequences = []
 
-
         support, bitset_simple = get_support_from_vector(bitset,
                                                          self.bitset_slot_size,
                                                          self.first_zero_mask,
                                                          self.last_ones_mask)
+
         # find supersequences and count class pattern:
         i = bitset_simple.bit_length() - 1
 
@@ -149,7 +184,7 @@ class SequenceNode():
                 index_data = len(self.data) - i - 1
 
                 if self.data[index_data][0] == self.target_class:
-                        class_pattern_count += 1
+                    class_pattern_count += 1
 
                 supersequences.append(self.data[index_data][1:])
 
@@ -257,10 +292,10 @@ class SequenceNode():
 
         self.non_generated_children = {}
 
-        self.generated_children = filter_results(self.generated_children, self.theta_similarity)
+        self.generated_children = filter_results(self.generated_children,
+                                                 self.theta_similarity)
 
         self.update_node_state()
-
 
     def expand(self, node_hashmap):
         """
@@ -271,7 +306,7 @@ class SequenceNode():
         """
 
         pattern_children = random.sample(self.non_generated_children, 1)[0]
-        #pattern_children = self.non_generated_children[0]
+        # pattern_children = self.non_generated_children[0]
         self.non_generated_children.remove(pattern_children)
 
         if pattern_children in node_hashmap:
@@ -303,7 +338,7 @@ class SequenceNode():
         :return: the SequenceNode created
         """
         pattern_children = random.sample(self.non_generated_children, 1)[0]
-        #pattern_children = self.non_generated_children[0]
+        # pattern_children = self.non_generated_children[0]
         self.non_generated_children.remove(pattern_children)
 
         if pattern_children in node_hashmap:
