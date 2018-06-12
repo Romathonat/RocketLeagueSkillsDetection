@@ -50,7 +50,8 @@ class SequenceNode():
 
         # dataset_sequence contains self.number_supersequences super-sequences present in the dataset
         (self.support, self.dataset_sequences, self.class_pattern_count,
-         self.bitset, self.bitset_simple) = self.compute_support_alt()
+         self.bitset, self.bitset_simple) = self.compute_support(
+            self.itemsets_bitsets, self.first_zero_mask)
 
         self.quality = self.compute_quality()
         self.wracc = self.quality
@@ -104,7 +105,7 @@ class SequenceNode():
                 supersequences.append(sequence)
                 if current_class == self.target_class:
                     class_subsequence_supp += 1
-                bitset_simple = (bitset_simple << 1 ) | 1
+                bitset_simple = (bitset_simple << 1) | 1
             else:
                 bitset_simple = (bitset_simple << 1) & 0
 
@@ -113,7 +114,7 @@ class SequenceNode():
 
         try:
             supersequences = random.sample(supersequences,
-                                       self.number_supersequences)
+                                           self.number_supersequences)
         except ValueError:
             pass
 
