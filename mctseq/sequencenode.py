@@ -101,9 +101,9 @@ class SequenceNode():
 
             if is_subsequence(self.sequence, sequence):
                 subsequence_supp += 1
+                supersequences.append(sequence)
                 if current_class == self.target_class:
                     class_subsequence_supp += 1
-                    supersequences.append(sequence)
                 bitset_simple = (bitset_simple << 1 ) | 1
             else:
                 bitset_simple = (bitset_simple << 1) & 0
@@ -111,14 +111,13 @@ class SequenceNode():
             if current_class == self.target_class:
                 class_data_supp += 1
 
-        supersequences = random.sample(supersequences,
+        try:
+            supersequences = random.sample(supersequences,
                                        self.number_supersequences)
+        except ValueError:
+            pass
 
-        support = (subsequence_supp / data_supp) * (
-            class_subsequence_supp / subsequence_supp -
-            class_data_supp / data_supp)
-
-        return support, supersequences, class_subsequence_supp, bitset, bitset_simple
+        return subsequence_supp, supersequences, class_subsequence_supp, bitset, bitset_simple
 
     def compute_support(self, itemsets_bitsets, first_zero_mask):
         """
