@@ -50,8 +50,7 @@ class SequenceNode():
 
         # dataset_sequence contains self.number_supersequences super-sequences present in the dataset
         (self.support, self.dataset_sequences, self.class_pattern_count,
-         self.bitset, self.bitset_simple) = self.compute_support(
-            itemsets_bitsets, self.first_zero_mask)
+         self.bitset, self.bitset_simple) = self.compute_support_alt()
 
         self.quality = self.compute_quality()
         self.wracc = self.quality

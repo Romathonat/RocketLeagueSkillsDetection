@@ -16,18 +16,18 @@ from mctseq.utils import read_data, read_data_kosarak, read_data_sc2, extract_it
 sys.setrecursionlimit(500000)
 
 # DATA = read_data_kosarak('../data/out.data')
-# DATA = read_data('../data/promoters.data')
+DATA = read_data('../data/promoters.data')
 # DATA = read_data('../data/splice.data')
-DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+#DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
 
 items = extract_items(DATA)
 items, item_to_encoding, encoding_to_item = encode_items(items)
 DATA = encode_data(DATA, item_to_encoding)
-target_class = '1'
+target_class = '+'
 
 
 def basic_xp():
-    TIME = 50
+    TIME = 100
     pool = Pool(processes=2)
 
     mcts = MCTSeq(10, items, DATA, TIME, target_class, enable_i=True)
