@@ -1,11 +1,9 @@
 import random
 
-from bitarray import bitarray
-
 from mctseq.utils import sequence_immutable_to_mutable, \
     sequence_mutable_to_immutable, is_subsequence, immutable_seq, k_length, \
     generate_bitset, following_ones, create_s_extension, create_i_extension, \
-    jaccard_measure, get_support_from_vector, filter_results
+    jaccard_measure, get_support_from_vector, filter_redondant_result
 
 
 class SequenceNode():
@@ -21,7 +19,7 @@ class SequenceNode():
         else:
             self.parents = []
 
-        self.number_supersequences = 1
+        self.number_supersequences = 3
 
         self.number_visit = 0
         self.data = data
@@ -36,7 +34,7 @@ class SequenceNode():
         self.bitset_slot_size = kwargs['bitset_slot_size']
         self.itemsets_bitsets = itemsets_bitsets
 
-        self.theta_similarity = 0.80
+        self.theta_similarity = 0.90
 
         # a node is a dead end if is terminal, or if all its children are dead_end too
         # It means that is is useless to explore it, because it lead to terminal children
@@ -58,6 +56,7 @@ class SequenceNode():
 
         # set of patterns
         self.non_generated_children = self.get_non_generated_children(enable_i)
+        self.limit_generated_children = 2
 
         # Set of generated children
         self.generated_children = set()
@@ -240,6 +239,16 @@ class SequenceNode():
         if self.support == 0:
             self.is_dead_end = True
 
+        # PROGRESSIVE WIDENING
+        # if all allowed children are expanded, the node is considered fully expanded
+        if len(self.generated_children) == self.limit_generated_children:
+            self.is_fully_expanded = True
+        elif len(self.generated_children) < self.limit_generated_children:
+            self.is_fully_expanded = False
+
+        if self.number_visit > 40 * 1.4 ** self.limit_generated_children - 2:
+            self.limit_generated_children += 1
+
     def update(self, reward):
         """
         Update the quality of the node
@@ -291,8 +300,12 @@ class SequenceNode():
 
         self.non_generated_children = {}
 
-        self.generated_children = filter_results(self.generated_children,
-                                                 self.theta_similarity)
+        '''
+        self.generated_children = filter_redondant_result(self.generated_children,
+                                                          self.theta_similarity)
+        '''
+        self.generated_children = list(self.generated_children)
+        self.generated_children.sort(key=lambda x: x.quality, reverse=True)
 
         self.update_node_state()
 
@@ -304,38 +317,6 @@ class SequenceNode():
         :return: the SequenceNode created
         """
 
-        pattern_children = random.sample(self.non_generated_children, 1)[0]
-        # pattern_children = self.non_generated_children[0]
-        self.non_generated_children.remove(pattern_children)
-
-        if pattern_children in node_hashmap:
-            expanded_node = node_hashmap[pattern_children]
-            expanded_node.parents.append(self)
-        else:
-            expanded_node = SequenceNode(pattern_children, self,
-                                         self.candidate_items, self.data,
-                                         self.target_class,
-                                         self.class_data_count,
-                                         self.itemsets_bitsets,
-                                         self.enable_i,
-                                         bitset_slot_size=self.bitset_slot_size,
-                                         first_zero_mask=self.first_zero_mask,
-                                         last_ones_mask=self.last_ones_mask)
-
-            node_hashmap[pattern_children] = expanded_node
-
-        self.generated_children.add(expanded_node)
-        self.update_node_state()
-
-        return expanded_node
-
-    def label_expand(self, node_hashmap):
-        """
-        Creates a children whose label will change
-        considered pattern from the possible_children
-        :param node_hashmap: the hashmap of MCTS nodes
-        :return: the SequenceNode created
-        """
         pattern_children = random.sample(self.non_generated_children, 1)[0]
         # pattern_children = self.non_generated_children[0]
         self.non_generated_children.remove(pattern_children)

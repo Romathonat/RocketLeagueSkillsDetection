@@ -11,7 +11,7 @@ from mctseq.utils import read_data, read_data_kosarak, read_data_sc2, \
     count_target_class_data, print_results_mcts, \
     subsequence_indices, sequence_immutable_to_mutable, \
     compute_first_zero_mask, compute_last_ones_mask, encode_items, encode_data, \
-    decode_sequence, filter_results, create_graph
+    decode_sequence, filter_redondant_result, create_graph
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
@@ -139,8 +139,8 @@ class MCTSeq():
             # items = set([i for j_set in sequence for i in j_set])
             # ads = len(items) * (2 * len(sequence) - 1)
 
-            # define here the number of generalisation we try. 1 for now
-            for i in range(5):
+            # define here the number of generalisation we try.
+            for i in range(3):
                 # we remove z items randomly, if they are not in the intersection
                 # between expanded_node and sursequences
                 forbiden_itemsets = subsequence_indices(node.sequence,
@@ -216,11 +216,20 @@ class MCTSeq():
         best_node = None
         max_score = -float("inf")
 
-        for child in node.generated_children:
+
+        for child in node.generated_children[:node.limit_generated_children]:
             current_uct = uct(node, child)
             if current_uct > max_score and not child.is_dead_end:
                 max_score = current_uct
                 best_node = child
+
+        # special case: k first elements are dead end. We relax limit_generated_children
+        if best_node is None and len(node.generated_children) > node.limit_generated_children:
+            node.limit_generated_children = node.limit_generated_children + 1
+            return self.best_child(node)
+
+        #if best_node is None:
+        #    print('cc')
 
         return best_node
 
@@ -237,17 +246,17 @@ class MCTSeq():
 
 
 if __name__ == '__main__':
-    DATA = read_data('../data/promoters.data')
+    # DATA = read_data('../data/promoters.data')
     # DATA = read_data_kosarak('../data/out.data')
-    #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
 
     items = extract_items(DATA)
 
     items, item_to_encoding, encoding_to_item = encode_items(items)
     DATA = encode_data(DATA, item_to_encoding)
 
-    mcts = MCTSeq(10, items, DATA, 10, '+', enable_i=False)
+    mcts = MCTSeq(10, items, DATA, 50, '1', enable_i=False)
 
-    result = mcts.launch()
-    print_results_mcts(result, encoding_to_item)
-    #cProfile.run('mcts.launch()')
+    #result = mcts.launch()
+    #print_results_mcts(result, encoding_to_item)
+    cProfile.run('mcts.launch()')

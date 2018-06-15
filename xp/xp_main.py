@@ -11,26 +11,23 @@ from mctseq.utils import read_data, read_data_kosarak, read_data_sc2, extract_it
     encode_items, \
     encode_data, print_results_mcts, print_results, average_results
 
-
-
 sys.setrecursionlimit(500000)
 
 # DATA = read_data_kosarak('../data/out.data')
-DATA = read_data('../data/promoters.data')
-# DATA = read_data('../data/splice.data')
-#DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+# DATA = read_data('../data/promoters.data')
+DATA = read_data('../data/splice.data')
+# DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:200]
 
 items = extract_items(DATA)
 items, item_to_encoding, encoding_to_item = encode_items(items)
 DATA = encode_data(DATA, item_to_encoding)
-target_class = '+'
-
+target_class = 'EI'
 
 def basic_xp():
-    TIME = 100
+    TIME = 50
     pool = Pool(processes=2)
 
-    mcts = MCTSeq(10, items, DATA, TIME, target_class, enable_i=True)
+    mcts = MCTSeq(10, items, DATA, TIME, target_class, enable_i=False)
     result_mcts = pool.apply_async(mcts.launch)
 
     results_misere = pool.apply_async(misere, (DATA, TIME, target_class))

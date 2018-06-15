@@ -67,7 +67,6 @@ def misere(data, time_budget, target_class, top_k=10):
                     subsequence.pop(chosen_itemset_i)
 
             # now we calculate the Wracc
-
             wracc = compute_WRAcc(data, subsequence, target_class)
 
             sorted_patterns.add(sequence_mutable_to_immutable(subsequence),

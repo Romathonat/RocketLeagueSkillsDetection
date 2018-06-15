@@ -494,7 +494,7 @@ def format_sequence_graph(sequence):
     return sequence_string
 
 
-def filter_results(results, theta):
+def filter_redondant_result(results, theta):
     """
     Filter redundant elements
     :param results: must be a node
@@ -518,7 +518,6 @@ def filter_results(results, theta):
             filtered_elements.append(result)
 
     return filtered_elements
-
 
 # Require Graphviz
 # Launch command:
@@ -561,7 +560,8 @@ def create_graph(root_node):
     """.format(k_string, graph_construction, edges_construction)
 
     with open('../graph.gv', 'w+') as f:
-        f.write(graphviz_string)
+        #f.write(graphviz_string)
+        f.write(k_string)
 
 
 def explore_graph(node, parent, sequences, seen):
