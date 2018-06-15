@@ -246,16 +246,16 @@ class MCTSeq():
 
 
 if __name__ == '__main__':
-    # DATA = read_data('../data/promoters.data')
+    DATA = read_data('../data/promoters.data')
     # DATA = read_data_kosarak('../data/out.data')
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
 
     items = extract_items(DATA)
 
     items, item_to_encoding, encoding_to_item = encode_items(items)
     DATA = encode_data(DATA, item_to_encoding)
 
-    mcts = MCTSeq(10, items, DATA, 50, '1', enable_i=False)
+    mcts = MCTSeq(10, items, DATA, 50, '+', enable_i=False)
 
     #result = mcts.launch()
     #print_results_mcts(result, encoding_to_item)
