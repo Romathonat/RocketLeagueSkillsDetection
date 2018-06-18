@@ -85,40 +85,6 @@ class SequenceNode():
     def __repr__(self):
         return '{}'.format(self.sequence)
 
-    def compute_support_alt(self):
-        subsequence_supp = 0
-        data_supp = len(self.data)
-        class_subsequence_supp = 0
-        class_data_supp = 0
-
-        supersequences = []
-        bitset = 0
-        bitset_simple = 0
-
-        for sequence in self.data:
-            current_class = sequence[0]
-            sequence = sequence[1:]
-
-            if is_subsequence(self.sequence, sequence):
-                subsequence_supp += 1
-                supersequences.append(sequence)
-                if current_class == self.target_class:
-                    class_subsequence_supp += 1
-                bitset_simple = (bitset_simple << 1) | 1
-            else:
-                bitset_simple = (bitset_simple << 1) & 0
-
-            if current_class == self.target_class:
-                class_data_supp += 1
-
-        try:
-            supersequences = random.sample(supersequences,
-                                           self.number_supersequences)
-        except ValueError:
-            pass
-
-        return subsequence_supp, supersequences, class_subsequence_supp, bitset, bitset_simple
-
     def compute_support(self, itemsets_bitsets, first_zero_mask):
         """
         :param itemsets_bitsets: the hashmap of biteset of itemsets known
@@ -276,7 +242,8 @@ class SequenceNode():
 
     def expand_children(self, node_hashmap):
         """
-        Expand all children. Filter them so that there is no redondant pattern
+        Expand all children.
+        Filter them if they are similar.
         :param node_hashmap:
         :return:
         """
