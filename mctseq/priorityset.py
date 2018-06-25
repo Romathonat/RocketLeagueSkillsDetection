@@ -1,7 +1,7 @@
 import heapq
 from mctseq.utils import jaccard_measure, is_subsequence
 
-THETA = 0.9
+THETA = 0.8
 
 def filter_results(results, theta, k):
     """
@@ -29,7 +29,7 @@ def filter_results(results, theta, k):
         if i > k:
             break
 
-    return map(lambda x: (x.quality, x), filtered_elements)
+    return map(lambda x: (x.wracc, x), filtered_elements)
 
 
 class PrioritySetQuality(object):

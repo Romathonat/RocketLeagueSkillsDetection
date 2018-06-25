@@ -19,7 +19,8 @@ def test_create_sequence():
                        **kwargs)
     assert seq != None
     assert seq.support == 1
-    assert seq.quality == 0.25
+    assert seq.wracc == 0.25
+    assert seq.quality == 1
 
 
 def test_possible_children():
@@ -65,7 +66,7 @@ def test_update():
                         itemsets_bitsets, **kwargs)
     seq4.number_visit = 1
     seq4.update(0.5)
-    assert seq4.quality == 0.375
+    assert seq4.quality == 0.75
 
 
 def test_expand():

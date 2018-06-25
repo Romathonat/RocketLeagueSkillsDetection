@@ -21,7 +21,7 @@ class SequenceNode():
 
         self.number_supersequences = 3
 
-        self.number_visit = 0
+        self.number_visit = 1
         self.data = data
         self.candidate_items = candidate_items
         self.is_fully_expanded = False
@@ -51,8 +51,7 @@ class SequenceNode():
          self.bitset, self.bitset_simple) = self.compute_support(
             self.itemsets_bitsets, self.first_zero_mask)
 
-        self.quality = self.compute_quality()
-        self.wracc = self.quality
+        self.quality, self.wracc = self.compute_quality()
 
         # set of patterns
         self.non_generated_children = self.get_non_generated_children(enable_i)
@@ -170,9 +169,11 @@ class SequenceNode():
             class_pattern_ratio = self.class_pattern_count / self.support
             class_data_ratio = self.class_data_count / len(self.data)
 
-            return occurency_ratio * (class_pattern_ratio - class_data_ratio)
+            wracc = occurency_ratio * (class_pattern_ratio - class_data_ratio)
+
+            return (wracc + 0.25) * 2, wracc
         except ZeroDivisionError:
-            return 0
+            return 0, 0
 
     def update_node_state(self):
         """
@@ -212,8 +213,8 @@ class SequenceNode():
         elif len(self.generated_children) < self.limit_generated_children:
             self.is_fully_expanded = False
 
-        if self.number_visit > 40 * 1.4 ** self.limit_generated_children - 2:
-            self.limit_generated_children += 1
+        #if self.number_visit > 40 * (1.4 ** self.limit_generated_children) - 2:
+        #    self.limit_generated_children += 1
 
     def update(self, reward):
         """
@@ -262,7 +263,6 @@ class SequenceNode():
                                               first_zero_mask=self.first_zero_mask,
                                               last_ones_mask=self.last_ones_mask)
 
-            expanded_child.number_visit = 1
             self.generated_children.add(expanded_child)
 
         self.non_generated_children = {}

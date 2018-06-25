@@ -15,8 +15,6 @@ from mctseq.utils import read_data, read_data_kosarak, read_data_sc2, \
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
-
-
 # Roll-out needs to be very quick !
 
 class MCTSeq():

@@ -32,7 +32,7 @@ def compute_WRAcc(data, subsequence, target_class):
             class_data_supp / data_supp)
 
 
-def misere(data, time_budget, target_class, top_k=10):
+def misere(data, time_budget, target_class, top_k=5):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
