@@ -109,7 +109,7 @@ def filter_results_misere(results, data, theta, k):
         if not similar:
             filtered_elements.append(result)
 
-        if i > k:
+        if len(filtered_elements) > k:
             break
 
     return filtered_elements

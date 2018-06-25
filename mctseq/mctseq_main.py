@@ -114,7 +114,7 @@ class MCTSeq():
         :return: the expanded node
         """
         expanded_node = node.expand(self.node_hashmap)
-        node.expand_children(self.node_hashmap)
+        #node.expand_children(self.node_hashmap)
 
         return expanded_node
 
@@ -245,7 +245,7 @@ class MCTSeq():
 if __name__ == '__main__':
     #DATA = read_data('../data/promoters.data')
     # DATA = read_data_kosarak('../data/out.data')
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:1000]
 
     items = extract_items(DATA)
 
@@ -254,6 +254,6 @@ if __name__ == '__main__':
 
     mcts = MCTSeq(10, items, DATA, 10, '1', enable_i=True)
 
-    #result = mcts.launch()
-    #print_results_mcts(result, encoding_to_item)
-    cProfile.run('mcts.launch()')
+    result = mcts.launch()
+    print_results_mcts(result, encoding_to_item)
+    #cProfile.run('mcts.launch()')
