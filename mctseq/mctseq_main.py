@@ -173,8 +173,7 @@ class MCTSeq():
 
                 best_patterns.add(created_node)
 
-        # we take only the best element
-        top_k_patterns = best_patterns.get_top_k(1)
+        top_k_patterns = best_patterns.heap
 
         for i in top_k_patterns:
             self.sorted_patterns.add(i[1])
@@ -215,16 +214,16 @@ class MCTSeq():
         max_score = -float("inf")
 
 
-        for child in node.generated_children[:node.limit_generated_children]:
+        for child in node.generated_children:
             current_uct = uct(node, child)
             if current_uct > max_score and not child.is_dead_end:
                 max_score = current_uct
                 best_node = child
 
         # special case: k first elements are dead end. We relax limit_generated_children
-        if best_node is None and len(node.generated_children) > node.limit_generated_children:
-            node.limit_generated_children = node.limit_generated_children + 1
-            return self.best_child(node)
+        #if best_node is None and len(node.generated_children) > node.limit_generated_children:
+        #    node.limit_generated_children = node.limit_generated_children + 1
+        #    return self.best_child(node)
 
         #if best_node is None:
         #    print('cc')
@@ -253,8 +252,8 @@ if __name__ == '__main__':
     items, item_to_encoding, encoding_to_item = encode_items(items)
     DATA = encode_data(DATA, item_to_encoding)
 
-    mcts = MCTSeq(10, items, DATA, 50, '1', enable_i=False)
+    mcts = MCTSeq(10, items, DATA, 10, '1', enable_i=True)
 
-    result = mcts.launch()
-    print_results_mcts(result, encoding_to_item)
-    # cProfile.run('mcts.launch()')
+    #result = mcts.launch()
+    #print_results_mcts(result, encoding_to_item)
+    cProfile.run('mcts.launch()')

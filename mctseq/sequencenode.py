@@ -206,6 +206,7 @@ class SequenceNode():
         if self.support == 0:
             self.is_dead_end = True
 
+        '''
         # PROGRESSIVE WIDENING
         # if all allowed children are expanded, the node is considered fully expanded
         if len(self.generated_children) == self.limit_generated_children:
@@ -213,8 +214,9 @@ class SequenceNode():
         elif len(self.generated_children) < self.limit_generated_children:
             self.is_fully_expanded = False
 
-        #if self.number_visit > 40 * (1.4 ** self.limit_generated_children) - 2:
-        #    self.limit_generated_children += 1
+        if self.number_visit > 40 * (1.4 ** self.limit_generated_children) - 2:
+            self.limit_generated_children += 1
+        '''
 
     def update(self, reward):
         """
@@ -267,10 +269,10 @@ class SequenceNode():
 
         self.non_generated_children = {}
 
-        '''
+
         self.generated_children = filter_redondant_result(self.generated_children,
                                                           self.theta_similarity)
-        '''
+
         self.generated_children = list(self.generated_children)
         self.generated_children.sort(key=lambda x: x.quality, reverse=True)
 

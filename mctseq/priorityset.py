@@ -26,10 +26,10 @@ def filter_results(results, theta, k):
         if not similar:
             filtered_elements.append(result[1])
 
-        if i > k:
+        if len(filtered_elements) >= k:
             break
 
-    return map(lambda x: (x.wracc, x), filtered_elements)
+    return list(map(lambda x: (x.wracc, x), filtered_elements))
 
 
 class PrioritySetQuality(object):
@@ -58,7 +58,6 @@ class PrioritySetQuality(object):
     def get_top_k_non_redundant(self, k):
         self.heap = filter_results(self.heap, THETA, k)
         return self.get_top_k(k)
-
 
 def jaccard_measure_misere(sequence1, sequence2, data):
     intersection = 0
