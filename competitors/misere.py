@@ -4,7 +4,7 @@ import copy
 import math
 
 from mctseq.utils import read_data, read_data_kosarak, uct, \
-    is_subsequence, sequence_mutable_to_immutable, print_results
+    is_subsequence, sequence_mutable_to_immutable, print_results, read_data_sc2
 
 from mctseq.priorityset import PrioritySet
 
@@ -76,10 +76,8 @@ def misere(data, time_budget, target_class, top_k=10):
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
-'''
-DATA = read_data('../data/promoters.data')
+#DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:25000]
 #DATA = read_data_kosarak('../data/all.csv')
-results = misere(DATA, 5, '+')
+#results = misere(DATA, 5, '1')
 
-print_results(results)
-'''
+#print_results(results)

@@ -15,6 +15,7 @@ from mctseq.utils import read_data, read_data_kosarak, read_data_sc2, \
 from mctseq.sequencenode import SequenceNode
 from mctseq.priorityset import PrioritySetQuality
 
+
 # Roll-out needs to be very quick !
 
 class MCTSeq():
@@ -41,6 +42,9 @@ class MCTSeq():
                                                        self.bitset_slot_size)
         self.last_ones_mask = compute_last_ones_mask(len(data),
                                                      self.bitset_slot_size)
+        # contains sequence-SequenceNode for permutation-unification
+        self.node_hashmap = {}
+
         self.root_node = SequenceNode([], None, self.items, self.data,
                                       self.target_class,
                                       self.target_class_data_count,
@@ -48,10 +52,8 @@ class MCTSeq():
                                       self.enable_i,
                                       bitset_slot_size=self.bitset_slot_size,
                                       first_zero_mask=self.first_zero_mask,
-                                      last_ones_mask=self.last_ones_mask)
-
-        # contains sequence-SequenceNode for permutation-unification
-        self.node_hashmap = {}
+                                      last_ones_mask=self.last_ones_mask,
+                                      node_hashmap=self.node_hashmap)
 
     def launch(self):
         """
@@ -85,8 +87,10 @@ class MCTSeq():
         print('Number iteration mcts: {}'.format(iteration_count))
         print('Number of nodes: {}'.format(len(self.sorted_patterns.set)))
 
-        return self.sorted_patterns.get_top_k_non_redundant(
+        data_return = self.sorted_patterns.get_top_k_non_redundant(
             self.pattern_number)
+
+        return data_return
 
     def select(self, node):
         """
@@ -114,7 +118,8 @@ class MCTSeq():
         :return: the expanded node
         """
         expanded_node = node.expand(self.node_hashmap)
-        #node.expand_children(self.node_hashmap)
+        # node.expand_children(self.node_hashmap)
+        node.expand_children_random(self.node_hashmap)
 
         return expanded_node
 
@@ -169,7 +174,8 @@ class MCTSeq():
                                             self.enable_i,
                                             bitset_slot_size=self.bitset_slot_size,
                                             first_zero_mask=self.first_zero_mask,
-                                            last_ones_mask=self.last_ones_mask)
+                                            last_ones_mask=self.last_ones_mask,
+                                            node_hashmap=self.node_hashmap)
 
                 best_patterns.add(created_node)
 
@@ -185,7 +191,8 @@ class MCTSeq():
         except ZeroDivisionError:
             mean_quality = 0
 
-        return mean_quality
+        max_quality = max(top_k_patterns, key=lambda x: x[0])[0]
+        return max_quality
 
         # we return the best patter we found we this roll-out
         # return max(top_k_patterns, key=lambda x: x[0])[0]
@@ -213,20 +220,21 @@ class MCTSeq():
         best_node = None
         max_score = -float("inf")
 
-
         for child in node.generated_children:
             current_uct = uct(node, child)
             if current_uct > max_score and not child.is_dead_end:
                 max_score = current_uct
                 best_node = child
 
-        # special case: k first elements are dead end. We relax limit_generated_children
-        #if best_node is None and len(node.generated_children) > node.limit_generated_children:
-        #    node.limit_generated_children = node.limit_generated_children + 1
-        #    return self.best_child(node)
+        # special case: elements are dead end. We relax limit_generated_children
+        if best_node is None and len(
+            node.generated_children) + len(
+            node.non_generated_children) > node.limit_generated_children and len(
+            node.non_generated_children) > 0:
+            node.expand(self.node_hashmap)
+            node.limit_generated_children = node.limit_generated_children + 1
 
-        #if best_node is None:
-        #    print('cc')
+            return self.best_child(node)
 
         return best_node
 
@@ -243,16 +251,17 @@ class MCTSeq():
 
 
 if __name__ == '__main__':
-    #DATA = read_data('../data/promoters.data')
-    # DATA = read_data_kosarak('../data/out.data')
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:1000]
+    #DATA = read_data('../data/splice.data')
+    DATA = read_data('../data/promoters.data')
+    #DATA = read_data_kosarak('../data/out.data')
+    #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:25000]
 
     items = extract_items(DATA)
 
     items, item_to_encoding, encoding_to_item = encode_items(items)
     DATA = encode_data(DATA, item_to_encoding)
 
-    mcts = MCTSeq(10, items, DATA, 10, '1', enable_i=True)
+    mcts = MCTSeq(10, items, DATA, 1, '+', enable_i=False)
 
     result = mcts.launch()
     print_results_mcts(result, encoding_to_item)

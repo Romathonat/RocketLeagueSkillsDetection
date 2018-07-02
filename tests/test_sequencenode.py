@@ -9,9 +9,10 @@ data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 first_zero_mask = int('0101', 2)
 last_ones_mask = int('0101', 2)
 bitset_slot_size = 2
+node_hashmap = {}
 
 kwargs = {'first_zero_mask': first_zero_mask, 'last_ones_mask': last_ones_mask,
-          'bitset_slot_size': bitset_slot_size}
+          'bitset_slot_size': bitset_slot_size, 'node_hashmap': node_hashmap}
 
 
 def test_create_sequence():
@@ -38,6 +39,7 @@ def test_possible_children():
         [{'A', 'B'}, {'B'}]) in possible_children
     assert len(possible_children) == 6
     assert seq3.support == 1
+
 
 def test_possible_children_without_i():
     itemsets_bitsets = {}
@@ -89,18 +91,19 @@ def test_expand():
 
 def test_quality():
     data_local = [['+', {'A', 'B'}, {'A', 'C'}], ['+', {'A'}], ['+', {'B'}],
-            ['+', {'A', 'B'}], ['-', {'A'}, {'B'}]]
+                  ['+', {'A', 'B'}], ['-', {'A'}, {'B'}]]
 
     first_zero_mask = int('0101010101', 2)
     last_ones_mask = int('0101010101', 2)
     bitset_slot_size = 2
 
-    kwargs = {'first_zero_mask': first_zero_mask, 'last_ones_mask': last_ones_mask,
-              'bitset_slot_size': bitset_slot_size}
+    kwargs = {'first_zero_mask': first_zero_mask,
+              'last_ones_mask': last_ones_mask,
+              'bitset_slot_size': bitset_slot_size,
+              'node_hashmap': node_hashmap}
 
     itemsets_bitsets = {}
     seq = SequenceNode([{'A'}], None, {'A', 'B', 'C'}, data_local, '+', 4,
                        itemsets_bitsets, **kwargs)
     seq.number_visit = 1
     assert seq.class_pattern_count == 3
-

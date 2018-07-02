@@ -53,11 +53,15 @@ class PrioritySetQuality(object):
         return (wracc, node)
 
     def get_top_k(self, k):
-        return heapq.nlargest(k, self.heap)
+        data = heapq.nlargest(k, self.heap)
+        return data
 
     def get_top_k_non_redundant(self, k):
         self.heap = filter_results(self.heap, THETA, k)
         return self.get_top_k(k)
+
+##### FOR MISERE  ######
+
 
 def jaccard_measure_misere(sequence1, sequence2, data):
     intersection = 0
@@ -136,7 +140,8 @@ class PrioritySet(object):
         return (wracc, sequence)
 
     def get_top_k(self, k):
-        return heapq.nlargest(k, self.heap)
+        data = heapq.nlargest(k, self.heap)
+        return data
 
     def get_top_k_non_redundant(self, data, k):
         self.heap = filter_results_misere(self.heap, data, THETA, k)

@@ -11,7 +11,7 @@ last_ones_mask = int('0101', 2)
 bitset_slot_size = 2
 
 kwargs = {'first_zero_mask': first_zero_mask, 'last_ones_mask': last_ones_mask,
-          'bitset_slot_size': bitset_slot_size}
+          'bitset_slot_size': bitset_slot_size, 'node_hashmap': {}}
 
 
 def test_sequence_mutable_to_imutable():

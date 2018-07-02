@@ -33,7 +33,7 @@ class SequenceNode():
         self.enable_i = enable_i
         self.bitset_slot_size = kwargs['bitset_slot_size']
         self.itemsets_bitsets = itemsets_bitsets
-
+        self.node_hasmap = kwargs['node_hashmap']
         self.theta_similarity = 0.90
 
         # a node is a dead end if is terminal, or if all its children are dead_end too
@@ -206,7 +206,6 @@ class SequenceNode():
         if self.support == 0:
             self.is_dead_end = True
 
-        '''
         # PROGRESSIVE WIDENING
         # if all allowed children are expanded, the node is considered fully expanded
         if len(self.generated_children) == self.limit_generated_children:
@@ -216,7 +215,7 @@ class SequenceNode():
 
         if self.number_visit > 40 * (1.4 ** self.limit_generated_children) - 2:
             self.limit_generated_children += 1
-        '''
+            self.expand(self.node_hasmap)
 
     def update(self, reward):
         """
@@ -227,7 +226,7 @@ class SequenceNode():
         # Mean-update
         self.quality = (self.number_visit * self.quality + reward) / (
             self.number_visit + 1)
-        # self.quality = max(self.quality, reward)
+        #self.quality = max(self.quality, reward)
         self.number_visit += 1
 
     def is_enough_expanded(self):
@@ -255,6 +254,8 @@ class SequenceNode():
                 expanded_child = node_hashmap[pattern_child]
                 expanded_child.parents.append(self)
             else:
+                if pattern_child is None:
+                    print(self)
                 expanded_child = SequenceNode(pattern_child, self,
                                               self.candidate_items, self.data,
                                               self.target_class,
@@ -263,20 +264,27 @@ class SequenceNode():
                                               self.enable_i,
                                               bitset_slot_size=self.bitset_slot_size,
                                               first_zero_mask=self.first_zero_mask,
-                                              last_ones_mask=self.last_ones_mask)
+                                              last_ones_mask=self.last_ones_mask,
+                                              node_hashmap=self.node_hasmap)
 
             self.generated_children.add(expanded_child)
 
         self.non_generated_children = {}
 
-
-        self.generated_children = filter_redondant_result(self.generated_children,
-                                                          self.theta_similarity)
+        self.generated_children = filter_redondant_result(
+            self.generated_children,
+            self.theta_similarity)
 
         self.generated_children = list(self.generated_children)
         self.generated_children.sort(key=lambda x: x.quality, reverse=True)
 
         self.update_node_state()
+
+
+    def expand_children_random(self, node_hashmap):
+        for i in range(self.limit_generated_children):
+            self.expand(node_hashmap)
+
 
     def expand(self, node_hashmap):
         """
@@ -302,7 +310,8 @@ class SequenceNode():
                                          self.enable_i,
                                          bitset_slot_size=self.bitset_slot_size,
                                          first_zero_mask=self.first_zero_mask,
-                                         last_ones_mask=self.last_ones_mask)
+                                         last_ones_mask=self.last_ones_mask,
+                                         node_hashmap=self.node_hasmap)
 
             node_hashmap[pattern_children] = expanded_node
 
