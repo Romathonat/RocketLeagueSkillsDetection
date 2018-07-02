@@ -311,7 +311,7 @@ def extract_items(data):
     for sequence in data:
         for itemset in sequence[1:]:
             for item in itemset:
-               items.add(item)
+                items.add(item)
     return items
 
 
