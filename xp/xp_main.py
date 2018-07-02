@@ -40,6 +40,15 @@ def basic_xp():
     results_mcts = results_mcts.get()
     print_results_mcts(results_mcts, encoding_to_item)
 
+def basic_xp_2():
+    TIME = 50
+
+    mcts = MCTSeq(10, items, DATA, TIME, target_class, enable_i=False)
+    mcts_result = mcts.launch()
+    print_results_mcts(mcts_result, encoding_to_item)
+
+    misere_result = misere(DATA, TIME, target_class)
+    print_results(misere_result)
 
 def show_quality_over_time():
     results_mcts = []
@@ -84,4 +93,4 @@ def show_quality_over_time():
         f.write(results_misere)
 
 #show_quality_over_time()
-basic_xp()
+basic_xp_2()

@@ -410,7 +410,6 @@ def generate_bitset(itemset, data, bitset_slot_size):
     :param data: the dataset
     :return: the bitset of itemset
     """
-
     bitset = 0
 
     # we compute the extend by scanning the database
@@ -519,6 +518,7 @@ def filter_redondant_result(results, theta):
 
     return filtered_elements
 
+
 # Require Graphviz
 # Launch command:
 # dot -Tpng graph.gv -o MCTSgraph.png
@@ -560,7 +560,7 @@ def create_graph(root_node):
     """.format(k_string, graph_construction, edges_construction)
 
     with open('../graph.gv', 'w+') as f:
-        #f.write(graphviz_string)
+        # f.write(graphviz_string)
         f.write(k_string)
 
 

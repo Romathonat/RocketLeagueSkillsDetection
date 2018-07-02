@@ -143,7 +143,7 @@ class MCTSeq():
             # ads = len(items) * (2 * len(sequence) - 1)
 
             # define here the number of generalisation we try.
-            for i in range(3):
+            for i in range(1):
                 # we remove z items randomly, if they are not in the intersection
                 # between expanded_node and sursequences
                 forbiden_itemsets = subsequence_indices(node.sequence,
@@ -191,7 +191,8 @@ class MCTSeq():
         except ZeroDivisionError:
             mean_quality = 0
 
-        max_quality = max(top_k_patterns, key=lambda x: x[0])[0]
+        max_quality = (max(top_k_patterns, key=lambda x: x[0])[0] + 0.25) * 2
+
         return max_quality
 
         # we return the best patter we found we this roll-out
@@ -251,10 +252,10 @@ class MCTSeq():
 
 
 if __name__ == '__main__':
-    #DATA = read_data('../data/splice.data')
+    # DATA = read_data('../data/splice.data')
     DATA = read_data('../data/promoters.data')
-    #DATA = read_data_kosarak('../data/out.data')
-    #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:25000]
+    # DATA = read_data_kosarak('../data/out.data')
+    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:25000]
 
     items = extract_items(DATA)
 
@@ -265,4 +266,4 @@ if __name__ == '__main__':
 
     result = mcts.launch()
     print_results_mcts(result, encoding_to_item)
-    #cProfile.run('mcts.launch()')
+    # cProfile.run('mcts.launch()')

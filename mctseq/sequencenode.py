@@ -19,7 +19,7 @@ class SequenceNode():
         else:
             self.parents = []
 
-        self.number_supersequences = 3
+        self.number_supersequences = 1
 
         self.number_visit = 1
         self.data = data
@@ -55,7 +55,7 @@ class SequenceNode():
 
         # set of patterns
         self.non_generated_children = self.get_non_generated_children(enable_i)
-        self.limit_generated_children = 2
+        self.limit_generated_children = 1
 
         # Set of generated children
         self.generated_children = set()
@@ -214,6 +214,7 @@ class SequenceNode():
             self.is_fully_expanded = False
 
         if self.number_visit > 40 * (1.4 ** self.limit_generated_children) - 2:
+            print(self.limit_generated_children)
             self.limit_generated_children += 1
             self.expand(self.node_hasmap)
 
