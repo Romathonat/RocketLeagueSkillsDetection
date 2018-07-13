@@ -157,9 +157,10 @@ def misere(data, time_budget, target_class, top_k=10):
     print('Iterations misere: {}'.format(len(sorted_patterns.set)))
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
-
-#DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:100]
+'''
+DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:100]
 # DATA = read_data_kosarak('../data/all.csv')
-#results = misere(DATA, 10, '1')
+results = misere(DATA, 10, '1')
 
-#print_results(results)
+print_results(results)
+'''

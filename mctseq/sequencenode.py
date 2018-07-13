@@ -19,7 +19,7 @@ class SequenceNode():
         else:
             self.parents = []
 
-        self.number_supersequences = 1
+        self.number_supersequences = 3
 
         self.number_visit = 1
         self.data = data

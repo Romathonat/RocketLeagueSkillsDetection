@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 
 from mctseq.mctseq_main import MCTSeq
 from competitors.misere import misere
+from competitors.misere_hill import misere_hill
+
 from mctseq.utils import read_data, read_data_kosarak, read_data_sc2, extract_items, \
     encode_items, \
     encode_data, print_results_mcts, print_results, average_results
@@ -14,14 +16,14 @@ from mctseq.utils import read_data, read_data_kosarak, read_data_sc2, extract_it
 sys.setrecursionlimit(500000)
 
 # DATA = read_data_kosarak('../data/out.data')
-DATA = read_data('../data/promoters.data')
-#DATA = read_data('../data/splice.data')
-#DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:1000]
+# DATA = read_data('../data/promoters.data')
+# DATA = read_data('../data/splice.data')
+DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:300]
 
 items = extract_items(DATA)
 items, item_to_encoding, encoding_to_item = encode_items(items)
 DATA = encode_data(DATA, item_to_encoding)
-target_class = '+'
+target_class = '1'
 
 def basic_xp():
     TIME = 1
@@ -43,12 +45,22 @@ def basic_xp():
 def basic_xp_2():
     TIME = 50
 
-    mcts = MCTSeq(10, items, DATA, TIME, target_class, enable_i=False)
+    mcts = MCTSeq(5, items, DATA, TIME, target_class, enable_i=False)
     mcts_result = mcts.launch()
     print_results_mcts(mcts_result, encoding_to_item)
 
     misere_result = misere(DATA, TIME, target_class)
     print_results(misere_result)
+
+def misere_vs_misere_hill():
+    TIME = 60
+
+    misere_hill_result = misere_hill(DATA,items ,TIME, target_class, 5)
+    print_results(misere_hill_result)
+
+    misere_result = misere(DATA, TIME, target_class, 5)
+    print_results(misere_result)
+
 
 def show_quality_over_time():
     results_mcts = []
@@ -93,4 +105,5 @@ def show_quality_over_time():
         f.write(results_misere)
 
 #show_quality_over_time()
-basic_xp_2()
+#basic_xp_2()
+misere_vs_misere_hill()

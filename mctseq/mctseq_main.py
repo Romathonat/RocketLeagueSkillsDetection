@@ -143,7 +143,7 @@ class MCTSeq():
             # ads = len(items) * (2 * len(sequence) - 1)
 
             # define here the number of generalisation we try.
-            for i in range(1):
+            for i in range(2):
                 # we remove z items randomly, if they are not in the intersection
                 # between expanded_node and sursequences
                 forbiden_itemsets = subsequence_indices(node.sequence,
