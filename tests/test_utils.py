@@ -1,5 +1,4 @@
-from mctseq.sequencenode import SequenceNode
-from mctseq.utils import sequence_mutable_to_immutable, \
+from seqehc.utils import sequence_mutable_to_immutable, \
     sequence_immutable_to_mutable, count_target_class_data, is_subsequence, \
     following_ones, generate_bitset, create_s_extension, create_i_extension, \
     get_support_from_vector
@@ -12,26 +11,6 @@ bitset_slot_size = 2
 
 kwargs = {'first_zero_mask': first_zero_mask, 'last_ones_mask': last_ones_mask,
           'bitset_slot_size': bitset_slot_size, 'node_hashmap': {}}
-
-
-def test_sequence_mutable_to_imutable():
-    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0,
-                       {}, **kwargs)
-    immutable = sequence_mutable_to_immutable(seq.sequence)
-
-    assert len(immutable) == 2
-    assert isinstance(immutable, tuple)
-
-
-def test_sequence_imutable_to_mutable():
-    seq = SequenceNode([{'A'}, {'BC'}], None, {'A', 'B', 'C'}, data, '+', 0,
-                       {}, **kwargs)
-    immutable = sequence_mutable_to_immutable(seq.sequence)
-
-    mutable = sequence_immutable_to_mutable(immutable)
-
-    assert len(mutable) == 2
-    assert isinstance(mutable, list)
 
 
 def test_create_s_extension():

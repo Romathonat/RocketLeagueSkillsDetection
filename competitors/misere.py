@@ -3,12 +3,12 @@ import random
 import copy
 import math
 
-from mctseq.utils import read_data, read_data_kosarak, uct, \
+from seqehc.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
     count_target_class_data
-from mctseq.priorityset import PrioritySet
+from seqehc.priorityset import PrioritySet
 
 
 def compute_WRAcc(data, subsequence, target_class):

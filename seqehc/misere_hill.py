@@ -3,12 +3,13 @@ import random
 import copy
 import math
 
-from mctseq.utils import read_data, read_data_kosarak, uct, \
+from seqehc.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
     count_target_class_data, extract_items
-from mctseq.priorityset import PrioritySet
+
+from seqehc.priorityset import PrioritySet
 
 
 def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
@@ -212,7 +213,7 @@ def misere_hill(data, items, time_budget, target_class, top_k=10):
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 '''
-DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:100]
+DATA = read_data_sc2('./data/sequences-TZ-45.txt')[:100]
 ITEMS = extract_items(DATA)
 # DATA = read_data_kosarak('../data/all.csv')
 results = misere_hill(DATA, ITEMS, 5, '1')

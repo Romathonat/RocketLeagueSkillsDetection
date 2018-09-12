@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/mctseq.iml" filepath="$PROJECT_DIR$/.idea/mctseq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SEQEHC.iml" filepath="$PROJECT_DIR$/.idea/SEQEHC.iml" />
     </modules>
   </component>
 </project>

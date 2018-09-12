@@ -1,59 +1,30 @@
-from datetime import datetime
 from multiprocessing.pool import Pool
 
 import sys
 
 import matplotlib.pyplot as plt
 
-from mctseq.mctseq_main import MCTSeq
 from competitors.misere import misere
-from competitors.misere_hill import misere_hill
+from seqehc.misere_hill import misere_hill
 
-from mctseq.utils import read_data, read_data_kosarak, read_data_sc2, extract_items, \
+from seqehc.utils import read_data, extract_items, \
     encode_items, \
-    encode_data, print_results_mcts, print_results, average_results
+    encode_data, print_results, average_results
 
 sys.setrecursionlimit(500000)
 
 # DATA = read_data_kosarak('../data/out.data')
-# DATA = read_data('../data/promoters.data')
+DATA = read_data('../data/promoters.data')
 # DATA = read_data('../data/splice.data')
-DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:300]
+# DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:300]
 
 items = extract_items(DATA)
 items, item_to_encoding, encoding_to_item = encode_items(items)
 DATA = encode_data(DATA, item_to_encoding)
-target_class = '1'
-
-def basic_xp():
-    TIME = 1
-    pool = Pool(processes=2)
-
-    mcts = MCTSeq(10, items, DATA, TIME, target_class, enable_i=False)
-    results_mcts = pool.apply_async(mcts.launch)
-
-    results_misere = pool.apply_async(misere, (DATA, TIME, target_class))
-
-
-    print('Misere')
-    print_results(results_misere.get())
-
-    print('MCTS')
-    results_mcts = results_mcts.get()
-    print_results_mcts(results_mcts, encoding_to_item)
-
-def basic_xp_2():
-    TIME = 50
-
-    mcts = MCTSeq(5, items, DATA, TIME, target_class, enable_i=False)
-    mcts_result = mcts.launch()
-    print_results_mcts(mcts_result, encoding_to_item)
-
-    misere_result = misere(DATA, TIME, target_class)
-    print_results(misere_result)
+target_class = '+'
 
 def misere_vs_misere_hill():
-    TIME = 60
+    TIME = 10
 
     misere_hill_result = misere_hill(DATA,items ,TIME, target_class, 5)
     print_results(misere_hill_result)

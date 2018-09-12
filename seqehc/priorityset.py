@@ -1,67 +1,7 @@
 import heapq
-from mctseq.utils import jaccard_measure, is_subsequence
+from seqehc.utils import jaccard_measure, is_subsequence
 
 THETA = 0.8
-
-def filter_results(results, theta, k):
-    """
-    Filter redundant elements
-    :param results: must be a node
-    :param theta:
-    :return: filtered list
-    """
-    results_list = list(results)
-    results_list.sort(key=lambda x: x[0], reverse=True)
-
-    filtered_elements = []
-
-    for i, result in enumerate(results_list):
-        similar = False
-
-        for filtered_element in filtered_elements:
-            if jaccard_measure(result[1],
-                               filtered_element) > theta:
-                similar = True
-
-        if not similar:
-            filtered_elements.append(result[1])
-
-        if len(filtered_elements) >= k:
-            break
-
-    return list(map(lambda x: (x.wracc, x), filtered_elements))
-
-
-class PrioritySetQuality(object):
-    """
-    This class is a priority queue, removing duplicates and using node wracc
-    as the metric to order the priority queue
-    """
-
-    def __init__(self):
-        self.heap = []
-        self.set = set()
-
-    def add(self, node):
-        if node not in self.set:
-            heapq.heappush(self.heap, (node.wracc, node))
-            self.set.add(node)
-
-    def get(self):
-        wracc, node = heapq.heappop(self.heap)
-        self.set.remove(node)
-        return (wracc, node)
-
-    def get_top_k(self, k):
-        data = heapq.nlargest(k, self.heap)
-        return data
-
-    def get_top_k_non_redundant(self, k):
-        self.heap = filter_results(self.heap, THETA, k)
-        return self.get_top_k(k)
-
-##### FOR MISERE  ######
-
 
 def jaccard_measure_misere(sequence1, sequence2, data):
     intersection = 0
