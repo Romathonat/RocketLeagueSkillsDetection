@@ -199,11 +199,13 @@ def read_data_kosarak(filename):
     data = []
     with open(filename) as f:
         for line in f:
-            sequence = []
-            sequence.append(line[-3])
-            line = line[:-3]
+            line_split = line.split("-1")
+            first, second = line_split[0].split()
+            line_split = line_split[1:-1]
 
-            line_split = line.split("-1")[:-1]
+            line_split.insert(0, second)
+
+            sequence = [first]
 
             for itemset in line_split:
                 items = itemset.split()

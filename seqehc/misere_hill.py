@@ -87,7 +87,7 @@ def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
 
 def compute_variations(sequence, items, data, target_class, bitset_slot_size,
                        itemsets_bitsets, class_data_count, first_zero_mask,
-                       last_ones_mask):
+                       last_ones_mask, enable_i=False):
     '''
     Comput all variations with one step, with the WRAcc
     :param sequence:
@@ -97,11 +97,47 @@ def compute_variations(sequence, items, data, target_class, bitset_slot_size,
     variations = []
 
     for itemset_i, itemset in enumerate(sequence):
+        # i_extension
+        if enable_i:
+            for item_possible in items:
+                new_variation_i_extension = copy.deepcopy(sequence)
+                new_variation_i_extension[itemset_i].add(item_possible)
+
+
+
+                new_variation_i_wracc = compute_WRAcc_vertical(data,
+                                                               new_variation_i_extension,
+                                                               target_class,
+                                                               bitset_slot_size,
+                                                               itemsets_bitsets,
+                                                               class_data_count,
+                                                               first_zero_mask,
+                                                               last_ones_mask)
+                variations.append(
+                    (new_variation_i_extension, new_variation_i_wracc))
+
+        # s_extension
+        for item_possible in items:
+            new_variation_s_extension = copy.deepcopy(sequence)
+            new_variation_s_extension.insert(itemset_i, {item_possible})
+
+            new_variation_s_wracc = compute_WRAcc_vertical(data,
+                                                           new_variation_s_extension,
+                                                           target_class,
+                                                           bitset_slot_size,
+                                                           itemsets_bitsets,
+                                                           class_data_count,
+                                                           first_zero_mask,
+                                                           last_ones_mask)
+
+            variations.append(
+                (new_variation_s_extension, new_variation_s_wracc))
+
         for item_i, item in enumerate(itemset):
             new_variation_remove = copy.deepcopy(sequence)
 
-            # we can switch this item, or remove it
-            # TODO: add i and s-extension
+            # we can switch this item, remove it or add it as s or i-extension
+
             if (k_length(sequence) > 1):
                 new_variation_remove[itemset_i].remove(item)
 
@@ -119,7 +155,10 @@ def compute_variations(sequence, items, data, target_class, bitset_slot_size,
 
                 variations.append(
                     (new_variation_remove, new_variation_remove_wracc))
-
+            '''
+            
+            # Scientifiq question: do we enable it or not ?
+            
             for item_possible in items:
                 new_variation = copy.deepcopy(sequence)
                 new_variation[itemset_i].remove(item)
@@ -134,6 +173,24 @@ def compute_variations(sequence, items, data, target_class, bitset_slot_size,
                                                              last_ones_mask)
 
                 variations.append((new_variation, new_variation_wracc))
+            '''
+
+    # s_extension for last element
+    for item_possible in items:
+        new_variation_s_extension = copy.deepcopy(sequence)
+        new_variation_s_extension.append({item_possible})
+
+        new_variation_s_wracc = compute_WRAcc_vertical(data,
+                                                       new_variation_s_extension,
+                                                       target_class,
+                                                       bitset_slot_size,
+                                                       itemsets_bitsets,
+                                                       class_data_count,
+                                                       first_zero_mask,
+                                                       last_ones_mask)
+
+        variations.append(
+            (new_variation_s_extension, new_variation_s_wracc))
 
     return variations
 
@@ -162,13 +219,18 @@ def generalize_sequence(sequence, data, target_class, bitset_slot_size,
     return (sequence, wracc)
 
 
-def misere_hill(data, items, time_budget, target_class, top_k=10):
+### Le calcul de la Wracc est correct ! Le probleme est ailleurs !
+
+def misere_hill(data, items, time_budget, target_class, top_k=10,
+                enable_i=False):
+
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
     sorted_patterns = PrioritySet()
 
     bitset_slot_size = len(max(data, key=lambda x: len(x)))
+
     first_zero_mask = compute_first_zero_mask(len(data), bitset_slot_size)
     last_ones_mask = compute_last_ones_mask(len(data), bitset_slot_size)
     class_data_count = count_target_class_data(data, target_class)
@@ -194,7 +256,8 @@ def misere_hill(data, items, time_budget, target_class, top_k=10):
                                             itemsets_bitsets,
                                             class_data_count,
                                             first_zero_mask,
-                                            last_ones_mask)
+                                            last_ones_mask,
+                                            enable_i)
 
             # we take the best solution, and we iterate
             sequence, wracc = max(variations, key=lambda x: x[1])
@@ -206,11 +269,12 @@ def misere_hill(data, items, time_budget, target_class, top_k=10):
                 break
 
         sorted_patterns.add(sequence_mutable_to_immutable(current_sequence),
-                            wracc)
+                            current_wracc)
 
     print('Iterations misere hill: {}'.format(len(sorted_patterns.set)))
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
+
 
 '''
 DATA = read_data_sc2('./data/sequences-TZ-45.txt')[:100]

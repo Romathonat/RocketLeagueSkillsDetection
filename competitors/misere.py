@@ -105,6 +105,23 @@ def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
     return wracc
 
 
+def count_subsequences_number(sequence):
+    solutions = {0: 1}
+
+    for i, x in enumerate(sequence):
+        if x not in sequence[:i]:
+            solutions[i+1] = 2 * solutions[i]
+        else:
+            last_index = 0
+            for j, char in enumerate(sequence[i-1::-1]):
+                if char == x:
+                    last_index = j + 1
+                    break
+
+            solutions[i+1] = 2 * solutions[i] - solutions[last_index - 1]
+
+    return solutions[len(sequence)]
+
 def misere(data, time_budget, target_class, top_k=10):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
@@ -123,7 +140,8 @@ def misere(data, time_budget, target_class, top_k=10):
 
         # for now we consider this upper bound (try better later)
         items = set([i for j_set in sequence for i in j_set])
-        ads = len(items) * (2 * len(sequence) - 1)
+        # ads = len(items) * (2 * len(sequence) - 1)
+        ads = count_subsequences_number(sequence)
 
         for i in range(int(math.log(ads))):
             subsequence = copy.deepcopy(sequence)
@@ -146,6 +164,7 @@ def misere(data, time_budget, target_class, top_k=10):
             # now we calculate the Wracc
             # wracc = compute_WRAcc(data, subsequence, target_class)
 
+
             wracc = compute_WRAcc_vertical(data, subsequence, target_class,
                                            bitset_slot_size,
                                            itemsets_bitsets, class_data_count,
@@ -157,8 +176,9 @@ def misere(data, time_budget, target_class, top_k=10):
     print('Iterations misere: {}'.format(len(sorted_patterns.set)))
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
+
 '''
-DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:100]
+DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
 # DATA = read_data_kosarak('../data/all.csv')
 results = misere(DATA, 10, '1')
 

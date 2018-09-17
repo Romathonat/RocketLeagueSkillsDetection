@@ -9,24 +9,25 @@ from seqehc.misere_hill import misere_hill
 
 from seqehc.utils import read_data, extract_items, \
     encode_items, \
-    encode_data, print_results, average_results
+    encode_data, print_results, average_results, read_data_kosarak, read_data_sc2
 
 sys.setrecursionlimit(500000)
 
 # DATA = read_data_kosarak('../data/out.data')
-DATA = read_data('../data/promoters.data')
+# DATA = read_data_kosarak('../data/aslbu.data')
+# DATA = read_data('../data/promoters.data')
 # DATA = read_data('../data/splice.data')
-# DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:300]
+DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
 
 items = extract_items(DATA)
 items, item_to_encoding, encoding_to_item = encode_items(items)
 DATA = encode_data(DATA, item_to_encoding)
-target_class = '+'
+target_class = '1'
 
 def misere_vs_misere_hill():
-    TIME = 10
+    TIME = 50
 
-    misere_hill_result = misere_hill(DATA,items ,TIME, target_class, 5)
+    misere_hill_result = misere_hill(DATA, items, TIME, target_class, 5)
     print_results(misere_hill_result)
 
     misere_result = misere(DATA, TIME, target_class, 5)
