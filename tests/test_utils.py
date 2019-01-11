@@ -1,10 +1,10 @@
 from seqehc.utils import sequence_mutable_to_immutable, \
     sequence_immutable_to_mutable, count_target_class_data, is_subsequence, \
     following_ones, generate_bitset, create_s_extension, create_i_extension, \
-    get_support_from_vector
+    get_support_from_vector, compute_bitset_slot_size, compute_WRAcc, \
+    compute_WRAcc_vertical, jaccard_measure
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
-first_zero_mask = int('0101', 2)
 first_zero_mask = int('0101', 2)
 last_ones_mask = int('0101', 2)
 bitset_slot_size = 2
@@ -12,6 +12,28 @@ bitset_slot_size = 2
 kwargs = {'first_zero_mask': first_zero_mask, 'last_ones_mask': last_ones_mask,
           'bitset_slot_size': bitset_slot_size, 'node_hashmap': {}}
 
+
+def test_wracc():
+    assert compute_WRAcc(data, [{'B'}], '-') == 0
+    assert compute_WRAcc(data, [{'C'}], '+') == 0.25
+
+
+def test_wracc_vertical():
+    assert compute_WRAcc_vertical(data, [{'B'}], '-', bitset_slot_size, {}, 1,
+                                  first_zero_mask, last_ones_mask)[0] == 0
+    assert compute_WRAcc_vertical(data, [{'C'}], '+', bitset_slot_size, {}, 1,
+                                  first_zero_mask, last_ones_mask)[0] == 0.25
+
+
+def test_jaccard_bitset():
+    first_zero_mask = int('010101', 2)
+    last_ones_mask = int('010101', 2)
+    bitset_slot_size = 2
+    data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}], ['+', {'C'}]]
+
+    assert jaccard_measure(int('010010', 2), int('100100', 2), bitset_slot_size, first_zero_mask, last_ones_mask) == 1/3
+
+test_jaccard_bitset()
 
 def test_create_s_extension():
     sequence = (frozenset({'A'}), frozenset({'C'}))
@@ -39,9 +61,16 @@ def test_count_target_class_date():
     assert count_target_class_data(data, '+') == 1
 
 
+def test_compute_bitset_slot_size():
+    assert compute_bitset_slot_size(data) == 2
+
+
 def test_is_subsequence():
     a = ({1, 2}, {2, 3})
     b = ({1, 2, 3}, {2, 4, 3})
+    c = ({1}, {2}, {2})
+
+    assert not is_subsequence(c, a)
 
     assert is_subsequence(a, b)
 
@@ -66,6 +95,15 @@ def test_is_subsequence():
     assert is_subsequence(a, b)
     assert not is_subsequence(b, a)
 
+    a = sequence_mutable_to_immutable(a)
+    b = sequence_mutable_to_immutable(b)
+    assert is_subsequence(a, b)
+
+    a = [{'1'}, {'2'}]
+    b = [{'1', '2', '3'}, {'1'}, {'2', '4', '3'}]
+
+    assert is_subsequence(a, b)
+
 
 def test_following_ones():
     a = int('01000010', 2)
@@ -87,13 +125,16 @@ def test_get_support_from_vector():
     zero_mask = int('01110111', 2)
     ones_mask = int('00010001', 2)
 
-    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == (2, int('11', 2))
+    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == (
+    2, int('11', 2))
 
     a = int('00100000', 2)
-    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == (1, int('10', 2))
+    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == (
+    1, int('10', 2))
 
     a = int('00010001', 2)
-    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == (2, int('11', 2))
+    assert get_support_from_vector(a, 4, zero_mask, ones_mask) == (
+    2, int('11', 2))
 
 
 def test_generate_bitset():

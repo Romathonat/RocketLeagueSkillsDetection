@@ -25,9 +25,11 @@ def create_s_extension(sequence, item, index):
     :param index: the index to add the item
     :return: an immutable sequence
     """
+    # .insert would require a deep copy, wich is not performance
 
     new_sequence = []
     appended = False
+
     for i, itemset in enumerate(sequence):
         if i == index:
             new_sequence.append(frozenset({item}))
@@ -294,9 +296,13 @@ def hamming_weight(vector):
     return w
 
 
-def jaccard_measure(node1, node2):
-    intersec = hamming_weight(node1.bitset_simple & node2.bitset_simple)
-    union = hamming_weight(node1.bitset_simple | node2.bitset_simple)
+def jaccard_measure(bitset1, bitset2, bitset_slot_size, first_zero_mask, last_ones_mask):
+
+    _, bitset1 = get_support_from_vector(bitset1, bitset_slot_size, first_zero_mask, last_ones_mask)
+    _, bitset2 = get_support_from_vector(bitset2, bitset_slot_size, first_zero_mask, last_ones_mask)
+
+    intersec = hamming_weight(bitset1 & bitset2)
+    union = hamming_weight(bitset1 | bitset2)
 
     try:
         return intersec / union
@@ -443,6 +449,17 @@ def generate_bitset(itemset, data, bitset_slot_size):
     return bitset
 
 
+def compute_bitset_slot_size(data):
+    max_size_itemset = 1
+
+    for line in data:
+        max_size_line = len(max(line, key=lambda x: len(x)))
+        if max_size_line > max_size_itemset:
+            max_size_itemset = max_size_line
+
+    return max_size_itemset
+
+
 def print_results(results):
     sum_result = 0
     for result in results:
@@ -494,31 +511,6 @@ def format_sequence_graph(sequence):
     sequence_string = '<{}>'.format(sequence_string[:-1])
     return sequence_string
 
-
-def filter_redondant_result(results, theta):
-    """
-    Filter redundant elements
-    :param results: must be a node
-    :param theta:
-    :return: filtered list
-    """
-    results_list = list(results)
-    results_list.sort(key=lambda x: x.quality, reverse=True)
-
-    filtered_elements = []
-
-    for result in results_list:
-        similar = False
-
-        for filtered_element in filtered_elements:
-            if jaccard_measure(result,
-                               filtered_element) > theta:
-                similar = True
-
-        if not similar:
-            filtered_elements.append(result)
-
-    return filtered_elements
 
 
 # Require Graphviz
@@ -577,3 +569,109 @@ def explore_graph(node, parent, sequences, seen):
         for child in node.generated_children:
             explore_graph(child, node, sequences, seen)
         seen.add(node.sequence)
+
+
+def compute_WRAcc(data, subsequence, target_class):
+    subsequence_supp = 0
+    data_supp = len(data)
+    class_subsequence_supp = 0
+    class_data_supp = 0
+
+    for sequence in data:
+        current_class = sequence[0]
+        sequence = sequence[1:]
+
+        if is_subsequence(subsequence, sequence):
+            subsequence_supp += 1
+            if current_class == target_class:
+                class_subsequence_supp += 1
+
+        if current_class == target_class:
+            class_data_supp += 1
+
+    try:
+        wracc = (subsequence_supp / data_supp) * (
+            class_subsequence_supp / subsequence_supp -
+            class_data_supp / data_supp)
+
+        return wracc
+
+    except:
+        return 0
+
+
+def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
+                           itemsets_bitsets, class_data_count, first_zero_mask,
+                           last_ones_mask):
+
+    length = k_length(subsequence)
+    bitset = 0
+
+    if length == 0:
+        # the empty node is present everywhere
+        # we just have to create a vector of ones
+        bitset = 2 ** (len(data) * bitset_slot_size) - 1
+    elif length == 1:
+        singleton = frozenset(subsequence[0])
+        bitset = generate_bitset(singleton, data,
+                                 bitset_slot_size)
+        itemsets_bitsets[singleton] = bitset
+    else:
+        # general case
+        bitset = 2 ** (len(data) * bitset_slot_size) - 1
+        first_iteration = True
+        for itemset_i in subsequence:
+            itemset = frozenset(itemset_i)
+
+            try:
+                itemset_bitset = itemsets_bitsets[itemset]
+            except KeyError:
+                # the bitset is not in the hashmap, we need to generate it
+                itemset_bitset = generate_bitset(itemset, data,
+                                                 bitset_slot_size)
+                itemsets_bitsets[itemset] = itemset_bitset
+
+            if first_iteration:
+                first_iteration = False
+
+                # aie aie aie !
+                bitset = itemset_bitset
+            else:
+                bitset = following_ones(bitset, bitset_slot_size,
+                                        first_zero_mask)
+
+                bitset &= itemset_bitset
+
+    # now we just need to extract support, supersequence and class_pattern_count
+    class_pattern_count = 0
+
+    support, bitset_simple = get_support_from_vector(bitset,
+                                                     bitset_slot_size,
+                                                     first_zero_mask,
+                                                     last_ones_mask)
+
+    # find supersequences and count class pattern:
+    i = bitset_simple.bit_length() - 1
+
+    while i >= 0:
+        if bitset_simple >> i & 1:
+            index_data = len(data) - i - 1
+
+            if data[index_data][0] == target_class:
+                class_pattern_count += 1
+
+        i -= 1
+
+    occurency_ratio = support / len(data)
+
+    # we find the number of elements who have the right target_class
+    try:
+        class_pattern_ratio = class_pattern_count / support
+    except ZeroDivisionError:
+        return -0.25, 0
+    class_data_ratio = class_data_count / len(data)
+
+    wracc = occurency_ratio * (class_pattern_ratio - class_data_ratio)
+
+    return wracc, bitset
+
