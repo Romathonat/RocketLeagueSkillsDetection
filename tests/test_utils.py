@@ -2,7 +2,7 @@ from seqehc.utils import sequence_mutable_to_immutable, \
     sequence_immutable_to_mutable, count_target_class_data, is_subsequence, \
     following_ones, generate_bitset, create_s_extension, create_i_extension, \
     get_support_from_vector, compute_bitset_slot_size, compute_WRAcc, \
-    compute_WRAcc_vertical, jaccard_measure
+    compute_WRAcc_vertical, jaccard_measure, find_LCS
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 first_zero_mask = int('0101', 2)
@@ -143,3 +143,12 @@ def test_generate_bitset():
 
     bitset = generate_bitset({'A'}, data, 4)
     assert bitset == int('10001000', 2)
+
+
+def test_lcs():
+    seq1 = [{'a', 'b'}, {'e'}, {'c'}]
+    seq2 = [{'a' }, {'d'}, {'a', 'b'}, {'f'}, {'e'}]
+
+    lcs = find_LCS(seq1, seq2)
+
+    assert lcs == [{'a', 'b'}, {'e'}]

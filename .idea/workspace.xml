@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/SEQEHC.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SEQEHC.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/misere.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/misere.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/conf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/make.bat" beforeDir="false" afterPath="$PROJECT_DIR$/docs/make.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seqehc/misere_hill.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqehc/misere_hill.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqehc/priorityset.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqehc/priorityset.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seqehc/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqehc/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xp/xp_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/xp_main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/seqehc/misere_hill.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
-              <caret line="452" column="9" selection-start-line="452" selection-start-column="9" selection-end-line="452" selection-end-column="9" />
+            <state relative-caret-position="6765">
+              <caret line="463" column="70" selection-start-line="463" selection-start-column="70" selection-end-line="463" selection-end-column="70" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -46,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/seqehc/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4470">
-              <caret line="298" column="87" selection-start-line="298" selection-start-column="87" selection-end-line="298" selection-end-column="87" />
+            <state relative-caret-position="285">
+              <caret line="685" column="3" selection-start-line="685" selection-start-column="3" selection-end-line="685" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -58,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+            <state relative-caret-position="548">
+              <caret line="153" column="33" selection-start-line="153" selection-start-column="33" selection-end-line="153" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -162,10 +155,10 @@
         <option value="$PROJECT_DIR$/competitors/misere.py" />
         <option value="$PROJECT_DIR$/competitors/beam_search.py" />
         <option value="$PROJECT_DIR$/seqehc/priorityset.py" />
-        <option value="$PROJECT_DIR$/seqehc/utils.py" />
-        <option value="$PROJECT_DIR$/tests/test_utils.py" />
         <option value="$PROJECT_DIR$/xp/xp_main.py" />
         <option value="$PROJECT_DIR$/seqehc/misere_hill.py" />
+        <option value="$PROJECT_DIR$/tests/test_utils.py" />
+        <option value="$PROJECT_DIR$/seqehc/utils.py" />
       </list>
     </option>
   </component>
@@ -201,7 +194,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -228,6 +220,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -496,9 +489,9 @@
   <component name="ToolWindowManager">
     <frame x="0" y="34" width="1920" height="1046" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49447078" weight="0.17501318" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49447078" visible="true" weight="0.17501318" />
       <window_info id="Favorites" order="1" sideWeight="0.5055292" side_tool="true" weight="0.25" />
-      <window_info id="Structure" order="2" visible="true" weight="0.1544544" />
+      <window_info id="Structure" order="2" weight="0.09435952" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.27129337" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4978903" visible="true" weight="0.2383025" />
@@ -509,7 +502,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5084388" side_tool="true" weight="0.24265505" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32792208" />
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.32875264" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49156117" weight="0.23294859" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.49156117" visible="true" weight="0.2328618" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -607,11 +600,6 @@
           <url>file://$PROJECT_DIR$/xp/plot_ram_over_time.py</url>
           <line>21</line>
           <option name="timeStamp" value="342" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/seqehc/utils.py</url>
-          <line>300</line>
-          <option name="timeStamp" value="393" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -792,8 +780,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/seqehc/misere_hill.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="452" column="9" selection-start-line="452" selection-start-column="9" selection-end-line="452" selection-end-column="9" />
+        <state relative-caret-position="6765">
+          <caret line="463" column="70" selection-start-line="463" selection-start-column="70" selection-end-line="463" selection-end-column="70" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
@@ -804,20 +792,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1200">
           <caret line="91" column="48" selection-start-line="91" selection-start-column="48" selection-end-line="91" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqehc/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4470">
-          <caret line="298" column="87" selection-start-line="298" selection-start-column="87" selection-end-line="298" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -850,6 +824,20 @@
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="153" column="33" selection-start-line="153" selection-start-column="33" selection-end-line="153" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seqehc/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="685" column="3" selection-start-line="685" selection-start-column="3" selection-end-line="685" selection-end-column="3" />
         </state>
       </provider>
     </entry>

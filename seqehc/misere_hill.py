@@ -416,27 +416,7 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
                                             last_ones_mask,
                                             enable_i=enable_i,
                                             horizontal_var=horizontale_var)
-            '''
-            variations = compute_random_variations(current_sequence, items,
-                                                   data, target_class,
-                                                   bitset_slot_size,
-                                                   itemsets_bitsets,
-                                                   class_data_count,
-                                                   first_zero_mask,
-                                                   last_ones_mask,
-                                                   enable_i)
-            '''
-            '''
-            variations = compute_variations_better_wracc(current_sequence, items,
-                                                   data, target_class,
-                                                   bitset_slot_size,
-                                                   itemsets_bitsets,
-                                                   class_data_count,
-                                                   first_zero_mask,
-                                                   last_ones_mask,
-                                                   current_wracc,
-                                                   enable_i=enable_i)
-            '''
+
             # we take the best solution, and we iterate
             sequence, wracc, bitset = max(variations, key=lambda x: x[1])
 
@@ -474,3 +454,12 @@ def launch():
 
 if __name__ == '__main__':
     launch()
+
+'''
+We will first focus on LCS, but in fact:
+
+Take all positive object, then randomly take common subsequences among all of them -> Misere-hill
+
+Or better: take all positive objects, compute similarities between them, make clusters. Each cluster is represented by 
+a pattern. See "On measuring similarity for sequences of itemsets" Egho
+'''
