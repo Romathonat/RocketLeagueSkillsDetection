@@ -1,0 +1,8 @@
+1	pick-up	pick-up
+2	put-down	put-down
+3	move-left	move-left
+4	move-right	move-right
+5	stack	stack
+6	unstack	unstack
+7	assemble	assemble
+8	disassemble	disassemble

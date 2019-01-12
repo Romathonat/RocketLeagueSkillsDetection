@@ -1,0 +1,190 @@
+1	head pos: tilt fr/bk front	head pos: tilt fr/bk front
+2	head pos: tilt fr/bk slightly front	head pos: tilt fr/bk slightly front
+3	head pos: tilt fr/bk further front	head pos: tilt fr/bk further front
+4	head pos: tilt fr/bk back	head pos: tilt fr/bk back
+5	head pos: tilt fr/bk slightly back	head pos: tilt fr/bk slightly back
+6	head pos: tilt fr/bk further back	head pos: tilt fr/bk further back
+7	head pos: tilt fr/bk HOLD	head pos: tilt fr/bk HOLD
+8	head pos: tilt fr/bk ONSET	head pos: tilt fr/bk ONSET
+9	head pos: tilt fr/bk OFFSET	head pos: tilt fr/bk OFFSET
+10	head pos: turn left	head pos: turn left
+11	head pos: turn slightly left	head pos: turn slightly left
+12	head pos: turn further left	head pos: turn further left
+13	head pos: turn right	head pos: turn right
+14	head pos: turn slightly right	head pos: turn slightly right
+15	head pos: turn further right	head pos: turn further right
+16	head pos: turn HOLD	head pos: turn HOLD
+17	head pos: turn ONSET	head pos: turn ONSET
+18	head pos: turn OFFSET	head pos: turn OFFSET
+19	head pos: tilt side left	head pos: tilt side left
+20	head pos: tilt side slightly left	head pos: tilt side slightly left
+21	head pos: tilt side further left	head pos: tilt side further left
+22	head pos: tilt side right	head pos: tilt side right
+23	head pos: tilt side slightly right	head pos: tilt side slightly right
+24	head pos: tilt side further right	head pos: tilt side further right
+25	head pos: tilt side HOLD	head pos: tilt side HOLD
+26	head pos: tilt side ONSET	head pos: tilt side ONSET
+27	head pos: tilt side OFFSET	head pos: tilt side OFFSET
+28	head pos: jut forward	head pos: jut forward
+29	head pos: jut slightly forward	head pos: jut slightly forward
+30	head pos: jut further forward	head pos: jut further forward
+31	head pos: jut back	head pos: jut back
+32	head pos: jut slightly back	head pos: jut slightly back
+33	head pos: jut further back	head pos: jut further back
+34	head pos: jut HOLD	head pos: jut HOLD
+35	head pos: jut ONSET	head pos: jut ONSET
+36	head pos: jut OFFSET	head pos: jut OFFSET
+37	head mvmt: nod rapid	head mvmt: nod rapid
+38	head mvmt: nod slight rapid head nod	head mvmt: nod slight rapid head nod
+39	head mvmt: nod slow	head mvmt: nod slow
+40	head mvmt: nod slight slow head nod	head mvmt: nod slight slow head nod
+41	head mvmt: nod single	head mvmt: nod single
+42	head mvmt: nod slight single head nod	head mvmt: nod slight single head nod
+43	head mvmt: nod HOLD	head mvmt: nod HOLD
+44	head mvmt: nod ONSET	head mvmt: nod ONSET
+45	head mvmt: nod OFFSET	head mvmt: nod OFFSET
+46	head mvmt: shake rapid	head mvmt: shake rapid
+47	head mvmt: shake slight rapid head shake	head mvmt: shake slight rapid head shake
+48	head mvmt: shake slow	head mvmt: shake slow
+49	head mvmt: shake slight slow head shake	head mvmt: shake slight slow head shake
+50	head mvmt: shake single	head mvmt: shake single
+51	head mvmt: shake slight single head shake	head mvmt: shake slight single head shake
+52	head mvmt: shake HOLD	head mvmt: shake HOLD
+53	head mvmt: shake ONSET	head mvmt: shake ONSET
+54	head mvmt: shake OFFSET	head mvmt: shake OFFSET
+55	head mvmt: side to side rapid	head mvmt: side to side rapid
+56	head mvmt: side to side slow	head mvmt: side to side slow
+57	head mvmt: side to side single	head mvmt: side to side single
+58	head mvmt: side to side HOLD	head mvmt: side to side HOLD
+59	head mvmt: side to side ONSET	head mvmt: side to side ONSET
+60	head mvmt: side to side OFFSET	head mvmt: side to side OFFSET
+61	head mvmt: jut slow	head mvmt: jut slow
+62	head mvmt: jut forward	head mvmt: jut forward
+63	head mvmt: jut back	head mvmt: jut back
+64	head mvmt: jut HOLD	head mvmt: jut HOLD
+65	head mvmt: jut ONSET	head mvmt: jut ONSET
+66	head mvmt: jut OFFSET	head mvmt: jut OFFSET
+67	body lean left	body lean left
+68	body lean right	body lean right
+69	body lean forward	body lean forward
+70	body lean slightly forward	body lean slightly forward
+71	body lean forward/left	body lean forward/left
+72	body lean forward/right	body lean forward/right
+73	body lean back	body lean back
+74	body lean slightly back	body lean slightly back
+75	body lean back left	body lean back left
+76	body lean back right	body lean back right
+77	body lean HOLD	body lean HOLD
+78	body lean ONSET	body lean ONSET
+79	body lean OFFSET	body lean OFFSET
+80	body mvmt down	body mvmt down
+81	body mvmt HOLD	body mvmt HOLD
+82	body mvmt ONSET	body mvmt ONSET
+83	body mvmt OFFSET	body mvmt OFFSET
+84	neck tensed	neck tensed
+85	neck tensed/left	neck tensed/left
+86	neck tensed/right	neck tensed/right
+87	neck HOLD	neck HOLD
+88	neck ONSET	neck ONSET
+89	neck OFFSET	neck OFFSET
+90	shoulders left	shoulders left
+91	shoulders slightly left	shoulders slightly left
+92	shoulders left/down	shoulders left/down
+93	shoulders left/raised	shoulders left/raised
+94	shoulders right	shoulders right
+95	shoulders slightly right	shoulders slightly right
+96	shoulders right down	shoulders right down
+97	shoulders right raised	shoulders right raised
+98	shoulders down	shoulders down
+99	shoulders raised	shoulders raised
+100	shoulders further raised	shoulders further raised
+101	shoulders forward	shoulders forward
+102	shoulders forward left	shoulders forward left
+103	shoulders forward right	shoulders forward right
+104	shoulders back	shoulders back
+105	shoulders back left	shoulders back left
+106	shoulders back right	shoulders back right
+107	shoulders HOLD	shoulders HOLD
+108	shoulders ONSET	shoulders ONSET
+109	shoulders OFFSET	shoulders OFFSET
+110	eye brows raised	eye brows raised
+111	eye brows slightly raised	eye brows slightly raised
+112	eye brows further raised	eye brows further raised
+113	eye brows lowered	eye brows lowered
+114	eye brows slightly lowered	eye brows slightly lowered
+115	eye brows further lowered	eye brows further lowered
+116	eye brows HOLD	eye brows HOLD
+117	eye brows ONSET	eye brows ONSET
+118	eye brows OFFSET	eye brows OFFSET
+119	eye gaze left	eye gaze left
+120	eye gaze right	eye gaze right
+121	eye gaze up	eye gaze up
+122	eye gaze up/left	eye gaze up/left
+123	eye gaze up/right	eye gaze up/right
+124	eye gaze down	eye gaze down
+125	eye gaze down/left	eye gaze down/left
+126	eye gaze down/right	eye gaze down/right
+127	eye gaze watch hands	eye gaze watch hands
+128	eye gaze addressee	eye gaze addressee
+129	eye gaze HOLD	eye gaze HOLD
+130	eye gaze ONSET	eye gaze ONSET
+131	eye gaze OFFSET	eye gaze OFFSET
+132	eye aperture blink	eye aperture blink
+133	eye aperture squint	eye aperture squint
+134	eye aperture slightly squinted	eye aperture slightly squinted
+135	eye aperture further squinted	eye aperture further squinted
+136	eye aperture lowered lid	eye aperture lowered lid
+137	eye aperture slightly lowered	eye aperture slightly lowered
+138	eye aperture further lowered	eye aperture further lowered
+139	eye aperture wide	eye aperture wide
+140	eye aperture wider	eye aperture wider
+141	eye aperture closed	eye aperture closed
+142	eye aperture HOLD	eye aperture HOLD
+143	eye aperture ONSET	eye aperture ONSET
+144	eye aperture OFFSET	eye aperture OFFSET
+145	nose wrinkle	nose wrinkle
+146	nose tensed	nose tensed
+147	nose slightly tensed	nose slightly tensed
+148	nose HOLD	nose HOLD
+149	nose ONSET	nose ONSET
+150	nose OFFSET	nose OFFSET
+151	mouth lips pursed: oo	mouth lips pursed: oo
+152	mouth lips pursed: oo-tight	mouth lips pursed: oo-tight
+153	mouth lips pursed: mm	mouth lips pursed: mm
+154	mouth tongue out	mouth tongue out
+155	mouth tongue sucked in quickly	mouth tongue sucked in quickly
+156	mouth tongue mvmt lateral	mouth tongue mvmt lateral
+157	mouth cha	mouth cha
+158	mouth sta	mouth sta
+159	mouth puh	mouth puh
+160	mouth pow	mouth pow
+161	mouth sh	mouth sh
+162	mouth cs	mouth cs
+163	mouth intense	mouth intense
+164	mouth open	mouth open
+165	mouth open &amp; round	mouth open &amp; round
+166	mouth open &amp; tense	mouth open &amp; tense
+167	mouth open &amp; corners down	mouth open &amp; corners down
+168	mouth raised upper lip	mouth raised upper lip
+169	mouth lips spread	mouth lips spread
+170	mouth lips spread &amp; crnrs up	mouth lips spread &amp; crnrs up
+171	mouth lips spread &amp; crnrs down	mouth lips spread &amp; crnrs down
+172	mouth blow	mouth blow
+173	mouth bite lower lip	mouth bite lower lip
+174	mouth tongue on lwr lip	mouth tongue on lwr lip
+175	mouth open &amp; tongue visible	mouth open &amp; tongue visible
+176	mouth brr	mouth brr
+177	mouth smile mouth open	mouth smile mouth open
+178	mouth HOLD	mouth HOLD
+179	mouth ONSET	mouth ONSET
+180	mouth OFFSET	mouth OFFSET
+181	cheeks puffed	cheeks puffed
+182	cheeks puff left	cheeks puff left
+183	cheeks puff right	cheeks puff right
+184	cheeks tensed	cheeks tensed
+185	cheeks less tensed	cheeks less tensed
+186	cheeks tensed left	cheeks tensed left
+187	cheeks tensed right	cheeks tensed right
+188	cheeks HOLD	cheeks HOLD
+189	cheeks ONSET	cheeks ONSET
+190	cheeks OFFSET	cheeks OFFSET
