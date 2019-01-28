@@ -8,7 +8,7 @@ from seqehc.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure
+    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS
 
 from seqehc.priorityset import PrioritySet, THETA
 
@@ -406,7 +406,6 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
 
         while 'climbing hill':
             # we compute all possible variations
-
             variations = compute_variations(current_sequence, items, data,
                                             target_class,
                                             bitset_slot_size,
@@ -443,7 +442,8 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
 
 
 def launch():
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:100]
+    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
+    # DATA = read_data('../data/promoters.data')
     # DATA = read_data_kosarak('../data/debile.data')
 
     ITEMS = extract_items(DATA)
@@ -454,6 +454,7 @@ def launch():
 
 if __name__ == '__main__':
     launch()
+
 
 '''
 We will first focus on LCS, but in fact:

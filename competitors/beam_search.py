@@ -77,8 +77,8 @@ def beam_search(data, items, time_budget, target_class, enable_i=True,
                                                  first_zero_mask,
                                                  last_ones_mask)
 
-                sorted_patterns.add_preserve_memory(child, quality, data)
-                #sorted_patterns.add(child, quality)
+                #sorted_patterns.add_preserve_memory(child, quality, data)
+                sorted_patterns.add(child, quality)
                 beam.add(child, quality)
 
         candidate_queue = [j for i, j in beam.get_top_k_non_redundant(data, beam_width)]

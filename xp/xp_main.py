@@ -32,19 +32,20 @@ datasets = [
         (read_data('../data/promoters.data'), '+', False),
         (read_data('../data/splice.data'), 'EI', False),
         (read_data_kosarak('../data/blocks.data'), '1', False),
-        (read_data_kosarak('../data/context.data'), '1', False),
-        (read_data_sc2('../data/sequences-TZ-45.txt')[:500], '1', True)
+        (read_data_kosarak('../data/context.data'), '4', False),
+        (read_data_sc2('../data/sequences-TZ-45.txt')[:500], '1', True),
+        (read_data_kosarak('../data/skating.data'), '1', True)
 ]
 
-datasets_names = ['aslbu', 'promoters', 'splice', 'blocks', 'context', 'sc2']
+datasets_names = ['aslbu', 'promoters', 'splice', 'blocks', 'context', 'sc2', 'skating']
 
 def compare_competitors():
-    number_dataset = 4
+    number_dataset = 2
     DATA = datasets[number_dataset][0]
     items = extract_items(DATA)
     target_class = datasets[number_dataset][1]
 
-    TIME = 120
+    TIME = 30
 
     misere_hill_result = misere_hill(DATA, items, TIME, target_class, 5)
     print_results(misere_hill_result)
@@ -58,14 +59,14 @@ def compare_competitors():
     print_results(beam_results)
 
 def compare_datasets():
-    pool = Pool(processes=2)
+    pool = Pool(processes=3)
     time_xp = 180
 
     misere_hist = []
     beam_hist = []
     misere_hill_hist = []
 
-    for data, target, enable_i in datasets:
+    for i, (data, target, enable_i) in enumerate(datasets):
         items = extract_items(data)
 
         result_misere = pool.apply_async(misere, (data, time_xp, target))
@@ -76,9 +77,22 @@ def compare_datasets():
         result_misere_hill = pool.apply_async(misere_hill, (
             data, items, time_xp, target, 5, True))
 
-        average_misere = average_results(result_misere.get())
-        average_beam = average_results(result_beam.get())
-        average_misere_hill = average_results(result_misere_hill.get())
+        result_misere = result_misere.get()
+        result_beam = result_beam.get()
+        result_misere_hill = result_misere_hill.get()
+
+        if result_misere < 5:
+            print("Too few example on misere on dataset {}: {} results".format(datasets_names[i], len(result_misere)))
+
+        if result_misere_hill< 5:
+            print("Too few example on hillseqs on dataset {}: {} results".format(datasets_names[i], len(result_misere_hill)))
+
+        if result_beam < 5:
+            print("Too few example on beam_search on dataset {}: {} results".format(datasets_names[i], len(result_beam)))
+
+        average_misere = average_results(result_misere)
+        average_beam = average_results(result_beam)
+        average_misere_hill = average_results(result_misere_hill)
 
         misere_hist.append(average_misere)
         beam_hist.append(average_beam)
@@ -277,5 +291,5 @@ def naive_vs_bitset():
 # vertical_vs_horizontal()
 # naive_vs_bitset()
 # show_quality_over_time()
-# compare_competitors()
-compare_datasets()
+compare_competitors()
+# compare_datasets()
