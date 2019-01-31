@@ -402,6 +402,7 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
                                                                               class_data_count,
                                                                               first_zero_mask,
                                                                               last_ones_mask)
+
         stored_path = []
 
         while 'climbing hill':

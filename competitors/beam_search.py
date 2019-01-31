@@ -59,8 +59,11 @@ def beam_search(data, items, time_budget, target_class, enable_i=True,
     class_data_count = count_target_class_data(data, target_class)
     itemsets_bitsets = {}
 
-    candidate_queue = items_to_sequences(items)
+    # candidate_queue = items_to_sequences(items)
+    candidate_queue = [[]]
+
     sorted_patterns = PrioritySet(top_k)
+
 
     while datetime.datetime.utcnow() - begin < time_budget:
         beam = PrioritySet()
@@ -92,7 +95,7 @@ def launch():
     #DATA = read_data_kosarak('../data/debile.data')
     items = extract_items(DATA)
 
-    results = beam_search(DATA, items, 100, '+', enable_i=True, top_k=10, beam_width=30)
+    results = beam_search(DATA, items, 10, '+', enable_i=True, top_k=10, beam_width=30)
     print_results(results)
 
 

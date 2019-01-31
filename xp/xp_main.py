@@ -81,13 +81,13 @@ def compare_datasets():
         result_beam = result_beam.get()
         result_misere_hill = result_misere_hill.get()
 
-        if result_misere < 5:
+        if len(result_misere) < 5:
             print("Too few example on misere on dataset {}: {} results".format(datasets_names[i], len(result_misere)))
 
-        if result_misere_hill< 5:
+        if len(result_misere_hill) < 5:
             print("Too few example on hillseqs on dataset {}: {} results".format(datasets_names[i], len(result_misere_hill)))
 
-        if result_beam < 5:
+        if len(result_beam) < 5:
             print("Too few example on beam_search on dataset {}: {} results".format(datasets_names[i], len(result_beam)))
 
         average_misere = average_results(result_misere)
@@ -112,7 +112,6 @@ def compare_datasets():
 
 
 def show_quality_over_time():
-    # DATA = read_data_kosarak('../data/out.data')
     # DATA = read_data_kosarak('../data/aslbu.data')
     DATA = read_data('../data/promoters.data')
     # DATA = read_data('../data/splice.data')
@@ -123,7 +122,7 @@ def show_quality_over_time():
     # DATA = encode_data(DATA, item_to_encoding)
     target_class = '+'
 
-    pool = Pool(processes=2)
+    pool = Pool(processes=3)
     results_beam = []
     results_beam_50 = []
     results_beam_100 = []
@@ -291,5 +290,5 @@ def naive_vs_bitset():
 # vertical_vs_horizontal()
 # naive_vs_bitset()
 # show_quality_over_time()
-compare_competitors()
-# compare_datasets()
+# compare_competitors()
+compare_datasets()
