@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/beam_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/beam_search.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seqehc/misere_hill.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqehc/misere_hill.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xp/xp_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/xp_main.py" afterDir="false" />
     </list>
@@ -18,13 +16,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/seqehc/misere_hill.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
-              <caret line="429" lean-forward="true" selection-start-line="429" selection-end-line="429" />
+            <state relative-caret-position="1302">
+              <caret line="447" column="45" selection-start-line="447" selection-start-column="45" selection-end-line="447" selection-end-column="45" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#828#5014#0" />
+                <element signature="e#5299#11111#0" />
+                <element signature="e#16406#17227#0" />
+                <element signature="e#17279#17414#0" />
+                <element signature="e#17517#18136#0" />
               </folding>
             </state>
           </provider>
@@ -39,15 +42,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="761">
-              <caret line="111" lean-forward="true" selection-start-line="111" selection-end-line="111" />
+            <state relative-caret-position="762">
+              <caret line="293" selection-start-line="293" selection-end-line="293" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
                 <element signature="e#3886#8322#0" />
                 <element signature="e#8359#9239#0" />
+                <element signature="e#9217#10078#0" />
               </folding>
             </state>
           </provider>
@@ -149,8 +153,8 @@
         <option value="$PROJECT_DIR$/tests/test_utils.py" />
         <option value="$PROJECT_DIR$/seqehc/utils.py" />
         <option value="$PROJECT_DIR$/competitors/misere.py" />
-        <option value="$PROJECT_DIR$/seqehc/misere_hill.py" />
         <option value="$PROJECT_DIR$/competitors/beam_search.py" />
+        <option value="$PROJECT_DIR$/seqehc/misere_hill.py" />
         <option value="$PROJECT_DIR$/xp/xp_main.py" />
       </list>
     </option>
@@ -203,6 +207,11 @@
               <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
               <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
+              <item name="seqehc" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -445,8 +454,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.xp_main" />
-        <item itemvalue="Python.beam_search" />
         <item itemvalue="Python.misere_hill" />
+        <item itemvalue="Python.beam_search" />
         <item itemvalue="Python.test_utils" />
         <item itemvalue="Python.misere" />
       </list>
@@ -476,22 +485,21 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="34" width="1920" height="1046" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49447078" visible="true" weight="0.17501318" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49447078" visible="true" weight="0.17501318" />
       <window_info id="Favorites" order="1" sideWeight="0.5055292" side_tool="true" weight="0.25" />
       <window_info id="Structure" order="2" weight="0.09435952" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.27129337" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4978903" visible="true" weight="0.21762785" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4957806" weight="0.24763903" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4978903" weight="0.21762785" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4957806" weight="0.24700762" />
       <window_info anchor="bottom" id="TODO" order="4" sideWeight="0.4978903" weight="0.31861198" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5084388" side_tool="true" weight="0.24265505" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32792208" />
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.32875264" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49156117" weight="0.23084995" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49156117" weight="0.23068553" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -716,13 +724,6 @@
     <entry file="file://$PROJECT_DIR$/seqehc/prepare_dataset.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/seqehc/compute_stats.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="28" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python3.6/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="218">
@@ -775,18 +776,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="761">
-          <caret line="111" lean-forward="true" selection-start-line="111" selection-end-line="111" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#3886#8322#0" />
-            <element signature="e#8359#9239#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/blocks.data">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2880">
@@ -836,10 +825,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/seqehc/misere_hill.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="429" lean-forward="true" selection-start-line="429" selection-end-line="429" />
+        <state relative-caret-position="1302">
+          <caret line="447" column="45" selection-start-line="447" selection-start-column="45" selection-end-line="447" selection-end-column="45" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#828#5014#0" />
+            <element signature="e#5299#11111#0" />
+            <element signature="e#16406#17227#0" />
+            <element signature="e#17279#17414#0" />
+            <element signature="e#17517#18136#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seqehc/compute_stats.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="28" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="762">
+          <caret line="293" selection-start-line="293" selection-end-line="293" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#3886#8322#0" />
+            <element signature="e#8359#9239#0" />
+            <element signature="e#9217#10078#0" />
           </folding>
         </state>
       </provider>

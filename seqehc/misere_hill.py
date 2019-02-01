@@ -219,7 +219,7 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
     Compute variations until quality increases
     :param sequence:
     :param items: the list of all possible items
-    :return: the variations, with their wracc in the form [(sequence, wracc), (..., ...), ...]
+    :return: the best new element (sequence, wracc), or None if we are on a local optimum
     '''
     variations = []
 
@@ -230,7 +230,7 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                 new_variation_i_extension = copy.deepcopy(sequence)
                 new_variation_i_extension[itemset_i].add(item_possible)
 
-                new_variation_i_wracc, _ = compute_WRAcc_vertical(data,
+                new_variation_i_wracc, new_variation_i_bitset = compute_WRAcc_vertical(data,
                                                                   new_variation_i_extension,
                                                                   target_class,
                                                                   bitset_slot_size,
@@ -240,17 +240,17 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                                                                   last_ones_mask)
 
                 variations.append(
-                    (new_variation_i_extension, new_variation_i_wracc))
+                    (new_variation_i_extension, new_variation_i_wracc, new_variation_i_bitset))
 
                 if new_variation_i_wracc > target_wracc:
-                    return variations
+                    return variations[-1]
 
         # s_extension
         for item_possible in items:
             new_variation_s_extension = copy.deepcopy(sequence)
             new_variation_s_extension.insert(itemset_i, {item_possible})
 
-            new_variation_s_wracc, _ = compute_WRAcc_vertical(data,
+            new_variation_s_wracc, new_variation_s_bitset = compute_WRAcc_vertical(data,
                                                               new_variation_s_extension,
                                                               target_class,
                                                               bitset_slot_size,
@@ -260,10 +260,10 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                                                               last_ones_mask)
 
             variations.append(
-                (new_variation_s_extension, new_variation_s_wracc))
+                (new_variation_s_extension, new_variation_s_wracc, new_variation_s_bitset))
 
             if new_variation_s_wracc > target_wracc:
-                return variations
+                return variations[-1]
 
         for item_i, item in enumerate(itemset):
             new_variation_remove = copy.deepcopy(sequence)
@@ -276,7 +276,7 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                 if len(new_variation_remove[itemset_i]) == 0:
                     new_variation_remove.pop(itemset_i)
 
-                new_variation_remove_wracc, _ = compute_WRAcc_vertical(data,
+                new_variation_remove_wracc, new_variation_remove_bitset = compute_WRAcc_vertical(data,
                                                                        new_variation_remove,
                                                                        target_class,
                                                                        bitset_slot_size,
@@ -286,16 +286,16 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                                                                        last_ones_mask)
 
                 variations.append(
-                    (new_variation_remove, new_variation_remove_wracc))
+                    (new_variation_remove, new_variation_remove_wracc, new_variation_remove_bitset))
                 if new_variation_remove_wracc > target_wracc:
-                    return variations
+                    return variations[-1]
 
     # s_extension for last element
     for item_possible in items:
         new_variation_s_extension = copy.deepcopy(sequence)
         new_variation_s_extension.append({item_possible})
 
-        new_variation_s_wracc, _ = compute_WRAcc_vertical(data,
+        new_variation_s_wracc, new_variation_s_bitset = compute_WRAcc_vertical(data,
                                                           new_variation_s_extension,
                                                           target_class,
                                                           bitset_slot_size,
@@ -305,11 +305,11 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                                                           last_ones_mask)
 
         variations.append(
-            (new_variation_s_extension, new_variation_s_wracc))
+            (new_variation_s_extension, new_variation_s_wracc, new_variation_s_bitset))
         if new_variation_s_wracc > target_wracc:
-            return variations
+            return variations[-1]
 
-    return variations
+    return None
 
 
 def generalize_sequence(sequence, data, target_class, bitset_slot_size,
@@ -391,8 +391,10 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
     iteration_count = 0
 
     while datetime.datetime.utcnow() - begin < time_budget:
+
         sequence = copy.deepcopy(random.choice(data_target_class))
         sequence = sequence[1:]
+
 
         current_sequence, current_wracc, current_bitset = generalize_sequence(sequence,
                                                                               data,
@@ -404,32 +406,28 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
                                                                               last_ones_mask)
 
         stored_path = []
+        # add the first to current path
 
         while 'climbing hill':
             # we compute all possible variations
-            variations = compute_variations(current_sequence, items, data,
-                                            target_class,
-                                            bitset_slot_size,
-                                            itemsets_bitsets,
-                                            class_data_count,
-                                            first_zero_mask,
-                                            last_ones_mask,
-                                            enable_i=enable_i,
-                                            horizontal_var=horizontale_var)
-
-            # we take the best solution, and we iterate
-            sequence, wracc, bitset = max(variations, key=lambda x: x[1])
-
-            if wracc > current_wracc:
-                current_sequence = sequence
-                current_wracc = wracc
-                current_bitset = bitset
-                stored_path.append((wracc, sequence, bitset))
-            else:
+            try:
+                current_sequence, current_wracc, current_bitset = compute_variations_better_wracc(current_sequence, items, data,
+                                                target_class,
+                                                bitset_slot_size,
+                                                itemsets_bitsets,
+                                                class_data_count,
+                                                first_zero_mask,
+                                                last_ones_mask,
+                                                current_wracc, enable_i)
+            except:
                 break
+
+            stored_path.append((current_wracc, current_sequence, current_bitset))
+
 
         # add best element of the path
         best_elements = extract_best_elements_path(stored_path, THETA, bitset_slot_size, first_zero_mask, last_ones_mask)
+
         for wracc, sequence in best_elements:
             sorted_patterns.add(sequence_mutable_to_immutable(sequence), wracc)
 
@@ -443,13 +441,13 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
 
 
 def launch():
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
-    # DATA = read_data('../data/promoters.data')
+    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
+    DATA = read_data('../data/promoters.data')
     # DATA = read_data_kosarak('../data/debile.data')
 
     ITEMS = extract_items(DATA)
     # DATA = read_data_kosarak('../data/all.csv')
-    results = misere_hill(DATA, ITEMS, 10, '1', enable_i=True)
+    results = misere_hill(DATA, ITEMS, 5, '+')
     print_results(results)
 
 
