@@ -8,7 +8,7 @@ from seqehc.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS
+    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS, reduce_k_length
 
 from seqehc.priorityset import PrioritySet, THETA
 
@@ -371,7 +371,7 @@ def extract_best_elements_path(path, theta, bitset_slot_size, first_zero_mask, l
 
 
 def misere_hill(data, items, time_budget, target_class, top_k=10,
-                enable_i=False, horizontale_var=False,
+                enable_i=True, horizontale_var=False,
                 ):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
@@ -382,7 +382,6 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
 
     # removing class
     bitset_slot_size = len(max(data, key=lambda x: len(x))) - 1
-
     first_zero_mask = compute_first_zero_mask(len(data), bitset_slot_size)
     last_ones_mask = compute_last_ones_mask(len(data), bitset_slot_size)
     class_data_count = count_target_class_data(data, target_class)
@@ -394,6 +393,7 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
 
         sequence = copy.deepcopy(random.choice(data_target_class))
         sequence = sequence[1:]
+
 
 
         current_sequence, current_wracc, current_bitset = generalize_sequence(sequence,
@@ -441,13 +441,16 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
 
 
 def launch():
-    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
-    DATA = read_data('../data/promoters.data')
+    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    DATA = reduce_k_length(10, DATA)
+
+    # DATA = read_data('../data/promoters.data')
     # DATA = read_data_kosarak('../data/debile.data')
 
     ITEMS = extract_items(DATA)
     # DATA = read_data_kosarak('../data/all.csv')
-    results = misere_hill(DATA, ITEMS, 5, '+')
+
+    results = misere_hill(DATA, ITEMS, 18, '1')
     print_results(results)
 
 

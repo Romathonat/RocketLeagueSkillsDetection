@@ -40,12 +40,12 @@ datasets = [
 datasets_names = ['aslbu', 'promoters', 'splice', 'blocks', 'context', 'sc2', 'skating']
 
 def compare_competitors():
-    number_dataset = 1
+    number_dataset = 5
     DATA = datasets[number_dataset][0]
     items = extract_items(DATA)
     target_class = datasets[number_dataset][1]
 
-    TIME = 5
+    TIME = 2
 
     misere_hill_result = misere_hill(DATA, items, TIME, target_class, top_k=5)
     print_results(misere_hill_result)
@@ -290,5 +290,5 @@ def naive_vs_bitset():
 # vertical_vs_horizontal()
 # naive_vs_bitset()
 # show_quality_over_time()
-# compare_competitors()
-compare_datasets()
+compare_competitors()
+# compare_datasets()

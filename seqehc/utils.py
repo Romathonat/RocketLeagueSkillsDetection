@@ -1,5 +1,5 @@
 import math
-
+import random
 
 def sequence_mutable_to_immutable(sequence):
     """
@@ -94,6 +94,32 @@ def k_length(sequence):
     """
     return sum([len(i) for i in sequence])
 
+
+def reduce_k_length(target_length, data):
+    new_data = []
+    for i, sequence in enumerate(data):
+        if k_length(sequence) > target_length:
+            new_sequence = [sequence[0]]
+
+            count = 0
+
+            # we do not take into account the target
+
+            for itemset in sequence[1:]:
+                if len(itemset) + count > target_length:
+                    # we need to remove some elements of this itemset
+                    for i in range(len(itemset) + count - target_length):
+                        itemset.remove(max(itemset))
+
+                    if len(itemset) > 0:
+                        new_sequence.append(itemset)
+                    break
+                else:
+                    count += len(itemset)
+                    new_sequence.append(itemset)
+
+        new_data.append(new_sequence)
+    return new_data
 
 def compute_WRAcc(data, subsequence, target_class):
     subsequence_supp = 0
@@ -714,4 +740,5 @@ def find_LCS(seq1, seq2):
     backtrack_LCS(C, seq1, seq2, len(seq1), len(seq2), lcs)
 
     return lcs
+
 
