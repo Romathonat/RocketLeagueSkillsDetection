@@ -8,7 +8,8 @@ from seqehc.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS, reduce_k_length
+    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS, reduce_k_length, average_results
+
 
 from seqehc.priorityset import PrioritySet, THETA
 
@@ -441,16 +442,17 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
 
 
 def launch():
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
-    DATA = reduce_k_length(10, DATA)
+    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
 
-    # DATA = read_data('../data/promoters.data')
+    DATA = read_data('../data/promoters.data')
     # DATA = read_data_kosarak('../data/debile.data')
+
+    DATA_i = reduce_k_length(5, DATA)
 
     ITEMS = extract_items(DATA)
     # DATA = read_data_kosarak('../data/all.csv')
 
-    results = misere_hill(DATA, ITEMS, 18, '1')
+    results = misere_hill(DATA, ITEMS, 10, '+', top_k=10)
     print_results(results)
 
 

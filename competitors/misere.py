@@ -7,7 +7,7 @@ from seqehc.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, compute_WRAcc, compute_WRAcc_vertical
+    count_target_class_data, compute_WRAcc, compute_WRAcc_vertical, reduce_k_length
 
 from seqehc.priorityset import PrioritySet
 
@@ -87,10 +87,13 @@ def misere(data, time_budget, target_class, top_k=5):
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 def launch():
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
+    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
     #DATA = read_data_kosarak('../data/debile.data')
     # DATA = read_data_kosarak('../data/all.csv')
-    results = misere(DATA, 5, '1', top_k=10)
+    DATA = read_data('../data/promoters.data')
+
+    DATA = reduce_k_length(50, DATA)
+    results = misere(DATA, 10, '+', top_k=10)
 
     print_results(results)
 

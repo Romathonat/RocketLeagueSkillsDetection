@@ -1,5 +1,6 @@
 import math
 import random
+import copy
 
 def sequence_mutable_to_immutable(sequence):
     """
@@ -96,6 +97,12 @@ def k_length(sequence):
 
 
 def reduce_k_length(target_length, data):
+    '''
+    Reduce k_length of dataset removing class
+    :param target_length:
+    :param data:
+    :return:
+    '''
     new_data = []
     for i, sequence in enumerate(data):
         if k_length(sequence) > target_length:
@@ -106,20 +113,25 @@ def reduce_k_length(target_length, data):
             # we do not take into account the target
 
             for itemset in sequence[1:]:
-                if len(itemset) + count > target_length:
-                    # we need to remove some elements of this itemset
-                    for i in range(len(itemset) + count - target_length):
-                        itemset.remove(max(itemset))
+                itemset_copy = copy.deepcopy(itemset)
 
-                    if len(itemset) > 0:
-                        new_sequence.append(itemset)
+                if len(itemset_copy) + count > target_length:
+                    # we need to remove some elements of this itemset
+                    for i in range(len(itemset_copy) + count - target_length):
+                        itemset_copy.remove(max(itemset_copy))
+
+                    if len(itemset_copy) > 0:
+                        new_sequence.append(itemset_copy)
                     break
                 else:
-                    count += len(itemset)
-                    new_sequence.append(itemset)
+                    count += len(itemset_copy)
+                    new_sequence.append(itemset_copy)
+        else:
+            new_sequence = sequence[:]
 
         new_data.append(new_sequence)
     return new_data
+
 
 def compute_WRAcc(data, subsequence, target_class):
     subsequence_supp = 0
@@ -521,6 +533,12 @@ def average_results(results):
         sum_result += result[0]
 
     return sum_result / len(results)
+
+def extract_l_max(data):
+    lmax = 0
+    for line in data:
+       lmax = max(lmax, k_length(line))
+    return lmax
 
 
 def format_sequence_graph(sequence):
