@@ -2,6 +2,7 @@ import datetime
 import random
 import copy
 import math
+import pathlib
 
 from seqehc.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
@@ -89,11 +90,12 @@ def misere(data, time_budget, target_class, top_k=5):
 def launch():
     # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
     #DATA = read_data_kosarak('../data/debile.data')
-    # DATA = read_data_kosarak('../data/all.csv')
-    DATA = read_data('../data/promoters.data')
 
-    DATA = reduce_k_length(50, DATA)
-    results = misere(DATA, 10, '+', top_k=10)
+    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+
+    #DATA = reduce_k_length(50, DATA)
+
+    results = misere(DATA, 180, '+', top_k=10)
 
     print_results(results)
 

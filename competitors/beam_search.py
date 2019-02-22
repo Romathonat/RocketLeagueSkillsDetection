@@ -1,4 +1,5 @@
 import datetime
+import pathlib
 
 from seqehc.priorityset import PrioritySet
 from seqehc.utils import count_target_class_data, compute_last_ones_mask, \
@@ -91,11 +92,12 @@ def beam_search(data, items, time_budget, target_class, enable_i=True,
 
 def launch():
     #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
-    DATA = read_data('../data/promoters.data')
+    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+
     #DATA = read_data_kosarak('../data/debile.data')
     items = extract_items(DATA)
 
-    results = beam_search(DATA, items, 10, '+', enable_i=True, top_k=10, beam_width=30)
+    results = beam_search(DATA, items, 180, '+', enable_i=False, top_k=10, beam_width=30)
     print_results(results)
 
 

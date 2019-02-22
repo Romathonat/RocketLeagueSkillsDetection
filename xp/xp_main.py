@@ -125,7 +125,6 @@ def compare_datasets():
 
     # plt.show()
 
-
 def show_quality_over_time():
     # DATA = read_data_kosarak('../data/aslbu.data')
     DATA = read_data('../data/promoters.data')
@@ -483,19 +482,20 @@ def vertical_vs_horizontal():
 
 
 def naive_vs_bitset():
-    # TODO: add Vertical Wracc in code !
-    time_xp = 10
+    time_xp = 180
 
     naive_results = []
     bitset_results = []
 
-    for data, target, enable_i in datasets:
+    datasets_t = [datasets[-3], datasets[-1]]
+
+    for data, target, enable_i in datasets_t:
         items = extract_items(data)
 
         average_naive = average_results(
-            misere_hill(data, items, time_xp, target, 5, enable_i, wracc_vertical=False))
+            misere_hill(data, items, time_xp, target, 10, enable_i, wracc_vertical=False))
         average_bitset = average_results(
-            misere_hill(data, items, time_xp, target, 5, enable_i, wracc_vertical=True))
+            misere_hill(data, items, time_xp, target, 10, enable_i, wracc_vertical=True))
 
         naive_results.append(average_naive)
         bitset_results.append(average_bitset)
@@ -507,7 +507,7 @@ def naive_vs_bitset():
 
     df = pd.DataFrame(data=data)
 
-    ax = sns.barplot(x='dataset', y='Wracc', hue='Version', data=df)
+    ax = sns.barplot(x='dataset', y='WRAcc', hue='Version', data=df)
     fig = ax.get_figure()
 
     # fig.savefig('./naive/naive.png')
@@ -522,10 +522,9 @@ def naive_vs_bitset():
     # plt.show()
 
 
-vertical_vs_horizontal()
-# naive_vs_bitset()
-show_quality_over_time()
-#compare_competitors()
-compare_datasets()
-compare_ground_truth()
-quality_over_dataset_size()
+#vertical_vs_horizontal()
+naive_vs_bitset()
+#show_quality_over_time()
+#compare_datasets()
+#compare_ground_truth()
+#quality_over_dataset_size()
