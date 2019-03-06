@@ -1,6 +1,6 @@
 import heapq
 import copy
-from seqehc.utils import jaccard_measure, is_subsequence, sequence_mutable_to_immutable
+from seqsamphill.utils import jaccard_measure, is_subsequence, sequence_mutable_to_immutable
 
 THETA = 0.8
 

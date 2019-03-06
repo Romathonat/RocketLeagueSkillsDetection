@@ -15,7 +15,7 @@ def read_data(filename):
 
 misere_mem = read_data('./mem_misere.dat')
 bs_mem = read_data('./mem_bs.dat')
-misere_hill_mem = read_data('./mem_misere_hill.dat')
+misere_hill_mem = read_data('./mem_seq_samp_hill.dat')
 
 x_axis = [0.1 * i for i in range(len(misere_mem))]
 

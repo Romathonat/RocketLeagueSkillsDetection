@@ -6,14 +6,14 @@ import pathlib
 import math
 import os
 
-from seqehc.utils import read_data, read_data_kosarak, uct, \
+from seqsamphill.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS, reduce_k_length, average_results
+    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS, \
+    reduce_k_length, average_results
 
-
-from seqehc.priorityset import PrioritySet, THETA
+from seqsamphill.priorityset import PrioritySet, THETA
 
 
 def compute_random_variations(sequence, items, data, target_class,
@@ -122,7 +122,6 @@ def compute_variations(sequence, items, data, target_class,
             for item_possible in items:
                 new_variation_i_extension = copy.deepcopy(sequence)
                 new_variation_i_extension[itemset_i].add(item_possible)
-
 
                 new_variation_i_wracc, new_variation_i_bitset = compute_WRAcc_vertical(data,
                                                                                        new_variation_i_extension,
@@ -235,13 +234,13 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
 
                 if wracc_vertical:
                     new_variation_i_wracc, new_variation_i_bitset = compute_WRAcc_vertical(data,
-                                                                      new_variation_i_extension,
-                                                                      target_class,
-                                                                      bitset_slot_size,
-                                                                      itemsets_bitsets,
-                                                                      class_data_count,
-                                                                      first_zero_mask,
-                                                                      last_ones_mask)
+                                                                                           new_variation_i_extension,
+                                                                                           target_class,
+                                                                                           bitset_slot_size,
+                                                                                           itemsets_bitsets,
+                                                                                           class_data_count,
+                                                                                           first_zero_mask,
+                                                                                           last_ones_mask)
                 else:
                     new_variation_i_wracc = compute_WRAcc(data, new_variation_i_extension, target_class)
                     new_variation_i_bitset = 0
@@ -259,17 +258,17 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
 
             if wracc_vertical:
                 new_variation_s_wracc, new_variation_s_bitset = compute_WRAcc_vertical(data,
-                                                              new_variation_s_extension,
-                                                              target_class,
-                                                              bitset_slot_size,
-                                                              itemsets_bitsets,
-                                                              class_data_count,
-                                                              first_zero_mask,
-                                                              last_ones_mask)
+                                                                                       new_variation_s_extension,
+                                                                                       target_class,
+                                                                                       bitset_slot_size,
+                                                                                       itemsets_bitsets,
+                                                                                       class_data_count,
+                                                                                       first_zero_mask,
+                                                                                       last_ones_mask)
             else:
                 new_variation_s_wracc = compute_WRAcc(data,
-                                                              new_variation_s_extension,
-                                                              target_class)
+                                                      new_variation_s_extension,
+                                                      target_class)
                 new_variation_s_bitset = 0
 
             variations.append(
@@ -291,17 +290,17 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
 
                 if wracc_vertical:
                     new_variation_remove_wracc, new_variation_remove_bitset = compute_WRAcc_vertical(data,
-                                                                       new_variation_remove,
-                                                                       target_class,
-                                                                       bitset_slot_size,
-                                                                       itemsets_bitsets,
-                                                                       class_data_count,
-                                                                       first_zero_mask,
-                                                                       last_ones_mask)
+                                                                                                     new_variation_remove,
+                                                                                                     target_class,
+                                                                                                     bitset_slot_size,
+                                                                                                     itemsets_bitsets,
+                                                                                                     class_data_count,
+                                                                                                     first_zero_mask,
+                                                                                                     last_ones_mask)
                 else:
                     new_variation_remove_wracc = compute_WRAcc(data,
-                                                                       new_variation_remove,
-                                                                       target_class)
+                                                               new_variation_remove,
+                                                               target_class)
                     new_variation_remove_bitset = 0
 
                 variations.append(
@@ -316,17 +315,17 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
 
         if wracc_vertical:
             new_variation_s_wracc, new_variation_s_bitset = compute_WRAcc_vertical(data,
-                                                          new_variation_s_extension,
-                                                          target_class,
-                                                          bitset_slot_size,
-                                                          itemsets_bitsets,
-                                                          class_data_count,
-                                                          first_zero_mask,
-                                                          last_ones_mask)
+                                                                                   new_variation_s_extension,
+                                                                                   target_class,
+                                                                                   bitset_slot_size,
+                                                                                   itemsets_bitsets,
+                                                                                   class_data_count,
+                                                                                   first_zero_mask,
+                                                                                   last_ones_mask)
         else:
             new_variation_s_wracc = compute_WRAcc(data,
-                                                          new_variation_s_extension,
-                                                          target_class)
+                                                  new_variation_s_extension,
+                                                  target_class)
             new_variation_s_bitset = 0
 
         variations.append(
@@ -340,7 +339,7 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
 def generalize_sequence(sequence, data, target_class, bitset_slot_size,
                         itemsets_bitsets, class_data_count,
                         first_zero_mask,
-                        last_ones_mask, wracc_vertical=True) :
+                        last_ones_mask, wracc_vertical=True):
     sequence = copy.deepcopy(sequence)
     # we remove z items randomly
     seq_items_nb = len([i for j_set in sequence for i in j_set])
@@ -357,9 +356,9 @@ def generalize_sequence(sequence, data, target_class, bitset_slot_size,
     # now we compute the Wracc
     if wracc_vertical:
         wracc, bitset = compute_WRAcc_vertical(data, sequence, target_class,
-                                           bitset_slot_size,
-                                           itemsets_bitsets, class_data_count,
-                                           first_zero_mask, last_ones_mask)
+                                               bitset_slot_size,
+                                               itemsets_bitsets, class_data_count,
+                                               first_zero_mask, last_ones_mask)
     else:
         wracc = compute_WRAcc(data, sequence, target_class)
         bitset = 0
@@ -402,9 +401,8 @@ def extract_best_elements_path(path, theta, bitset_slot_size, first_zero_mask, l
     return best_sequences
 
 
-def misere_hill(data, items, time_budget, target_class, top_k=10,
-                enable_i=True, horizontale_var=False, wracc_vertical=True):
-
+def seq_samp_hill(data, items, time_budget, target_class, top_k=10,
+                  enable_i=True, horizontale_var=False, wracc_vertical=True):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -419,14 +417,13 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
     class_data_count = count_target_class_data(data, target_class)
     itemsets_bitsets = {}
 
-    iteration_count = 0
+    iteration_seqsamphill = 0
+    iteration_compute = 0
 
     while datetime.datetime.utcnow() - begin < time_budget:
 
         sequence = copy.deepcopy(random.choice(data_target_class))
         sequence = sequence[1:]
-
-
 
         current_sequence, current_wracc, current_bitset = generalize_sequence(sequence,
                                                                               data,
@@ -442,41 +439,44 @@ def misere_hill(data, items, time_budget, target_class, top_k=10,
         # add the first to current path
 
         while 'climbing hill':
+            iteration_compute += 1
             # we compute all possible variations
             try:
-                current_sequence, current_wracc, current_bitset = compute_variations_better_wracc(current_sequence, items, data,
-                                                target_class,
-                                                bitset_slot_size,
-                                                itemsets_bitsets,
-                                                class_data_count,
-                                                first_zero_mask,
-                                                last_ones_mask,
-                                                current_wracc, enable_i, wracc_vertical=wracc_vertical)
+                current_sequence, current_wracc, current_bitset = compute_variations_better_wracc(current_sequence,
+                                                                                                  items, data,
+                                                                                                  target_class,
+                                                                                                  bitset_slot_size,
+                                                                                                  itemsets_bitsets,
+                                                                                                  class_data_count,
+                                                                                                  first_zero_mask,
+                                                                                                  last_ones_mask,
+                                                                                                  current_wracc,
+                                                                                                  enable_i,
+                                                                                                  wracc_vertical=wracc_vertical)
             except:
                 break
 
             stored_path.append((current_wracc, current_sequence, current_bitset))
 
-
         # add best element of the path
-        best_elements = extract_best_elements_path(stored_path, THETA, bitset_slot_size, first_zero_mask, last_ones_mask)
+        best_elements = extract_best_elements_path(stored_path, THETA, bitset_slot_size, first_zero_mask,
+                                                   last_ones_mask)
 
         for wracc, sequence in best_elements:
             sorted_patterns.add(sequence_mutable_to_immutable(sequence), wracc)
 
         # sorted_patterns.add(sequence_mutable_to_immutable(current_sequence), current_wracc)
 
-        iteration_count += 1
+        iteration_seqsamphill += 1
 
-    print('Misere_hill iterations:{}'.format(iteration_count))
+    print('SeqSampHill iterations:{}'.format(iteration_seqsamphill))
+    print('SeqSampHill computation iterations:{}'.format(iteration_compute))
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 
 def launch():
-
-    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
-
+    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
     DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
 
     # DATA = read_data_kosarak('../data/debile.data')
@@ -484,11 +484,9 @@ def launch():
 
     ITEMS = extract_items(DATA)
 
-    results = misere_hill(DATA, ITEMS, 180, '+', top_k=10, enable_i=False)
+    results = seq_samp_hill(DATA, ITEMS, 10, '+', top_k=10, enable_i=True, wracc_vertical=True)
     print_results(results)
 
 
 if __name__ == '__main__':
     launch()
-
-

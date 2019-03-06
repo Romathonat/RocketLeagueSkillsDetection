@@ -4,13 +4,13 @@ import copy
 import math
 import pathlib
 
-from seqehc.utils import read_data, read_data_kosarak, uct, \
+from seqsamphill.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
     count_target_class_data, compute_WRAcc, compute_WRAcc_vertical, reduce_k_length
 
-from seqehc.priorityset import PrioritySet
+from seqsamphill.priorityset import PrioritySet
 
 
 def count_subsequences_number(sequence):

@@ -1,8 +1,8 @@
 import datetime
 import pathlib
 
-from seqehc.priorityset import PrioritySet
-from seqehc.utils import count_target_class_data, compute_last_ones_mask, \
+from seqsamphill.priorityset import PrioritySet
+from seqsamphill.utils import count_target_class_data, compute_last_ones_mask, \
     compute_first_zero_mask, create_s_extension, sequence_immutable_to_mutable, \
     create_i_extension, k_length, generate_bitset, following_ones, \
     get_support_from_vector, read_data_sc2, extract_items, print_results, compute_WRAcc, compute_WRAcc_vertical, read_data_kosarak, read_data

@@ -686,6 +686,10 @@ def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
 
                 bitset &= itemset_bitset
 
+
+
+
+
     # now we just need to extract support, supersequence and class_pattern_count
     class_pattern_count = 0
 
@@ -715,6 +719,27 @@ def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
         return -0.25, 0
     class_data_ratio = class_data_count / len(data)
 
+
+
+
+    ############# Informedness
+    # tn = len(data) - support - (class_data_count - class_pattern_count)
+    #
+    # tpr = class_pattern_count/(class_pattern_count + (class_data_count - class_pattern_count))
+    #
+    # tnr =  tn / (class_pattern_count + tn)
+    # wracc = tnr + tpr - 1
+    ##############################
+
+    # ############# f1-mesure
+    # precision = class_pattern_ratio
+    # recall = class_pattern_count / class_data_count
+    #
+    # try:
+    #     wracc = 2*precision*recall/(precision+recall)
+    # except:
+    #     wracc = 0
+    #
     wracc = occurency_ratio * (class_pattern_ratio - class_data_ratio)
 
     return wracc, bitset
