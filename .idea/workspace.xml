@@ -2,33 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/competitors/exhaustive.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/competitors/exhaustive_size.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/competitors/seed_explore.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/seqsamphill/compute_stats.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/seqsamphill/prepare_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/seqsamphill/search_space.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HISTORY.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MANIFEST.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/beam_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/beam_search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/misere.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/misere.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/authors.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/conf.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/contributing.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/history.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/installation.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/make.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/readme.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/usage.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqehc/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqsamphill/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqehc/misere_hill.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqsamphill/seq_samp_hill.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqehc/priorityset.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqsamphill/priorityset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqehc/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqsamphill/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xp/plot_ram_over_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/plot_ram_over_time.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xp/xp_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/xp_main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,10 +26,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/seqsamphill/seq_samp_hill.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="441" column="20" lean-forward="true" selection-start-line="441" selection-start-column="20" selection-end-line="441" selection-end-column="20" />
+            <state relative-caret-position="6615">
+              <caret line="456" column="20" selection-start-line="456" selection-start-column="20" selection-end-line="456" selection-end-column="20" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/seqsamphill/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="7680">
+              <caret line="514" column="4" selection-start-line="514" selection-start-column="4" selection-end-line="514" selection-end-column="4" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -57,9 +50,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/competitors/seed_explore.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="236" column="26" selection-start-line="236" selection-start-column="26" selection-end-line="236" selection-end-column="26" />
+            <state relative-caret-position="57">
+              <caret line="249" column="19" selection-start-line="249" selection-start-column="11" selection-end-line="249" selection-end-column="20" />
               <folding>
+                <element signature="e#0#15#0" expanded="true" />
                 <element signature="e#963#7731#0" />
                 <element signature="e#963#1181#1" />
                 <element signature="e#1262#6253#0" />
@@ -92,10 +86,92 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/competitors/seed_explore_v2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4725">
+              <caret line="330" column="51" selection-start-line="330" selection-start-column="51" selection-end-line="330" selection-end-column="51" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/aslbu.data">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="16" selection-start-column="16" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/seqsamphill/priorityset.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="74" column="9" selection-start-line="74" selection-start-column="9" selection-end-line="74" selection-end-column="9" />
+              <folding>
+                <element signature="e#192#725#0" />
+                <element signature="e#257#632#0" />
+                <element signature="e#784#1458#0" />
+                <element signature="e#784#905#1" />
+                <element signature="e#1079#1428#0" />
+                <element signature="e#1159#1300#0" />
+                <element signature="e#1493#1627#1" />
+                <element signature="e#1666#1724#0" />
+                <element signature="e#1958#2221#0" />
+                <element signature="e#2292#3557#0" />
+                <element signature="e#2292#2494#1" />
+                <element signature="e#2543#2587#0" />
+                <element signature="e#2659#3557#0" />
+                <element signature="e#3587#3696#0" />
+                <element signature="e#3977#5485#0" />
+                <element signature="e#4040#4073#0" />
+                <element signature="e#4119#4257#0" />
+                <element signature="e#4161#4257#0" />
+                <element signature="e#4323#5020#0" />
+                <element signature="e#4323#4525#1" />
+                <element signature="e#4613#4657#0" />
+                <element signature="e#4729#5020#0" />
+                <element signature="e#5049#5137#0" />
+                <element signature="e#5175#5195#0" />
+                <element signature="e#5253#5485#0" />
+                <element signature="e#5322#5327#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/competitors/misere.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="38" column="37" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
+            <state relative-caret-position="255">
+              <caret line="36" selection-start-line="36" selection-end-line="36" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -152,7 +228,6 @@
         <option value="$PROJECT_DIR$/xp/mem_misere_hill.dat" />
         <option value="$PROJECT_DIR$/seqehc/mprofile_20181015025034.dat" />
         <option value="$PROJECT_DIR$/tests/test_wracc.py" />
-        <option value="$PROJECT_DIR$/tests/test_utils.py" />
         <option value="$PROJECT_DIR$/seqehc/priorityset.py" />
         <option value="$PROJECT_DIR$/competitors/exhaustive.py" />
         <option value="$PROJECT_DIR$/competitors/exhaustive_size.py" />
@@ -169,16 +244,19 @@
         <option value="$PROJECT_DIR$/seqehc/seq_samp_hill.py" />
         <option value="$PROJECT_DIR$/xp/other_xp_results/seqsamphill_18seconds_promoters_output" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/xp/xp_main.py" />
         <option value="$PROJECT_DIR$/seqsamphill/seq_samp_hill.py" />
+        <option value="$PROJECT_DIR$/tests/test_utils.py" />
+        <option value="$PROJECT_DIR$/tests/test_priority_set.py" />
+        <option value="$PROJECT_DIR$/competitors/seed_explore_v2.py" />
+        <option value="$PROJECT_DIR$/xp/xp_main.py" />
         <option value="$PROJECT_DIR$/competitors/seed_explore.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="34" />
+    <option name="x" value="1920" />
     <option name="width" value="1920" />
-    <option name="height" value="1046" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -217,12 +295,22 @@
             <path>
               <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
               <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="competitors" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
               <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
-              <item name="xp" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
+              <item name="seqsamphill" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -238,17 +326,17 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/xp/other_xp_results" />
-      <recent name="$PROJECT_DIR$/data" />
-      <recent name="$PROJECT_DIR$/competitors" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/xp/other_xp_results" />
       <recent name="$PROJECT_DIR$/xp" />
       <recent name="$PROJECT_DIR$/seqehc" />
       <recent name="$PROJECT_DIR$/data" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/competitors" />
+      <recent name="$PROJECT_DIR$/xp/other_xp_results" />
+      <recent name="$PROJECT_DIR$/data" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -306,6 +394,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="seed_explore_v2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="SEQEHC" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/competitors" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/competitors/seed_explore_v2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="seq_samp_hill" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SEQEHC" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -319,27 +428,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqsamphill/seq_samp_hill.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="utils" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SEQEHC" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seqehc" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqehc/utils.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -459,17 +547,17 @@
     <list>
       <item itemvalue="Python.misere_hill" />
       <item itemvalue="Python.xp_main" />
-      <item itemvalue="Python.utils" />
       <item itemvalue="Python.seq_samp_hill" />
       <item itemvalue="Python.seed_explore" />
+      <item itemvalue="Python.seed_explore_v2" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.seed_explore" />
-        <item itemvalue="Python.xp_main" />
         <item itemvalue="Python.seq_samp_hill" />
+        <item itemvalue="Python.xp_main" />
+        <item itemvalue="Python.seed_explore_v2" />
         <item itemvalue="Python.misere_hill" />
-        <item itemvalue="Python.utils" />
       </list>
     </recent_temporary>
   </component>
@@ -504,8 +592,8 @@
       <window_info id="Structure" order="2" weight="0.17237744" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.27072403" />
-      <window_info anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.4978903" weight="0.23068553" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4957806" visible="true" weight="0.2437432" />
+      <window_info anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.4978903" weight="0.31773666" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4957806" weight="0.2437432" />
       <window_info anchor="bottom" id="TODO" order="4" sideWeight="0.4978903" weight="0.31794333" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
@@ -603,11 +691,6 @@
           <line>20</line>
           <option name="timeStamp" value="391" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/competitors/seed_explore.py</url>
-          <line>249</line>
-          <option name="timeStamp" value="395" />
-        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -619,33 +702,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/lib/python3.6/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="310" selection-start-line="310" selection-end-line="310" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/exhaustive.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1215">
-          <caret line="93" column="39" selection-start-line="93" selection-start-column="39" selection-end-line="93" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/exhaustive_size.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="67" column="29" selection-start-line="67" selection-start-column="29" selection-end-line="67" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/debile.data">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -710,13 +766,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/aslbu.data">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="16" selection-start-column="16" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Makefile" />
     <entry file="file://$PROJECT_DIR$/setup.py" />
     <entry file="file://$PROJECT_DIR$/seqehc/t_bitsets.py" />
@@ -760,16 +809,6 @@
     <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/result_specifity">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/seqsamphill/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="514" column="4" selection-start-line="514" selection-start-column="4" selection-end-line="514" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/_pytest/cacheprovider.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -784,13 +823,6 @@
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1239">
-          <caret line="33" column="64" selection-start-line="33" selection-start-column="64" selection-end-line="33" selection-end-column="64" />
         </state>
       </provider>
     </entry>
@@ -843,16 +875,6 @@
     <entry file="file://$PROJECT_DIR$/xp/time/promoters_over_time.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/misere.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="661">
-          <caret line="93" column="46" selection-start-line="93" selection-start-column="46" selection-end-line="93" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xp/other_xp_results/wracc_120_top5.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -886,28 +908,118 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_priority_set.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="38" column="37" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
+        <state relative-caret-position="45">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/seqsamphill/seq_samp_hill.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="441" column="20" lean-forward="true" selection-start-line="441" selection-start-column="20" selection-end-line="441" selection-end-column="20" />
+        <state relative-caret-position="6615">
+          <caret line="456" column="20" selection-start-line="456" selection-start-column="20" selection-end-line="456" selection-end-column="20" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/seqsamphill/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7680">
+          <caret line="514" column="4" selection-start-line="514" selection-start-column="4" selection-end-line="514" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/seed_explore_v2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4725">
+          <caret line="330" column="51" selection-start-line="330" selection-start-column="51" selection-end-line="330" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/aslbu.data">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="16" selection-start-column="16" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seqsamphill/priorityset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="74" column="9" selection-start-line="74" selection-start-column="9" selection-end-line="74" selection-end-column="9" />
+          <folding>
+            <element signature="e#192#725#0" />
+            <element signature="e#257#632#0" />
+            <element signature="e#784#1458#0" />
+            <element signature="e#784#905#1" />
+            <element signature="e#1079#1428#0" />
+            <element signature="e#1159#1300#0" />
+            <element signature="e#1493#1627#1" />
+            <element signature="e#1666#1724#0" />
+            <element signature="e#1958#2221#0" />
+            <element signature="e#2292#3557#0" />
+            <element signature="e#2292#2494#1" />
+            <element signature="e#2543#2587#0" />
+            <element signature="e#2659#3557#0" />
+            <element signature="e#3587#3696#0" />
+            <element signature="e#3977#5485#0" />
+            <element signature="e#4040#4073#0" />
+            <element signature="e#4119#4257#0" />
+            <element signature="e#4161#4257#0" />
+            <element signature="e#4323#5020#0" />
+            <element signature="e#4323#4525#1" />
+            <element signature="e#4613#4657#0" />
+            <element signature="e#4729#5020#0" />
+            <element signature="e#5049#5137#0" />
+            <element signature="e#5175#5195#0" />
+            <element signature="e#5253#5485#0" />
+            <element signature="e#5322#5327#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/misere.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/competitors/seed_explore.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="236" column="26" selection-start-line="236" selection-start-column="26" selection-end-line="236" selection-end-column="26" />
+        <state relative-caret-position="57">
+          <caret line="249" column="19" selection-start-line="249" selection-start-column="11" selection-end-line="249" selection-end-column="20" />
           <folding>
+            <element signature="e#0#15#0" expanded="true" />
             <element signature="e#963#7731#0" />
             <element signature="e#963#1181#1" />
             <element signature="e#1262#6253#0" />

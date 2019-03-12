@@ -152,3 +152,4 @@ def test_lcs():
     lcs = find_LCS(seq1, seq2)
 
     assert lcs == [{'a', 'b'}, {'e'}]
+
