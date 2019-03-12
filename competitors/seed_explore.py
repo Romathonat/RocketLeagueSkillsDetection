@@ -15,13 +15,11 @@ from seqsamphill.utils import read_data, read_data_kosarak, uct, \
 
 from seqsamphill.priorityset import PrioritySet, THETA
 
+VERTICAL_TOOLS = {}
+VERTICAL_RPZ = False
 
-def compute_variations_better_wracc(sequence, items, data, target_class,
-                                    bitset_slot_size,
-                                    itemsets_bitsets, class_data_count,
-                                    first_zero_mask,
-                                    last_ones_mask, target_wracc,
-                                    enable_i=False, wracc_vertical=True):
+
+def compute_variations_better_wracc(sequence, items, data, target_class, target_wracc, enable_i=False):
     '''
     Compute variations until quality increases
     :param sequence:
@@ -30,6 +28,12 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
     '''
     variations = []
 
+    bitset_slot_size = VERTICAL_TOOLS['bitset_slot_size']
+    itemsets_bitsets = VERTICAL_TOOLS['itemsets_bitsets']
+    class_data_count = VERTICAL_TOOLS['class_data_count']
+    first_zero_mask = VERTICAL_TOOLS['first_zero_mask']
+    last_ones_mask = VERTICAL_TOOLS['last_ones_mask']
+
     for itemset_i, itemset in enumerate(sequence):
         # i_extension
         if enable_i:
@@ -37,7 +41,7 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                 new_variation_i_extension = copy.deepcopy(sequence)
                 new_variation_i_extension[itemset_i].add(item_possible)
 
-                if wracc_vertical:
+                if VERTICAL_RPZ:
                     new_variation_i_wracc, new_variation_i_bitset = compute_WRAcc_vertical(data,
                                                                                            new_variation_i_extension,
                                                                                            target_class,
@@ -48,10 +52,9 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                                                                                            last_ones_mask)
                 else:
                     new_variation_i_wracc = compute_WRAcc(data, new_variation_i_extension, target_class)
-                    new_variation_i_bitset = 0
 
                 variations.append(
-                    (new_variation_i_extension, new_variation_i_wracc, new_variation_i_bitset))
+                    (new_variation_i_extension, new_variation_i_wracc))
 
                 if new_variation_i_wracc > target_wracc:
                     return variations[-1]
@@ -61,7 +64,7 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
             new_variation_s_extension = copy.deepcopy(sequence)
             new_variation_s_extension.insert(itemset_i, {item_possible})
 
-            if wracc_vertical:
+            if VERTICAL_RPZ:
                 new_variation_s_wracc, new_variation_s_bitset = compute_WRAcc_vertical(data,
                                                                                        new_variation_s_extension,
                                                                                        target_class,
@@ -74,10 +77,9 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                 new_variation_s_wracc = compute_WRAcc(data,
                                                       new_variation_s_extension,
                                                       target_class)
-                new_variation_s_bitset = 0
 
             variations.append(
-                (new_variation_s_extension, new_variation_s_wracc, new_variation_s_bitset))
+                (new_variation_s_extension, new_variation_s_wracc))
 
             if new_variation_s_wracc > target_wracc:
                 return variations[-1]
@@ -93,7 +95,7 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                 if len(new_variation_remove[itemset_i]) == 0:
                     new_variation_remove.pop(itemset_i)
 
-                if wracc_vertical:
+                if VERTICAL_RPZ:
                     new_variation_remove_wracc, new_variation_remove_bitset = compute_WRAcc_vertical(data,
                                                                                                      new_variation_remove,
                                                                                                      target_class,
@@ -106,10 +108,9 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
                     new_variation_remove_wracc = compute_WRAcc(data,
                                                                new_variation_remove,
                                                                target_class)
-                    new_variation_remove_bitset = 0
 
                 variations.append(
-                    (new_variation_remove, new_variation_remove_wracc, new_variation_remove_bitset))
+                    (new_variation_remove, new_variation_remove_wracc))
                 if new_variation_remove_wracc > target_wracc:
                     return variations[-1]
 
@@ -118,7 +119,7 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
         new_variation_s_extension = copy.deepcopy(sequence)
         new_variation_s_extension.append({item_possible})
 
-        if wracc_vertical:
+        if VERTICAL_RPZ:
             new_variation_s_wracc, new_variation_s_bitset = compute_WRAcc_vertical(data,
                                                                                    new_variation_s_extension,
                                                                                    target_class,
@@ -131,20 +132,16 @@ def compute_variations_better_wracc(sequence, items, data, target_class,
             new_variation_s_wracc = compute_WRAcc(data,
                                                   new_variation_s_extension,
                                                   target_class)
-            new_variation_s_bitset = 0
 
         variations.append(
-            (new_variation_s_extension, new_variation_s_wracc, new_variation_s_bitset))
+            (new_variation_s_extension, new_variation_s_wracc))
         if new_variation_s_wracc > target_wracc:
             return variations[-1]
 
     return None
 
 
-def generalize_sequence(sequence, data, target_class, bitset_slot_size,
-                        itemsets_bitsets, class_data_count,
-                        first_zero_mask,
-                        last_ones_mask, wracc_vertical=True):
+def generalize_sequence(sequence, data, target_class):
     sequence = copy.deepcopy(sequence)
     # we remove z items randomly
     seq_items_nb = len([i for j_set in sequence for i in j_set])
@@ -159,15 +156,14 @@ def generalize_sequence(sequence, data, target_class, bitset_slot_size,
             sequence.pop(chosen_itemset_i)
 
     # now we compute the Wracc
-    if wracc_vertical:
-        wracc, bitset = compute_WRAcc_vertical(data, sequence, target_class,
-                                               bitset_slot_size,
-                                               itemsets_bitsets, class_data_count,
-                                               first_zero_mask, last_ones_mask)
+    if VERTICAL_RPZ:
+        wracc, _ = compute_WRAcc_vertical(data, sequence, target_class,
+                                          VERTICAL_TOOLS['bitset_slot_size'],
+                                          VERTICAL_TOOLS['itemsets_bitsets'], VERTICAL_TOOLS['class_data_count'],
+                                          VERTICAL_TOOLS['first_zero_mask'], VERTICAL_TOOLS['last_ones_mask'])
     else:
         wracc = compute_WRAcc(data, sequence, target_class)
-        bitset = 0
-    return sequence, wracc, bitset
+    return sequence, wracc
 
 
 def filter_target_class(data, target_class):
@@ -179,9 +175,8 @@ def filter_target_class(data, target_class):
     return filter_data
 
 
-def extract_best_elements_path(path, theta, bitset_slot_size, first_zero_mask, last_ones_mask, wracc_vertical=True):
+def extract_best_elements_path(path, theta):
     '''
-
     :param path: path in the form of (WRAcc, sequence, bitset)
     :param theta: similarity
     :return:
@@ -195,8 +190,9 @@ def extract_best_elements_path(path, theta, bitset_slot_size, first_zero_mask, l
 
     # need to compare with each previous added element
     for wracc, sequence, bitset in reversed(path):
-        if wracc_vertical:
-            if jaccard_measure(bitset, best_bitset, bitset_slot_size, first_zero_mask, last_ones_mask) < theta:
+        if VERTICAL_RPZ:
+            if jaccard_measure(bitset, best_bitset, VERTICAL_TOOLS['bitset_slot_size'],
+                               VERTICAL_TOOLS['first_zero_mask'], VERTICAL_TOOLS['last_ones_mask']) < theta:
                 best_sequences.append((wracc, sequence))
                 best_sequence, best_bitset = sequence, bitset
         else:
@@ -206,22 +202,15 @@ def extract_best_elements_path(path, theta, bitset_slot_size, first_zero_mask, l
     return best_sequences
 
 
-def create_seed(data, target_class, data_target_class, bitset_slot_size, itemsets_bitsets, class_data_count,
-                first_zero_mask, last_ones_mask):
+def create_seed(data, target_class, data_target_class):
     # sample
     sequence = copy.deepcopy(random.choice(data_target_class))
     sequence = sequence[1:]
 
-    seed, quality, bitset = generalize_sequence(sequence,
-                                                data,
-                                                target_class,
-                                                bitset_slot_size,
-                                                itemsets_bitsets,
-                                                class_data_count,
-                                                first_zero_mask,
-                                                last_ones_mask)
-
-    return (seed, quality, bitset)
+    seed, quality = generalize_sequence(sequence,
+                                        data,
+                                        target_class)
+    return (seed, quality)
 
 
 def UCB(x, t, ni):
@@ -232,16 +221,18 @@ def UCB(x, t, ni):
     '''
     return x + math.sqrt((2 * math.log2(t)) / ni)
 
+
 def UCB_diff(x, t, ni, diff):
     # we foster best element, and give advantage to elements with a big diff
     # return x + diff * 0.25 + math.sqrt((2 * math.log2(t)) / ni)
     return diff * 0.25
 
+
 def select_arm(seeds, iterations_count):
     best_seed = ()
     best_score = -float('inf')
 
-    for original_seed, (mean, ti, variation, _, diff) in seeds.items():
+    for original_seed, (mean, ti, variation, diff) in seeds.items():
         score_compute = UCB_diff(mean, ti, iterations_count, diff)
         if score_compute > best_score:
             best_score = score_compute
@@ -249,7 +240,8 @@ def select_arm(seeds, iterations_count):
 
     return best_seed
 
-def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True):
+
+def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True):
     # TODO: normalize quality !
     # TODO: improve memory strategy
     # first term exploitation, second exploration: if last increase is weak, give less points. If all last elements are weak, remove element.
@@ -264,51 +256,53 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
 
     # removing class
     bitset_slot_size = len(max(data, key=lambda x: len(x))) - 1
-    first_zero_mask = compute_first_zero_mask(len(data), bitset_slot_size)
-    last_ones_mask = compute_last_ones_mask(len(data), bitset_slot_size)
-    class_data_count = count_target_class_data(data, target_class)
-    itemsets_bitsets = {}
+
+    global VERTICAL_RPZ
+    VERTICAL_RPZ = vertical
+
+    global VERTICAL_TOOLS
+    VERTICAL_TOOLS = {
+        "bitset_slot_size": bitset_slot_size,
+        "first_zero_mask": compute_first_zero_mask(len(data), bitset_slot_size),
+        "last_ones_mask": compute_last_ones_mask(len(data), bitset_slot_size),
+        "class_data_count": count_target_class_data(data, target_class),
+        "itemsets_bitsets": {}
+    }
 
     iterations_count = 1
     optima_nb = 0
-    # {original_seed: (quality, ti, variation, bitset, diff)} diff with preceding value
+
+    # {original_seed: (quality, ti, variation, diff)} diff with preceding value
     seeds = {}
 
     while datetime.datetime.utcnow() - begin < time_budget:
-        #if len(seeds) <= math.sqrt(iterations_count):
+        # if len(seeds) <= math.sqrt(iterations_count):
         if len(seeds) < top_k:
-            seed, quality, bitset = create_seed(data, target_class, data_target_class, bitset_slot_size,
-                                                itemsets_bitsets, class_data_count,
-                                                first_zero_mask, last_ones_mask)
+            seed, quality = create_seed(data, target_class, data_target_class)
 
             seed_immu = sequence_mutable_to_immutable(seed)
-            seeds[seed_immu] = (quality, 1, seed, bitset, 0)
+            seeds[seed_immu] = (quality, 1, seed, 0)
             sorted_patterns.add(seed_immu, quality)
 
         else:
             best_origin_seed = select_arm(seeds, iterations_count)
-            quality, ti, best_seed, bitset_best_seed, diff_quality = seeds[best_origin_seed]
+            quality, ti, best_seed, diff_quality = seeds[best_origin_seed]
 
             try:
-                improved_best_seed, best_quality, best_bitset = compute_variations_better_wracc(best_seed,
-                                                                                                items, data,
-                                                                                                target_class,
-                                                                                                bitset_slot_size,
-                                                                                                itemsets_bitsets,
-                                                                                                class_data_count,
-                                                                                                first_zero_mask,
-                                                                                                last_ones_mask,
-                                                                                                quality,
-                                                                                                enable_i)
+                improved_best_seed, best_quality = compute_variations_better_wracc(best_seed,
+                                                                                   items, data,
+                                                                                   target_class,
+                                                                                   quality,
+                                                                                   enable_i=enable_i)
 
                 sorted_patterns.add(sequence_mutable_to_immutable(improved_best_seed), best_quality)
 
-
-                seeds[best_origin_seed] = (best_quality, ti + 1, improved_best_seed, best_bitset, best_quality - quality)
+                seeds[best_origin_seed] = (
+                    best_quality, ti + 1, improved_best_seed, best_quality - quality)
 
             except TypeError:
                 # we found a local optima
-                #print('Found optima !')
+                # print('Found optima !')
                 optima_nb += 1
                 del seeds[best_origin_seed]
 
@@ -322,10 +316,6 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
 def launch():
     # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
     DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-
-    # DATA = read_data_kosarak('../data/debile.data')
-    # DATA_i = reduce_k_length(5, DATA)
-
     ITEMS = extract_items(DATA)
 
     results = seed_explore(DATA, ITEMS, 10, '+', top_k=10, enable_i=True)

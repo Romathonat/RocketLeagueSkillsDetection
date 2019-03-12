@@ -42,7 +42,7 @@ def compare_seeds(number_dataset):
     target_class = datasets[number_dataset][1]
     enable_i = datasets[number_dataset][2]
 
-    TIME = 120
+    TIME = 10
 
     print('Dataset: {}'.format(datasets_names[number_dataset]))
     seq_samp_hill_results = seq_samp_hill(DATA, items, TIME, target_class, top_k=5, enable_i=enable_i)
@@ -52,13 +52,13 @@ def compare_seeds(number_dataset):
     print_results(seed_results)
 
 
-compare_seeds(0)
-compare_seeds(1)
-compare_seeds(2)
-compare_seeds(3)
-compare_seeds(4)
+# compare_seeds(0)
+# compare_seeds(1)
+# compare_seeds(2)
+# compare_seeds(3)
+# compare_seeds(4)
 compare_seeds(5)
-compare_seeds(6)
+# compare_seeds(6)
 
 def compare_competitors():
     number_dataset = 5
