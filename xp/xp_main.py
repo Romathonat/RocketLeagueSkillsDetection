@@ -19,8 +19,9 @@ from seqsamphill.utils import read_data, extract_items, \
     encode_data, print_results, average_results, read_data_kosarak, \
     read_data_sc2, reduce_k_length
 
-sys.setrecursionlimit(500000)
+from competitors.seed_explore import seed_explore
 
+sys.setrecursionlimit(500000)
 
 # third element: enable_i
 datasets = [
@@ -42,7 +43,7 @@ def compare_seeds(number_dataset):
     target_class = datasets[number_dataset][1]
     enable_i = datasets[number_dataset][2]
 
-    TIME = 10
+    TIME = 50
 
     print('Dataset: {}'.format(datasets_names[number_dataset]))
     seq_samp_hill_results = seq_samp_hill(DATA, items, TIME, target_class, top_k=5, enable_i=enable_i)
@@ -57,8 +58,9 @@ def compare_seeds(number_dataset):
 # compare_seeds(2)
 # compare_seeds(3)
 # compare_seeds(4)
-compare_seeds(5)
-# compare_seeds(6)
+#compare_seeds(5)
+
+compare_seeds(6)
 
 def compare_competitors():
     number_dataset = 5
@@ -128,6 +130,85 @@ def compare_datasets():
             'Algorithm': ['misere' for i in range(len(misere_hist))] +
                          ['SeqSampHill' for i in range(len(seq_samp_hill_hist))] +
                          ['beam_search' for i in range(len(beam_hist))]}
+
+    df = pd.DataFrame(data=data)
+
+    plt.clf()
+    ax = sns.barplot(x='dataset', y='WRAcc', hue='Algorithm', data=df)
+    plt.savefig('./wracc_datasets/barplot.png')
+
+    with open('./wracc_datasets/result', 'w+') as f:
+        f.write(' '.join([str(i) for i in seq_samp_hill_hist]))
+        f.write('\n')
+        f.write(' '.join([str(i) for i in misere_hist]))
+        f.write('\n')
+        f.write(' '.join([str(i) for i in beam_hist]))
+        f.write('\n')
+        f.write(' '.join([str(i) for i in datasets_names]))
+
+    # plt.show()
+
+
+def compare_datasets_seeds():
+    pool = Pool(processes=3)
+    time_xp = 30
+    top_k = 5
+
+    misere_hist = []
+    beam_hist = []
+    seq_samp_hill_hist = []
+    seeds_hist = []
+
+    for i, (data, target, enable_i) in enumerate(datasets):
+        items = extract_items(data)
+
+        result_misere = pool.apply_async(misere, (data, time_xp, target, top_k))
+        result_beam = pool.apply_async(beam_search,
+                                       (
+                                           data, items, time_xp, target,
+                                           enable_i, top_k))
+
+        result_seq_samp_hill = pool.apply_async(seq_samp_hill, (
+            data, items, time_xp, target, top_k, enable_i))
+
+        result_seeds = pool.apply_async(seed_explore, (data, items, time_xp, target, top_k, enable_i))
+
+        result_misere = result_misere.get()
+        result_beam = result_beam.get()
+        result_seq_samp_hill = result_seq_samp_hill.get()
+        result_seeds = result_seeds.get()
+
+        if len(result_misere) < top_k:
+            print("Too few example on misere on dataset {}: {} results".format(datasets_names[i], len(result_misere)))
+
+        if len(result_seq_samp_hill) < top_k:
+            print("Too few example on SeqSampHill on dataset {}: {} results".format(datasets_names[i],
+                                                                                    len(result_seq_samp_hill)))
+
+        if len(result_beam) < top_k:
+            print(
+                "Too few example on beam_search on dataset {}: {} results".format(datasets_names[i], len(result_beam)))
+        if len(result_seeds) < top_k:
+            print(
+                "Too few example on seeds explore on dataset {}: {} results".format(datasets_names[i],
+                                                                                    len(result_seeds)))
+
+        average_misere = average_results(result_misere)
+        average_beam = average_results(result_beam)
+        average_seq_samp_hill = average_results(result_seq_samp_hill)
+        average_seeds = average_results(result_seeds)
+
+        misere_hist.append(average_misere)
+        beam_hist.append(average_beam)
+        seq_samp_hill_hist.append(average_seq_samp_hill)
+        seeds_hist.append(average_seeds)
+
+    data = {'WRAcc': misere_hist + seq_samp_hill_hist + beam_hist + seeds_hist,
+            'dataset': datasets_names + datasets_names + datasets_names + datasets_names,
+            'Algorithm': ['misere' for i in range(len(misere_hist))] +
+                         ['SeqSampHill' for i in range(len(seq_samp_hill_hist))] +
+                         ['beam_search' for i in range(len(beam_hist))] +
+                         ['Seeds Explore' for i in range(len(seeds_hist))]}
 
     df = pd.DataFrame(data=data)
 
@@ -308,8 +389,8 @@ def compare_ground_truth():
                                                 False, top_k, 100))
 
             result_seq_samp_hill = pool.apply_async(seq_samp_hill,
-                                                  (DATA, items, xp_time,
-                                                   target_class, top_k))
+                                                    (DATA, items, xp_time,
+                                                     target_class, top_k))
 
             average_nb_launched_misere += average_results(result_misere.get())
             average_nb_launched_beam += average_results(result_beam.get())
@@ -417,8 +498,8 @@ def quality_over_dataset_size():
                                                 False, top_k, 100))
 
             result_seq_samp_hill = pool.apply_async(seq_samp_hill,
-                                                  (DATA, items, xp_time,
-                                                   target_class, top_k))
+                                                    (DATA, items, xp_time,
+                                                     target_class, top_k))
 
             average_nb_launched_misere += average_results(result_misere.get())
             average_nb_launched_beam += average_results(result_beam.get())
@@ -526,7 +607,6 @@ def naive_vs_bitset():
             'Version': ['Naive' for i in range(len(naive_results))] +
                        ['Bitset' for i in range(len(bitset_results))]}
 
-
     df = pd.DataFrame(data=data)
 
     ax = sns.barplot(x='dataset', y='WRAcc', hue='Version', data=df)
@@ -543,10 +623,12 @@ def naive_vs_bitset():
 
     # plt.show()
 
-#compare_competitors()
-#vertical_vs_horizontal()
-#naive_vs_bitset()
-#show_quality_over_time()
-#compare_datasets()
-#compare_ground_truth()
-#quality_over_dataset_size()
+
+compare_datasets_seeds()
+# compare_competitors()
+# vertical_vs_horizontal()
+# naive_vs_bitset()
+# show_quality_over_time()
+# compare_datasets()
+# compare_ground_truth()
+# quality_over_dataset_size()

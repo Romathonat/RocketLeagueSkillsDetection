@@ -15,6 +15,8 @@ from seqsamphill.utils import read_data, read_data_kosarak, uct, \
 
 from seqsamphill.priorityset import PrioritySet, THETA
 
+from data.read_mushroom import read_mushroom
+
 VERTICAL_TOOLS = {}
 VERTICAL_RPZ = False
 
@@ -272,11 +274,11 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
     iterations_count = 1
     optima_nb = 0
 
-    # {original_seed: (quality, ti, variation, diff)} diff with preceding value
+    # {original_seed: (quality, ti, improved_pattern, diff)} diff with preceding value
     seeds = {}
 
     while datetime.datetime.utcnow() - begin < time_budget:
-        # if len(seeds) <= math.sqrt(iterations_count):
+        # we keep a pool ok k-element we are looking for
         if len(seeds) < top_k:
             seed, quality = create_seed(data, target_class, data_target_class)
 
@@ -314,11 +316,13 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
 
 
 def launch():
-    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
-    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    DATA = read_mushroom()
+
+    # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
     ITEMS = extract_items(DATA)
 
-    results = seed_explore(DATA, ITEMS, 10, '+', top_k=10, enable_i=True)
+    results = seed_explore(DATA, ITEMS, 120, 'POISONOUS', top_k=10, enable_i=True, vertical=False)
     print_results(results)
 
 

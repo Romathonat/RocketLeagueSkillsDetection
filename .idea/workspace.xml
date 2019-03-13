@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/competitors/seed_explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/seed_explore.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seqsamphill/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqsamphill/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xp/xp_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/xp_main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,8 +22,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/seqsamphill/seq_samp_hill.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="491" column="4" selection-start-line="491" selection-start-column="4" selection-end-line="491" selection-end-column="4" />
+            <state relative-caret-position="-5939">
+              <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -31,8 +34,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/seqsamphill/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="675" selection-start-line="675" selection-end-line="675" />
+            <state relative-caret-position="5911">
+              <caret line="746" column="28" lean-forward="true" selection-start-line="746" selection-start-column="28" selection-end-line="746" selection-end-column="28" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -43,26 +46,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/competitors/seed_explore.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="248" column="94" selection-start-line="248" selection-start-column="94" selection-end-line="248" selection-end-column="94" />
+            <state relative-caret-position="-209">
+              <caret line="256" column="15" selection-start-line="256" selection-start-column="15" selection-end-line="256" selection-end-column="15" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
-                <element signature="e#8020#8968#0" />
-                <element signature="e#9232#10016#0" />
-                <element signature="e#10845#11010#0" />
-                <element signature="e#11046#11206#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/competitors/misere.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#763#7526#0" />
+                <element signature="e#763#981#1" />
+                <element signature="e#1347#6113#0" />
+                <element signature="e#1394#2792#0" />
+                <element signature="e#1438#2792#0" />
+                <element signature="e#1616#2457#0" />
+                <element signature="e#2864#4267#0" />
+                <element signature="e#3035#3848#0" />
+                <element signature="e#3883#4075#0" />
+                <element signature="e#4329#6113#0" />
+                <element signature="e#4514#6113#0" />
+                <element signature="e#4732#5648#0" />
+                <element signature="e#5691#5901#0" />
+                <element signature="e#6190#7509#0" />
+                <element signature="e#6338#7123#0" />
+                <element signature="e#7150#7334#0" />
+                <element signature="e#7588#8577#0" />
+                <element signature="e#7796#8052#0" />
+                <element signature="e#8114#8480#0" />
+                <element signature="e#8629#8764#0" />
+                <element signature="e#8676#8740#0" />
+                <element signature="e#8816#9682#0" />
+                <element signature="e#8816#8932#1" />
+                <element signature="e#9197#9655#0" />
+                <element signature="e#9226#9529#0" />
+                <element signature="e#9427#9529#0" />
+                <element signature="e#9556#9655#0" />
+                <element signature="e#9745#10022#0" />
+                <element signature="e#10048#10213#0" />
+                <element signature="e#10048#10163#1" />
+                <element signature="e#10250#10411#0" />
+                <element signature="e#10250#10322#0" />
+                <element signature="e#10459#10779#0" />
+                <element signature="e#10583#10757#0" />
+                <element signature="e#10693#10757#0" />
               </folding>
             </state>
           </provider>
@@ -71,13 +92,58 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="59" selection-start-line="59" selection-end-line="59" />
+            <state relative-caret-position="510">
+              <caret line="60" column="11" selection-start-line="60" selection-start-column="11" selection-end-line="60" selection-end-column="11" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
+                <element signature="e#659#1080#0" />
+                <element signature="e#1884#2455#0" />
+                <element signature="e#5132#8936#0" />
+                <element signature="e#5232#5273#0" />
+                <element signature="e#5375#5440#0" />
+                <element signature="e#5773#8074#0" />
+                <element signature="e#6147#7656#0" />
+                <element signature="e#6371#6467#0" />
+                <element signature="e#6577#6723#0" />
+                <element signature="e#6834#6983#0" />
+                <element signature="e#7103#7195#0" />
+                <element signature="e#8087#8288#0" />
+                <element signature="e#8624#8918#0" />
+                <element signature="e#8971#12710#0" />
+                <element signature="e#9461#11848#0" />
+                <element signature="e#9837#11352#0" />
+                <element signature="e#10061#10157#0" />
+                <element signature="e#10267#10413#0" />
+                <element signature="e#10524#10673#0" />
+                <element signature="e#10795#10887#0" />
+                <element signature="e#11861#12062#0" />
+                <element signature="e#12398#12692#0" />
+                <element signature="e#12750#16454#0" />
+                <element signature="e#12804#12871#0" />
+                <element signature="e#13253#15610#0" />
+                <element signature="e#13677#15192#0" />
+                <element signature="e#13901#13997#0" />
+                <element signature="e#14107#14253#0" />
+                <element signature="e#14364#14513#0" />
+                <element signature="e#14635#14727#0" />
+                <element signature="e#15623#15824#0" />
+                <element signature="e#16050#16344#0" />
+                <element signature="e#16491#17728#0" />
+                <element signature="e#16613#16989#0" />
+                <element signature="e#17002#17262#0" />
+                <element signature="e#17489#17710#0" />
+                <element signature="e#17758#18966#0" />
+                <element signature="e#17873#18260#0" />
+                <element signature="e#18273#18511#0" />
+                <element signature="e#18734#18948#0" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/barplot.png">
+          <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
     </leaf>
@@ -104,10 +170,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/requirements_dev.txt" />
-        <option value="$PROJECT_DIR$/tests/SequenceNode.py" />
-        <option value="$PROJECT_DIR$/mctseq/SequenceNode.py" />
-        <option value="$PROJECT_DIR$/mctseq/PrioritySet.py" />
         <option value="$PROJECT_DIR$/mctseq/mctseq.py" />
         <option value="$PROJECT_DIR$/competitors/profiling" />
         <option value="$PROJECT_DIR$/mctseq/graph.gv" />
@@ -148,12 +210,17 @@
         <option value="$PROJECT_DIR$/seqehc/seq_samp_hill.py" />
         <option value="$PROJECT_DIR$/xp/other_xp_results/seqsamphill_18seconds_promoters_output" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/tests/test_utils.py" />
         <option value="$PROJECT_DIR$/tests/test_priority_set.py" />
         <option value="$PROJECT_DIR$/competitors/seed_explore_v2.py" />
+        <option value="$PROJECT_DIR$/tests/test_utils.py" />
+        <option value="$PROJECT_DIR$/tests/test_seed_explore.py" />
+        <option value="$PROJECT_DIR$/data/expanded" />
+        <option value="$PROJECT_DIR$/seqsamphill/utils.py" />
+        <option value="$PROJECT_DIR$/data/modify_mushroom.py" />
         <option value="$PROJECT_DIR$/seqsamphill/seq_samp_hill.py" />
-        <option value="$PROJECT_DIR$/xp/xp_main.py" />
         <option value="$PROJECT_DIR$/competitors/seed_explore.py" />
+        <option value="$PROJECT_DIR$/data/read_mushroom.py" />
+        <option value="$PROJECT_DIR$/xp/xp_main.py" />
       </list>
     </option>
   </component>
@@ -189,6 +256,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -199,24 +267,35 @@
             <path>
               <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
               <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
-              <item name="seqsamphill" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
               <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="xp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
+              <item name="xp" type="462c0819:PsiDirectoryNode" />
+              <item name="results" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
+              <item name="xp" type="462c0819:PsiDirectoryNode" />
+              <item name="wracc_datasets" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$2/Languages" value="TEXT" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Bureau/bibtex-train.arff" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -246,7 +325,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.xp_main">
-    <configuration name="misere_hill" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="modify_mushroom" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SEQEHC" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -254,11 +333,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seqehc" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqehc/seq_samp_hill.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/read_mushroom.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -288,27 +367,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="seed_explore_v2" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SEQEHC" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/competitors" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/competitors/seed_explore_v2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="seq_samp_hill" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SEQEHC" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -322,6 +380,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqsamphill/seq_samp_hill.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_utils" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="SEQEHC" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/test_utils.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -439,19 +518,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.misere_hill" />
       <item itemvalue="Python.xp_main" />
       <item itemvalue="Python.seq_samp_hill" />
       <item itemvalue="Python.seed_explore" />
-      <item itemvalue="Python.seed_explore_v2" />
+      <item itemvalue="Python.test_utils" />
+      <item itemvalue="Python.modify_mushroom" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.xp_main" />
         <item itemvalue="Python.seed_explore" />
+        <item itemvalue="Python.modify_mushroom" />
+        <item itemvalue="Python.test_utils" />
         <item itemvalue="Python.seq_samp_hill" />
-        <item itemvalue="Python.seed_explore_v2" />
-        <item itemvalue="Python.misere_hill" />
       </list>
     </recent_temporary>
   </component>
@@ -486,7 +565,7 @@
       <window_info id="Structure" order="2" weight="0.17237744" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.27072403" />
-      <window_info active="true" anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.4978903" visible="true" weight="0.2455404" />
+      <window_info active="true" anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.4978903" visible="true" weight="0.29485834" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4957806" weight="0.24344176" />
       <window_info anchor="bottom" id="TODO" order="4" sideWeight="0.4978903" weight="0.31794333" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
@@ -494,7 +573,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5084388" side_tool="true" weight="0.24265505" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32738718" />
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.32843652" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49156117" weight="0.13955928" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49156117" weight="0.2161595" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32948583" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -586,9 +665,9 @@
           <option name="timeStamp" value="391" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/competitors/seed_explore.py</url>
-          <line>43</line>
-          <option name="timeStamp" value="398" />
+          <url>file://$PROJECT_DIR$/seqsamphill/utils.py</url>
+          <line>602</line>
+          <option name="timeStamp" value="400" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -601,71 +680,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/data/debile.data">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="35" selection-start-column="35" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/blocks.data">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2880">
-          <caret line="192" column="19" selection-start-line="192" selection-start-column="19" selection-end-line="192" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/context.data">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1965">
-          <caret line="131" column="421" selection-start-line="131" selection-start-column="421" selection-end-line="131" selection-end-column="421" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/promoters.data">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="68" selection-start-column="68" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/mprofile_20190221112001.dat" />
-    <entry file="file://$PROJECT_DIR$/xp/mem_seq_samp_hill.dat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26955">
-          <caret line="1797" selection-start-line="1797" selection-end-line="1797" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/mem_bs.dat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="641">
-          <caret line="1801" selection-start-line="1801" selection-end-line="1801" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/mem_misere.dat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="641">
-          <caret line="1801" selection-start-line="1801" selection-end-line="1801" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/skating.data">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="200" column="85" selection-start-line="200" selection-start-column="85" selection-end-line="200" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/sequences-TZ-45.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="71" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Makefile" />
     <entry file="file://$PROJECT_DIR$/setup.py" />
     <entry file="file://$PROJECT_DIR$/seqehc/t_bitsets.py" />
     <entry file="file://$PROJECT_DIR$/seqsamphill/compute_stats.py">
@@ -686,13 +700,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/seqsamphill/prepare_dataset.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/xp/ground_truth/result">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/results/result">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/xp/time/result">
@@ -770,7 +778,6 @@
     <entry file="file://$PROJECT_DIR$/xp/ground_truth/gt.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/barplot.png" />
     <entry file="file://$PROJECT_DIR$/xp/time/promoters_over_time.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -804,13 +811,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_priority_set.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -870,60 +870,200 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_priority_set.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="45">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.editorconfig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file:///usr/lib/python3.6/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="310" selection-start-line="310" selection-end-line="310" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Bureau/bibtex.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_seed_explore.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Bureau/bibtex-train.arff">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-29745" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/mushroom.data" />
+    <entry file="file://$PROJECT_DIR$/seqsamphill/prepare_dataset.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/data/aslbu.data">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="16" selection-start-column="16" selection-end-column="16" />
+        <state relative-caret-position="270">
+          <caret line="18" column="56" selection-start-line="18" selection-start-column="56" selection-end-line="18" selection-end-column="56" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/seqsamphill/seq_samp_hill.py">
+    <entry file="file://$USER_HOME$/Bureau/bibtex.arff">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="491" column="4" selection-start-line="491" selection-start-column="4" selection-end-line="491" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="392">
+          <caret line="1972" selection-start-line="1972" selection-end-line="1972" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/seed_explore.py">
+    <entry file="file://$PROJECT_DIR$/data/mushroom_sequences.data" />
+    <entry file="file://$PROJECT_DIR$/data/expanded">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="248" column="94" selection-start-line="248" selection-start-column="94" selection-end-line="248" selection-end-column="94" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#8020#8968#0" />
-            <element signature="e#9232#10016#0" />
-            <element signature="e#10845#11010#0" />
-            <element signature="e#11046#11206#0" />
-          </folding>
+        <state relative-caret-position="898">
+          <caret line="896" selection-start-line="896" selection-end-line="896" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/read_mushroom.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="33" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/seqsamphill/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="675" selection-start-line="675" selection-end-line="675" />
+        <state relative-caret-position="5911">
+          <caret line="746" column="28" lean-forward="true" selection-start-line="746" selection-start-column="28" selection-end-line="746" selection-end-column="28" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/xp/results/result">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seqsamphill/seq_samp_hill.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5939">
+          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/skating.data">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/seed_explore.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-209">
+          <caret line="256" column="15" selection-start-line="256" selection-start-column="15" selection-end-line="256" selection-end-column="15" />
+          <folding>
+            <element signature="e#763#7526#0" />
+            <element signature="e#763#981#1" />
+            <element signature="e#1347#6113#0" />
+            <element signature="e#1394#2792#0" />
+            <element signature="e#1438#2792#0" />
+            <element signature="e#1616#2457#0" />
+            <element signature="e#2864#4267#0" />
+            <element signature="e#3035#3848#0" />
+            <element signature="e#3883#4075#0" />
+            <element signature="e#4329#6113#0" />
+            <element signature="e#4514#6113#0" />
+            <element signature="e#4732#5648#0" />
+            <element signature="e#5691#5901#0" />
+            <element signature="e#6190#7509#0" />
+            <element signature="e#6338#7123#0" />
+            <element signature="e#7150#7334#0" />
+            <element signature="e#7588#8577#0" />
+            <element signature="e#7796#8052#0" />
+            <element signature="e#8114#8480#0" />
+            <element signature="e#8629#8764#0" />
+            <element signature="e#8676#8740#0" />
+            <element signature="e#8816#9682#0" />
+            <element signature="e#8816#8932#1" />
+            <element signature="e#9197#9655#0" />
+            <element signature="e#9226#9529#0" />
+            <element signature="e#9427#9529#0" />
+            <element signature="e#9556#9655#0" />
+            <element signature="e#9745#10022#0" />
+            <element signature="e#10048#10213#0" />
+            <element signature="e#10048#10163#1" />
+            <element signature="e#10250#10411#0" />
+            <element signature="e#10250#10322#0" />
+            <element signature="e#10459#10779#0" />
+            <element signature="e#10583#10757#0" />
+            <element signature="e#10693#10757#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/barplot.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="59" selection-start-line="59" selection-end-line="59" />
+        <state relative-caret-position="510">
+          <caret line="60" column="11" selection-start-line="60" selection-start-column="11" selection-end-line="60" selection-end-column="11" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#659#1080#0" />
+            <element signature="e#1884#2455#0" />
+            <element signature="e#5132#8936#0" />
+            <element signature="e#5232#5273#0" />
+            <element signature="e#5375#5440#0" />
+            <element signature="e#5773#8074#0" />
+            <element signature="e#6147#7656#0" />
+            <element signature="e#6371#6467#0" />
+            <element signature="e#6577#6723#0" />
+            <element signature="e#6834#6983#0" />
+            <element signature="e#7103#7195#0" />
+            <element signature="e#8087#8288#0" />
+            <element signature="e#8624#8918#0" />
+            <element signature="e#8971#12710#0" />
+            <element signature="e#9461#11848#0" />
+            <element signature="e#9837#11352#0" />
+            <element signature="e#10061#10157#0" />
+            <element signature="e#10267#10413#0" />
+            <element signature="e#10524#10673#0" />
+            <element signature="e#10795#10887#0" />
+            <element signature="e#11861#12062#0" />
+            <element signature="e#12398#12692#0" />
+            <element signature="e#12750#16454#0" />
+            <element signature="e#12804#12871#0" />
+            <element signature="e#13253#15610#0" />
+            <element signature="e#13677#15192#0" />
+            <element signature="e#13901#13997#0" />
+            <element signature="e#14107#14253#0" />
+            <element signature="e#14364#14513#0" />
+            <element signature="e#14635#14727#0" />
+            <element signature="e#15623#15824#0" />
+            <element signature="e#16050#16344#0" />
+            <element signature="e#16491#17728#0" />
+            <element signature="e#16613#16989#0" />
+            <element signature="e#17002#17262#0" />
+            <element signature="e#17489#17710#0" />
+            <element signature="e#17758#18966#0" />
+            <element signature="e#17873#18260#0" />
+            <element signature="e#18273#18511#0" />
+            <element signature="e#18734#18948#0" />
           </folding>
         </state>
       </provider>

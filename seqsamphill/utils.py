@@ -159,35 +159,14 @@ def compute_WRAcc(data, subsequence, target_class):
 def is_subsequence(a, b):
     """ check if sequence a is a subsequence of b
     """
-    index_b_mem = 0
+    i_a, i_b = 0, 0
 
-    for index_a, itemset_a in enumerate(a):
-        for index_b in range(index_b_mem, len(b)):
-            if index_b == len(b) - 1:
-                # we mark as finished
-                index_b_mem = len(b)
+    while i_a < len(a) and i_b < len(b):
+        if a[i_a].issubset(b[i_b]):
+            i_a += 1
+        i_b += 1
 
-            itemset_b = b[index_b]
-
-            if itemset_a.issubset(itemset_b):
-                index_b_mem = index_b + 1
-                break
-
-        if index_b_mem == len(b):
-            if index_a < len(a) - 1:
-                # we reach the end of b and there are still elements in a
-                return False
-            elif itemset_a.issubset(b[-1]):
-                # we reach the end of a and b, a_last_elt is included in
-                # b_last_elt
-                return True
-            else:
-                # we reach the end of a and b, a_last_elt is not included in
-                # b_last_elt
-                return False
-
-    return True
-
+    return i_a == len(a)
 
 def subsequence_indices(a, b):
     """ Return itemset indices of b that itemset of a are included in

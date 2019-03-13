@@ -33,7 +33,6 @@ def test_jaccard_bitset():
 
     assert jaccard_measure(int('010010', 2), int('100100', 2), bitset_slot_size, first_zero_mask, last_ones_mask) == 1/3
 
-test_jaccard_bitset()
 
 def test_create_s_extension():
     sequence = (frozenset({'A'}), frozenset({'C'}))
