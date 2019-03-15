@@ -58,9 +58,9 @@ def compare_seeds(number_dataset):
 # compare_seeds(2)
 # compare_seeds(3)
 # compare_seeds(4)
-#compare_seeds(5)
+# compare_seeds(5)
 
-compare_seeds(6)
+# compare_seeds(6)
 
 def compare_competitors():
     number_dataset = 5
@@ -84,7 +84,7 @@ def compare_competitors():
 
 def compare_datasets():
     pool = Pool(processes=3)
-    time_xp = 50
+    time_xp = 10
     top_k = 15
 
     misere_hist = []
@@ -151,7 +151,7 @@ def compare_datasets():
 
 def compare_datasets_seeds():
     pool = Pool(processes=3)
-    time_xp = 30
+    time_xp = 10
     top_k = 5
 
     misere_hist = []

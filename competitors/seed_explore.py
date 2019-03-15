@@ -30,11 +30,12 @@ def compute_variations_better_wracc(sequence, items, data, target_class, target_
     '''
     variations = []
 
-    bitset_slot_size = VERTICAL_TOOLS['bitset_slot_size']
-    itemsets_bitsets = VERTICAL_TOOLS['itemsets_bitsets']
-    class_data_count = VERTICAL_TOOLS['class_data_count']
-    first_zero_mask = VERTICAL_TOOLS['first_zero_mask']
-    last_ones_mask = VERTICAL_TOOLS['last_ones_mask']
+    if VERTICAL_RPZ:
+        bitset_slot_size = VERTICAL_TOOLS['bitset_slot_size']
+        itemsets_bitsets = VERTICAL_TOOLS['itemsets_bitsets']
+        class_data_count = VERTICAL_TOOLS['class_data_count']
+        first_zero_mask = VERTICAL_TOOLS['first_zero_mask']
+        last_ones_mask = VERTICAL_TOOLS['last_ones_mask']
 
     for itemset_i, itemset in enumerate(sequence):
         # i_extension
