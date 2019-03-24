@@ -1,32 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/aslbu/aslbu_intervals.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/aslbu/aslbu_intervals.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/aslbu/aslbu_windows.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/aslbu/aslbu_windows.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/auslan2/auslan2_intervals.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/auslan2/auslan2_intervals.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/auslan2/auslan2_windows.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/auslan2/auslan2_windows.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/blocks/blocks_intervals.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/blocks/blocks_intervals.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/blocks/blocks_windows.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/blocks/blocks_windows.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/context/context_intervals.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/context/context_intervals.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/context/context_windows.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/context/context_windows.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/skating/skating_intervals.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/skating/skating_intervals.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/skating/skating_speed_windows.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/skating/skating_speed_windows.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/skating/skating_windows.int" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/skating/skating_windows.int.tskm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sax/paa.py" beforeDir="false" afterPath="$PROJECT_DIR$/sax/paa.py" afterDir="false" />
-    </list>
+    <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +37,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_sax.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
+            <state relative-caret-position="510">
               <caret line="34" column="88" selection-start-line="34" selection-start-column="88" selection-end-line="34" selection-end-column="88" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -89,11 +64,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sax/sax_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="42" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
+            <state relative-caret-position="345">
+              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -101,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sax/ts_mining.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+            <state relative-caret-position="330">
+              <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -191,16 +166,15 @@
         <option value="$PROJECT_DIR$/sax/lookup_table.py" />
         <option value="$PROJECT_DIR$/tests/test_sax.py" />
         <option value="$PROJECT_DIR$/sax/paa.py" />
-        <option value="$PROJECT_DIR$/sax/sax_main.py" />
         <option value="$PROJECT_DIR$/sax/ts_mining.py" />
+        <option value="$PROJECT_DIR$/sax/sax_main.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1845" />
-    <option name="y" value="200" />
-    <option name="width" value="1717" />
-    <option name="height" value="937" />
+    <option name="y" value="34" />
+    <option name="width" value="1920" />
+    <option name="height" value="1046" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -521,12 +495,12 @@
     <frame x="1920" y="0" width="1920" height="1080" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49288487" visible="true" weight="0.17501318" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49288487" visible="true" weight="0.17501318" />
       <window_info id="Favorites" order="1" sideWeight="0.5071151" side_tool="true" weight="0.21052632" />
       <window_info id="Structure" order="2" weight="0.17237744" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.27072403" />
-      <window_info active="true" anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.4978903" visible="true" weight="0.20881426" />
+      <window_info anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.4978903" weight="0.20881426" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4957806" weight="0.24344176" />
       <window_info anchor="bottom" id="TODO" order="4" sideWeight="0.4978903" weight="0.31794333" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
@@ -534,7 +508,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5086979" side_tool="true" weight="0.2161595" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32738718" />
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.32843652" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49130204" weight="0.2161595" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49130204" visible="true" weight="0.2161595" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32948583" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -919,13 +893,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_sax.py">
+    <entry file="file://$PROJECT_DIR$/sax/paa.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="34" column="88" selection-start-line="34" selection-start-column="88" selection-end-line="34" selection-end-column="88" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="225">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -936,6 +907,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_sax.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="88" selection-start-line="34" selection-start-column="88" selection-end-line="34" selection-end-column="88" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sax/normalize.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -943,32 +924,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sax/paa.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/energydata.csv">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/sax/sax_main.py">
+    <entry file="file://$PROJECT_DIR$/sax/ts_mining.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="42" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
+        <state relative-caret-position="330">
+          <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#16#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sax/ts_mining.py">
+    <entry file="file://$PROJECT_DIR$/sax/sax_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+        <state relative-caret-position="345">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
           <folding>
-            <element signature="e#0#16#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>

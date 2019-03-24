@@ -257,6 +257,9 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
 
     sorted_patterns = PrioritySet(top_k)
 
+
+
+
     # removing class
     bitset_slot_size = len(max(data, key=lambda x: len(x))) - 1
 
@@ -317,15 +320,18 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
 
 
 def launch():
-    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
-    DATA = read_mushroom()
+    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    # DATA = read_mushroom()
 
     # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
     ITEMS = extract_items(DATA)
 
-    results = seed_explore(DATA, ITEMS, 120, 'POISONOUS', top_k=10, enable_i=True, vertical=False)
+    results = seed_explore(DATA, ITEMS, 12, '1', top_k=10, enable_i=True, vertical=False)
     print_results(results)
 
 
 if __name__ == '__main__':
     launch()
+
+# we try a new thing: we store all itemsets in a structure. It will be useful to check then if a i-specialisation is present in
+# to avoid computing wracc
