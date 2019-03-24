@@ -20,8 +20,17 @@ from data.read_mushroom import read_mushroom
 VERTICAL_TOOLS = {}
 VERTICAL_RPZ = False
 
+def is_included(pattern, pattern_set):
+    if pattern in pattern_set:
+        return True
+    else:
+        for x in pattern_set:
+            if pattern.issubset(x):
+                return True
+        return False
 
-def compute_variations_better_wracc(sequence, items, data, target_class, target_wracc, enable_i=False):
+
+def compute_variations_better_wracc(sequence, items, data, itemsets_memory, target_class, target_wracc, enable_i=False):
     '''
     Compute variations until quality increases
     :param sequence:
@@ -44,23 +53,25 @@ def compute_variations_better_wracc(sequence, items, data, target_class, target_
                 new_variation_i_extension = copy.deepcopy(sequence)
                 new_variation_i_extension[itemset_i].add(item_possible)
 
-                if VERTICAL_RPZ:
-                    new_variation_i_wracc, new_variation_i_bitset = compute_WRAcc_vertical(data,
-                                                                                           new_variation_i_extension,
-                                                                                           target_class,
-                                                                                           bitset_slot_size,
-                                                                                           itemsets_bitsets,
-                                                                                           class_data_count,
-                                                                                           first_zero_mask,
-                                                                                           last_ones_mask)
-                else:
-                    new_variation_i_wracc = compute_WRAcc(data, new_variation_i_extension, target_class)
+                # we check if created pattern is present in data before
+                if is_included(new_variation_i_extension, itemsets_memory):
+                    if VERTICAL_RPZ:
+                        new_variation_i_wracc, new_variation_i_bitset = compute_WRAcc_vertical(data,
+                                                                                               new_variation_i_extension,
+                                                                                               target_class,
+                                                                                               bitset_slot_size,
+                                                                                               itemsets_bitsets,
+                                                                                               class_data_count,
+                                                                                               first_zero_mask,
+                                                                                               last_ones_mask)
+                    else:
+                        new_variation_i_wracc = compute_WRAcc(data, new_variation_i_extension, target_class)
 
-                variations.append(
-                    (new_variation_i_extension, new_variation_i_wracc))
+                    variations.append(
+                        (new_variation_i_extension, new_variation_i_wracc))
 
-                if new_variation_i_wracc > target_wracc:
-                    return variations[-1]
+                    if new_variation_i_wracc > target_wracc:
+                            return variations[-1]
 
         # s_extension
         for item_possible in items:
@@ -244,6 +255,13 @@ def select_arm(seeds, iterations_count):
     return best_seed
 
 
+def get_itemset_memory(data):
+    memory = set()
+    for line in data:
+        for itemset in line[1:]:
+            memory.add(frozenset(itemset))
+    return memory
+
 def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True):
     # TODO: normalize quality !
     # TODO: improve memory strategy
@@ -257,8 +275,7 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
 
     sorted_patterns = PrioritySet(top_k)
 
-
-
+    itemsets_memory = get_itemset_memory(data)
 
     # removing class
     bitset_slot_size = len(max(data, key=lambda x: len(x))) - 1
@@ -297,6 +314,7 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
             try:
                 improved_best_seed, best_quality = compute_variations_better_wracc(best_seed,
                                                                                    items, data,
+                                                                                   itemsets_memory,
                                                                                    target_class,
                                                                                    quality,
                                                                                    enable_i=enable_i)
