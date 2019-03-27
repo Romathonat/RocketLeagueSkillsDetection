@@ -150,8 +150,8 @@ def compare_datasets():
 
 def compare_datasets_seeds():
     pool = Pool(processes=3)
-    time_xp = 60
-    top_k = 5
+    time_xp = 120
+    top_k = 10
 
     misere_hist = []
     beam_hist = []

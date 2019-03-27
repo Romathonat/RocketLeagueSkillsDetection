@@ -20,6 +20,7 @@ from data.read_mushroom import read_mushroom
 VERTICAL_TOOLS = {}
 VERTICAL_RPZ = False
 
+
 def is_included(pattern, pattern_set):
     if pattern in pattern_set:
         return True
@@ -71,7 +72,7 @@ def compute_variations_better_wracc(sequence, items, data, itemsets_memory, targ
                         (new_variation_i_extension, new_variation_i_wracc))
 
                     if new_variation_i_wracc > target_wracc:
-                            return variations[-1]
+                        return variations[-1]
 
         # s_extension
         for item_possible in items:
@@ -236,19 +237,31 @@ def UCB(x, t, ni):
     return x + math.sqrt((2 * math.log2(t)) / ni)
 
 
-def UCB_diff(x, t, ni, diff):
-    # we foster best element, and give advantage to elements with a big diff
-    # return x + diff * 0.25 + math.sqrt((2 * math.log2(t)) / ni)
-    return diff * 0.25
+def get_score(x, t, ni, improvement, best_score):
+    '''
+    :param x: the score of current pattern
+    :param t:
+    :param ni:
+    :param improvement: the % of improvement for last value
+    :param best_score: best pattern found in the data so far
+    :return: a score between 0 and 1
+    '''
+    # the score is based on the delta of quality increase, and on the difference to the best pattern found so far.
+    # we consider positive elements so we shift the wracc
+    best_score += 0.25
+    x += 0.25
+    #return min(0.5, improvement * 0.5) + (x - best_score) / best_score
+    #return min(0.5, improvement * 0.5)
+    return improvement
 
 
-def select_arm(seeds, iterations_count):
+def select_arm(seeds, iterations_count, best_wracc):
     best_seed = ()
     best_score = -float('inf')
 
-    for original_seed, (mean, ti, variation, diff) in seeds.items():
-        score_compute = UCB_diff(mean, ti, iterations_count, diff)
-        if score_compute > best_score:
+    for original_seed, (mean, ti, variation, improvement) in seeds.items():
+        score_compute = get_score(mean, ti, iterations_count, improvement, best_wracc)
+        if score_compute >= best_score:
             best_score = score_compute
             best_seed = original_seed
 
@@ -262,6 +275,7 @@ def get_itemset_memory(data):
             memory.add(frozenset(itemset))
     return memory
 
+
 def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True):
     # TODO: normalize quality !
     # TODO: improve memory strategy
@@ -272,9 +286,7 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
     time_budget = datetime.timedelta(seconds=time_budget)
 
     data_target_class = filter_target_class(data, target_class)
-
     sorted_patterns = PrioritySet(top_k)
-
     itemsets_memory = get_itemset_memory(data)
 
     # removing class
@@ -295,11 +307,11 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
     iterations_count = 1
     optima_nb = 0
 
-    # {original_seed: (quality, ti, improved_pattern, diff)} diff with preceding value
+    # {original_seed: (quality, ti, improved_pattern, improvement)} diff with preceding value
     seeds = {}
 
     while datetime.datetime.utcnow() - begin < time_budget:
-        # we keep a pool ok k-element we are looking for
+        # we keep a pool of k-elements we are looking for
         if len(seeds) < top_k:
             seed, quality = create_seed(data, target_class, data_target_class)
 
@@ -308,7 +320,7 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
             sorted_patterns.add(seed_immu, quality)
 
         else:
-            best_origin_seed = select_arm(seeds, iterations_count)
+            best_origin_seed = select_arm(seeds, iterations_count, sorted_patterns.get_top_k(1)[0][0])
             quality, ti, best_seed, diff_quality = seeds[best_origin_seed]
 
             try:
@@ -321,6 +333,8 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
 
                 sorted_patterns.add(sequence_mutable_to_immutable(improved_best_seed), best_quality)
 
+                # we shift the quality to divide by a number > 0
+                improvement = best_quality + 0.25 - (quality + 0.25) / (quality + 0.25)
                 seeds[best_origin_seed] = (
                     best_quality, ti + 1, improved_best_seed, best_quality - quality)
 
@@ -351,5 +365,5 @@ def launch():
 if __name__ == '__main__':
     launch()
 
-# we try a new thing: we store all itemsets in a structure. It will be useful to check then if a i-specialisation is present in
-# to avoid computing wracc
+# TODO: for scoring: give points if delta is good, and points if we are far away from the best solution we found so far.
+# or normalize it: between 0 and 0.5 for delta, and 0 and 0.5 for score (normalizing wracc
