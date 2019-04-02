@@ -484,7 +484,7 @@ def launch():
 
     ITEMS = extract_items(DATA)
 
-    results = seq_samp_hill(DATA, ITEMS, 10, '+', top_k=10, enable_i=True, wracc_vertical=True)
+    results = seq_samp_hill(DATA, ITEMS, 12, '+', top_k=10, enable_i=True, wracc_vertical=True)
     print_results(results)
 
 

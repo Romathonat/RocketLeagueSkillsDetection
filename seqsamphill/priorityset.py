@@ -4,6 +4,7 @@ from seqsamphill.utils import jaccard_measure, is_subsequence, sequence_mutable_
 
 THETA = 0.5
 
+
 def jaccard_measure_misere(sequence1, sequence2, data):
     intersection = 0
     union = 0
@@ -58,7 +59,6 @@ def filter_results_misere(results, data, theta, k):
             break
 
     return filtered_elements
-
 
 
 class PrioritySet(object):
@@ -122,8 +122,7 @@ class PrioritySet(object):
 
             # if no amelioration, do not add
             if mean_actual > mean_add:
-               return
-
+                return
 
             self.add(sequence, wracc)
 
@@ -137,7 +136,6 @@ class PrioritySet(object):
                 set_top_k.add(seq)
 
             self.set = set_top_k
-
 
     def get(self):
         wracc, sequence = heapq.heappop(self.heap)
@@ -173,7 +171,7 @@ class PrioritySetv2(object):
         :param wracc:
         :return:
         '''
-        #print('adding'+str(sequence))
+        # print('adding'+str(sequence))
         if len(self.heap) < self.k:
             self.add(sequence, wracc)
             return
@@ -202,9 +200,9 @@ class PrioritySetv2(object):
 
     def get_top_k_non_redundant(self, data, k):
         self.heap = filter_results_misere(self.heap, data, THETA, k)
-        #TEST
-        #similarity_first = jaccard_measure_misere(self.heap[0][1], self.heap[1][1], data)
-        #print(similarity_first)
+        # TEST
+        # similarity_first = jaccard_measure_misere(self.heap[0][1], self.heap[1][1], data)
+        # print(similarity_first)
 
         return self.get_top_k(k)
 
@@ -214,6 +212,7 @@ class PrioritySetUCB(object):
     This class is a priority queue, removing duplicates and using node wracc
     as the metric to order the priority queue
     """
+
     def __init__(self):
         self.heap = []
         self.set = set()
@@ -236,5 +235,3 @@ class PrioritySetUCB(object):
         UCB, Ni, wracc, sequence = heapq.heappop(self.heap)
         self.set.remove(sequence)
         return (-UCB, Ni, wracc, sequence)
-
-

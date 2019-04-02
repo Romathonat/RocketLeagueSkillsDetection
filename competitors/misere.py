@@ -13,22 +13,25 @@ from seqsamphill.utils import read_data, read_data_kosarak, uct, \
 from seqsamphill.priorityset import PrioritySet
 
 
+
+
 def count_subsequences_number(sequence):
     solutions = {0: 1}
 
     for i, x in enumerate(sequence):
         if x not in sequence[:i]:
-            solutions[i+1] = 2 * solutions[i]
+            solutions[i + 1] = 2 * solutions[i]
         else:
             last_index = 0
-            for j, char in enumerate(sequence[i-1::-1]):
+            for j, char in enumerate(sequence[i - 1::-1]):
                 if char == x:
                     last_index = j + 1
                     break
 
-            solutions[i+1] = 2 * solutions[i] - solutions[last_index - 1]
+            solutions[i + 1] = 2 * solutions[i] - solutions[last_index - 1]
 
     return solutions[len(sequence)]
+
 
 def misere(data, time_budget, target_class, top_k=5):
     begin = datetime.datetime.utcnow()
@@ -65,7 +68,6 @@ def misere(data, time_budget, target_class, top_k=5):
                 chosen_itemset_i = random.randint(0, len(subsequence) - 1)
                 chosen_itemset = subsequence[chosen_itemset_i]
 
-
                 chosen_itemset.remove(random.sample(chosen_itemset, 1)[0])
 
                 if len(chosen_itemset) == 0:
@@ -75,9 +77,9 @@ def misere(data, time_budget, target_class, top_k=5):
             # wracc = compute_WRAcc(data, subsequence, target_class)
 
             wracc, _ = compute_WRAcc_vertical(data, subsequence, target_class,
-                                           bitset_slot_size,
-                                           itemsets_bitsets, class_data_count,
-                                           first_zero_mask, last_ones_mask)
+                                              bitset_slot_size,
+                                              itemsets_bitsets, class_data_count,
+                                              first_zero_mask, last_ones_mask)
 
             iterations_count += 1
             sorted_patterns.add(sequence_mutable_to_immutable(subsequence),
@@ -85,19 +87,22 @@ def misere(data, time_budget, target_class, top_k=5):
 
     print("Misere iterations:{}".format(iterations_count))
 
+
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
+
 
 def launch():
     # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
-    #DATA = read_data_kosarak('../data/debile.data')
+    # DATA = read_data_kosarak('../data/debile.data')
 
     DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
 
-    #DATA = reduce_k_length(50, DATA)
+    # DATA = reduce_k_length(50, DATA)
 
     results = misere(DATA, 12, '+', top_k=10)
 
     print_results(results)
 
+
 if __name__ == '__main__':
-   launch()
+    launch()

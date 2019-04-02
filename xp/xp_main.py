@@ -10,6 +10,7 @@ import seaborn as sns
 
 from competitors.beam_search import beam_search
 from competitors.misere import misere
+from competitors.misere_final_opti import misere_final_opti
 from competitors.seed_explore import seed_explore
 from competitors.seed_explore_v2 import seed_explore_v2
 from seqsamphill.seq_samp_hill import seq_samp_hill
@@ -30,7 +31,7 @@ datasets = [
     (read_data('../data/splice.data'), 'EI', False),
     (read_data_kosarak('../data/blocks.data'), '1', False),
     (read_data_kosarak('../data/context.data'), '4', False),
-    (read_data_sc2('../data/sequences-TZ-45.txt')[:500], '1', True),
+    (read_data_sc2('../data/sequences-TZ-45.txt')[:5000], '1', True),
     (read_data_kosarak('../data/skating.data'), '1', True)
 ]
 
@@ -46,20 +47,20 @@ def compare_seeds(number_dataset):
     TIME = 20
 
     print('Dataset: {}'.format(datasets_names[number_dataset]))
-    seq_samp_hill_results = seq_samp_hill(DATA, items, TIME, target_class, top_k=5, enable_i=enable_i)
+    seq_samp_hill_results = misere(DATA, TIME, target_class, 5)
     print_results(seq_samp_hill_results)
 
-    seed_results = seed_explore(DATA, items, TIME, target_class, top_k=5, enable_i=enable_i)
+    seed_results = flat_UCB(DATA, items, TIME, target_class, top_k=5, enable_i=enable_i, vertical=False)
     print_results(seed_results)
 
 
-#compare_seeds(0)
-#compare_seeds(1)
-#compare_seeds(2)
-#compare_seeds(3)
-#compare_seeds(4)
-#compare_seeds(5)
-#compare_seeds(6)
+# compare_seeds(0)
+# compare_seeds(1)
+# compare_seeds(2)
+# compare_seeds(3)
+# compare_seeds(4)
+# compare_seeds(5)
+# compare_seeds(6)
 
 def compare_competitors():
     number_dataset = 5
@@ -150,13 +151,13 @@ def compare_datasets():
 
 def compare_datasets_UCB():
     pool = Pool(processes=3)
-    time_xp = 120
+    time_xp = 12
     top_k = 10
 
     misere_hist = []
     beam_hist = []
-    seq_samp_hill_hist = []
-    ucb_hist= []
+    misere_opti = []
+    ucb_hist = []
 
     for i, (data, target, enable_i) in enumerate(datasets):
         items = extract_items(data)
@@ -167,22 +168,22 @@ def compare_datasets_UCB():
                                            data, items, time_xp, target,
                                            enable_i, top_k))
 
-        result_seq_samp_hill = pool.apply_async(seq_samp_hill, (
-            data, items, time_xp, target, top_k, enable_i))
+        results_misere_opti = pool.apply_async(misere_final_opti(
+                                        data, items, time_xp, target, top_k))
 
         result_ucb = pool.apply_async(flat_UCB, (data, items, time_xp, target, top_k, enable_i))
 
         result_misere = result_misere.get()
         result_beam = result_beam.get()
-        result_seq_samp_hill = result_seq_samp_hill.get()
+        results_misere_opti = results_misere_opti.get()
         result_ucb = result_ucb.get()
 
         if len(result_misere) < top_k:
             print("Too few example on misere on dataset {}: {} results".format(datasets_names[i], len(result_misere)))
 
-        if len(result_seq_samp_hill) < top_k:
-            print("Too few example on SeqSampHill on dataset {}: {} results".format(datasets_names[i],
-                                                                                    len(result_seq_samp_hill)))
+        if len(results_misere_opti) < top_k:
+            print("Too few example on misere opti on dataset {}: {} results".format(datasets_names[i],
+                                                                                    len(results_misere_opti)))
 
         if len(result_beam) < top_k:
             print(
@@ -190,24 +191,24 @@ def compare_datasets_UCB():
         if len(result_ucb) < top_k:
             print(
                 "Too few example on flat UCB on dataset {}: {} results".format(datasets_names[i],
-                                                                                    len(result_ucb)))
+                                                                               len(result_ucb)))
 
         average_misere = average_results(result_misere)
         average_beam = average_results(result_beam)
-        average_seq_samp_hill = average_results(result_seq_samp_hill)
+        average_misere_opti = average_results(results_misere_opti)
         average_ucb = average_results(result_ucb)
 
         misere_hist.append(average_misere)
         beam_hist.append(average_beam)
-        seq_samp_hill_hist.append(average_seq_samp_hill)
+        misere_opti.append(average_misere_opti)
         ucb_hist.append(average_ucb)
 
-    data = {'WRAcc': misere_hist + seq_samp_hill_hist + beam_hist + ucb_hist,
+    data = {'WRAcc': misere_hist + misere_opti + beam_hist + ucb_hist,
             'dataset': datasets_names + datasets_names + datasets_names + datasets_names,
             'Algorithm': ['misere' for i in range(len(misere_hist))] +
-                         ['SeqSampHill' for i in range(len(seq_samp_hill_hist))] +
+                         ['misere optimized' for i in range(len(misere_opti))] +
                          ['beam_search' for i in range(len(beam_hist))] +
-                         ['Seeds Explore' for i in range(len(ucb_hist))]}
+                         ['UCB' for i in range(len(ucb_hist))]}
 
     df = pd.DataFrame(data=data)
 
@@ -216,7 +217,7 @@ def compare_datasets_UCB():
     plt.savefig('./wracc_datasets/barplot.png')
 
     with open('./wracc_datasets/result', 'w+') as f:
-        f.write(' '.join([str(i) for i in seq_samp_hill_hist]))
+        f.write(' '.join([str(i) for i in misere_opti]))
         f.write('\n')
         f.write(' '.join([str(i) for i in misere_hist]))
         f.write('\n')
@@ -225,6 +226,7 @@ def compare_datasets_UCB():
         f.write(' '.join([str(i) for i in datasets_names]))
 
     # plt.show()
+
 
 def show_quality_over_time():
     # DATA = read_data_kosarak('../data/aslbu.data')

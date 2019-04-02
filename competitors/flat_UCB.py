@@ -197,24 +197,28 @@ def generalize_sequence(sequence, data, target_class):
 
 
 def UCB(score, Ni, N):
-    # * 2 to compensate the wracc ?
-    return score + 2 * math.sqrt(math.log(N) / Ni)
+    # we choose C = 0.5
+    # we normalize the wracc: +0.25,  * 2
+
+    return (score + 0.25) * 2 + 0.5 * math.sqrt(2 * math.log(N) / Ni)
 
 
 def exploit_arm(pattern, wracc, items, data, itemsets_memory, target_class, enable_i=True):
     # we optimize until we find local optima
+    #print("Optimize")
     while 'climbing hill':
         # we compute all possible variations
         try:
 
-            pattern, wracc, _ = compute_variations_better_wracc(pattern,
-                                                                items, data,
-                                                                itemsets_memory,
-                                                                target_class,
-                                                                wracc,
-                                                                enable_i=enable_i)
+            pattern, wracc = compute_variations_better_wracc(pattern,
+                                                             items, data,
+                                                             itemsets_memory,
+                                                             target_class,
+                                                             wracc,
+                                                             enable_i=enable_i)
 
-        except:
+        except TypeError:
+            # print("Already a local optima")
             break
     return pattern, wracc
 
@@ -294,7 +298,7 @@ def flat_UCB(data, items, time_budget, target_class, top_k=10, enable_i=True, ve
         # we exploit if score is better than 50% of the best
         min_score = sorted_patterns.get_top_k(1)[0][0] / 2
 
-        pattern, wracc = play_arm(sequence, data, target_class, min_score, items, itemsets_memory, enable_i=enable_i)
+        pattern, wracc = play_arm(sequence, data, target_class, 0.25, items, itemsets_memory, enable_i=enable_i)
         pattern = sequence_mutable_to_immutable(pattern)
         sorted_patterns.add(pattern, wracc)
 
@@ -306,7 +310,19 @@ def flat_UCB(data, items, time_budget, target_class, top_k=10, enable_i=True, ve
         N += 1
 
     print("Flat UCB iterations: {}".format(N))
-    # print(UCB_scores.heap)
+    #
+    # for score in UCB_scores.heap:
+    #     print(score)
+
+    best_patterns = sorted_patterns.get_top_k_non_redundant(data, top_k)
+
+    for pattern in best_patterns:
+        pattern_mutable = sequence_immutable_to_mutable(pattern[1])
+        optimized_pattern, optimized_wracc = exploit_arm(pattern_mutable, pattern[0], items, data, itemsets_memory,
+                                                         target_class, enable_i=enable_i)
+        optimized_pattern = sequence_mutable_to_immutable(optimized_pattern)
+        sorted_patterns.add(optimized_pattern, optimized_wracc)
+
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 
@@ -317,7 +333,7 @@ def launch():
     DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
     ITEMS = extract_items(DATA)
 
-    results = flat_UCB(DATA, ITEMS, 120, '+', top_k=10, enable_i=False, vertical=True)
+    results = flat_UCB(DATA, ITEMS, 12, '+', top_k=10, enable_i=False, vertical=True)
     print_results(results)
 
 
