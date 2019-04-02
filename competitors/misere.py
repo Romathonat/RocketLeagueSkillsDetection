@@ -95,7 +95,7 @@ def launch():
 
     #DATA = reduce_k_length(50, DATA)
 
-    results = misere(DATA, 180, '+', top_k=10)
+    results = misere(DATA, 12, '+', top_k=10)
 
     print_results(results)
 

@@ -11,14 +11,29 @@ from seqsamphill.utils import read_data, read_data_kosarak, uct, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
     count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS, \
-    reduce_k_length, average_results
+    reduce_k_length, average_results, sequence_immutable_to_mutable
 
-from seqsamphill.priorityset import PrioritySet, THETA
-
-from data.read_mushroom import read_mushroom
+from seqsamphill.priorityset import PrioritySet, PrioritySetUCB
 
 VERTICAL_TOOLS = {}
 VERTICAL_RPZ = False
+
+
+def filter_target_class(data, target_class):
+    filter_data = []
+    for line in data:
+        if line[0] == target_class:
+            filter_data.append(line)
+
+    return filter_data
+
+
+def get_itemset_memory(data):
+    memory = set()
+    for line in data:
+        for itemset in line[1:]:
+            memory.add(frozenset(itemset))
+    return memory
 
 
 def is_included(pattern, pattern_set):
@@ -31,7 +46,7 @@ def is_included(pattern, pattern_set):
         return False
 
 
-def compute_variations_better_wracc(sequence, items, data, itemsets_memory, target_class, target_wracc, enable_i=False):
+def compute_variations_better_wracc(sequence, items, data, itemsets_memory, target_class, target_wracc, enable_i=True):
     '''
     Compute variations until quality increases
     :param sequence:
@@ -181,114 +196,61 @@ def generalize_sequence(sequence, data, target_class):
     return sequence, wracc
 
 
-def filter_target_class(data, target_class):
-    filter_data = []
-    for line in data:
-        if line[0] == target_class:
-            filter_data.append(line)
-
-    return filter_data
+def UCB(score, Ni, N):
+    # * 2 to compensate the wracc ?
+    return score + 2 * math.sqrt(math.log(N) / Ni)
 
 
-def extract_best_elements_path(path, theta):
+def exploit_arm(pattern, wracc, items, data, itemsets_memory, target_class, enable_i=True):
+    # we optimize until we find local optima
+    while 'climbing hill':
+        # we compute all possible variations
+        try:
+
+            pattern, wracc, _ = compute_variations_better_wracc(pattern,
+                                                                items, data,
+                                                                itemsets_memory,
+                                                                target_class,
+                                                                wracc,
+                                                                enable_i=enable_i)
+
+        except:
+            break
+    return pattern, wracc
+
+
+def play_arm(sequence, data, target_class, min_quality_exploit, items, itemsets_memory, enable_i=True):
     '''
-    :param path: path in the form of (WRAcc, sequence, bitset)
-    :param theta: similarity
+    Select object, generalise, use policy to exploit.
+    Exploit Policy: Exploit if quality > min_top_k
+
+    :param sequence: immutable sequence to generalise
+    :param data:
+    :param data_target_class: elements of the data with target class
+    :param min_quality_exploit:
     :return:
     '''
-    try:
-        best_wracc, best_sequence, best_bitset = path[-1]
-    except:
-        return []
+    sequence = sequence_immutable_to_mutable(sequence)
 
-    best_sequences = [(best_wracc, best_sequence)]
+    pattern, wracc = generalize_sequence(sequence,
+                                         data,
+                                         target_class)
 
-    # need to compare with each previous added element
-    for wracc, sequence, bitset in reversed(path):
-        if VERTICAL_RPZ:
-            if jaccard_measure(bitset, best_bitset, VERTICAL_TOOLS['bitset_slot_size'],
-                               VERTICAL_TOOLS['first_zero_mask'], VERTICAL_TOOLS['last_ones_mask']) < theta:
-                best_sequences.append((wracc, sequence))
-                best_sequence, best_bitset = sequence, bitset
-        else:
-            best_sequences.append((wracc, sequence))
-            best_sequences, best_bitset = sequence, bitset
+    # OPTIMIZE: following policy
+    if wracc > min_quality_exploit:
+        exploit_arm(pattern, wracc, items, data, itemsets_memory, target_class, enable_i=enable_i)
 
-    return best_sequences
+    return pattern, wracc
 
 
-def create_seed(data, target_class, data_target_class):
-    # sample
-    sequence = copy.deepcopy(random.choice(data_target_class))
-    sequence = sequence[1:]
-
-    seed, quality = generalize_sequence(sequence,
-                                        data,
-                                        target_class)
-    return (seed, quality)
-
-
-def UCB(x, t, ni):
-    '''
-    :param t: iteration number
-    :param ni: number of times current arm has been playedk
-    :return:
-    '''
-    return x + math.sqrt((2 * math.log2(t)) / ni)
-
-
-def get_score(x, t, ni, improvement, best_score):
-    '''
-    :param x: the score of current pattern
-    :param t:
-    :param ni:
-    :param improvement: the % of improvement for last value
-    :param best_score: best pattern found in the data so far
-    :return: a score between 0 and 1
-    '''
-    # the score is based on the delta of quality increase, and on the difference to the best pattern found so far.
-    # we consider positive elements so we shift the wracc
-    best_score += 0.25
-    x += 0.25
-    #return min(0.5, improvement * 0.5) + (x - best_score) / best_score
-    #return min(0.5, improvement * 0.5)
-    return improvement
-
-
-def select_arm(seeds, iterations_count, best_wracc):
-    best_seed = ()
-    best_score = -float('inf')
-
-    for original_seed, (mean, ti, variation, improvement) in seeds.items():
-        score_compute = get_score(mean, ti, iterations_count, improvement, best_wracc)
-        if score_compute >= best_score:
-            best_score = score_compute
-            best_seed = original_seed
-
-    return best_seed
-
-
-def get_itemset_memory(data):
-    memory = set()
-    for line in data:
-        for itemset in line[1:]:
-            memory.add(frozenset(itemset))
-    return memory
-
-
-def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True):
-    # TODO: normalize quality !
-    # TODO: improve memory strategy
-    # first term exploitation, second exploration: if last increase is weak, give less points. If all last elements are weak, remove element.
-    # multi arms bandit, infinite arms, increasing reward. WRAcc normalize with better estimation than 0.25 !
-
+def flat_UCB(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True):
+    # contains infos about elements of dataset. {sequence: (Ni, UCB, WRAcc)}. Must give the best UCB quickly. Priority queue
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
-
-
     data_target_class = filter_target_class(data, target_class)
     sorted_patterns = PrioritySet(top_k)
+    UCB_scores = PrioritySetUCB()
     itemsets_memory = get_itemset_memory(data)
 
     # removing class
@@ -306,66 +268,59 @@ def seed_explore(data, items, time_budget, target_class, top_k=10, enable_i=True
         "itemsets_bitsets": {}
     }
 
-    iterations_count = 1
-    optima_nb = 0
+    N = 1
 
-    # {original_seed: (quality, ti, improved_pattern, improvement)} diff with preceding value
-    seeds = {}
+    # init
+    # we generalise only elements with target class
+    for sequence in data_target_class:
+        sequence_i = sequence_mutable_to_immutable(sequence[1:])
+        # we try to only do misere at the beginning
+        pattern, wracc = play_arm(sequence_i, data, target_class, 0.25, items, itemsets_memory, enable_i=enable_i)
+        sorted_patterns.add(sequence_i, wracc)
 
+        UCB_score = UCB(wracc, 1, N)
+        UCB_scores.add(sequence_i, (UCB_score, 1, wracc))
+
+        N += 1
+
+    # play with time budget
     while datetime.datetime.utcnow() - begin < time_budget:
-        # we keep a pool of k-elements we are looking for
-        if len(seeds) < top_k:
-            seed, quality = create_seed(data, target_class, data_target_class)
+        # we take the best UCB
+        _, Ni, mean_wracc, sequence = UCB_scores.pop()
 
-            seed_immu = sequence_mutable_to_immutable(seed)
-            seeds[seed_immu] = (quality, 1, seed, 0)
-            sorted_patterns.add(seed_immu, quality)
+        # we get the last score of top_k: we will exploit if we have more
+        # min_score = sorted_patterns.get_top_k_non_redundant(data, top_k)[-1]
 
-        else:
-            best_origin_seed = select_arm(seeds, iterations_count, sorted_patterns.get_top_k(1)[0][0])
-            quality, ti, best_seed, diff_quality = seeds[best_origin_seed]
+        # we exploit if score is better than 50% of the best
+        min_score = sorted_patterns.get_top_k(1)[0][0] / 2
 
-            try:
-                improved_best_seed, best_quality = compute_variations_better_wracc(best_seed,
-                                                                                   items, data,
-                                                                                   itemsets_memory,
-                                                                                   target_class,
-                                                                                   quality,
-                                                                                   enable_i=enable_i)
+        pattern, wracc = play_arm(sequence, data, target_class, min_score, items, itemsets_memory, enable_i=enable_i)
+        pattern = sequence_mutable_to_immutable(pattern)
+        sorted_patterns.add(pattern, wracc)
 
-                sorted_patterns.add(sequence_mutable_to_immutable(improved_best_seed), best_quality)
+        # we update scores
+        updated_wracc = (Ni * mean_wracc + wracc) / (Ni + 1)
+        UCB_score = UCB(updated_wracc, Ni + 1, N)
+        UCB_scores.add(sequence, (UCB_score, Ni + 1, updated_wracc))
 
-                # we shift the quality to divide by a number > 0
-                improvement = best_quality + 0.25 - (quality + 0.25) / (quality + 0.25)
-                seeds[best_origin_seed] = (
-                    best_quality, ti + 1, improved_best_seed, best_quality - quality)
+        N += 1
 
-            except TypeError:
-                # we found a local optima
-                # print('Found optima !')
-                optima_nb += 1
-                del seeds[best_origin_seed]
-
-        iterations_count += 1
-
-    print('Seed_Explore iterations:{}, {} optima and {} seeds'.format(iterations_count, optima_nb, len(seeds)))
-
+    print("Flat UCB iterations: {}".format(N))
+    # print(UCB_scores.heap)
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 
 def launch():
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
+    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
     # DATA = read_mushroom()
 
-    # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
     ITEMS = extract_items(DATA)
 
-    results = seed_explore(DATA, ITEMS, 120, '1', top_k=10, enable_i=True, vertical=False)
+    results = flat_UCB(DATA, ITEMS, 120, '+', top_k=10, enable_i=False, vertical=True)
     print_results(results)
 
 
+# TODO: memory preservation
 if __name__ == '__main__':
     launch()
-
-# TODO: for scoring: give points if delta is good, and points if we are far away from the best solution we found so far.
-# or normalize it: between 0 and 0.5 for delta, and 0 and 0.5 for score (normalizing wracc

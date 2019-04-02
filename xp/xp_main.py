@@ -19,7 +19,7 @@ from seqsamphill.utils import read_data, extract_items, \
     encode_data, print_results, average_results, read_data_kosarak, \
     read_data_sc2, reduce_k_length
 
-from competitors.seed_explore import seed_explore
+from competitors.flat_UCB import flat_UCB
 
 sys.setrecursionlimit(500000)
 
@@ -148,7 +148,7 @@ def compare_datasets():
     # plt.show()
 
 
-def compare_datasets_seeds():
+def compare_datasets_UCB():
     pool = Pool(processes=3)
     time_xp = 120
     top_k = 10
@@ -156,7 +156,7 @@ def compare_datasets_seeds():
     misere_hist = []
     beam_hist = []
     seq_samp_hill_hist = []
-    seeds_hist = []
+    ucb_hist= []
 
     for i, (data, target, enable_i) in enumerate(datasets):
         items = extract_items(data)
@@ -170,12 +170,12 @@ def compare_datasets_seeds():
         result_seq_samp_hill = pool.apply_async(seq_samp_hill, (
             data, items, time_xp, target, top_k, enable_i))
 
-        result_seeds = pool.apply_async(seed_explore, (data, items, time_xp, target, top_k, enable_i))
+        result_ucb = pool.apply_async(flat_UCB, (data, items, time_xp, target, top_k, enable_i))
 
         result_misere = result_misere.get()
         result_beam = result_beam.get()
         result_seq_samp_hill = result_seq_samp_hill.get()
-        result_seeds = result_seeds.get()
+        result_ucb = result_ucb.get()
 
         if len(result_misere) < top_k:
             print("Too few example on misere on dataset {}: {} results".format(datasets_names[i], len(result_misere)))
@@ -187,27 +187,27 @@ def compare_datasets_seeds():
         if len(result_beam) < top_k:
             print(
                 "Too few example on beam_search on dataset {}: {} results".format(datasets_names[i], len(result_beam)))
-        if len(result_seeds) < top_k:
+        if len(result_ucb) < top_k:
             print(
-                "Too few example on seeds explore on dataset {}: {} results".format(datasets_names[i],
-                                                                                    len(result_seeds)))
+                "Too few example on flat UCB on dataset {}: {} results".format(datasets_names[i],
+                                                                                    len(result_ucb)))
 
         average_misere = average_results(result_misere)
         average_beam = average_results(result_beam)
         average_seq_samp_hill = average_results(result_seq_samp_hill)
-        average_seeds = average_results(result_seeds)
+        average_ucb = average_results(result_ucb)
 
         misere_hist.append(average_misere)
         beam_hist.append(average_beam)
         seq_samp_hill_hist.append(average_seq_samp_hill)
-        seeds_hist.append(average_seeds)
+        ucb_hist.append(average_ucb)
 
-    data = {'WRAcc': misere_hist + seq_samp_hill_hist + beam_hist + seeds_hist,
+    data = {'WRAcc': misere_hist + seq_samp_hill_hist + beam_hist + ucb_hist,
             'dataset': datasets_names + datasets_names + datasets_names + datasets_names,
             'Algorithm': ['misere' for i in range(len(misere_hist))] +
                          ['SeqSampHill' for i in range(len(seq_samp_hill_hist))] +
                          ['beam_search' for i in range(len(beam_hist))] +
-                         ['Seeds Explore' for i in range(len(seeds_hist))]}
+                         ['Seeds Explore' for i in range(len(ucb_hist))]}
 
     df = pd.DataFrame(data=data)
 
@@ -623,7 +623,7 @@ def naive_vs_bitset():
     # plt.show()
 
 
-compare_datasets_seeds()
+compare_datasets_UCB()
 # compare_competitors()
 # vertical_vs_horizontal()
 # naive_vs_bitset()

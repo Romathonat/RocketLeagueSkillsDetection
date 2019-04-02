@@ -208,3 +208,33 @@ class PrioritySetv2(object):
 
         return self.get_top_k(k)
 
+
+class PrioritySetUCB(object):
+    """
+    This class is a priority queue, removing duplicates and using node wracc
+    as the metric to order the priority queue
+    """
+    def __init__(self):
+        self.heap = []
+        self.set = set()
+
+    def add(self, sequence, tuple):
+        '''
+        :param sequence:
+        :param tuple: (UCB, Ni, WRAcc)
+        :return:
+        '''
+        if sequence not in self.set:
+            # we use - sign because heapq return the smalest element
+            heapq.heappush(self.heap, (-tuple[0], tuple[1], tuple[2], sequence))
+            self.set.add(sequence)
+
+    def pop(self):
+        '''
+        :return: the max element
+        '''
+        UCB, Ni, wracc, sequence = heapq.heappop(self.heap)
+        self.set.remove(sequence)
+        return (-UCB, Ni, wracc, sequence)
+
+
