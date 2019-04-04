@@ -243,7 +243,7 @@ def misere_final_opti(data, ITEMS, time_budget, target_class, top_k=5):
         optimized_pattern = sequence_mutable_to_immutable(optimized_pattern)
         sorted_patterns.add(optimized_pattern, optimized_wracc)
 
-    print("Misere iterations:{}".format(iterations_count))
+    print("Misere opti iterations:{}".format(iterations_count))
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 

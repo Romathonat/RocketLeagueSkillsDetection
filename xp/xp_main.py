@@ -20,6 +20,7 @@ from seqsamphill.utils import read_data, extract_items, \
     encode_data, print_results, average_results, read_data_kosarak, \
     read_data_sc2, reduce_k_length
 
+from competitors.flat_UCB_optimized import flat_UCB_optimized
 from competitors.flat_UCB import flat_UCB
 
 sys.setrecursionlimit(500000)
@@ -28,14 +29,14 @@ sys.setrecursionlimit(500000)
 datasets = [
     (read_data_kosarak('../data/aslbu.data'), '195', False),
     (read_data('../data/promoters.data'), '+', False),
-    (read_data('../data/splice.data'), 'EI', False),
-    (read_data_kosarak('../data/blocks.data'), '1', False),
+    (read_data_kosarak('../data/blocks.data'), '7', False),
     (read_data_kosarak('../data/context.data'), '4', False),
+    (read_data('../data/splice.data'), 'EI', False),
     (read_data_sc2('../data/sequences-TZ-45.txt')[:5000], '1', True),
     (read_data_kosarak('../data/skating.data'), '1', True)
 ]
 
-datasets_names = ['aslbu', 'promoters', 'splice', 'blocks', 'context', 'sc2', 'skating']
+datasets_names = ['aslbu', 'promoters', 'blocks', 'context', 'splice', 'sc2', 'skating']
 
 
 def compare_seeds(number_dataset):
@@ -50,7 +51,7 @@ def compare_seeds(number_dataset):
     seq_samp_hill_results = misere(DATA, TIME, target_class, 5)
     print_results(seq_samp_hill_results)
 
-    seed_results = flat_UCB(DATA, items, TIME, target_class, top_k=5, enable_i=enable_i, vertical=False)
+    seed_results = flat_UCB_optimized(DATA, items, TIME, target_class, top_k=5, enable_i=enable_i, vertical=False)
     print_results(seed_results)
 
 
@@ -151,64 +152,85 @@ def compare_datasets():
 
 def compare_datasets_UCB():
     pool = Pool(processes=3)
-    time_xp = 12
+    time_xp = 5
     top_k = 10
+    xp_repeat = 5
 
     misere_hist = []
     beam_hist = []
     misere_opti = []
     ucb_hist = []
+    ucb_opti_hist = []
 
     for i, (data, target, enable_i) in enumerate(datasets):
+        print("Dataset {}".format(datasets_names[i]))
         items = extract_items(data)
 
-        result_misere = pool.apply_async(misere, (data, time_xp, target, top_k))
-        result_beam = pool.apply_async(beam_search,
-                                       (
-                                           data, items, time_xp, target,
-                                           enable_i, top_k))
+        sum_misere = 0
+        sum_beam = 0
+        sum_misere_opti = 0
+        sum_UCB = 0
+        sum_ucb_opti = 0
 
-        results_misere_opti = pool.apply_async(misere_final_opti(
-                                        data, items, time_xp, target, top_k))
+        for j in range(xp_repeat):
+            result_misere = pool.apply_async(misere, (data, time_xp, target, top_k))
+            result_beam = pool.apply_async(beam_search,
+                                           (
+                                               data, items, time_xp, target,
+                                               enable_i, top_k))
 
-        result_ucb = pool.apply_async(flat_UCB, (data, items, time_xp, target, top_k, enable_i))
+            results_misere_opti = pool.apply_async(misere_final_opti, (
+                data, items, time_xp, target, top_k))
 
-        result_misere = result_misere.get()
-        result_beam = result_beam.get()
-        results_misere_opti = results_misere_opti.get()
-        result_ucb = result_ucb.get()
+            results_UCB = pool.apply_async(flat_UCB, (data, items, time_xp, target, top_k, enable_i))
 
-        if len(result_misere) < top_k:
-            print("Too few example on misere on dataset {}: {} results".format(datasets_names[i], len(result_misere)))
+            result_ucb_opti = pool.apply_async(flat_UCB_optimized, (data, items, time_xp, target, top_k, enable_i))
 
-        if len(results_misere_opti) < top_k:
-            print("Too few example on misere opti on dataset {}: {} results".format(datasets_names[i],
-                                                                                    len(results_misere_opti)))
+            result_misere = result_misere.get()
+            result_beam = result_beam.get()
+            results_misere_opti = results_misere_opti.get()
+            results_UCB = results_UCB.get()
+            result_ucb_opti = result_ucb_opti.get()
 
-        if len(result_beam) < top_k:
-            print(
-                "Too few example on beam_search on dataset {}: {} results".format(datasets_names[i], len(result_beam)))
-        if len(result_ucb) < top_k:
-            print(
-                "Too few example on flat UCB on dataset {}: {} results".format(datasets_names[i],
-                                                                               len(result_ucb)))
+            if len(result_misere) < top_k:
+                print("Too few example on misere on dataset {}: {} results".format(datasets_names[i], len(result_misere)))
 
-        average_misere = average_results(result_misere)
-        average_beam = average_results(result_beam)
-        average_misere_opti = average_results(results_misere_opti)
-        average_ucb = average_results(result_ucb)
+            if len(results_misere_opti) < top_k:
+                print("Too few example on misere opti on dataset {}: {} results".format(datasets_names[i],
+                                                                                        len(results_misere_opti)))
 
-        misere_hist.append(average_misere)
-        beam_hist.append(average_beam)
-        misere_opti.append(average_misere_opti)
-        ucb_hist.append(average_ucb)
+            if len(result_beam) < top_k:
+                print(
+                    "Too few example on beam_search on dataset {}: {} results".format(datasets_names[i], len(result_beam)))
 
-    data = {'WRAcc': misere_hist + misere_opti + beam_hist + ucb_hist,
-            'dataset': datasets_names + datasets_names + datasets_names + datasets_names,
-            'Algorithm': ['misere' for i in range(len(misere_hist))] +
-                         ['misere optimized' for i in range(len(misere_opti))] +
-                         ['beam_search' for i in range(len(beam_hist))] +
-                         ['UCB' for i in range(len(ucb_hist))]}
+            if len(result_ucb_opti) < top_k:
+                print(
+                    "Too few example on flat UCB on dataset {}: {} results".format(datasets_names[i],
+                                                                                   len(result_ucb_opti)))
+
+            if len(results_UCB) < top_k:
+                print("Too few examples on ucb on dataset {}: {} results".format(datasets_names[i], len(result_ucb_opti)))
+
+            sum_misere += average_results(result_misere)
+            sum_beam += average_results(result_beam)
+            sum_misere_opti += average_results(results_misere_opti)
+            sum_UCB += average_results(results_UCB)
+            sum_ucb_opti += average_results(result_ucb_opti)
+
+        misere_hist.append(max(0, sum_misere / xp_repeat))
+        beam_hist.append(max(0, sum_beam / xp_repeat))
+        misere_opti.append(max(0, sum_misere_opti / xp_repeat))
+        ucb_hist.append(max(0,sum_UCB / xp_repeat))
+        ucb_opti_hist.append(max(0, sum_ucb_opti / xp_repeat))
+
+    data = {'Mean WRAcc': beam_hist + misere_hist + misere_opti + ucb_hist + ucb_opti_hist,
+            'dataset': datasets_names + datasets_names + datasets_names + datasets_names + datasets_names,
+            'Algorithm':
+                ['beam_search' for i in range(len(beam_hist))] +
+                ['misere' for i in range(len(misere_hist))] +
+                ['misere optimized' for i in range(len(misere_opti))] +
+                ['UCB' for i in range(len(ucb_hist))] +
+                ['UCB optimized' for i in range(len(ucb_opti_hist))]}
 
     df = pd.DataFrame(data=data)
 
@@ -223,10 +245,105 @@ def compare_datasets_UCB():
         f.write('\n')
         f.write(' '.join([str(i) for i in beam_hist]))
         f.write('\n')
+        f.write(' '.join([str(i) for i in ucb_hist]))
+        f.write('\n')
+        f.write(' '.join([str(i) for i in ucb_opti_hist]))
+        f.write('\n')
         f.write(' '.join([str(i) for i in datasets_names]))
 
     # plt.show()
 
+def data_add(data, wracc, dataset, algorithm):
+    data['WRAcc'].append(wracc)
+    data['dataset'].append(dataset)
+    data["Algorithm"].append(algorithm)
+
+def violin_plot_datasets():
+    pool = Pool(processes=5)
+    time_xp = 300
+    top_k = 10
+    xp_repeat = 5
+
+
+    misere_hist = []
+    beam_hist = []
+    misere_opti = []
+    ucb_hist = []
+    ucb_opti_hist = []
+
+    data_final = {'WRAcc': [], 'dataset': [], 'Algorithm': []}
+
+    for i, (data, target, enable_i) in enumerate(datasets):
+        print("Dataset {}".format(datasets_names[i]))
+        items = extract_items(data)
+
+        for j in range(xp_repeat):
+            results_misere = pool.apply_async(misere, (data, time_xp, target, top_k))
+            results_beam = pool.apply_async(beam_search,
+                                           (
+                                               data, items, time_xp, target,
+                                               enable_i, top_k))
+
+            results_misere_opti = pool.apply_async(misere_final_opti, (
+                data, items, time_xp, target, top_k))
+
+            results_UCB = pool.apply_async(flat_UCB, (data, items, time_xp, target, top_k, enable_i))
+
+            result_ucb_opti = pool.apply_async(flat_UCB_optimized, (data, items, time_xp, target, top_k, enable_i))
+
+            results_misere = results_misere.get()
+            results_beam = results_beam.get()
+            results_misere_opti = results_misere_opti.get()
+            results_UCB = results_UCB.get()
+            result_ucb_opti = result_ucb_opti.get()
+
+            if len(results_misere) < top_k:
+                print("Too few example on misere on dataset {}: {} results".format(datasets_names[i], len(results_misere)))
+
+            if len(results_misere_opti) < top_k:
+                print("Too few example on misere opti on dataset {}: {} results".format(datasets_names[i],
+                                                                                        len(results_misere_opti)))
+
+            if len(results_beam) < top_k:
+                print(
+                    "Too few example on beam_search on dataset {}: {} results".format(datasets_names[i], len(results_beam)))
+
+            if len(result_ucb_opti) < top_k:
+                print(
+                    "Too few example on flat UCB on dataset {}: {} results".format(datasets_names[i],
+                                                                                   len(result_ucb_opti)))
+
+            if len(results_UCB) < top_k:
+                print("Too few examples on ucb on dataset {}: {} results".format(datasets_names[i], len(result_ucb_opti)))
+
+            data_add(data_final, max(0, average_results(results_misere)), datasets_names[i], 'misere')
+            data_add(data_final, max(0, average_results(results_beam)), datasets_names[i], 'beam')
+            data_add(data_final, max(0, average_results(results_misere_opti)), datasets_names[i], 'misere optimized')
+            data_add(data_final, max(0, average_results(results_UCB)), datasets_names[i], 'UCB')
+            data_add(data_final, max(0, average_results(result_ucb_opti)), datasets_names[i], 'UCB optimized')
+
+    df = pd.DataFrame(data=data_final)
+
+    sns.set(rc={'figure.figsize': (11.7, 8.27)})
+
+    plt.clf()
+    ax = sns.barplot(x='dataset', y='WRAcc', hue='Algorithm', data=df)
+    plt.savefig('./wracc_datasets/violin_plot.png')
+
+    with open('./wracc_datasets/result', 'w+') as f:
+        f.write(' '.join([str(i) for i in misere_opti]))
+        f.write('\n')
+        f.write(' '.join([str(i) for i in misere_hist]))
+        f.write('\n')
+        f.write(' '.join([str(i) for i in beam_hist]))
+        f.write('\n')
+        f.write(' '.join([str(i) for i in ucb_hist]))
+        f.write('\n')
+        f.write(' '.join([str(i) for i in ucb_opti_hist]))
+        f.write('\n')
+        f.write(' '.join([str(i) for i in datasets_names]))
+
+    plt.show()
 
 def show_quality_over_time():
     # DATA = read_data_kosarak('../data/aslbu.data')
@@ -587,7 +704,7 @@ def vertical_vs_horizontal():
 
 
 def naive_vs_bitset():
-    time_xp = 180
+    time_xp = 5
 
     naive_results = []
     bitset_results = []
@@ -622,10 +739,11 @@ def naive_vs_bitset():
         f.write('\n')
         f.write(' '.join([str(i) for i in datasets_names]))
 
-    # plt.show()
+    plt.show()
 
 
-compare_datasets_UCB()
+#compare_datasets_UCB()
+violin_plot_datasets()
 # compare_competitors()
 # vertical_vs_horizontal()
 # naive_vs_bitset()

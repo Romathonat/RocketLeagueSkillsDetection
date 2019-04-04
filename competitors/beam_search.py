@@ -49,7 +49,7 @@ def items_to_sequences(items):
 
 
 def beam_search(data, items, time_budget, target_class, enable_i=True,
-                top_k=5, beam_width=30):
+                top_k=5, beam_width=50):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 

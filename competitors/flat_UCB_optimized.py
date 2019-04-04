@@ -223,11 +223,9 @@ def exploit_arm(pattern, wracc, items, data, itemsets_memory, target_class, enab
     return pattern, wracc
 
 
-def play_arm(sequence, data, target_class, min_quality_exploit, items, itemsets_memory, enable_i=True):
+def play_arm(sequence, data, target_class, items, itemsets_memory, enable_i=True):
     '''
-    Select object, generalise, use policy to exploit.
-    Exploit Policy: Exploit if quality > min_top_k
-
+    Select object, generalise
     :param sequence: immutable sequence to generalise
     :param data:
     :param data_target_class: elements of the data with target class
@@ -240,14 +238,10 @@ def play_arm(sequence, data, target_class, min_quality_exploit, items, itemsets_
                                          data,
                                          target_class)
 
-    # OPTIMIZE: following policy
-    if wracc > min_quality_exploit:
-        exploit_arm(pattern, wracc, items, data, itemsets_memory, target_class, enable_i=enable_i)
-
     return pattern, wracc
 
 
-def flat_UCB(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True):
+def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True):
     # contains infos about elements of dataset. {sequence: (Ni, UCB, WRAcc)}. Must give the best UCB quickly. Priority queue
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
@@ -279,7 +273,7 @@ def flat_UCB(data, items, time_budget, target_class, top_k=10, enable_i=True, ve
     for sequence in data_target_class:
         sequence_i = sequence_mutable_to_immutable(sequence[1:])
         # we try to only do misere at the beginning
-        pattern, wracc = play_arm(sequence_i, data, target_class, 0.25, items, itemsets_memory, enable_i=enable_i)
+        pattern, wracc = play_arm(sequence_i, data, target_class, items, itemsets_memory, enable_i=enable_i)
         sorted_patterns.add(sequence_i, wracc)
 
         UCB_score = UCB(wracc, 1, N)
@@ -292,13 +286,7 @@ def flat_UCB(data, items, time_budget, target_class, top_k=10, enable_i=True, ve
         # we take the best UCB
         _, Ni, mean_wracc, sequence = UCB_scores.pop()
 
-        # we get the last score of top_k: we will exploit if we have more
-        # min_score = sorted_patterns.get_top_k_non_redundant(data, top_k)[-1]
-
-        # we exploit if score is better than 50% of the best
-        min_score = sorted_patterns.get_top_k(1)[0][0] / 2
-
-        pattern, wracc = play_arm(sequence, data, target_class, 0.25, items, itemsets_memory, enable_i=enable_i)
+        pattern, wracc = play_arm(sequence, data, target_class, items, itemsets_memory, enable_i=enable_i)
         pattern = sequence_mutable_to_immutable(pattern)
         sorted_patterns.add(pattern, wracc)
 
@@ -309,7 +297,8 @@ def flat_UCB(data, items, time_budget, target_class, top_k=10, enable_i=True, ve
 
         N += 1
 
-    print("Flat UCB iterations: {}".format(N))
+    print("Flat UCB optimized iterations: {}".format(N))
+
     #
     # for score in UCB_scores.heap:
     #     print(score)
@@ -330,10 +319,11 @@ def launch():
     # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
     # DATA = read_mushroom()
 
-    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    DATA = read_data_kosarak('../data/blocks.data')
+    #DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
     ITEMS = extract_items(DATA)
 
-    results = flat_UCB(DATA, ITEMS, 12, '+', top_k=10, enable_i=False, vertical=True)
+    results = flat_UCB_optimized(DATA, ITEMS, 12, '7', top_k=10, enable_i=True, vertical=True)
     print_results(results)
 
 
