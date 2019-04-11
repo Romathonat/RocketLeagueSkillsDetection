@@ -730,7 +730,7 @@ def backtrack_LCS(C, seq1, seq2, i, j, lcs):
     inter = seq1[i-1].intersection(seq2[j-1])
 
     if inter != set():
-        lcs.insert(len(lcs) - 1, inter)
+        lcs.insert(0, inter)
         return backtrack_LCS(C, seq1, seq2, i-1, j-1, lcs)
     if C[i][j-1] > C[i-1][j]:
         return backtrack_LCS(C, seq1, seq2, i, j-1, lcs)
@@ -744,23 +744,24 @@ def find_LCS(seq1, seq2):
     :param seq2:
     :return: the longest common sequence
 
-    We have to adapt the LCS algorithm to sequences of itemsets: instead of testing the
+    We have to adapt the LCS algorithm to sequences of itemsets: instead of testing the equality we need to check the
+    inclusion
     """
     C = [[0 for j in range(len(seq2) + 1)] for i in range(len(seq1) + 1)]
 
-    for i in range(1, len(seq1) + 1):
-        for j in range(1, len(seq2) + 1):
+    for i in range(len(seq1) + 1):
+        for j in range(len(seq2) + 1):
             inter = seq1[i-1].intersection(seq2[j-1])
-            if inter != set():
+            if i == 0 or j == 0:
+                C[i][j] = 0
+            elif inter != set():
                 C[i][j] = C[i-1][j-1] + len(inter)
             else:
                 C[i][j] = max(C[i-1][j], C[i][j-1])
 
     # now we need to backtrack the structure to get the pattern
-
     lcs = []
     backtrack_LCS(C, seq1, seq2, len(seq1), len(seq2), lcs)
 
     return lcs
-
 

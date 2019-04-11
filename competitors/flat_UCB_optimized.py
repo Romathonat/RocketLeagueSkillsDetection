@@ -268,18 +268,12 @@ def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_
 
     N = 1
 
-    # init
-    # we generalise only elements with target class
+    # init: we add objects with the best ucb so that they are all played one time in the main procedure.
+    # By putting a null N, we ensure the mean of the quality will be correct
     for sequence in data_target_class:
         sequence_i = sequence_mutable_to_immutable(sequence[1:])
-        # we try to only do misere at the beginning
-        pattern, wracc = play_arm(sequence_i, data, target_class, items, itemsets_memory, enable_i=enable_i)
-        sorted_patterns.add(sequence_i, wracc)
-
-        UCB_score = UCB(wracc, 1, N)
-        UCB_scores.add(sequence_i, (UCB_score, 1, wracc))
-
-        N += 1
+        UCB_score = UCB(float("inf"), 1, N)
+        UCB_scores.add(sequence_i, (UCB_score, 0, 0))
 
     # play with time budget
     while datetime.datetime.utcnow() - begin < time_budget:
@@ -316,14 +310,16 @@ def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_
 
 
 def launch():
-    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
+    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
     # DATA = read_mushroom()
 
-    DATA = read_data_kosarak('../data/blocks.data')
+    #DATA = read_data_kosarak('../data/blocks.data')
+    #DATA = read_data_kosarak('../data/skating.data')
     #DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+
     ITEMS = extract_items(DATA)
 
-    results = flat_UCB_optimized(DATA, ITEMS, 12, '7', top_k=10, enable_i=True, vertical=True)
+    results = flat_UCB_optimized(DATA, ITEMS, 12, '1', top_k=10, enable_i=True, vertical=True)
     print_results(results)
 
 

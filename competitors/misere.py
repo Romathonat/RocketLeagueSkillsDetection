@@ -94,11 +94,13 @@ def misere(data, time_budget, target_class, top_k=5):
 def launch():
     # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
     DATA = read_data_kosarak('../data/blocks.data')
+    DATA = read_data_kosarak('../data/skating.data')
 
     # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    DATA = read_data_kosarak('../data/aslbu.data')
 
-    # DATA = reduce_k_length(50, DATA)
-    results = misere(DATA, 12, '7', top_k=10)
+    results = misere(DATA, 12, '195', top_k=10)
+
     print_results(results)
 
 
