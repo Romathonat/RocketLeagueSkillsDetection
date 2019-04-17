@@ -33,7 +33,7 @@ def count_subsequences_number(sequence):
     return solutions[len(sequence)]
 
 
-def misere(data, time_budget, target_class, top_k=5):
+def misere(data, time_budget, target_class, top_k=5, iterations_limit=float('inf')):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -47,7 +47,7 @@ def misere(data, time_budget, target_class, top_k=5):
 
     iterations_count = 0
 
-    while datetime.datetime.utcnow() - begin < time_budget:
+    while datetime.datetime.utcnow() - begin < time_budget and iterations_count < iterations_limit:
         sequence = copy.deepcopy(random.choice(data))
         sequence = sequence[1:]
 
@@ -99,7 +99,7 @@ def launch():
     # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
     DATA = read_data_kosarak('../data/aslbu.data')
 
-    results = misere(DATA, 12, '195', top_k=10)
+    results = misere(DATA, 12, '195', top_k=10, iterations_limit=1000)
 
     print_results(results)
 

@@ -2,7 +2,7 @@ import heapq
 import copy
 from seqsamphill.utils import jaccard_measure, is_subsequence, sequence_mutable_to_immutable
 
-THETA = 0.5
+THETA = 0.8
 
 
 def jaccard_measure_misere(sequence1, sequence2, data):

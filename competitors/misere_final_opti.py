@@ -3,6 +3,7 @@ import random
 import copy
 import math
 import pathlib
+import cProfile
 
 from seqsamphill.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
@@ -249,7 +250,7 @@ def misere_final_opti(data, ITEMS, time_budget, target_class, top_k=5):
 
 
 def launch():
-    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
     # DATA = read_data_kosarak('../data/debile.data')
 
     DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
@@ -258,9 +259,10 @@ def launch():
 
     # DATA = reduce_k_length(50, DATA)
 
-    results = misere_final_opti(DATA, ITEMS, 12, '+', top_k=10)
+    results = misere_final_opti(DATA, ITEMS, 12, '1', top_k=10)
 
     print_results(results)
 
 if __name__ == '__main__':
     launch()
+    #cProfile.runctx('launch()', globals(), locals())

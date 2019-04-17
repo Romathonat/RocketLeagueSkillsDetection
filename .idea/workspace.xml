@@ -3,9 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/competitors/beam_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/beam_search.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/competitors/flat_UCB_optimized.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/flat_UCB_optimized.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/competitors/misere.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/misere.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqsamphill/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqsamphill/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/competitors/misere_final_opti.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/misere_final_opti.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seqsamphill/priorityset.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqsamphill/priorityset.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xp/xp_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/xp_main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,82 +21,126 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+            <state relative-caret-position="147">
+              <caret line="364" column="9" selection-start-line="364" selection-start-column="9" selection-end-line="364" selection-end-column="9" />
               <folding>
-                <element signature="e#0#37#0" expanded="true" />
-                <element signature="e#1430#1919#0" />
-                <element signature="e#1922#1940#0" />
-                <element signature="e#2087#2658#0" />
-                <element signature="e#2689#5299#0" />
-                <element signature="e#2884#4389#0" />
-                <element signature="e#3130#3218#0" />
-                <element signature="e#3695#3897#0" />
-                <element signature="e#3944#4070#0" />
-                <element signature="e#4402#4757#0" />
-                <element signature="e#4988#5281#0" />
-                <element signature="e#5334#9766#0" />
-                <element signature="e#5580#8524#0" />
-                <element signature="e#5828#8229#0" />
-                <element signature="e#6049#6141#0" />
-                <element signature="e#6800#6927#0" />
-                <element signature="e#6994#7199#0" />
-                <element signature="e#7258#7474#0" />
-                <element signature="e#7537#7751#0" />
-                <element signature="e#7810#7937#0" />
-                <element signature="e#8537#9074#0" />
-                <element signature="e#9305#9748#0" />
-                <element signature="e#9820#9923#0" />
-                <element signature="e#13898#17209#0" />
-                <element signature="e#17245#21049#0" />
-                <element signature="e#17345#17386#0" />
-                <element signature="e#17488#17553#0" />
-                <element signature="e#17886#20187#0" />
-                <element signature="e#18260#19769#0" />
-                <element signature="e#18484#18580#0" />
-                <element signature="e#18690#18836#0" />
-                <element signature="e#18947#19096#0" />
-                <element signature="e#19216#19308#0" />
-                <element signature="e#20200#20401#0" />
-                <element signature="e#20737#21031#0" />
-                <element signature="e#21090#24608#0" />
-                <element signature="e#21143#21187#0" />
-                <element signature="e#21336#21401#0" />
-                <element signature="e#21798#23584#0" />
-                <element signature="e#22111#23189#0" />
-                <element signature="e#22336#22432#0" />
-                <element signature="e#23597#23796#0" />
-                <element signature="e#24137#24592#0" />
-                <element signature="e#24643#28386#0" />
-                <element signature="e#25133#27524#0" />
-                <element signature="e#25509#27028#0" />
-                <element signature="e#25733#25829#0" />
-                <element signature="e#25939#26085#0" />
-                <element signature="e#26196#26345#0" />
-                <element signature="e#26469#26563#0" />
-                <element signature="e#27537#27738#0" />
-                <element signature="e#28074#28368#0" />
-                <element signature="e#28426#32134#0" />
-                <element signature="e#28480#28547#0" />
-                <element signature="e#28929#31290#0" />
-                <element signature="e#29353#30872#0" />
-                <element signature="e#29577#29673#0" />
-                <element signature="e#29783#29929#0" />
-                <element signature="e#30040#30189#0" />
-                <element signature="e#30313#30407#0" />
-                <element signature="e#31303#31504#0" />
-                <element signature="e#31730#32024#0" />
-                <element signature="e#32171#33408#0" />
-                <element signature="e#32293#32669#0" />
-                <element signature="e#32682#32942#0" />
-                <element signature="e#33169#33390#0" />
-                <element signature="e#33438#34641#0" />
-                <element signature="e#33551#33938#0" />
-                <element signature="e#33951#34189#0" />
-                <element signature="e#34411#34625#0" />
+                <element signature="e#1431#1920#0" />
+                <element signature="e#1923#1941#0" />
+                <element signature="e#2088#2659#0" />
+                <element signature="e#2690#5300#0" />
+                <element signature="e#2885#4390#0" />
+                <element signature="e#3131#3219#0" />
+                <element signature="e#3696#3898#0" />
+                <element signature="e#3945#4071#0" />
+                <element signature="e#4403#4758#0" />
+                <element signature="e#4989#5282#0" />
+                <element signature="e#5335#9767#0" />
+                <element signature="e#5581#8525#0" />
+                <element signature="e#5829#8230#0" />
+                <element signature="e#6050#6142#0" />
+                <element signature="e#6801#6928#0" />
+                <element signature="e#6995#7200#0" />
+                <element signature="e#7259#7475#0" />
+                <element signature="e#7538#7752#0" />
+                <element signature="e#7811#7938#0" />
+                <element signature="e#8538#9075#0" />
+                <element signature="e#9306#9749#0" />
+                <element signature="e#9821#9924#0" />
+                <element signature="e#9959#13922#0" />
+                <element signature="e#10269#13164#0" />
+                <element signature="e#10399#13164#0" />
+                <element signature="e#10624#10717#0" />
+                <element signature="e#10733#10794#0" />
+                <element signature="e#11195#11244#0" />
+                <element signature="e#11404#11594#0" />
+                <element signature="e#11608#11646#0" />
+                <element signature="e#11932#12149#0" />
+                <element signature="e#12212#12426#0" />
+                <element signature="e#12439#12440#0" />
+                <element signature="e#12847#12954#0" />
+                <element signature="e#13455#13906#0" />
+                <element signature="e#13455#13505#0" />
+                <element signature="e#13694#13741#0" />
+                <element signature="e#13974#14196#0" />
+                <element signature="e#14033#14149#0" />
+                <element signature="e#14237#17280#0" />
+                <element signature="e#17353#17462#0" />
+                <element signature="e#17509#19813#0" />
+                <element signature="e#19849#23157#0" />
+                <element signature="e#20139#22485#0" />
+                <element signature="e#20269#22485#0" />
+                <element signature="e#20494#20587#0" />
+                <element signature="e#21051#21241#0" />
+                <element signature="e#21300#21517#0" />
+                <element signature="e#21580#21794#0" />
+                <element signature="e#21857#22068#0" />
+                <element signature="e#22776#23141#0" />
+                <element signature="e#23194#26998#0" />
+                <element signature="e#23294#23335#0" />
+                <element signature="e#23437#23502#0" />
+                <element signature="e#23835#26136#0" />
+                <element signature="e#24209#25718#0" />
+                <element signature="e#24433#24529#0" />
+                <element signature="e#24639#24785#0" />
+                <element signature="e#24896#25045#0" />
+                <element signature="e#25165#25257#0" />
+                <element signature="e#26149#26350#0" />
+                <element signature="e#26686#26980#0" />
+                <element signature="e#27039#30557#0" />
+                <element signature="e#27092#27136#0" />
+                <element signature="e#27285#27350#0" />
+                <element signature="e#27748#29533#0" />
+                <element signature="e#28060#29138#0" />
+                <element signature="e#28285#28381#0" />
+                <element signature="e#29546#29745#0" />
+                <element signature="e#30086#30541#0" />
+                <element signature="e#30592#34335#0" />
+                <element signature="e#31082#33473#0" />
+                <element signature="e#31458#32977#0" />
+                <element signature="e#31682#31778#0" />
+                <element signature="e#31888#32034#0" />
+                <element signature="e#32145#32294#0" />
+                <element signature="e#32418#32512#0" />
+                <element signature="e#33486#33687#0" />
+                <element signature="e#34023#34317#0" />
+                <element signature="e#34375#38083#0" />
+                <element signature="e#34429#34496#0" />
+                <element signature="e#34878#37239#0" />
+                <element signature="e#35302#36821#0" />
+                <element signature="e#35526#35622#0" />
+                <element signature="e#35732#35878#0" />
+                <element signature="e#35989#36138#0" />
+                <element signature="e#36262#36356#0" />
+                <element signature="e#37252#37453#0" />
+                <element signature="e#37679#37973#0" />
+                <element signature="e#38120#39357#0" />
+                <element signature="e#38242#38618#0" />
+                <element signature="e#38631#38891#0" />
+                <element signature="e#39118#39339#0" />
+                <element signature="e#39387#40590#0" />
+                <element signature="e#39500#39887#0" />
+                <element signature="e#39900#40138#0" />
+                <element signature="e#40360#40574#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xp/time_ucb/skating_over_time.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/seqsamphill/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="7635">
+              <caret line="511" column="4" selection-start-line="511" selection-start-column="4" selection-end-line="511" selection-end-column="4" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -103,8 +149,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/competitors/misere.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="53" selection-start-line="53" selection-end-line="53" />
+            <state relative-caret-position="450">
+              <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
                 <element signature="e#531#978#0" />
@@ -114,10 +160,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/competitors/flat_UCB_optimized.py">
+        <entry file="file://$PROJECT_DIR$/competitors/beam_search.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="287" selection-start-line="287" selection-end-line="287" />
+            <state relative-caret-position="1335">
+              <caret line="96" column="13" selection-start-line="96" selection-start-column="13" selection-end-line="96" selection-end-column="13" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -125,13 +171,46 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/competitors/flat_UCB.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/competitors/flat_UCB_optimized.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="145" selection-start-line="145" selection-end-line="145" />
+            <state relative-caret-position="3420">
+              <caret line="244" column="110" selection-start-line="244" selection-start-column="110" selection-end-line="244" selection-end-column="110" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/competitors/misere_final_opti.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3780">
+              <caret line="266" column="4" selection-start-line="266" selection-start-column="4" selection-end-line="266" selection-end-column="4" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/seqsamphill/priorityset.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="4" column="10" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+              <folding>
+                <element signature="e#1666#1724#0" />
+                <element signature="e#1958#2221#0" />
+                <element signature="e#2292#3557#0" />
+                <element signature="e#2292#2494#1" />
+                <element signature="e#2543#2587#0" />
+                <element signature="e#2659#3557#0" />
+                <element signature="e#4613#4657#0" />
+                <element signature="e#4729#5020#0" />
+                <element signature="e#5049#5137#0" />
+                <element signature="e#5175#5195#0" />
               </folding>
             </state>
           </provider>
@@ -197,21 +276,21 @@
         <option value="$PROJECT_DIR$/sax/ts_mining.py" />
         <option value="$PROJECT_DIR$/competitors/seed_explore.py" />
         <option value="$PROJECT_DIR$/seqsamphill/seq_samp_hill.py" />
-        <option value="$PROJECT_DIR$/seqsamphill/priorityset.py" />
-        <option value="$PROJECT_DIR$/competitors/misere_final_opti.py" />
         <option value="$PROJECT_DIR$/tests/test_priority_set.py" />
-        <option value="$PROJECT_DIR$/competitors/beam_search.py" />
         <option value="$PROJECT_DIR$/competitors/mctsextend.py" />
         <option value="$PROJECT_DIR$/mctsextend/__init__py.py" />
         <option value="$PROJECT_DIR$/mctsextend/mctsextend.py" />
         <option value="$PROJECT_DIR$/seqsamphill/utils.py" />
         <option value="$PROJECT_DIR$/mctsextend/node.py" />
         <option value="$PROJECT_DIR$/mctsextend/mctsextend_main.py" />
-        <option value="$PROJECT_DIR$/competitors/misere.py" />
         <option value="$PROJECT_DIR$/competitors/misere_moldave.py" />
-        <option value="$PROJECT_DIR$/xp/xp_main.py" />
-        <option value="$PROJECT_DIR$/competitors/flat_UCB_optimized.py" />
+        <option value="$PROJECT_DIR$/competitors/misere_final_opti.py" />
+        <option value="$PROJECT_DIR$/seqsamphill/priorityset.py" />
         <option value="$PROJECT_DIR$/competitors/flat_UCB.py" />
+        <option value="$PROJECT_DIR$/competitors/misere.py" />
+        <option value="$PROJECT_DIR$/competitors/flat_UCB_optimized.py" />
+        <option value="$PROJECT_DIR$/competitors/beam_search.py" />
+        <option value="$PROJECT_DIR$/xp/xp_main.py" />
       </list>
     </option>
   </component>
@@ -263,12 +342,24 @@
             <path>
               <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
               <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="seqsamphill" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
               <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
-              <item name="seqsamphill" type="462c0819:PsiDirectoryNode" />
+              <item name="xp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
+              <item name="xp" type="462c0819:PsiDirectoryNode" />
+              <item name="time_ucb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SEQEHC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SEQEHC" type="462c0819:PsiDirectoryNode" />
+              <item name="xp" type="462c0819:PsiDirectoryNode" />
+              <item name="wracc_datasets" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -310,7 +401,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.flat_UCB">
+  <component name="RunManager" selected="Python.xp_main">
+    <configuration name="beam_search" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="SEQEHC" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/competitors" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/competitors/beam_search.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="flat_UCB" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SEQEHC" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -366,27 +478,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/competitors/misere.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="misere_moldave" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SEQEHC" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/competitors" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/competitors/misere_moldave.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -505,18 +596,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.xp_main" />
-      <item itemvalue="Python.misere_moldave" />
-      <item itemvalue="Python.misere" />
       <item itemvalue="Python.flat_UCB_optimized" />
       <item itemvalue="Python.flat_UCB" />
+      <item itemvalue="Python.misere" />
+      <item itemvalue="Python.beam_search" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.flat_UCB" />
         <item itemvalue="Python.xp_main" />
-        <item itemvalue="Python.flat_UCB_optimized" />
-        <item itemvalue="Python.misere_moldave" />
+        <item itemvalue="Python.beam_search" />
         <item itemvalue="Python.misere" />
+        <item itemvalue="Python.flat_UCB" />
+        <item itemvalue="Python.flat_UCB_optimized" />
       </list>
     </recent_temporary>
   </component>
@@ -550,16 +641,16 @@
       <window_info id="Structure" order="1" weight="0.17237744" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.27072403" />
-      <window_info active="true" anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.49762782" visible="true" weight="0.23504722" />
+      <window_info active="true" anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.49710068" visible="true" weight="0.22035676" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4957806" weight="0.28331584" />
       <window_info anchor="bottom" id="TODO" order="4" sideWeight="0.4978903" weight="0.31794333" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5092251" side_tool="true" weight="0.22035676" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5028993" side_tool="true" weight="0.22035676" />
       <window_info anchor="bottom" id="Favorites" order="8" sideWeight="0.50816107" weight="0.17410229" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.20251836" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32843652" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4907749" weight="0.20881426" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49024776" weight="0.20881426" />
       <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.32948583" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -671,9 +762,9 @@
           <option name="timeStamp" value="391" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/competitors/flat_UCB_optimized.py</url>
-          <line>293</line>
-          <option name="timeStamp" value="398" />
+          <url>file://$PROJECT_DIR$/competitors/flat_UCB.py</url>
+          <line>152</line>
+          <option name="timeStamp" value="399" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -686,20 +777,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/data/read_mushroom.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="33" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/expanded">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6945">
-          <caret line="896" selection-start-line="896" selection-end-line="896" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xp/results/result">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -749,12 +826,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/energydata.csv">
-      <provider editor-type-id="text-editor" />
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="296025">
           <caret line="19735" selection-start-line="19735" selection-end-line="19735" />
         </state>
       </provider>
+      <provider editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/sax/sax_main.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -836,17 +913,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/misere_final_opti.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="766">
-          <caret line="245" column="21" selection-start-line="245" selection-start-column="21" selection-end-line="245" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#880#7648#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/blocks.data">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2314" />
@@ -864,27 +930,11 @@
     <entry file="file://$PROJECT_DIR$/data/splice.data">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/beam_search.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1305">
-          <caret line="94" column="4" selection-start-line="94" selection-start-column="4" selection-end-line="94" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xp/ground_truth/gt.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/barplot.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/xp/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/box_plot.png">
-      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/xp/time_ucb/aslbu_over_time.png">
       <provider selected="true" editor-type-id="images" />
@@ -895,9 +945,6 @@
           <caret line="451" column="21" selection-start-line="451" selection-start-column="21" selection-end-line="451" selection-end-column="21" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/violin_plot.png">
-      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/mctsextend/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
@@ -913,42 +960,6 @@
         <state relative-caret-position="-1176">
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python3.6/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="310" selection-start-line="310" selection-end-line="310" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqsamphill/priorityset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
-          <folding>
-            <element signature="e#1666#1724#0" />
-            <element signature="e#1958#2221#0" />
-            <element signature="e#2292#3557#0" />
-            <element signature="e#2292#2494#1" />
-            <element signature="e#2543#2587#0" />
-            <element signature="e#2659#3557#0" />
-            <element signature="e#4613#4657#0" />
-            <element signature="e#4729#5020#0" />
-            <element signature="e#5049#5137#0" />
-            <element signature="e#5175#5195#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqsamphill/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11460">
-          <caret line="766" selection-start-line="766" selection-end-line="766" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1009,17 +1020,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/misere.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="53" selection-start-line="53" selection-end-line="53" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#531#978#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/aslbu.data">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="600">
@@ -1027,114 +1027,214 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/misere_moldave.py">
+    <entry file="file://$PROJECT_DIR$/competitors/misere_moldave.py" />
+    <entry file="file://$PROJECT_DIR$/data/skating.data">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/violin_plot.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/flat_UCB.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
+        <state relative-caret-position="618">
+          <caret line="152" selection-start-line="152" selection-end-line="152" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/skating.data">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/barplot.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/flat_UCB_optimized.py">
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/iterations_boxplot.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/box_plot.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file:///usr/lib/python3.6/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="287" selection-start-line="287" selection-end-line="287" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="726">
+          <caret line="308" selection-start-line="308" selection-end-line="308" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+        <state relative-caret-position="147">
+          <caret line="364" column="9" selection-start-line="364" selection-start-column="9" selection-end-line="364" selection-end-column="9" />
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#1430#1919#0" />
-            <element signature="e#1922#1940#0" />
-            <element signature="e#2087#2658#0" />
-            <element signature="e#2689#5299#0" />
-            <element signature="e#2884#4389#0" />
-            <element signature="e#3130#3218#0" />
-            <element signature="e#3695#3897#0" />
-            <element signature="e#3944#4070#0" />
-            <element signature="e#4402#4757#0" />
-            <element signature="e#4988#5281#0" />
-            <element signature="e#5334#9766#0" />
-            <element signature="e#5580#8524#0" />
-            <element signature="e#5828#8229#0" />
-            <element signature="e#6049#6141#0" />
-            <element signature="e#6800#6927#0" />
-            <element signature="e#6994#7199#0" />
-            <element signature="e#7258#7474#0" />
-            <element signature="e#7537#7751#0" />
-            <element signature="e#7810#7937#0" />
-            <element signature="e#8537#9074#0" />
-            <element signature="e#9305#9748#0" />
-            <element signature="e#9820#9923#0" />
-            <element signature="e#13898#17209#0" />
-            <element signature="e#17245#21049#0" />
-            <element signature="e#17345#17386#0" />
-            <element signature="e#17488#17553#0" />
-            <element signature="e#17886#20187#0" />
-            <element signature="e#18260#19769#0" />
-            <element signature="e#18484#18580#0" />
-            <element signature="e#18690#18836#0" />
-            <element signature="e#18947#19096#0" />
-            <element signature="e#19216#19308#0" />
-            <element signature="e#20200#20401#0" />
-            <element signature="e#20737#21031#0" />
-            <element signature="e#21090#24608#0" />
-            <element signature="e#21143#21187#0" />
-            <element signature="e#21336#21401#0" />
-            <element signature="e#21798#23584#0" />
-            <element signature="e#22111#23189#0" />
-            <element signature="e#22336#22432#0" />
-            <element signature="e#23597#23796#0" />
-            <element signature="e#24137#24592#0" />
-            <element signature="e#24643#28386#0" />
-            <element signature="e#25133#27524#0" />
-            <element signature="e#25509#27028#0" />
-            <element signature="e#25733#25829#0" />
-            <element signature="e#25939#26085#0" />
-            <element signature="e#26196#26345#0" />
-            <element signature="e#26469#26563#0" />
-            <element signature="e#27537#27738#0" />
-            <element signature="e#28074#28368#0" />
-            <element signature="e#28426#32134#0" />
-            <element signature="e#28480#28547#0" />
-            <element signature="e#28929#31290#0" />
-            <element signature="e#29353#30872#0" />
-            <element signature="e#29577#29673#0" />
-            <element signature="e#29783#29929#0" />
-            <element signature="e#30040#30189#0" />
-            <element signature="e#30313#30407#0" />
-            <element signature="e#31303#31504#0" />
-            <element signature="e#31730#32024#0" />
-            <element signature="e#32171#33408#0" />
-            <element signature="e#32293#32669#0" />
-            <element signature="e#32682#32942#0" />
-            <element signature="e#33169#33390#0" />
-            <element signature="e#33438#34641#0" />
-            <element signature="e#33551#33938#0" />
-            <element signature="e#33951#34189#0" />
-            <element signature="e#34411#34625#0" />
+            <element signature="e#1431#1920#0" />
+            <element signature="e#1923#1941#0" />
+            <element signature="e#2088#2659#0" />
+            <element signature="e#2690#5300#0" />
+            <element signature="e#2885#4390#0" />
+            <element signature="e#3131#3219#0" />
+            <element signature="e#3696#3898#0" />
+            <element signature="e#3945#4071#0" />
+            <element signature="e#4403#4758#0" />
+            <element signature="e#4989#5282#0" />
+            <element signature="e#5335#9767#0" />
+            <element signature="e#5581#8525#0" />
+            <element signature="e#5829#8230#0" />
+            <element signature="e#6050#6142#0" />
+            <element signature="e#6801#6928#0" />
+            <element signature="e#6995#7200#0" />
+            <element signature="e#7259#7475#0" />
+            <element signature="e#7538#7752#0" />
+            <element signature="e#7811#7938#0" />
+            <element signature="e#8538#9075#0" />
+            <element signature="e#9306#9749#0" />
+            <element signature="e#9821#9924#0" />
+            <element signature="e#9959#13922#0" />
+            <element signature="e#10269#13164#0" />
+            <element signature="e#10399#13164#0" />
+            <element signature="e#10624#10717#0" />
+            <element signature="e#10733#10794#0" />
+            <element signature="e#11195#11244#0" />
+            <element signature="e#11404#11594#0" />
+            <element signature="e#11608#11646#0" />
+            <element signature="e#11932#12149#0" />
+            <element signature="e#12212#12426#0" />
+            <element signature="e#12439#12440#0" />
+            <element signature="e#12847#12954#0" />
+            <element signature="e#13455#13906#0" />
+            <element signature="e#13455#13505#0" />
+            <element signature="e#13694#13741#0" />
+            <element signature="e#13974#14196#0" />
+            <element signature="e#14033#14149#0" />
+            <element signature="e#14237#17280#0" />
+            <element signature="e#17353#17462#0" />
+            <element signature="e#17509#19813#0" />
+            <element signature="e#19849#23157#0" />
+            <element signature="e#20139#22485#0" />
+            <element signature="e#20269#22485#0" />
+            <element signature="e#20494#20587#0" />
+            <element signature="e#21051#21241#0" />
+            <element signature="e#21300#21517#0" />
+            <element signature="e#21580#21794#0" />
+            <element signature="e#21857#22068#0" />
+            <element signature="e#22776#23141#0" />
+            <element signature="e#23194#26998#0" />
+            <element signature="e#23294#23335#0" />
+            <element signature="e#23437#23502#0" />
+            <element signature="e#23835#26136#0" />
+            <element signature="e#24209#25718#0" />
+            <element signature="e#24433#24529#0" />
+            <element signature="e#24639#24785#0" />
+            <element signature="e#24896#25045#0" />
+            <element signature="e#25165#25257#0" />
+            <element signature="e#26149#26350#0" />
+            <element signature="e#26686#26980#0" />
+            <element signature="e#27039#30557#0" />
+            <element signature="e#27092#27136#0" />
+            <element signature="e#27285#27350#0" />
+            <element signature="e#27748#29533#0" />
+            <element signature="e#28060#29138#0" />
+            <element signature="e#28285#28381#0" />
+            <element signature="e#29546#29745#0" />
+            <element signature="e#30086#30541#0" />
+            <element signature="e#30592#34335#0" />
+            <element signature="e#31082#33473#0" />
+            <element signature="e#31458#32977#0" />
+            <element signature="e#31682#31778#0" />
+            <element signature="e#31888#32034#0" />
+            <element signature="e#32145#32294#0" />
+            <element signature="e#32418#32512#0" />
+            <element signature="e#33486#33687#0" />
+            <element signature="e#34023#34317#0" />
+            <element signature="e#34375#38083#0" />
+            <element signature="e#34429#34496#0" />
+            <element signature="e#34878#37239#0" />
+            <element signature="e#35302#36821#0" />
+            <element signature="e#35526#35622#0" />
+            <element signature="e#35732#35878#0" />
+            <element signature="e#35989#36138#0" />
+            <element signature="e#36262#36356#0" />
+            <element signature="e#37252#37453#0" />
+            <element signature="e#37679#37973#0" />
+            <element signature="e#38120#39357#0" />
+            <element signature="e#38242#38618#0" />
+            <element signature="e#38631#38891#0" />
+            <element signature="e#39118#39339#0" />
+            <element signature="e#39387#40590#0" />
+            <element signature="e#39500#39887#0" />
+            <element signature="e#39900#40138#0" />
+            <element signature="e#40360#40574#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/flat_UCB.py">
+    <entry file="file://$PROJECT_DIR$/xp/time_ucb/skating_over_time.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seqsamphill/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="145" selection-start-line="145" selection-end-line="145" />
+        <state relative-caret-position="7635">
+          <caret line="511" column="4" selection-start-line="511" selection-start-column="4" selection-end-line="511" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/misere.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#531#978#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/beam_search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1335">
+          <caret line="96" column="13" selection-start-line="96" selection-start-column="13" selection-end-line="96" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/flat_UCB_optimized.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3420">
+          <caret line="244" column="110" selection-start-line="244" selection-start-column="110" selection-end-line="244" selection-end-column="110" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/misere_final_opti.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3780">
+          <caret line="266" column="4" selection-start-line="266" selection-start-column="4" selection-end-line="266" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seqsamphill/priorityset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="4" column="10" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+          <folding>
+            <element signature="e#1666#1724#0" />
+            <element signature="e#1958#2221#0" />
+            <element signature="e#2292#3557#0" />
+            <element signature="e#2292#2494#1" />
+            <element signature="e#2543#2587#0" />
+            <element signature="e#2659#3557#0" />
+            <element signature="e#4613#4657#0" />
+            <element signature="e#4729#5020#0" />
+            <element signature="e#5049#5137#0" />
+            <element signature="e#5175#5195#0" />
           </folding>
         </state>
       </provider>

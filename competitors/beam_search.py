@@ -49,7 +49,7 @@ def items_to_sequences(items):
 
 
 def beam_search(data, items, time_budget, target_class, enable_i=True,
-                top_k=5, beam_width=50):
+                top_k=5, beam_width=50, iterations_limit=float('inf')):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -65,15 +65,18 @@ def beam_search(data, items, time_budget, target_class, enable_i=True,
 
     sorted_patterns = PrioritySet(top_k)
 
-
-    while datetime.datetime.utcnow() - begin < time_budget:
+    nb_iteration = 0
+    while datetime.datetime.utcnow() - begin < time_budget and nb_iteration < iterations_limit:
         beam = PrioritySet()
 
-        while (len(candidate_queue) != 0):
+        while (len(candidate_queue) != 0) and nb_iteration < iterations_limit:
             seed = candidate_queue.pop(0)
             children = compute_children(seed, items, enable_i)
 
             for child in children:
+                if nb_iteration >= iterations_limit:
+                    break
+
                 quality, _ = compute_WRAcc_vertical(data, child, target_class,
                                                  bitset_slot_size,
                                                  itemsets_bitsets,
@@ -81,23 +84,26 @@ def beam_search(data, items, time_budget, target_class, enable_i=True,
                                                  first_zero_mask,
                                                  last_ones_mask)
 
-                #sorted_patterns.add_preserve_memory(child, quality, data)
+                # sorted_patterns.add_preserve_memory(child, quality, data)
                 sorted_patterns.add(child, quality)
                 beam.add(child, quality)
+                nb_iteration += 1
 
         candidate_queue = [j for i, j in beam.get_top_k_non_redundant(data, beam_width)]
-        #candidate_queue = [j for i, j in beam.get_top_k(beam_width)]
 
+    print("Number iterations beam search: {}".format(nb_iteration))
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 def launch():
     #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
     DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
 
+    DATA = read_data('../data/splice.data')
+
     #DATA = read_data_kosarak('../data/debile.data')
     items = extract_items(DATA)
 
-    results = beam_search(DATA, items, 180, '+', enable_i=False, top_k=10, beam_width=30)
+    results = beam_search(DATA, items, 100000000000, 'EI', enable_i=False, top_k=10, beam_width=30, iterations_limit=100)
     print_results(results)
 
 

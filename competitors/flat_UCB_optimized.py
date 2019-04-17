@@ -2,6 +2,7 @@ import datetime
 import random
 import copy
 import pathlib
+import cProfile
 
 import math
 import os
@@ -241,7 +242,7 @@ def play_arm(sequence, data, target_class, items, itemsets_memory, enable_i=True
     return pattern, wracc
 
 
-def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True):
+def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True, iterations_limit=float('inf')):
     # contains infos about elements of dataset. {sequence: (Ni, UCB, WRAcc)}. Must give the best UCB quickly. Priority queue
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
@@ -276,7 +277,7 @@ def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_
         UCB_scores.add(sequence_i, (UCB_score, 0, 0))
 
     # play with time budget
-    while datetime.datetime.utcnow() - begin < time_budget:
+    while datetime.datetime.utcnow() - begin < time_budget and N < iterations_limit:
         # we take the best UCB
         _, Ni, mean_wracc, sequence = UCB_scores.pop()
 
@@ -310,7 +311,7 @@ def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_
 
 
 def launch():
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
+    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
     # DATA = read_mushroom()
 
     #DATA = read_data_kosarak('../data/blocks.data')
@@ -326,3 +327,4 @@ def launch():
 # TODO: memory preservation
 if __name__ == '__main__':
     launch()
+    #cProfile.runctx('launch()', globals(), locals())
