@@ -2,8 +2,6 @@ import heapq
 import copy
 from seqsamphill.utils import jaccard_measure, is_subsequence, sequence_mutable_to_immutable
 
-THETA = 0.8
-
 
 def jaccard_measure_misere(sequence1, sequence2, data):
     intersection = 0
@@ -67,10 +65,11 @@ class PrioritySet(object):
     as the metric to order the priority queue
     """
 
-    def __init__(self, k=5):
+    def __init__(self, k=5, theta=0.5):
         self.k = k
         self.heap = []
         self.set = set()
+        self.theta = theta
 
     def add(self, sequence, wracc):
         if sequence not in self.set:
@@ -91,52 +90,6 @@ class PrioritySet(object):
 
         self.set = set_top_k
 
-    def add_preserve_memory_v2(self, sequence, wracc, data):
-        '''
-        add sequence to data-structure only if wracc is better than what there is already
-        Not optimized (no time)!
-        :param sequence:
-        :param wracc:
-        :return:
-        '''
-        if len(self.heap) < self.k:
-            self.add(sequence, wracc)
-            return
-
-        if wracc > min(self.heap, key=lambda x: x[1])[0]:
-            heap_copy = copy.deepcopy(self.heap)
-            heap_copy.append((wracc, sequence))
-            heap_copy = filter_results_misere(heap_copy, data, THETA, self.k)
-
-            sum_wracc = 0
-            for wracc_i, seq_i in heap_copy:
-                sum_wracc += wracc_i
-
-            mean_add = sum_wracc / len(heap_copy)
-
-            sum_wracc = 0
-            for wracc_i, seq_i in self.heap:
-                sum_wracc += wracc_i
-
-            mean_actual = sum_wracc / len(self.heap)
-
-            # if no amelioration, do not add
-            if mean_actual > mean_add:
-                return
-
-            self.add(sequence, wracc)
-
-            # we remove elements that are not in top-k
-            self.heap = self.get_top_k(self.k)
-
-            ### UGLY ###
-            set_top_k = set()
-
-            for _, seq in self.heap:
-                set_top_k.add(seq)
-
-            self.set = set_top_k
-
     def get(self):
         wracc, sequence = heapq.heappop(self.heap)
         self.set.remove(sequence)
@@ -147,9 +100,8 @@ class PrioritySet(object):
         return data
 
     def get_top_k_non_redundant(self, data, k):
-        self.heap = filter_results_misere(self.heap, data, THETA, k)
-
-        return self.get_top_k(k)
+        filtered_result = filter_results_misere(self.heap, data, self.theta, k)
+        return heapq.nlargest(k, filtered_result)
 
 
 class PrioritySetv2(object):

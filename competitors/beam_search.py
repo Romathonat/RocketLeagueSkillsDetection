@@ -1,5 +1,6 @@
 import datetime
 import pathlib
+import functools
 
 from seqsamphill.priorityset import PrioritySet
 from seqsamphill.utils import count_target_class_data, compute_last_ones_mask, \
@@ -8,6 +9,14 @@ from seqsamphill.utils import count_target_class_data, compute_last_ones_mask, \
     get_support_from_vector, read_data_sc2, extract_items, print_results, compute_WRAcc, compute_WRAcc_vertical, read_data_kosarak, read_data
 
 
+def compare_sequences(x, y):
+    if sorted(sorted(list(x[0]))) > sorted(sorted(list(y[0]))):
+        return True
+    elif len(x) > 1 and len(y) > 1:
+        return compare_sequences(x[1:], y[1:])
+    else:
+        return False
+
 def compute_children(sequence, items, enable_i=True):
     """
     :param enable_i: enable i_extensions or not. Useful when sequences are singletons like DNA
@@ -15,13 +24,14 @@ def compute_children(sequence, items, enable_i=True):
     NB: We convert to mutable/immutable object in order to have a set of subsequences,
     which automatically removes duplicates
     """
-    new_subsequences = set()
+    new_subsequences = list()
 
     for item in items:
         for index, itemset in enumerate(sequence):
-            new_subsequences.add(
-                create_s_extension(sequence, item, index)
-            )
+            s_extension = create_s_extension(sequence, item, index)
+
+            if s_extension not in new_subsequences:
+                new_subsequences.append(s_extension)
 
             if enable_i:
                 pseudo_i_extension = create_i_extension(sequence, item,
@@ -31,13 +41,16 @@ def compute_children(sequence, items, enable_i=True):
                 len_subsequence = sum([len(i) for i in sequence])
 
                 # we prevent the case where we add an existing element to itemset
-                if (length_i_ext > len_subsequence):
-                    new_subsequences.add(pseudo_i_extension)
+                if (length_i_ext > len_subsequence) and pseudo_i_extension not in new_subsequences:
+                    new_subsequences.append(pseudo_i_extension)
 
-        new_subsequences.add(
-            create_s_extension(sequence, item, len(sequence)))
+        s_extension = create_s_extension(sequence, item, len(sequence))
 
-    return new_subsequences
+        if s_extension not in new_subsequences:
+            new_subsequences.append(s_extension)
+
+    # we need to sort with tuples of frozensets
+    return sorted(new_subsequences, key=functools.cmp_to_key(compare_sequences))
 
 
 def items_to_sequences(items):
@@ -49,7 +62,7 @@ def items_to_sequences(items):
 
 
 def beam_search(data, items, time_budget, target_class, enable_i=True,
-                top_k=5, beam_width=50, iterations_limit=float('inf')):
+                top_k=5, beam_width=50, iterations_limit=float('inf'), theta=0.5):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -63,7 +76,7 @@ def beam_search(data, items, time_budget, target_class, enable_i=True,
     # candidate_queue = items_to_sequences(items)
     candidate_queue = [[]]
 
-    sorted_patterns = PrioritySet(top_k)
+    sorted_patterns = PrioritySet(top_k, theta=theta)
 
     nb_iteration = 0
     while datetime.datetime.utcnow() - begin < time_budget and nb_iteration < iterations_limit:
@@ -92,18 +105,19 @@ def beam_search(data, items, time_budget, target_class, enable_i=True,
         candidate_queue = [j for i, j in beam.get_top_k_non_redundant(data, beam_width)]
 
     print("Number iterations beam search: {}".format(nb_iteration))
+
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 def launch():
-    #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:500]
-    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-
+    #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    #DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
     DATA = read_data('../data/splice.data')
-
     #DATA = read_data_kosarak('../data/debile.data')
+    #DATA = read_data_kosarak('../data/skating.data')
+
     items = extract_items(DATA)
 
-    results = beam_search(DATA, items, 100000000000, 'EI', enable_i=False, top_k=10, beam_width=30, iterations_limit=100)
+    results = beam_search(DATA, items, 100000000000, 'EI', enable_i=False, top_k=5, beam_width=30, iterations_limit=1000)
     print_results(results)
 
 

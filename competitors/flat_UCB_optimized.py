@@ -242,13 +242,13 @@ def play_arm(sequence, data, target_class, items, itemsets_memory, enable_i=True
     return pattern, wracc
 
 
-def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True, iterations_limit=float('inf')):
+def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True, iterations_limit=float('inf'), theta=0.5):
     # contains infos about elements of dataset. {sequence: (Ni, UCB, WRAcc)}. Must give the best UCB quickly. Priority queue
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
     data_target_class = filter_target_class(data, target_class)
-    sorted_patterns = PrioritySet(top_k)
+    sorted_patterns = PrioritySet(top_k, theta=theta)
     UCB_scores = PrioritySetUCB()
     itemsets_memory = get_itemset_memory(data)
 
@@ -311,16 +311,16 @@ def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_
 
 
 def launch():
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
     # DATA = read_mushroom()
 
     #DATA = read_data_kosarak('../data/blocks.data')
     #DATA = read_data_kosarak('../data/skating.data')
-    #DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
 
     ITEMS = extract_items(DATA)
 
-    results = flat_UCB_optimized(DATA, ITEMS, 12, '1', top_k=10, enable_i=True, vertical=True)
+    results = flat_UCB_optimized(DATA, ITEMS, 12000000000, '+', top_k=5, enable_i=False, vertical=True, iterations_limit=1000, theta=0.5)
     print_results(results)
 
 

@@ -133,28 +133,6 @@ def reduce_k_length(target_length, data):
     return new_data
 
 
-def compute_WRAcc(data, subsequence, target_class):
-    subsequence_supp = 0
-    data_supp = len(data)
-    class_subsequence_supp = 0
-    class_data_supp = 0
-
-    for sequence in data:
-        current_class = sequence[0]
-        sequence = sequence[1:]
-
-        if is_subsequence(subsequence, sequence):
-            subsequence_supp += 1
-            if current_class == target_class:
-                class_subsequence_supp += 1
-
-        if current_class == target_class:
-            class_data_supp += 1
-
-    return (subsequence_supp / data_supp) * (
-        class_subsequence_supp / subsequence_supp -
-        class_data_supp / data_supp)
-
 
 def is_subsequence(a, b):
     """ check if sequence a is a subsequence of b
@@ -337,7 +315,7 @@ def extract_items(data):
         for itemset in sequence[1:]:
             for item in itemset:
                 items.add(item)
-    return items
+    return sorted(list(items))
 
 
 def uct(node, child_node):
@@ -699,29 +677,29 @@ def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
     class_data_ratio = class_data_count / len(data)
 
 
-
-
     ############# Informedness
-    # tn = len(data) - support - (class_data_count - class_pattern_count)
-    #
-    # tpr = class_pattern_count/(class_pattern_count + (class_data_count - class_pattern_count))
-    #
-    # tnr =  tn / (class_pattern_count + tn)
-    # wracc = tnr + tpr - 1
+    tn = len(data) - support - (class_data_count - class_pattern_count)
+
+    tpr = class_pattern_count/(class_pattern_count + (class_data_count - class_pattern_count))
+
+    tnr =  tn / (class_pattern_count + tn)
+    wracc = tnr + tpr - 1
     ##############################
 
     # ############# f1-mesure
-    # precision = class_pattern_ratio
-    # recall = class_pattern_count / class_data_count
-    #
-    # try:
-    #     wracc = 2*precision*recall/(precision+recall)
-    # except:
-    #     wracc = 0
-    #
+    precision = class_pattern_ratio
+    recall = class_pattern_count / class_data_count
+
+    try:
+        wracc = 2*precision*recall/(precision+recall)
+    except:
+        wracc = 0
+
+
     wracc = occurency_ratio * (class_pattern_ratio - class_data_ratio)
 
     return wracc, bitset
+
 
 def backtrack_LCS(C, seq1, seq2, i, j, lcs):
     if i == 0 or j == 0:
@@ -736,6 +714,7 @@ def backtrack_LCS(C, seq1, seq2, i, j, lcs):
         return backtrack_LCS(C, seq1, seq2, i, j-1, lcs)
     else:
         return backtrack_LCS(C, seq1, seq2, i-1, j, lcs)
+
 
 def find_LCS(seq1, seq2):
     """

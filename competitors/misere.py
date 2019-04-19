@@ -33,11 +33,11 @@ def count_subsequences_number(sequence):
     return solutions[len(sequence)]
 
 
-def misere(data, time_budget, target_class, top_k=5, iterations_limit=float('inf')):
+def misere(data, time_budget, target_class, top_k=5, iterations_limit=float('inf'), theta=0.5):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
-    sorted_patterns = PrioritySet()
+    sorted_patterns = PrioritySet(theta=theta)
 
     bitset_slot_size = len(max(data, key=lambda x: len(x))) - 1
     first_zero_mask = compute_first_zero_mask(len(data), bitset_slot_size)
@@ -57,6 +57,10 @@ def misere(data, time_budget, target_class, top_k=5, iterations_limit=float('inf
         ads = count_subsequences_number(sequence)
 
         for i in range(int(math.log(ads))):
+            if iterations_count >= iterations_limit:
+                break
+
+
             subsequence = copy.deepcopy(sequence)
 
             # we remove z items randomly

@@ -13,8 +13,9 @@ from seqsamphill.utils import read_data, read_data_kosarak, uct, \
     count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS, \
     reduce_k_length, average_results
 
-from seqsamphill.priorityset import PrioritySet, THETA
+from seqsamphill.priorityset import PrioritySet
 
+THETA = 0.5
 
 def compute_random_variations(sequence, items, data, target_class,
                               bitset_slot_size,
