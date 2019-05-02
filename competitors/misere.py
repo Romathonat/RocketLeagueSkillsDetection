@@ -8,7 +8,7 @@ from seqsamphill.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, compute_WRAcc, compute_WRAcc_vertical, reduce_k_length
+    count_target_class_data, compute_WRAcc, compute_WRAcc_vertical, reduce_k_length, read_data_sentiment
 
 from seqsamphill.priorityset import PrioritySet
 
@@ -97,13 +97,13 @@ def misere(data, time_budget, target_class, top_k=5, iterations_limit=float('inf
 
 def launch():
     # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
-    DATA = read_data_kosarak('../data/blocks.data')
-    DATA = read_data_kosarak('../data/skating.data')
+    # DATA = read_data_kosarak('../data/blocks.data')
+    # DATA = read_data_kosarak('../data/skating.data')
 
-    # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-    DATA = read_data_kosarak('../data/aslbu.data')
+    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    #DATA = read_data_kosarak('../data/aslbu.data')
 
-    results = misere(DATA, 12, '195', top_k=10, iterations_limit=1000)
+    results = misere(DATA, 12000000, '+', top_k=5, iterations_limit=4100)
 
     print_results(results)
 

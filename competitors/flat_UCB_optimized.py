@@ -12,7 +12,8 @@ from seqsamphill.utils import read_data, read_data_kosarak, uct, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
     count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS, \
-    reduce_k_length, average_results, sequence_immutable_to_mutable
+    reduce_k_length, average_results, sequence_immutable_to_mutable, read_data_rotten, encode_items, encode_data, \
+    decode_sequence, print_results_decode, read_data_sentiment
 
 from seqsamphill.priorityset import PrioritySet, PrioritySetUCB
 
@@ -206,7 +207,7 @@ def UCB(score, Ni, N):
 
 def exploit_arm(pattern, wracc, items, data, itemsets_memory, target_class, enable_i=True):
     # we optimize until we find local optima
-    #print("Optimize")
+    # print("Optimize")
     while 'climbing hill':
         # we compute all possible variations
         try:
@@ -242,7 +243,8 @@ def play_arm(sequence, data, target_class, items, itemsets_memory, enable_i=True
     return pattern, wracc
 
 
-def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True, iterations_limit=float('inf'), theta=0.5):
+def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True,
+                       iterations_limit=float('inf'), theta=0.5):
     # contains infos about elements of dataset. {sequence: (Ni, UCB, WRAcc)}. Must give the best UCB quickly. Priority queue
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
@@ -294,10 +296,6 @@ def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_
 
     print("Flat UCB optimized iterations: {}".format(N))
 
-    #
-    # for score in UCB_scores.heap:
-    #     print(score)
-
     best_patterns = sorted_patterns.get_top_k_non_redundant(data, top_k)
 
     for pattern in best_patterns:
@@ -314,17 +312,22 @@ def launch():
     # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
     # DATA = read_mushroom()
 
-    #DATA = read_data_kosarak('../data/blocks.data')
-    #DATA = read_data_kosarak('../data/skating.data')
+    # DATA = read_data_kosarak('../data/blocks.data')
+    # DATA = read_data_kosarak('../data/skating.data')
     DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    #DATA = read_data_rotten('../data/rotten.csv')
+    #DATA = read_data_sentiment('../data/sentiment.csv')
 
     ITEMS = extract_items(DATA)
 
-    results = flat_UCB_optimized(DATA, ITEMS, 12000000000, '+', top_k=5, enable_i=False, vertical=True, iterations_limit=1000, theta=0.5)
-    print_results(results)
+    ITEMS, items_to_encoding, encoding_to_items = encode_items(ITEMS)
+    DATA = encode_data(DATA, items_to_encoding)
 
+    results = flat_UCB_optimized(DATA, ITEMS, 12000000000, '+', top_k=5, enable_i=False, vertical=False,
+                                 iterations_limit=1000)
 
-# TODO: memory preservation
+    print_results_decode(results, encoding_to_items)
+
 if __name__ == '__main__':
     launch()
-    #cProfile.runctx('launch()', globals(), locals())
+    # cProfile.runctx('launch()', globals(), locals())

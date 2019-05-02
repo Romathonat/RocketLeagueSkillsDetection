@@ -123,7 +123,7 @@ def select_expand(root_node, data, target_class, sorted_patterns):
 
     return node_expand
 
-def launch_mcts(data, time_budget, target_class, top_k=10):
+def launch_mcts(data, time_budget, target_class, top_k=10, iterations_limit=float('inf')):
     begin = datetime.datetime.utcnow()
     root_node = Node(None, None, data, target_class)
     # node_hashmap = {}
@@ -136,7 +136,7 @@ def launch_mcts(data, time_budget, target_class, top_k=10):
 
     end_time = begin + datetime.timedelta(seconds=time_budget)
 
-    while datetime.datetime.utcnow() <= end_time:
+    while datetime.datetime.utcnow() <= end_time and iteration_count < iterations_limit:
         node_expand = select_expand(root_node, data, target_class, sorted_patterns)
 
         sequence_reward, reward = roll_out(node_expand, data, target_class)
@@ -157,5 +157,5 @@ if __name__ == '__main__':
     # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
     #DATA = [i[:5] for i in DATA]
 
-    results = launch_mcts(DATA, 12, '1', top_k=10)
+    results = launch_mcts(DATA, 12, '1', top_k=10, iterations_limit=200)
     print_results(results)

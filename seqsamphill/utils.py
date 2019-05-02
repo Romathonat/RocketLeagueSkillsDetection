@@ -2,6 +2,11 @@ import math
 import random
 import copy
 
+
+def increase_it_number():
+    global ITERATION_NUMBER
+    ITERATION_NUMBER += 1
+
 def sequence_mutable_to_immutable(sequence):
     """
     :param sequence: form [{}, {}, ...]
@@ -133,7 +138,6 @@ def reduce_k_length(target_length, data):
     return new_data
 
 
-
 def is_subsequence(a, b):
     """ check if sequence a is a subsequence of b
     """
@@ -145,6 +149,7 @@ def is_subsequence(a, b):
         i_b += 1
 
     return i_a == len(a)
+
 
 def subsequence_indices(a, b):
     """ Return itemset indices of b that itemset of a are included in
@@ -237,6 +242,46 @@ def read_data_sc2(filename):
     return data
 
 
+def read_data_rotten(filename):
+    data = []
+    with open(filename) as f:
+        for line in f:
+            sequence = []
+            class_line = line.split(',')[0]
+
+            # we remove \n and ., spaces at the end and begining, and we split
+            sequence_line = line[len(class_line) + 1:-2].strip(' ').split(' ')
+            sequence.append(class_line)
+
+            for word in sequence_line:
+                itemset = set()
+                itemset.add(word)
+                sequence.append(itemset)
+
+            if len(sequence) > 1:
+                data.append(sequence)
+    return data
+
+def read_data_sentiment(filename):
+    data = []
+    with open(filename) as f:
+        for line in f:
+            sequence = []
+            class_line = line.split(',')[0]
+
+            # we remove \n and ., spaces at the end and begining, and we split
+            sequence_line = line[len(class_line) + 1:-1].strip(' ').split(' ')
+            sequence.append(class_line)
+
+            for word in sequence_line:
+                itemset = set()
+                itemset.add(word)
+                sequence.append(itemset)
+
+            if len(sequence) > 1:
+                data.append(sequence)
+    return data
+
 def encode_data(data, item_to_encoding):
     """
     Replaces all item in data by its encoding
@@ -292,7 +337,6 @@ def hamming_weight(vector):
 
 
 def jaccard_measure(bitset1, bitset2, bitset_slot_size, first_zero_mask, last_ones_mask):
-
     _, bitset1 = get_support_from_vector(bitset1, bitset_slot_size, first_zero_mask, last_ones_mask)
     _, bitset2 = get_support_from_vector(bitset2, bitset_slot_size, first_zero_mask, last_ones_mask)
 
@@ -483,6 +527,15 @@ def print_results_mcts(results, encoding_to_items):
 
     print('Average score :{}'.format(sum_result / len(results)))
 
+def print_results_decode(results, encoding_to_items):
+    decoded_results = []
+    for result in results:
+        decoded_result = []
+        decoded_result.append(result[0])
+        decoded_result.append(decode_sequence(result[1], encoding_to_items))
+        decoded_results.append(decoded_result)
+
+    print_results(decoded_results)
 
 def average_results(results):
     sum_result = 0
@@ -491,10 +544,11 @@ def average_results(results):
 
     return sum_result / len(results)
 
+
 def extract_l_max(data):
     lmax = 0
     for line in data:
-       lmax = max(lmax, k_length(line))
+        lmax = max(lmax, k_length(line))
     return lmax
 
 
@@ -511,7 +565,6 @@ def format_sequence_graph(sequence):
 
     sequence_string = '<{}>'.format(sequence_string[:-1])
     return sequence_string
-
 
 
 # Require Graphviz
@@ -590,6 +643,7 @@ def compute_WRAcc(data, subsequence, target_class):
         if current_class == target_class:
             class_data_supp += 1
 
+
     try:
         wracc = (subsequence_supp / data_supp) * (
             class_subsequence_supp / subsequence_supp -
@@ -600,11 +654,13 @@ def compute_WRAcc(data, subsequence, target_class):
     except:
         return 0
 
+import seqsamphill.global_var
 
 def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
                            itemsets_bitsets, class_data_count, first_zero_mask,
                            last_ones_mask):
 
+    seqsamphill.global_var.increase_it_number()
     length = k_length(subsequence)
     bitset = 0
 
@@ -643,10 +699,6 @@ def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
 
                 bitset &= itemset_bitset
 
-
-
-
-
     # now we just need to extract support, supersequence and class_pattern_count
     class_pattern_count = 0
 
@@ -676,13 +728,12 @@ def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
         return -0.25, 0
     class_data_ratio = class_data_count / len(data)
 
-
     ############# Informedness
     tn = len(data) - support - (class_data_count - class_pattern_count)
 
-    tpr = class_pattern_count/(class_pattern_count + (class_data_count - class_pattern_count))
+    tpr = class_pattern_count / (class_pattern_count + (class_data_count - class_pattern_count))
 
-    tnr =  tn / (class_pattern_count + tn)
+    tnr = tn / (class_pattern_count + tn)
     wracc = tnr + tpr - 1
     ##############################
 
@@ -691,10 +742,9 @@ def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
     recall = class_pattern_count / class_data_count
 
     try:
-        wracc = 2*precision*recall/(precision+recall)
+        wracc = 2 * precision * recall / (precision + recall)
     except:
         wracc = 0
-
 
     wracc = occurency_ratio * (class_pattern_ratio - class_data_ratio)
 
@@ -705,15 +755,15 @@ def backtrack_LCS(C, seq1, seq2, i, j, lcs):
     if i == 0 or j == 0:
         return
 
-    inter = seq1[i-1].intersection(seq2[j-1])
+    inter = seq1[i - 1].intersection(seq2[j - 1])
 
     if inter != set():
         lcs.insert(0, inter)
-        return backtrack_LCS(C, seq1, seq2, i-1, j-1, lcs)
-    if C[i][j-1] > C[i-1][j]:
-        return backtrack_LCS(C, seq1, seq2, i, j-1, lcs)
+        return backtrack_LCS(C, seq1, seq2, i - 1, j - 1, lcs)
+    if C[i][j - 1] > C[i - 1][j]:
+        return backtrack_LCS(C, seq1, seq2, i, j - 1, lcs)
     else:
-        return backtrack_LCS(C, seq1, seq2, i-1, j, lcs)
+        return backtrack_LCS(C, seq1, seq2, i - 1, j, lcs)
 
 
 def find_LCS(seq1, seq2):
@@ -730,17 +780,16 @@ def find_LCS(seq1, seq2):
 
     for i in range(len(seq1) + 1):
         for j in range(len(seq2) + 1):
-            inter = seq1[i-1].intersection(seq2[j-1])
+            inter = seq1[i - 1].intersection(seq2[j - 1])
             if i == 0 or j == 0:
                 C[i][j] = 0
             elif inter != set():
-                C[i][j] = C[i-1][j-1] + len(inter)
+                C[i][j] = C[i - 1][j - 1] + len(inter)
             else:
-                C[i][j] = max(C[i-1][j], C[i][j-1])
+                C[i][j] = max(C[i - 1][j], C[i][j - 1])
 
     # now we need to backtrack the structure to get the pattern
     lcs = []
     backtrack_LCS(C, seq1, seq2, len(seq1), len(seq2), lcs)
 
     return lcs
-

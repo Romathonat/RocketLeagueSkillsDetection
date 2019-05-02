@@ -79,7 +79,7 @@ class PrioritySet(object):
     def add_preserve_memory(self, sequence, wracc, data):
         self.add(sequence, wracc)
 
-        # we remove elements that are not in top-k
+        # we remove elements that are not in top_k
         self.heap = self.get_top_k(self.k)
 
         ### UGLY ###
@@ -131,7 +131,7 @@ class PrioritySetv2(object):
         if wracc > min(self.heap, key=lambda x: x[1])[0]:
             self.add(sequence, wracc)
 
-            # we remove elements that are not in top-k
+            # we remove elements that are not in top_k
             self.heap = self.get_top_k(self.k)
 
             ### UGLY ###

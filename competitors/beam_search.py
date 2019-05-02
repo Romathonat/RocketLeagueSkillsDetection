@@ -110,14 +110,14 @@ def beam_search(data, items, time_budget, target_class, enable_i=True,
 
 def launch():
     #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
-    #DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-    DATA = read_data('../data/splice.data')
+    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    #DATA = read_data('../data/splice.data')
     #DATA = read_data_kosarak('../data/debile.data')
     #DATA = read_data_kosarak('../data/skating.data')
 
     items = extract_items(DATA)
 
-    results = beam_search(DATA, items, 100000000000, 'EI', enable_i=False, top_k=5, beam_width=30, iterations_limit=1000)
+    results = beam_search(DATA, items, 100000000000, '+', enable_i=False, top_k=5, beam_width=30, iterations_limit=4100, theta=0.5)
     print_results(results)
 
 

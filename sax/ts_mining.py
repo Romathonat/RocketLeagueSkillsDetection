@@ -101,6 +101,9 @@ def ts_mining(timeseries, timefails, nb_points_slot, a, nb_events_back):
 
     pass
 
+# TODO: check ecg https://www.kaggle.com/c/seizure-prediction/data
+# https://www.kaggle.com/c/belkin-energy-disaggregation-competition/data
+
 timeseries, timefails = read_energy_data()
 
 print(ts_mining(timeseries, timefails, 5, 10, 10))
