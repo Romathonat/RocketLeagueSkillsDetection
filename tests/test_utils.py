@@ -1,4 +1,4 @@
-from seqsamphill.utils import sequence_mutable_to_immutable, \
+from seqscout.utils import sequence_mutable_to_immutable, \
     sequence_immutable_to_mutable, count_target_class_data, is_subsequence, \
     following_ones, generate_bitset, create_s_extension, create_i_extension, \
     get_support_from_vector, compute_bitset_slot_size, compute_WRAcc, \

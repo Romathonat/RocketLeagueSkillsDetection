@@ -4,22 +4,20 @@ import sys
 
 import pandas as pd
 
-import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 from competitors.beam_search import beam_search
 from competitors.misere import misere
 from competitors.misere_final_opti import misere_final_opti
-from seqsamphill.seq_samp_hill import seq_samp_hill
+from seqscout.seq_samp_hill import seq_samp_hill
 
-from seqsamphill.utils import read_data, extract_items, \
-    encode_items, \
-    encode_data, print_results, average_results, read_data_kosarak, \
+from seqscout.utils import read_data, extract_items, \
+    print_results, average_results, read_data_kosarak, \
     read_data_sc2, reduce_k_length, k_length
 
-from competitors.flat_UCB_optimized import flat_UCB_optimized
-from competitors.flat_UCB import flat_UCB
+from seqscout.seq_scout import flat_UCB_optimized
+from seqscout.seq_scout import flat_UCB
 
 from mctsextend.mctsextend_main import launch_mcts
 
@@ -534,6 +532,9 @@ def mcts_boxplot_datasets():
                                             {'enable_i': enable_i, 'top_k': top_k,
                                              'iterations_limit': iterations_limit})
 
+            result_ucb_opti = pool.apply_async(flat_UCB_optimized, (data, items, time_xp, target, top_k),
+                                               {'enable_i': enable_i, 'iterations_limit': iterations_limit})
+
             results_mcts = pool.apply_async(launch_mcts, (data, time_xp, target),
                                                {'top_k': top_k, 'iterations_limit': iterations_limit})
 
@@ -541,6 +542,7 @@ def mcts_boxplot_datasets():
 
             results_misere = results_misere.get()
             results_beam = results_beam.get()
+            result_ucb_opti = result_ucb_opti.get()
             results_mcts = results_mcts.get()
 
             if len(results_misere) < top_k:
@@ -558,7 +560,8 @@ def mcts_boxplot_datasets():
 
             data_add(data_final, max(0, average_results(results_misere)), datasets_names[i], 'misere')
             data_add(data_final, max(0, average_results(results_beam)), datasets_names[i], 'beam')
-            data_add(data_final, max(0, average_results(results_mcts)), datasets_names[i], 'surprise')
+            data_add(data_final, max(0, average_results(result_ucb_opti)), datasets_names[i], 'SeqScout')
+            data_add(data_final, max(0, average_results(results_mcts)), datasets_names[i], 'MCTSExtend')
 
     df = pd.DataFrame(data=data_final)
 
@@ -1300,7 +1303,7 @@ def quality_over_size():
         plt.show()
 
 
-import seqsamphill.global_var
+import seqscout.global_var
 
 
 def number_iterations_optima():
@@ -1322,7 +1325,7 @@ def number_iterations_optima():
         items = extract_items(data)
         for i in range(nb_launched):
             # we reset the count of iterations
-            seqsamphill.global_var.ITERATION_NUMBER = 0
+            seqscout.global_var.ITERATION_NUMBER = 0
 
             result_ucb_opti = flat_UCB_optimized(data, items, time_xp, target, top_k, enable_i=enable_i,
                                                  iterations_limit=iterations_limit, theta=theta)
@@ -1332,7 +1335,7 @@ def number_iterations_optima():
 
             iterations = 1000
 
-            additional_iterations = seqsamphill.global_var.ITERATION_NUMBER - iterations_limit
+            additional_iterations = seqscout.global_var.ITERATION_NUMBER - iterations_limit
 
             for i in range(10):
                 data_add_generic(data_final, cost=additional_iterations / iterations, iterations=iterations, dataset_name=datasets_names[j])
@@ -1441,5 +1444,5 @@ if __name__ == '__main__':
     # quality_over_size()
     # naive_vs_bitset_seqscout()
     # number_iterations_optima()
-    # mcts_boxplot_datasets()
-    boxplots_description_lengths()
+    mcts_boxplot_datasets()
+    # boxplots_description_lengths()

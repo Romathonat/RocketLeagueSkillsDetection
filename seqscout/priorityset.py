@@ -1,6 +1,6 @@
 import heapq
 import copy
-from seqsamphill.utils import jaccard_measure, is_subsequence, sequence_mutable_to_immutable
+from seqscout.utils import jaccard_measure, is_subsequence, sequence_mutable_to_immutable
 
 
 def jaccard_measure_misere(sequence1, sequence2, data):
@@ -58,6 +58,36 @@ def filter_results_misere(results, data, theta, k):
 
     return filtered_elements
 
+def filter_results_not_singleton(results, data, theta, k):
+    """
+    Filter redundant elements
+    :param results: must be a node
+    :param theta:
+    :return: filtered list
+    """
+
+    results_list = list(results)
+    results_list.sort(key=lambda x: x[0], reverse=True)
+
+    filtered_elements = []
+
+    for i, result in enumerate(results_list):
+        similar = False
+
+        for filtered_element in filtered_elements:
+            if jaccard_measure_misere(result[1],
+                                      filtered_element[1], data) > theta:
+                similar = True
+
+        if not similar and len(result[1]) > 1:
+            filtered_elements.append(result)
+
+        if len(filtered_elements) > k:
+            break
+
+    return filtered_elements
+
+
 
 class PrioritySet(object):
     """
@@ -103,6 +133,9 @@ class PrioritySet(object):
         filtered_result = filter_results_misere(self.heap, data, self.theta, k)
         return heapq.nlargest(k, filtered_result)
 
+    def get_top_k_non_redundant_non_singleton(self, data, k):
+        filtered_result = filter_results_not_singleton(self.heap, data, self.theta, k)
+        return heapq.nlargest(k, filtered_result)
 
 class PrioritySetv2(object):
     # simple because no time

@@ -1,4 +1,4 @@
-from seqsamphill.utils import read_data, read_data_kosarak, read_data_sc2,k_length, extract_items
+from seqscout.utils import read_data, read_data_kosarak, read_data_sc2,k_length, extract_items
 
 datasets = [
         (read_data_kosarak('../data/aslbu.data'), 'aslbu'),

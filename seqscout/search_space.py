@@ -1,10 +1,8 @@
-from seqsamphill.utils import extract_items, extract_l_max, read_data_kosarak, read_data_sc2, read_data
+from seqscout.utils import extract_items, extract_l_max, read_data_kosarak, read_data_sc2, read_data
 from math import factorial
 
 
-# we assume this agorithm works four counting paritions
 # https://www.geeksforgeeks.org/generate-unique-partitions-of-an-integer/
-
 def decompose(n):
     if n == 0:
         return [[]]

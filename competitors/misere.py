@@ -4,13 +4,13 @@ import copy
 import math
 import pathlib
 
-from seqsamphill.utils import read_data, read_data_kosarak, uct, \
+from seqscout.utils import read_data, read_data_kosarak, uct, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, compute_WRAcc, compute_WRAcc_vertical, reduce_k_length, read_data_sentiment
+    count_target_class_data, compute_WRAcc, compute_WRAcc_vertical, reduce_k_length, read_data_sentiment, read_jmlr
 
-from seqsamphill.priorityset import PrioritySet
+from seqscout.priorityset import PrioritySet
 
 
 
@@ -103,7 +103,9 @@ def launch():
     DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
     #DATA = read_data_kosarak('../data/aslbu.data')
 
-    results = misere(DATA, 12000000, '+', top_k=5, iterations_limit=4100)
+    DATA = read_jmlr('machin', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
+
+    results = misere(DATA, 12000000, '+', top_k=20, iterations_limit=10000)
 
     print_results(results)
 

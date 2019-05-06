@@ -7,15 +7,15 @@ import cProfile
 import math
 import os
 
-from seqsamphill.utils import read_data, read_data_kosarak, uct, \
+from seqscout.utils import read_data, read_data_kosarak, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
     count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS, \
     reduce_k_length, average_results, sequence_immutable_to_mutable, read_data_rotten, encode_items, encode_data, \
-    decode_sequence, print_results_decode, read_data_sentiment
+    decode_sequence, print_results_decode
 
-from seqsamphill.priorityset import PrioritySet, PrioritySetUCB
+from seqscout.priorityset import PrioritySet, PrioritySetUCB
 
 VERTICAL_TOOLS = {}
 VERTICAL_RPZ = False
@@ -310,13 +310,11 @@ def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_
 
 def launch():
     # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
-    # DATA = read_mushroom()
-
     # DATA = read_data_kosarak('../data/blocks.data')
     # DATA = read_data_kosarak('../data/skating.data')
+
     DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-    #DATA = read_data_rotten('../data/rotten.csv')
-    #DATA = read_data_sentiment('../data/sentiment.csv')
+
 
     ITEMS = extract_items(DATA)
 

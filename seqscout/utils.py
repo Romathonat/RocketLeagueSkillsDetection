@@ -7,6 +7,7 @@ def increase_it_number():
     global ITERATION_NUMBER
     ITERATION_NUMBER += 1
 
+
 def sequence_mutable_to_immutable(sequence):
     """
     :param sequence: form [{}, {}, ...]
@@ -242,45 +243,38 @@ def read_data_sc2(filename):
     return data
 
 
-def read_data_rotten(filename):
-    data = []
-    with open(filename) as f:
-        for line in f:
-            sequence = []
-            class_line = line.split(',')[0]
+def read_jmlr(target_word, path):
+    return_sequences = []
 
-            # we remove \n and ., spaces at the end and begining, and we split
-            sequence_line = line[len(class_line) + 1:-2].strip(' ').split(' ')
-            sequence.append(class_line)
+    with open('{}.lab'.format(path)) as dict_files:
+        data_dict = {}
+        for i, line in enumerate(dict_files):
+            data_dict[i] = line[:-1]
 
-            for word in sequence_line:
-                itemset = set()
-                itemset.add(word)
-                sequence.append(itemset)
+    with open('{}.dat'.format(path)) as jmlr:
+        data = jmlr.readline()
+        data = data.split("-1")
 
-            if len(sequence) > 1:
-                data.append(sequence)
-    return data
+        for seq in data:
+            sequence = [set([data_dict[int(i)]]) for i in seq.split(" ") if i != '']
+            return_sequences.append(sequence)
 
-def read_data_sentiment(filename):
-    data = []
-    with open(filename) as f:
-        for line in f:
-            sequence = []
-            class_line = line.split(',')[0]
+    # now we add the class for the presence of a word, and we remove the target word
+    for sequence in return_sequences:
+        if set([target_word]) in sequence:
+            sequence.insert(0, '+')
 
-            # we remove \n and ., spaces at the end and begining, and we split
-            sequence_line = line[len(class_line) + 1:-1].strip(' ').split(' ')
-            sequence.append(class_line)
+            # now we remove the element !
+            while "Removing the element":
+                try:
+                    sequence.remove(set([target_word]))
+                except ValueError:
+                    break
+        else:
+            sequence.insert(0, '-')
 
-            for word in sequence_line:
-                itemset = set()
-                itemset.add(word)
-                sequence.append(itemset)
+    return return_sequences
 
-            if len(sequence) > 1:
-                data.append(sequence)
-    return data
 
 def encode_data(data, item_to_encoding):
     """
@@ -360,11 +354,6 @@ def extract_items(data):
             for item in itemset:
                 items.add(item)
     return sorted(list(items))
-
-
-def uct(node, child_node):
-    return child_node.quality + (2 / math.sqrt(2)) * math.sqrt(
-        (2 * math.log(node.number_visit)) / child_node.number_visit)
 
 
 def compute_first_zero_mask(data_length, bitset_slot_size):
@@ -527,6 +516,7 @@ def print_results_mcts(results, encoding_to_items):
 
     print('Average score :{}'.format(sum_result / len(results)))
 
+
 def print_results_decode(results, encoding_to_items):
     decoded_results = []
     for result in results:
@@ -536,6 +526,7 @@ def print_results_decode(results, encoding_to_items):
         decoded_results.append(decoded_result)
 
     print_results(decoded_results)
+
 
 def average_results(results):
     sum_result = 0
@@ -550,79 +541,6 @@ def extract_l_max(data):
     for line in data:
         lmax = max(lmax, k_length(line))
     return lmax
-
-
-def format_sequence_graph(sequence):
-    sequence_string = ''
-    for itemset in sequence:
-        itemset_string = ''
-
-        for item in itemset:
-            itemset_string += str(item)
-
-        itemset_string = '{{{}}}, '.format(itemset_string)
-        sequence_string += itemset_string
-
-    sequence_string = '<{}>'.format(sequence_string[:-1])
-    return sequence_string
-
-
-# Require Graphviz
-# Launch command:
-# dot -Tpng graph.gv -o MCTSgraph.png
-def create_graph(root_node):
-    sequences = {}
-
-    explore_graph(root_node, root_node, sequences, set())
-
-    k_number = max(sequences)
-    k_string = ''
-
-    for i in range(k_number + 1):
-        k_string += '{} -> '.format(i)
-    k_string = k_string[:-4]
-
-    graph_construction = ''
-    edges_construction = ''
-
-    for key, level_sequences in sequences.items():
-        level_string = ''
-
-        for level_sequence in level_sequences:
-            level_string += '"{}"; '.format(
-                level_sequence[0])
-            edges_construction += '{}'.format(level_sequence[1])
-
-        level_string = '{{ rank = same; {}; {} }} \n'.format(key, level_string)
-        graph_construction += level_string
-
-    graphviz_string = """
-    digraph MCTSGraph {{
-        {{
-            {}; 
-        }} 
-        node[label=""];
-        {} 
-        {}
-    }}
-    """.format(k_string, graph_construction, edges_construction)
-
-    with open('../graph.gv', 'w+') as f:
-        # f.write(graphviz_string)
-        f.write(k_string)
-
-
-def explore_graph(node, parent, sequences, seen):
-    k = k_length(node.sequence)
-    sequences.setdefault(k, []).append(
-        (node.sequence,
-         '"{}" -> "{}"; \n'.format(parent.sequence, node.sequence)))
-
-    # we add child only if this node has not been seen before
-    if node.sequence not in seen:
-        for child in node.generated_children:
-            explore_graph(child, node, sequences, seen)
-        seen.add(node.sequence)
 
 
 def compute_WRAcc(data, subsequence, target_class):
@@ -643,7 +561,6 @@ def compute_WRAcc(data, subsequence, target_class):
         if current_class == target_class:
             class_data_supp += 1
 
-
     try:
         wracc = (subsequence_supp / data_supp) * (
             class_subsequence_supp / subsequence_supp -
@@ -654,13 +571,14 @@ def compute_WRAcc(data, subsequence, target_class):
     except:
         return 0
 
-import seqsamphill.global_var
+
+import seqscout.global_var
+
 
 def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
                            itemsets_bitsets, class_data_count, first_zero_mask,
                            last_ones_mask):
-
-    seqsamphill.global_var.increase_it_number()
+    seqscout.global_var.increase_it_number()
     length = k_length(subsequence)
     bitset = 0
 
