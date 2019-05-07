@@ -1,4 +1,4 @@
-from seqscout.utils import extract_items, extract_l_max, read_data_kosarak, read_data_sc2, read_data
+from seqscout.utils import extract_items, extract_l_max, read_data_kosarak, read_data_sc2, read_data, read_jmlr
 from math import factorial
 
 
@@ -164,11 +164,12 @@ if __name__ == '__main__':
     datasets = [
         (read_data_kosarak('../data/aslbu.data'), '195', 'aslbu'),
         (read_data('../data/promoters.data'), '+', 'promoters'),
-        (read_data('../data/splice.data'), 'EI', 'splice'),
         (read_data_kosarak('../data/blocks.data'), '1', 'blocks'),
         (read_data_kosarak('../data/context.data'), '4', 'context'),
-        (read_data_sc2('../data/sequences-TZ-45.txt')[:500], '1', 'sc2'),
-        (read_data_kosarak('../data/skating.data'), '1', 'skating')
+        (read_data('../data/splice.data'), 'EI', 'splice'),
+        (read_data_sc2('../data/sequences-TZ-45.txt')[:5000], '1', 'sc2'),
+        (read_data_kosarak('../data/skating.data'), '1', 'skating'),
+        (read_jmlr('svm', '../data/jmlr/jmlr'), 'svm', 'jmlr')
     ]
 
     for dataset in datasets:

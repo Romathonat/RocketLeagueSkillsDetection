@@ -102,7 +102,7 @@ def launch():
    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
    # DATA = reduce_k_length(10, DATA)
 
-    DATA = read_data_kosarak('../data/debile.data')
+    DATA = read_data_kosarak('../data/easy.data')
     results = exhaustive(DATA)
 
 

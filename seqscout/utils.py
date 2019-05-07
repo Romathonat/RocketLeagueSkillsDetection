@@ -544,6 +544,7 @@ def extract_l_max(data):
 
 
 def compute_WRAcc(data, subsequence, target_class):
+    seqscout.global_var.increase_it_number()
     subsequence_supp = 0
     data_supp = len(data)
     class_subsequence_supp = 0

@@ -4,9 +4,11 @@ import functools
 
 from seqscout.priorityset import PrioritySet
 from seqscout.utils import count_target_class_data, compute_last_ones_mask, \
-    compute_first_zero_mask, create_s_extension, sequence_immutable_to_mutable, \
-    create_i_extension, k_length, generate_bitset, following_ones, \
-    get_support_from_vector, read_data_sc2, extract_items, print_results, compute_WRAcc, compute_WRAcc_vertical, read_data_kosarak, read_data
+    compute_first_zero_mask, create_s_extension, \
+    create_i_extension, extract_items, print_results, compute_WRAcc_vertical, \
+    read_data_kosarak, read_data
+
+import seqscout.conf as conf
 
 
 def compare_sequences(x, y):
@@ -16,6 +18,7 @@ def compare_sequences(x, y):
         return compare_sequences(x[1:], y[1:])
     else:
         return False
+
 
 def compute_children(sequence, items, enable_i=True):
     """
@@ -61,8 +64,13 @@ def items_to_sequences(items):
     return sequences
 
 
-def beam_search(data, items, time_budget, target_class, enable_i=True,
-                top_k=5, beam_width=50, iterations_limit=float('inf'), theta=0.5):
+def beam_search(data, target_class, time_budget=conf.TIME_BUDGET, enable_i=True, top_k=conf.TIME_BUDGET,
+                beam_width=conf.BEAM_WIDTH,
+                iterations_limit=conf.ITERATIONS_NUMBER,
+                theta=conf.THETA):
+
+    items = extract_items(data)
+
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -91,11 +99,11 @@ def beam_search(data, items, time_budget, target_class, enable_i=True,
                     break
 
                 quality, _ = compute_WRAcc_vertical(data, child, target_class,
-                                                 bitset_slot_size,
-                                                 itemsets_bitsets,
-                                                 class_data_count,
-                                                 first_zero_mask,
-                                                 last_ones_mask)
+                                                    bitset_slot_size,
+                                                    itemsets_bitsets,
+                                                    class_data_count,
+                                                    first_zero_mask,
+                                                    last_ones_mask)
 
                 # sorted_patterns.add_preserve_memory(child, quality, data)
                 sorted_patterns.add(child, quality)
@@ -104,22 +112,22 @@ def beam_search(data, items, time_budget, target_class, enable_i=True,
 
         candidate_queue = [j for i, j in beam.get_top_k_non_redundant(data, beam_width)]
 
-    print("Number iterations beam search: {}".format(nb_iteration))
+    # print("Number iterations beam search: {}".format(nb_iteration))
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
+
 def launch():
-    #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
     DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-    #DATA = read_data('../data/splice.data')
-    #DATA = read_data_kosarak('../data/debile.data')
-    #DATA = read_data_kosarak('../data/skating.data')
+    # DATA = read_data('../data/splice.data')
+    # DATA = read_data_kosarak('../data/easy.data')
+    # DATA = read_data_kosarak('../data/skating.data')
 
-    items = extract_items(DATA)
 
-    results = beam_search(DATA, items, 100000000000, '+', enable_i=False, top_k=5, beam_width=30, iterations_limit=4100, theta=0.5)
+    results = beam_search(DATA, '+', time_budget=100000000, enable_i=False, iterations_limit=100)
     print_results(results)
 
 
 if __name__ == '__main__':
-   launch()
+    launch()

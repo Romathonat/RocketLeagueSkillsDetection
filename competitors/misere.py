@@ -4,15 +4,13 @@ import copy
 import math
 import pathlib
 
-from seqscout.utils import read_data, read_data_kosarak, uct, \
-    is_subsequence, sequence_mutable_to_immutable, print_results, \
-    read_data_sc2, k_length, generate_bitset, following_ones, \
-    get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, compute_WRAcc, compute_WRAcc_vertical, reduce_k_length, read_data_sentiment, read_jmlr
+from seqscout.utils import read_data, read_data_kosarak, \
+    sequence_mutable_to_immutable, print_results, \
+    read_data_sc2, compute_first_zero_mask, compute_last_ones_mask, \
+    count_target_class_data, compute_WRAcc, compute_WRAcc_vertical, read_jmlr
 
 from seqscout.priorityset import PrioritySet
-
-
+import seqscout.conf as conf
 
 
 def count_subsequences_number(sequence):
@@ -33,7 +31,8 @@ def count_subsequences_number(sequence):
     return solutions[len(sequence)]
 
 
-def misere(data, time_budget, target_class, top_k=5, iterations_limit=float('inf'), theta=0.5):
+def misere(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K, iterations_limit=conf.ITERATIONS_NUMBER,
+           theta=conf.THETA):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -51,21 +50,16 @@ def misere(data, time_budget, target_class, top_k=5, iterations_limit=float('inf
         sequence = copy.deepcopy(random.choice(data))
         sequence = sequence[1:]
 
-        # for now we consider this upper bound (try better later)
-        items = set([i for j_set in sequence for i in j_set])
-        # ads = len(items) * (2 * len(sequence) - 1)
         ads = count_subsequences_number(sequence)
 
         for i in range(int(math.log(ads))):
             if iterations_count >= iterations_limit:
                 break
 
-
             subsequence = copy.deepcopy(sequence)
 
             # we remove z items randomly
             seq_items_nb = len([i for j_set in subsequence for i in j_set])
-            # print(seq_items_nb)
             z = random.randint(1, seq_items_nb - 1)
 
             for _ in range(z):
@@ -77,9 +71,6 @@ def misere(data, time_budget, target_class, top_k=5, iterations_limit=float('inf
                 if len(chosen_itemset) == 0:
                     subsequence.pop(chosen_itemset_i)
 
-            # now we calculate the Wracc
-            # wracc = compute_WRAcc(data, subsequence, target_class)
-
             wracc, _ = compute_WRAcc_vertical(data, subsequence, target_class,
                                               bitset_slot_size,
                                               itemsets_bitsets, class_data_count,
@@ -89,9 +80,6 @@ def misere(data, time_budget, target_class, top_k=5, iterations_limit=float('inf
             sorted_patterns.add(sequence_mutable_to_immutable(subsequence),
                                 wracc)
 
-    print("Misere iterations:{}".format(iterations_count))
-
-
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 
@@ -100,12 +88,12 @@ def launch():
     # DATA = read_data_kosarak('../data/blocks.data')
     # DATA = read_data_kosarak('../data/skating.data')
 
-    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-    #DATA = read_data_kosarak('../data/aslbu.data')
+    # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    # DATA = read_data_kosarak('../data/aslbu.data')
 
     DATA = read_jmlr('machin', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
 
-    results = misere(DATA, 12000000, '+', top_k=20, iterations_limit=10000)
+    results = misere(DATA, '+', time_budget=2 ** 30, iterations_limit=10)
 
     print_results(results)
 

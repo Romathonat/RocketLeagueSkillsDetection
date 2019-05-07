@@ -1,6 +1,3 @@
-
-
-
 dataset_names = ['aslbu', 'auslan2', 'skating', 'blocks', 'context']
 
 for dataset in dataset_names:

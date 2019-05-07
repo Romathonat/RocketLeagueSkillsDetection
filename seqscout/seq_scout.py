@@ -2,20 +2,19 @@ import datetime
 import random
 import copy
 import pathlib
-import cProfile
 
 import math
-import os
 
 from seqscout.utils import read_data, read_data_kosarak, \
-    is_subsequence, sequence_mutable_to_immutable, print_results, \
-    read_data_sc2, k_length, generate_bitset, following_ones, \
-    get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical, jaccard_measure, find_LCS, \
-    reduce_k_length, average_results, sequence_immutable_to_mutable, read_data_rotten, encode_items, encode_data, \
-    decode_sequence, print_results_decode
+    sequence_mutable_to_immutable,  \
+    read_data_sc2, k_length,  \
+    compute_first_zero_mask, compute_last_ones_mask, \
+    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical,  \
+    sequence_immutable_to_mutable, encode_items, encode_data, \
+    print_results_decode, read_jmlr, reduce_k_length
 
 from seqscout.priorityset import PrioritySet, PrioritySetUCB
+import seqscout.conf as conf
 
 VERTICAL_TOOLS = {}
 VERTICAL_RPZ = False
@@ -225,13 +224,12 @@ def exploit_arm(pattern, wracc, items, data, itemsets_memory, target_class, enab
     return pattern, wracc
 
 
-def play_arm(sequence, data, target_class, items, itemsets_memory, enable_i=True):
+def play_arm(sequence, data, target_class):
     '''
     Select object, generalise
     :param sequence: immutable sequence to generalise
     :param data:
     :param data_target_class: elements of the data with target class
-    :param min_quality_exploit:
     :return:
     '''
     sequence = sequence_immutable_to_mutable(sequence)
@@ -243,9 +241,9 @@ def play_arm(sequence, data, target_class, items, itemsets_memory, enable_i=True
     return pattern, wracc
 
 
-def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_i=True, vertical=True,
-                       iterations_limit=float('inf'), theta=0.5):
-    # contains infos about elements of dataset. {sequence: (Ni, UCB, WRAcc)}. Must give the best UCB quickly. Priority queue
+def seq_scout(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K, enable_i=True, vertical=True,
+              iterations_limit=conf.ITERATIONS_NUMBER, theta=conf.ITERATIONS_NUMBER):
+    items = extract_items(data)
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -283,7 +281,7 @@ def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_
         # we take the best UCB
         _, Ni, mean_wracc, sequence = UCB_scores.pop()
 
-        pattern, wracc = play_arm(sequence, data, target_class, items, itemsets_memory, enable_i=enable_i)
+        pattern, wracc = play_arm(sequence, data, target_class)
         pattern = sequence_mutable_to_immutable(pattern)
         sorted_patterns.add(pattern, wracc)
 
@@ -294,7 +292,7 @@ def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_
 
         N += 1
 
-    print("Flat UCB optimized iterations: {}".format(N))
+    print("SeqScout optimized iterations: {}".format(N))
 
     best_patterns = sorted_patterns.get_top_k_non_redundant(data, top_k)
 
@@ -308,24 +306,34 @@ def flat_UCB_optimized(data, items, time_budget, target_class, top_k=10, enable_
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 
+def seq_scout_api(data, items, target_class, time_budget):
+    '''
+    Launch seq_scout.
+    This function is for the simplicity of the user, so that she does not needs to specify iterations number,
+    which is here only for experiments.
+    '''
+    return seq_scout(data, target_class, time_budget=time_budget, iterations_limit=1000000000000)
+
+
 def launch():
-    # DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    DATA = reduce_k_length(10, DATA)
+
     # DATA = read_data_kosarak('../data/blocks.data')
     # DATA = read_data_kosarak('../data/skating.data')
 
-    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    # DATA = read_jmlr('machin', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
 
 
     ITEMS = extract_items(DATA)
-
     ITEMS, items_to_encoding, encoding_to_items = encode_items(ITEMS)
     DATA = encode_data(DATA, items_to_encoding)
 
-    results = flat_UCB_optimized(DATA, ITEMS, 12000000000, '+', top_k=5, enable_i=False, vertical=False,
-                                 iterations_limit=1000)
+    results = seq_scout(DATA, '1', time_budget=12000000, top_k=5, enable_i=False, vertical=True, iterations_limit=50000)
 
     print_results_decode(results, encoding_to_items)
 
+
 if __name__ == '__main__':
     launch()
-    # cProfile.runctx('launch()', globals(), locals())

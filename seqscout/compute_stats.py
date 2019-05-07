@@ -1,4 +1,4 @@
-from seqscout.utils import read_data, read_data_kosarak, read_data_sc2,k_length, extract_items
+from seqscout.utils import read_data, read_data_kosarak, read_data_sc2,k_length, extract_items, read_jmlr
 
 datasets = [
         (read_data_kosarak('../data/aslbu.data'), 'aslbu'),
@@ -7,7 +7,8 @@ datasets = [
         (read_data_kosarak('../data/blocks.data'), 'blocks'),
         (read_data_kosarak('../data/context.data'), 'context'),
         (read_data_sc2('../data/sequences-TZ-45.txt')[:5000], 'sc2'),
-        (read_data_kosarak('../data/skating.data'), 'skating')
+        (read_data_kosarak('../data/skating.data'), 'skating'),
+        (read_jmlr('svm', '../data/jmlr/jmlr'), 'svm')
 ]
 
 
