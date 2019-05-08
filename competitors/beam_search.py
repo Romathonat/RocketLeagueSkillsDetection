@@ -67,7 +67,8 @@ def items_to_sequences(items):
 def beam_search(data, target_class, time_budget=conf.TIME_BUDGET, enable_i=True, top_k=conf.TOP_K,
                 beam_width=conf.BEAM_WIDTH,
                 iterations_limit=conf.ITERATIONS_NUMBER,
-                theta=conf.THETA):
+                theta=conf.THETA,
+                quality_measure=conf.QUALITY_MEASURE):
 
     items = extract_items(data)
 
@@ -103,7 +104,8 @@ def beam_search(data, target_class, time_budget=conf.TIME_BUDGET, enable_i=True,
                                                     itemsets_bitsets,
                                                     class_data_count,
                                                     first_zero_mask,
-                                                    last_ones_mask)
+                                                    last_ones_mask,
+                                                    quality_measure=quality_measure)
 
                 # sorted_patterns.add_preserve_memory(child, quality, data)
                 sorted_patterns.add(child, quality)
