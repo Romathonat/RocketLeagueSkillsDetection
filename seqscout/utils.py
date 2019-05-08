@@ -2,6 +2,8 @@ import math
 import random
 import copy
 
+from seqscout import conf
+
 
 def increase_it_number():
     global ITERATION_NUMBER
@@ -578,7 +580,7 @@ import seqscout.global_var
 
 def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
                            itemsets_bitsets, class_data_count, first_zero_mask,
-                           last_ones_mask):
+                           last_ones_mask, quality_measure=conf.QUALITY_MEASURE):
     seqscout.global_var.increase_it_number()
     length = k_length(subsequence)
     bitset = 0
@@ -640,34 +642,39 @@ def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
 
     occurency_ratio = support / len(data)
 
-    # we find the number of elements who have the right target_class
-    try:
-        class_pattern_ratio = class_pattern_count / support
-    except ZeroDivisionError:
-        return -0.25, 0
-    class_data_ratio = class_data_count / len(data)
+    if quality_measure == 'WRAcc':
+        # we find the number of elements who have the right target_class
+        try:
+            class_pattern_ratio = class_pattern_count / support
+        except ZeroDivisionError:
+            return -0.25, 0
 
-    ############# Informedness
-    tn = len(data) - support - (class_data_count - class_pattern_count)
+        class_data_ratio = class_data_count / len(data)
+        wracc = occurency_ratio * (class_pattern_ratio - class_data_ratio)
+        return wracc, bitset
 
-    tpr = class_pattern_count / (class_pattern_count + (class_data_count - class_pattern_count))
+    elif quality_measure == 'Informedness':
+        tn = len(data) - support - (class_data_count - class_pattern_count)
 
-    tnr = tn / (class_pattern_count + tn)
-    wracc = tnr + tpr - 1
-    ##############################
+        tpr = class_pattern_count / (class_pattern_count + (class_data_count - class_pattern_count))
 
-    # ############# f1-mesure
-    precision = class_pattern_ratio
-    recall = class_pattern_count / class_data_count
+        tnr = tn / (class_pattern_count + tn)
+        return tnr + tpr - 1, bitset
 
-    try:
-        wracc = 2 * precision * recall / (precision + recall)
-    except:
-        wracc = 0
-
-    wracc = occurency_ratio * (class_pattern_ratio - class_data_ratio)
-
-    return wracc, bitset
+    elif quality_measure == 'F1':
+        try:
+            class_pattern_ratio = class_pattern_count / support
+        except ZeroDivisionError:
+            return 0, 0
+        precision = class_pattern_ratio
+        recall = class_pattern_count / class_data_count
+        try:
+            f1 = 2 * precision * recall / (precision + recall)
+        except:
+            f1 = 0
+        return f1, bitset
+    else:
+        raise ValueError('The quality measure name is not valid')
 
 
 def backtrack_LCS(C, seq1, seq2, i, j, lcs):

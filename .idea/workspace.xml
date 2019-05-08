@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/competitors/beam_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/beam_search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/exhaustive_size.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/exhaustive_size.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/misere.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/misere.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/auslan2.data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/debile.data" beforeDir="false" afterPath="$PROJECT_DIR$/data/easy.data" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/compute_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/compute_stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/prepare_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/prepare_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/search_space.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/search_space.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seqscout/priorityset.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/priorityset.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seqscout/seq_scout.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/seq_scout.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seqscout/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xp/plot_ram_over_time.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/xp/xp_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/xp_main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,54 +22,53 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="177" column="8" selection-start-line="177" selection-start-column="8" selection-end-line="177" selection-end-column="8" />
+            <state relative-caret-position="-2188">
+              <caret line="137" column="90" selection-start-line="137" selection-start-column="90" selection-end-line="137" selection-end-column="90" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
                 <element signature="e#1512#4529#0" />
-                <element signature="e#17517#19955#0" />
-                <element signature="e#8624#8978#0" />
-                <element signature="e#7970#10563#0" />
+                <element signature="e#6187#7578#0" />
                 <element signature="e#43678#46171#0" />
-                <element signature="e#46203#48847#0" />
+                <element signature="e#50648#50808#0" />
+                <element signature="e#19027#21781#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/competitors/exhaustive.py">
+        <entry file="file://$PROJECT_DIR$/seqscout/conf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1034">
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="135">
+              <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/xp/ground_truth/gt.png">
+        <entry file="file://$PROJECT_DIR$/xp/theta/over_theta.png">
           <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/seqscout/seq_scout.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/seqscout/priorityset.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="332" column="114" selection-start-line="332" selection-start-column="114" selection-end-line="332" selection-end-column="114" />
+            <state relative-caret-position="285">
+              <caret line="99" column="52" selection-start-line="99" selection-start-column="52" selection-end-line="99" selection-end-column="52" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#12#0" expanded="true" />
+                <element signature="e#177#710#0" />
+                <element signature="e#769#1443#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/competitors/misere.py">
+        <entry file="file://$PROJECT_DIR$/seqscout/seq_scout.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="95" column="71" selection-start-line="95" selection-start-column="71" selection-end-line="95" selection-end-column="71" />
+            <state relative-caret-position="387">
+              <caret line="263" column="79" selection-start-line="263" selection-start-column="79" selection-end-line="263" selection-end-column="79" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -89,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/competitors/beam_search.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="764">
-              <caret line="129" selection-start-line="129" selection-end-line="129" />
+            <state relative-caret-position="-45">
+              <caret line="66" column="96" selection-start-line="66" selection-start-column="96" selection-end-line="66" selection-end-column="96" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -99,11 +89,24 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/competitors/misere.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="840">
+              <caret line="95" column="71" selection-start-line="95" selection-start-column="71" selection-end-line="95" selection-end-column="71" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/seqscout/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="504" column="51" selection-start-line="504" selection-start-column="51" selection-end-line="504" selection-end-column="51" />
+            <state relative-caret-position="780">
+              <caret line="676" column="8" selection-start-line="676" selection-start-column="8" selection-end-line="676" selection-end-column="8" />
               <folding>
+                <element signature="e#0#11#0" expanded="true" />
                 <element signature="e#70#119#0" />
                 <element signature="e#171#326#0" />
                 <element signature="e#171#275#1" />
@@ -199,24 +202,8 @@
                 <element signature="e#13792#13903#0" />
                 <element signature="e#13935#14022#0" />
                 <element signature="e#14086#14743#0" />
-                <element signature="e#14218#14528#0" />
-                <element signature="e#14341#14452#0" />
-                <element signature="e#14547#14708#0" />
-                <element signature="e#14976#17950#0" />
-                <element signature="e#15096#15241#0" />
-                <element signature="e#15096#15134#0" />
-                <element signature="e#15272#15455#0" />
-                <element signature="e#15474#16357#0" />
-                <element signature="e#15627#16357#0" />
-                <element signature="e#15780#16028#0" />
-                <element signature="e#16078#16174#0" />
-                <element signature="e#16209#16357#0" />
-                <element signature="e#16858#17037#0" />
-                <element signature="e#16897#17021#0" />
-                <element signature="e#17601#17631#0" />
                 <element signature="e#18002#18366#0" />
                 <element signature="e#18121#18204#0" />
-                <element signature="e#18399#19282#0" />
                 <element signature="e#18399#18698#1" />
                 <element signature="e#18817#19128#0" />
                 <element signature="e#18860#19128#0" />
@@ -249,7 +236,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/seqehc/search_space.py" />
         <option value="$PROJECT_DIR$/seqehc/misere_hill.py" />
         <option value="$PROJECT_DIR$/seqehc/utils.py" />
         <option value="$PROJECT_DIR$/seqehc/seq_samp_hill.py" />
@@ -292,22 +278,22 @@
         <option value="$PROJECT_DIR$/data/jmlr/format.py" />
         <option value="$PROJECT_DIR$/seqscout/prepare_dataset.py" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/seqscout/utils.py" />
         <option value="$PROJECT_DIR$/seqscout/compute_stats.py" />
         <option value="$PROJECT_DIR$/seqscout/search_space.py" />
-        <option value="$PROJECT_DIR$/seqscout/conf.py" />
-        <option value="$PROJECT_DIR$/competitors/beam_search.py" />
         <option value="$PROJECT_DIR$/competitors/misere.py" />
+        <option value="$PROJECT_DIR$/seqscout/priorityset.py" />
+        <option value="$PROJECT_DIR$/competitors/beam_search.py" />
         <option value="$PROJECT_DIR$/xp/xp_main.py" />
+        <option value="$PROJECT_DIR$/seqscout/conf.py" />
         <option value="$PROJECT_DIR$/seqscout/seq_scout.py" />
+        <option value="$PROJECT_DIR$/seqscout/utils.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1921" />
-    <option name="y" value="29" />
-    <option name="width" value="1717" />
-    <option name="height" value="935" />
+    <option name="y" value="34" />
+    <option name="width" value="1920" />
+    <option name="height" value="1046" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -352,13 +338,12 @@
             <path>
               <item name="SeqScout" type="b2602c69:ProjectViewProjectNode" />
               <item name="SeqScout" type="462c0819:PsiDirectoryNode" />
-              <item name="xp" type="462c0819:PsiDirectoryNode" />
+              <item name="seqscout" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SeqScout" type="b2602c69:ProjectViewProjectNode" />
               <item name="SeqScout" type="462c0819:PsiDirectoryNode" />
               <item name="xp" type="462c0819:PsiDirectoryNode" />
-              <item name="ground_truth" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -399,7 +384,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.flat_UCB">
+  <component name="RunManager" selected="Python.xp_main">
     <configuration name="beam_search" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SeqScout" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -601,8 +586,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.flat_UCB" />
         <item itemvalue="Python.xp_main" />
+        <item itemvalue="Python.flat_UCB" />
         <item itemvalue="Python.misere" />
         <item itemvalue="Python.beam_search" />
         <item itemvalue="Python.search_space" />
@@ -632,13 +617,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="0" width="1920" height="1080" extended-state="6" />
+    <frame x="0" y="34" width="1920" height="1046" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49183896" visible="true" weight="0.20347917" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49183896" visible="true" weight="0.1950448" />
       <window_info id="Structure" order="1" weight="0.17237744" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.26967472" />
-      <window_info active="true" anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.49710068" visible="true" weight="0.26967472" />
+      <window_info anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.49710068" weight="0.22306855" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4960464" weight="0.2883569" />
       <window_info anchor="bottom" id="TODO" order="4" sideWeight="0.4978903" weight="0.31794333" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
@@ -743,11 +729,6 @@
           <line>92</line>
           <option name="timeStamp" value="255" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/competitors/exhaustive.py</url>
-          <line>117</line>
-          <option name="timeStamp" value="358" />
-        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -764,20 +745,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/seqsamphill/updater.py" />
-    <entry file="file://$PROJECT_DIR$/seqscout/seq_scout.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="704">
-          <caret line="305" column="4" selection-start-line="305" selection-start-column="4" selection-end-line="305" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#1471#8483#0" />
-            <element signature="e#8545#9534#0" />
-            <element signature="e#9564#9696#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xp/number_iterations_optima/it_optima.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -796,19 +763,10 @@
     <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/mcts.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/top_k/over_top_k.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/top_k/over_theta.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/xp/lengths/boxplot.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_seed_explore.py" />
-    <entry file="file://$PROJECT_DIR$/xp/theta/over_theta.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_mctsextend.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -820,13 +778,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="597">
           <caret line="481" column="4" selection-start-line="481" selection-start-column="4" selection-end-line="481" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/priorityset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1185">
-          <caret line="81" column="38" selection-start-line="81" selection-start-column="38" selection-end-line="81" selection-end-column="38" />
         </state>
       </provider>
     </entry>
@@ -991,11 +942,103 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/xp/top_k/over_theta.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/exhaustive.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/ground_truth/gt.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/top_k/over_top_k.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seqscout/priorityset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="99" column="52" selection-start-line="99" selection-start-column="52" selection-end-line="99" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#177#710#0" />
+            <element signature="e#769#1443#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/barplot.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/theta/over_theta.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2188">
+          <caret line="137" column="90" selection-start-line="137" selection-start-column="90" selection-end-line="137" selection-end-column="90" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#1512#4529#0" />
+            <element signature="e#6187#7578#0" />
+            <element signature="e#43678#46171#0" />
+            <element signature="e#50648#50808#0" />
+            <element signature="e#19027#21781#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/beam_search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-45">
+          <caret line="66" column="96" selection-start-line="66" selection-start-column="96" selection-end-line="66" selection-end-column="96" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/competitors/misere.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="95" column="71" selection-start-line="95" selection-start-column="71" selection-end-line="95" selection-end-column="71" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/iterations_boxplot.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seqscout/seq_scout.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="263" column="79" selection-start-line="263" selection-start-column="79" selection-end-line="263" selection-end-column="79" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seqscout/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/seqscout/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="504" column="51" selection-start-line="504" selection-start-column="51" selection-end-line="504" selection-end-column="51" />
+        <state relative-caret-position="780">
+          <caret line="676" column="8" selection-start-line="676" selection-start-column="8" selection-end-line="676" selection-end-column="8" />
           <folding>
+            <element signature="e#0#11#0" expanded="true" />
             <element signature="e#70#119#0" />
             <element signature="e#171#326#0" />
             <element signature="e#171#275#1" />
@@ -1091,92 +1134,11 @@
             <element signature="e#13792#13903#0" />
             <element signature="e#13935#14022#0" />
             <element signature="e#14086#14743#0" />
-            <element signature="e#14218#14528#0" />
-            <element signature="e#14341#14452#0" />
-            <element signature="e#14547#14708#0" />
-            <element signature="e#14976#17950#0" />
-            <element signature="e#15096#15241#0" />
-            <element signature="e#15096#15134#0" />
-            <element signature="e#15272#15455#0" />
-            <element signature="e#15474#16357#0" />
-            <element signature="e#15627#16357#0" />
-            <element signature="e#15780#16028#0" />
-            <element signature="e#16078#16174#0" />
-            <element signature="e#16209#16357#0" />
-            <element signature="e#16858#17037#0" />
-            <element signature="e#16897#17021#0" />
-            <element signature="e#17601#17631#0" />
             <element signature="e#18002#18366#0" />
             <element signature="e#18121#18204#0" />
-            <element signature="e#18399#19282#0" />
             <element signature="e#18399#18698#1" />
             <element signature="e#18817#19128#0" />
             <element signature="e#18860#19128#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/beam_search.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="764">
-          <caret line="129" selection-start-line="129" selection-end-line="129" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/misere.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="95" column="71" selection-start-line="95" selection-start-column="71" selection-end-line="95" selection-end-column="71" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/exhaustive.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1034">
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/ground_truth/gt.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="177" column="8" selection-start-line="177" selection-start-column="8" selection-end-line="177" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#1512#4529#0" />
-            <element signature="e#17517#19955#0" />
-            <element signature="e#8624#8978#0" />
-            <element signature="e#7970#10563#0" />
-            <element signature="e#43678#46171#0" />
-            <element signature="e#46203#48847#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/seq_scout.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="332" column="114" selection-start-line="332" selection-start-column="114" selection-end-line="332" selection-end-column="114" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -64,7 +64,7 @@ def items_to_sequences(items):
     return sequences
 
 
-def beam_search(data, target_class, time_budget=conf.TIME_BUDGET, enable_i=True, top_k=conf.TIME_BUDGET,
+def beam_search(data, target_class, time_budget=conf.TIME_BUDGET, enable_i=True, top_k=conf.TOP_K,
                 beam_width=conf.BEAM_WIDTH,
                 iterations_limit=conf.ITERATIONS_NUMBER,
                 theta=conf.THETA):

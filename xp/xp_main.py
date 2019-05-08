@@ -131,11 +131,11 @@ def show_quality_over_iterations_ucb(number_dataset):
                                                {'enable_i': enable_i, 'time_budget': TIME_BUDGET_XP,
                                                 'iterations_limit': iterations_limit})
 
-            data_add_generic(data_final, WRAcc=max(0, average_results(results_misere)), iterations=iterations_limit,
+            data_add_generic(data_final, WRAcc=max(0, average_results(results_misere.get())), iterations=iterations_limit,
                              Algorithm='misere')
-            data_add_generic(data_final, WRAcc=max(0, average_results(results_beam)), iterations=iterations_limit,
+            data_add_generic(data_final, WRAcc=max(0, average_results(results_beam.get())), iterations=iterations_limit,
                              Algorithm='beam')
-            data_add_generic(data_final, WRAcc=max(0, average_results(result_ucb_opti)), iterations=iterations_limit,
+            data_add_generic(data_final, WRAcc=max(0, average_results(result_ucb_opti.get())), iterations=iterations_limit,
                              Algorithm='SeqScout')
 
         iterations_limit += iterations_step
@@ -171,10 +171,7 @@ def compare_ground_truth():
     data_final = {'WRAcc': [], 'iterations': [], 'Algorithm': []}
 
     # found with exaustive search
-    # for theta = 0.8
-    # ground_truth = 0.008893952000000009
-    # for theta = 0.5
-    ground_truth = 1
+    ground_truth = 0.008893952000000009
 
     for i in range(10):
         print('Iteration: {}'.format(i))
@@ -194,7 +191,7 @@ def compare_ground_truth():
     sns.set(rc={'figure.figsize': (8, 6.5)})
     plt.clf()
     ax = sns.lineplot(data=df, x='iterations', y='WRAcc', hue='Algorithm')
-    ax.set(xlabel='iterations', ylabel='Average WRAcc top-10 patterns')
+    ax.set(xlabel='iterations', ylabel='WRAcc')
     plt.savefig('./ground_truth/gt.png')
     df.to_pickle('./ground_truth/result')
 
@@ -498,15 +495,15 @@ def boxplots_description_lengths():
 
 
 if __name__ == '__main__':
-    # boxplot_dataset_iterations()
-    # quality_over_theta()
-    # show_quality_over_iterations_ucb(1)
-    # show_quality_over_iterations_ucb(5)
-    # show_quality_over_iterations_ucb(6)
-    compare_ground_truth()
-    quality_over_top_k()
-    quality_over_size()
-    naive_vs_bitset_seqscout()
-    number_iterations_optima()
-    boxplots_description_lengths()
-    naive_vs_bitset_seqscout()
+    #boxplot_dataset_iterations()
+    #quality_over_theta()
+    show_quality_over_iterations_ucb(1)
+    show_quality_over_iterations_ucb(5)
+    show_quality_over_iterations_ucb(6)
+    #compare_ground_truth()
+    #quality_over_top_k()
+    #quality_over_size()
+    #naive_vs_bitset_seqscout()
+    #number_iterations_optima()
+    #boxplots_description_lengths()
+    #naive_vs_bitset_seqscout()

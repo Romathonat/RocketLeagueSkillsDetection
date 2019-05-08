@@ -242,13 +242,13 @@ def play_arm(sequence, data, target_class):
 
 
 def seq_scout(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K, enable_i=True, vertical=True,
-              iterations_limit=conf.ITERATIONS_NUMBER, theta=conf.ITERATIONS_NUMBER):
+              iterations_limit=conf.ITERATIONS_NUMBER, theta=conf.THETA, quality_measure=conf.QUALITY_MEASURE):
     items = extract_items(data)
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
     data_target_class = filter_target_class(data, target_class)
-    sorted_patterns = PrioritySet(top_k, theta=theta)
+    sorted_patterns = PrioritySet(k=top_k, theta=theta)
     UCB_scores = PrioritySetUCB()
     itemsets_memory = get_itemset_memory(data)
 
@@ -325,6 +325,7 @@ def launch():
     # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
     # DATA = read_jmlr('machin', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
 
+    # DATA = read_data_kosarak('../data/context.data')
 
     ITEMS = extract_items(DATA)
     ITEMS, items_to_encoding, encoding_to_items = encode_items(ITEMS)

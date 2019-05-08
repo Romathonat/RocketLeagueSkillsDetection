@@ -1,5 +1,7 @@
 import heapq
 import copy
+import seqscout.conf as conf
+
 from seqscout.utils import jaccard_measure, is_subsequence, sequence_mutable_to_immutable
 
 
@@ -95,7 +97,7 @@ class PrioritySet(object):
     as the metric to order the priority queue
     """
 
-    def __init__(self, k=5, theta=0.5):
+    def __init__(self, k=conf.TOP_K, theta=conf.THETA):
         self.k = k
         self.heap = []
         self.set = set()
