@@ -7,7 +7,7 @@ import pathlib
 from seqscout.utils import read_data, read_data_kosarak, \
     sequence_mutable_to_immutable, print_results, \
     read_data_sc2, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, compute_WRAcc_vertical, read_jmlr
+    count_target_class_data, compute_quality_vertical, read_jmlr
 
 from seqscout.priorityset import PrioritySet
 import seqscout.conf as conf
@@ -71,14 +71,14 @@ def misere(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K, i
                 if len(chosen_itemset) == 0:
                     subsequence.pop(chosen_itemset_i)
 
-            wracc, _ = compute_WRAcc_vertical(data, subsequence, target_class,
-                                              bitset_slot_size,
-                                              itemsets_bitsets, class_data_count,
-                                              first_zero_mask, last_ones_mask, quality_measure=quality_measure)
+            quality, _ = compute_quality_vertical(data, subsequence, target_class,
+                                                bitset_slot_size,
+                                                itemsets_bitsets, class_data_count,
+                                                first_zero_mask, last_ones_mask, quality_measure=quality_measure)
 
             iterations_count += 1
             sorted_patterns.add(sequence_mutable_to_immutable(subsequence),
-                                wracc)
+                                quality)
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 

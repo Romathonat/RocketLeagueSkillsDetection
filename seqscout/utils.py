@@ -578,9 +578,9 @@ def compute_WRAcc(data, subsequence, target_class):
 import seqscout.global_var
 
 
-def compute_WRAcc_vertical(data, subsequence, target_class, bitset_slot_size,
-                           itemsets_bitsets, class_data_count, first_zero_mask,
-                           last_ones_mask, quality_measure=conf.QUALITY_MEASURE):
+def compute_quality_vertical(data, subsequence, target_class, bitset_slot_size,
+                             itemsets_bitsets, class_data_count, first_zero_mask,
+                             last_ones_mask, quality_measure=conf.QUALITY_MEASURE):
     seqscout.global_var.increase_it_number()
     length = k_length(subsequence)
     bitset = 0

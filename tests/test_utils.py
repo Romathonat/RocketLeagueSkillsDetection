@@ -2,7 +2,7 @@ from seqscout.utils import sequence_mutable_to_immutable, \
     sequence_immutable_to_mutable, count_target_class_data, is_subsequence, \
     following_ones, generate_bitset, create_s_extension, create_i_extension, \
     get_support_from_vector, compute_bitset_slot_size, compute_WRAcc, \
-    compute_WRAcc_vertical, jaccard_measure, find_LCS
+    compute_quality_vertical, jaccard_measure, find_LCS
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
 first_zero_mask = int('0101', 2)
@@ -19,10 +19,10 @@ def test_wracc():
 
 
 def test_wracc_vertical():
-    assert compute_WRAcc_vertical(data, [{'B'}], '-', bitset_slot_size, {}, 1,
-                                  first_zero_mask, last_ones_mask)[0] == 0
-    assert compute_WRAcc_vertical(data, [{'C'}], '+', bitset_slot_size, {}, 1,
-                                  first_zero_mask, last_ones_mask)[0] == 0.25
+    assert compute_quality_vertical(data, [{'B'}], '-', bitset_slot_size, {}, 1,
+                                    first_zero_mask, last_ones_mask)[0] == 0
+    assert compute_quality_vertical(data, [{'C'}], '+', bitset_slot_size, {}, 1,
+                                    first_zero_mask, last_ones_mask)[0] == 0.25
 
 
 def test_jaccard_bitset():

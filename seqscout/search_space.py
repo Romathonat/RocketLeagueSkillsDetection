@@ -73,7 +73,7 @@ def combination(k, n):
     if k > n:
         return 0
 
-    return factorial(n) / (factorial(k) * factorial(n - k))
+    return factorial(n) // (factorial(k) * factorial(n - k))
 
 
 def compute_dataset_size(DATA):

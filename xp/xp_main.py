@@ -41,12 +41,6 @@ def data_add_generic(data, **kwargs):
         data[key].append(value)
 
 
-def average_results_wracc(results):
-    normalized_results = []
-    for result in results:
-        normalized_results.append(((result[0]), result[1]))
-    return average_results(normalized_results)
-
 
 def boxplot_dataset_iterations():
     pool = Pool(processes=5)
@@ -147,8 +141,8 @@ def show_quality_over_iterations_ucb(number_dataset):
     plt.clf()
     ax = sns.lineplot(data=df, x='iterations', y='WRAcc', hue='Algorithm')
 
-    plt.savefig('./time_ucb/over_iterations{}.png'.format(datasets_names[number_dataset]))
-    df.to_pickle('./time_ucb/result')
+    plt.savefig('./iterations_ucb/over_iterations{}.png'.format(datasets_names[number_dataset]))
+    df.to_pickle('./iterations_ucb/result')
 
     if SHOW:
         plt.show()
@@ -200,17 +194,66 @@ def compare_ground_truth():
 
 
 def naive_vs_bitset_seqscout():
-    time_xp = 18
+    time_xp = 10
 
     for i, (data, target, enable_i) in enumerate(datasets):
-        # we reset the count of iterations
-        items = extract_items(data)
-
-        seq_scout(data, items, target, time_xp, 10, enable_i, vertical=False)
-
-        seq_scout(data, items, target, time_xp, 10, enable_i, vertical=True)
+        seq_scout(data, target, time_budget=time_xp, enable_i=enable_i, vertical=False, iterations_limit=2**30)
+        seq_scout(data, target, time_budget=time_xp, enable_i=enable_i, vertical=True, iterations_limit=2**30)
 
     # we need to look at the console output
+
+
+def other_measures():
+    pool = Pool(processes=5)
+    xp_repeat = 5
+    nb_iterations = 1000
+
+    for i, (data, target, enable_i) in enumerate(datasets):
+        print("Dataset {}".format(datasets_names[i]))
+
+        for measure in ['Informedness', 'F1']:
+            mean_misere = 0
+            mean_beam = 0
+            mean_seqscout = 0
+
+            for j in range(xp_repeat):
+                results_misere = pool.apply_async(misere, (data, target),
+                                                  {'time_budget': TIME_BUDGET_XP, 'quality_measure': measure, 'iterations_limit': nb_iterations})
+                results_beam = pool.apply_async(beam_search,
+                                                (data, target),
+                                                {'enable_i': enable_i,
+                                                 'time_budget': TIME_BUDGET_XP, 'quality_measure': measure, 'iterations_limit': nb_iterations})
+
+                result_ucb_opti = pool.apply_async(seq_scout, (data, target),
+                                                   {'enable_i': enable_i, 'time_budget': TIME_BUDGET_XP, 'quality_measure': measure, 'iterations_limit': nb_iterations})
+
+                results_misere = results_misere.get()
+                results_beam = results_beam.get()
+                result_ucb_opti = result_ucb_opti.get()
+
+                if len(results_misere) < TOP_K:
+                    print("Too few example on misere on dataset {}: {} results".format(datasets_names[i],
+                                                                                       len(results_misere)))
+                if len(results_beam) < TOP_K:
+                    print(
+                        "Too few example on beam_search on dataset {}: {} results".format(datasets_names[i],
+                                                                                          len(results_beam)))
+                if len(result_ucb_opti) < TOP_K:
+                    print(
+                        "Too few example on SeqScout on dataset {}: {} results".format(datasets_names[i],
+                                                                                       len(result_ucb_opti)))
+
+                mean_misere += average_results(results_misere)
+                mean_beam += average_results(results_beam)
+                mean_seqscout += average_results(result_ucb_opti)
+
+            mean_misere = mean_misere / xp_repeat
+            mean_beam = mean_beam / xp_repeat
+            mean_seqscout = mean_seqscout / xp_repeat
+
+            print('For datasets {}, measure {}, algorithm misere the means score is: {}'.format(datasets_names[i], measure, mean_misere))
+            print('For datasets {}, measure {}, algorithm beam_search the means score is: {}'.format(datasets_names[i], measure, mean_beam))
+            print('For datasets {}, measure {}, algorithm seqscout the means score is: {}'.format(datasets_names[i], measure, mean_seqscout))
 
 
 def quality_over_theta():
@@ -333,7 +376,7 @@ def quality_over_top_k():
 
 
 def quality_over_size():
-    number_dataset = 1
+    number_dataset = 6
     data_origin, target, enable_i = datasets[number_dataset]
 
     pool = Pool(processes=3)
@@ -396,7 +439,7 @@ def quality_over_size():
 
 
 def number_iterations_optima():
-    iterations_limit = 1000
+    iterations_limit = 100
 
     # if we want to average
     nb_launched = 5
@@ -407,7 +450,7 @@ def number_iterations_optima():
             # we reset the count of iterations
             seqscout.global_var.ITERATION_NUMBER = 0
 
-            result_ucb_opti = seq_scout(data, target, enable_i=enable_i, time_budget=TIME_BUDGET_XP)
+            result_ucb_opti = seq_scout(data, target, enable_i=enable_i, time_budget=TIME_BUDGET_XP, iterations_limit=iterations_limit, vertical=False)
 
             if len(result_ucb_opti) < TOP_K:
                 print("Too few seqscout: {}".format(len(result_ucb_opti)))
@@ -448,7 +491,6 @@ def boxplots_description_lengths():
 
     for i, (data, target, enable_i) in enumerate(datasets):
         print("Dataset {}".format(datasets_names[i]))
-        items = extract_items(data)
 
         results_misere = pool.apply_async(misere, (data, target),
                                           {'time_budget': TIME_BUDGET_XP})
@@ -457,7 +499,7 @@ def boxplots_description_lengths():
                                         {'enable_i': enable_i, 'time_budget': TIME_BUDGET_XP})
 
         result_ucb_opti = pool.apply_async(seq_scout, (data, target),
-                                           {'enable_i': enable_i, 'time_budget': TIME_BUDGET_XP})
+                                           {'enable_i': enable_i, 'time_budget': TIME_BUDGET_XP, 'vertical': False})
 
         results_misere = results_misere.get()
         results_beam = results_beam.get()
@@ -494,16 +536,17 @@ def boxplots_description_lengths():
         plt.show()
 
 
+
 if __name__ == '__main__':
     #boxplot_dataset_iterations()
     #quality_over_theta()
-    show_quality_over_iterations_ucb(1)
-    show_quality_over_iterations_ucb(5)
-    show_quality_over_iterations_ucb(6)
+    #show_quality_over_iterations_ucb(1)
+    #show_quality_over_iterations_ucb(5)
+    #show_quality_over_iterations_ucb(6)
     #compare_ground_truth()
     #quality_over_top_k()
     #quality_over_size()
     #naive_vs_bitset_seqscout()
     #number_iterations_optima()
-    #boxplots_description_lengths()
-    #naive_vs_bitset_seqscout()
+    boxplots_description_lengths()
+    #other_measures()

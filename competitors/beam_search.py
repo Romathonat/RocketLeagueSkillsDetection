@@ -5,7 +5,7 @@ import functools
 from seqscout.priorityset import PrioritySet
 from seqscout.utils import count_target_class_data, compute_last_ones_mask, \
     compute_first_zero_mask, create_s_extension, \
-    create_i_extension, extract_items, print_results, compute_WRAcc_vertical, \
+    create_i_extension, extract_items, print_results, compute_quality_vertical, \
     read_data_kosarak, read_data
 
 import seqscout.conf as conf
@@ -99,13 +99,13 @@ def beam_search(data, target_class, time_budget=conf.TIME_BUDGET, enable_i=True,
                 if nb_iteration >= iterations_limit:
                     break
 
-                quality, _ = compute_WRAcc_vertical(data, child, target_class,
-                                                    bitset_slot_size,
-                                                    itemsets_bitsets,
-                                                    class_data_count,
-                                                    first_zero_mask,
-                                                    last_ones_mask,
-                                                    quality_measure=quality_measure)
+                quality, _ = compute_quality_vertical(data, child, target_class,
+                                                      bitset_slot_size,
+                                                      itemsets_bitsets,
+                                                      class_data_count,
+                                                      first_zero_mask,
+                                                      last_ones_mask,
+                                                      quality_measure=quality_measure)
 
                 # sorted_patterns.add_preserve_memory(child, quality, data)
                 sorted_patterns.add(child, quality)

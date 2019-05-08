@@ -9,7 +9,7 @@ from seqscout.utils import read_data, read_data_kosarak, \
     sequence_mutable_to_immutable,  \
     read_data_sc2, k_length,  \
     compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, extract_items, compute_WRAcc, compute_WRAcc_vertical,  \
+    count_target_class_data, extract_items, compute_WRAcc, compute_quality_vertical,  \
     sequence_immutable_to_mutable, encode_items, encode_data, \
     print_results_decode, read_jmlr, reduce_k_length
 
@@ -47,12 +47,12 @@ def is_included(pattern, pattern_set):
         return False
 
 
-def compute_variations_better_wracc(sequence, items, data, itemsets_memory, target_class, target_wracc, enable_i=True, quality_measure=conf.QUALITY_MEASURE):
+def compute_variations_better_quality(sequence, items, data, itemsets_memory, target_class, target_quality, enable_i=True, quality_measure=conf.QUALITY_MEASURE):
     '''
     Compute variations until quality increases
     :param sequence:
     :param items: the list of all possible items
-    :return: the best new element (sequence, wracc), or None if we are on a local optimum
+    :return: the best new element (sequence, quality), or None if we are on a local optimum
     '''
     variations = []
 
@@ -73,22 +73,22 @@ def compute_variations_better_wracc(sequence, items, data, itemsets_memory, targ
                 # we check if created pattern is present in data before
                 if is_included(new_variation_i_extension, itemsets_memory):
                     if VERTICAL_RPZ:
-                        new_variation_i_wracc, new_variation_i_bitset = compute_WRAcc_vertical(data,
-                                                                                               new_variation_i_extension,
-                                                                                               target_class,
-                                                                                               bitset_slot_size,
-                                                                                               itemsets_bitsets,
-                                                                                               class_data_count,
-                                                                                               first_zero_mask,
-                                                                                               last_ones_mask,
-                                                                                               quality_measure=quality_measure)
+                        new_variation_i_quality, new_variation_i_bitset = compute_quality_vertical(data,
+                                                                                                 new_variation_i_extension,
+                                                                                                 target_class,
+                                                                                                 bitset_slot_size,
+                                                                                                 itemsets_bitsets,
+                                                                                                 class_data_count,
+                                                                                                 first_zero_mask,
+                                                                                                 last_ones_mask,
+                                                                                                 quality_measure=quality_measure)
                     else:
-                        new_variation_i_wracc = compute_WRAcc(data, new_variation_i_extension, target_class)
+                        new_variation_i_quality = compute_WRAcc(data, new_variation_i_extension, target_class)
 
                     variations.append(
-                        (new_variation_i_extension, new_variation_i_wracc))
+                        (new_variation_i_extension, new_variation_i_quality))
 
-                    if new_variation_i_wracc > target_wracc:
+                    if new_variation_i_quality > target_quality:
                         return variations[-1]
 
         # s_extension
@@ -97,24 +97,24 @@ def compute_variations_better_wracc(sequence, items, data, itemsets_memory, targ
             new_variation_s_extension.insert(itemset_i, {item_possible})
 
             if VERTICAL_RPZ:
-                new_variation_s_wracc, new_variation_s_bitset = compute_WRAcc_vertical(data,
-                                                                                       new_variation_s_extension,
-                                                                                       target_class,
-                                                                                       bitset_slot_size,
-                                                                                       itemsets_bitsets,
-                                                                                       class_data_count,
-                                                                                       first_zero_mask,
-                                                                                       last_ones_mask,
-                                                                                       quality_measure=quality_measure)
+                new_variation_s_quality, new_variation_s_bitset = compute_quality_vertical(data,
+                                                                                         new_variation_s_extension,
+                                                                                         target_class,
+                                                                                         bitset_slot_size,
+                                                                                         itemsets_bitsets,
+                                                                                         class_data_count,
+                                                                                         first_zero_mask,
+                                                                                         last_ones_mask,
+                                                                                         quality_measure=quality_measure)
             else:
-                new_variation_s_wracc = compute_WRAcc(data,
+                new_variation_s_quality = compute_WRAcc(data,
                                                       new_variation_s_extension,
                                                       target_class)
 
             variations.append(
-                (new_variation_s_extension, new_variation_s_wracc))
+                (new_variation_s_extension, new_variation_s_quality))
 
-            if new_variation_s_wracc > target_wracc:
+            if new_variation_s_quality > target_quality:
                 return variations[-1]
 
         for item_i, item in enumerate(itemset):
@@ -129,23 +129,23 @@ def compute_variations_better_wracc(sequence, items, data, itemsets_memory, targ
                     new_variation_remove.pop(itemset_i)
 
                 if VERTICAL_RPZ:
-                    new_variation_remove_wracc, new_variation_remove_bitset = compute_WRAcc_vertical(data,
-                                                                                                     new_variation_remove,
-                                                                                                     target_class,
-                                                                                                     bitset_slot_size,
-                                                                                                     itemsets_bitsets,
-                                                                                                     class_data_count,
-                                                                                                     first_zero_mask,
-                                                                                                     last_ones_mask,
-                                                                                                     quality_measure=quality_measure)
+                    new_variation_remove_quality, new_variation_remove_bitset = compute_quality_vertical(data,
+                                                                                                       new_variation_remove,
+                                                                                                       target_class,
+                                                                                                       bitset_slot_size,
+                                                                                                       itemsets_bitsets,
+                                                                                                       class_data_count,
+                                                                                                       first_zero_mask,
+                                                                                                       last_ones_mask,
+                                                                                                       quality_measure=quality_measure)
                 else:
-                    new_variation_remove_wracc = compute_WRAcc(data,
+                    new_variation_remove_quality = compute_WRAcc(data,
                                                                new_variation_remove,
                                                                target_class)
 
                 variations.append(
-                    (new_variation_remove, new_variation_remove_wracc))
-                if new_variation_remove_wracc > target_wracc:
+                    (new_variation_remove, new_variation_remove_quality))
+                if new_variation_remove_quality > target_quality:
                     return variations[-1]
 
     # s_extension for last element
@@ -154,23 +154,23 @@ def compute_variations_better_wracc(sequence, items, data, itemsets_memory, targ
         new_variation_s_extension.append({item_possible})
 
         if VERTICAL_RPZ:
-            new_variation_s_wracc, new_variation_s_bitset = compute_WRAcc_vertical(data,
-                                                                                   new_variation_s_extension,
-                                                                                   target_class,
-                                                                                   bitset_slot_size,
-                                                                                   itemsets_bitsets,
-                                                                                   class_data_count,
-                                                                                   first_zero_mask,
-                                                                                   last_ones_mask,
-                                                                                   quality_measure=quality_measure)
+            new_variation_s_quality, new_variation_s_bitset = compute_quality_vertical(data,
+                                                                                     new_variation_s_extension,
+                                                                                     target_class,
+                                                                                     bitset_slot_size,
+                                                                                     itemsets_bitsets,
+                                                                                     class_data_count,
+                                                                                     first_zero_mask,
+                                                                                     last_ones_mask,
+                                                                                     quality_measure=quality_measure)
         else:
-            new_variation_s_wracc = compute_WRAcc(data,
+            new_variation_s_quality = compute_WRAcc(data,
                                                   new_variation_s_extension,
                                                   target_class)
 
         variations.append(
-            (new_variation_s_extension, new_variation_s_wracc))
-        if new_variation_s_wracc > target_wracc:
+            (new_variation_s_extension, new_variation_s_quality))
+        if new_variation_s_quality > target_quality:
             return variations[-1]
 
     return None
@@ -192,41 +192,39 @@ def generalize_sequence(sequence, data, target_class, quality_measure=conf.QUALI
 
     # now we compute the Wracc
     if VERTICAL_RPZ:
-        wracc, _ = compute_WRAcc_vertical(data, sequence, target_class,
-                                          VERTICAL_TOOLS['bitset_slot_size'],
-                                          VERTICAL_TOOLS['itemsets_bitsets'], VERTICAL_TOOLS['class_data_count'],
-                                          VERTICAL_TOOLS['first_zero_mask'], VERTICAL_TOOLS['last_ones_mask'], quality_measure=quality_measure)
+        quality, _ = compute_quality_vertical(data, sequence, target_class,
+                                            VERTICAL_TOOLS['bitset_slot_size'],
+                                            VERTICAL_TOOLS['itemsets_bitsets'], VERTICAL_TOOLS['class_data_count'],
+                                            VERTICAL_TOOLS['first_zero_mask'], VERTICAL_TOOLS['last_ones_mask'], quality_measure=quality_measure)
     else:
-        wracc = compute_WRAcc(data, sequence, target_class)
-    return sequence, wracc
+        quality = compute_WRAcc(data, sequence, target_class)
+    return sequence, quality
 
 
 def UCB(score, Ni, N):
     # we choose C = 0.5
-    # we normalize the wracc: +0.25,  * 2
-
     return (score + 0.25) * 2 + 0.5 * math.sqrt(2 * math.log(N) / Ni)
 
 
-def exploit_arm(pattern, wracc, items, data, itemsets_memory, target_class, enable_i=True, quality_measure=conf.QUALITY_MEASURE):
+def exploit_arm(pattern, quality, items, data, itemsets_memory, target_class, enable_i=True, quality_measure=conf.QUALITY_MEASURE):
     # we optimize until we find local optima
     # print("Optimize")
     while 'climbing hill':
         # we compute all possible variations
         try:
 
-            pattern, wracc = compute_variations_better_wracc(pattern,
-                                                             items, data,
-                                                             itemsets_memory,
-                                                             target_class,
-                                                             wracc,
-                                                             enable_i=enable_i,
-                                                             quality_measure=quality_measure)
+            pattern, quality = compute_variations_better_quality(pattern,
+                                                                 items, data,
+                                                                 itemsets_memory,
+                                                                 target_class,
+                                                                 quality,
+                                                                 enable_i=enable_i,
+                                                                 quality_measure=quality_measure)
 
         except TypeError:
             # print("Already a local optima")
             break
-    return pattern, wracc
+    return pattern, quality
 
 
 def play_arm(sequence, data, target_class, quality_measure=conf.QUALITY_MEASURE):
@@ -239,12 +237,12 @@ def play_arm(sequence, data, target_class, quality_measure=conf.QUALITY_MEASURE)
     '''
     sequence = sequence_immutable_to_mutable(sequence)
 
-    pattern, wracc = generalize_sequence(sequence,
+    pattern, quality = generalize_sequence(sequence,
                                          data,
                                          target_class,
                                          quality_measure=quality_measure)
 
-    return pattern, wracc
+    return pattern, quality
 
 
 def seq_scout(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K, enable_i=True, vertical=True,
@@ -285,16 +283,16 @@ def seq_scout(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K
     # play with time budget
     while datetime.datetime.utcnow() - begin < time_budget and N < iterations_limit:
         # we take the best UCB
-        _, Ni, mean_wracc, sequence = UCB_scores.pop()
+        _, Ni, mean_quality, sequence = UCB_scores.pop()
 
-        pattern, wracc = play_arm(sequence, data, target_class, quality_measure=quality_measure)
+        pattern, quality = play_arm(sequence, data, target_class, quality_measure=quality_measure)
         pattern = sequence_mutable_to_immutable(pattern)
-        sorted_patterns.add(pattern, wracc)
+        sorted_patterns.add(pattern, quality)
 
         # we update scores
-        updated_wracc = (Ni * mean_wracc + wracc) / (Ni + 1)
-        UCB_score = UCB(updated_wracc, Ni + 1, N)
-        UCB_scores.add(sequence, (UCB_score, Ni + 1, updated_wracc))
+        updated_quality = (Ni * mean_quality + quality) / (Ni + 1)
+        UCB_score = UCB(updated_quality, Ni + 1, N)
+        UCB_scores.add(sequence, (UCB_score, Ni + 1, updated_quality))
 
         N += 1
 
@@ -302,12 +300,17 @@ def seq_scout(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K
 
     best_patterns = sorted_patterns.get_top_k_non_redundant(data, top_k)
 
+    #print(seqscout.global_var.ITERATION_NUMBER)
+
     for pattern in best_patterns:
         pattern_mutable = sequence_immutable_to_mutable(pattern[1])
-        optimized_pattern, optimized_wracc = exploit_arm(pattern_mutable, pattern[0], items, data, itemsets_memory,
+        optimized_pattern, optimized_quality = exploit_arm(pattern_mutable, pattern[0], items, data, itemsets_memory,
                                                          target_class, enable_i=enable_i, quality_measure=quality_measure)
         optimized_pattern = sequence_mutable_to_immutable(optimized_pattern)
-        sorted_patterns.add(optimized_pattern, optimized_wracc)
+        sorted_patterns.add(optimized_pattern, optimized_quality)
+
+
+    #print(seqscout.global_var.ITERATION_NUMBER)
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
@@ -318,28 +321,45 @@ def seq_scout_api(data, target_class, time_budget, top_k):
     This function is for the simplicity of the user, so that she does not needs to specify iterations number,
     which is here only for experiments.
     '''
-    return seq_scout(data, target_class, top_k=top_k, time_budget=time_budget, iterations_limit=1000000000000)
+    class_present = False
+    for sequence in data:
+        if target_class == sequence[0]:
+            class_present = True
+            break
+
+    if not class_present:
+        raise ValueError('The target class does not appear in data')
+
+    items = extract_items(data)
+    items, items_to_encoding, encoding_to_items = encode_items(items)
+    data = encode_data(data, items_to_encoding)
+
+    results = seq_scout(data, target_class, top_k=top_k, vertical=False, time_budget=time_budget, iterations_limit=10000000000000)
+
+    print_results_decode(results, encoding_to_items)
+    return results
 
 
 def launch():
-    DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
-    DATA = reduce_k_length(10, DATA)
+    #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
+    #DATA = reduce_k_length(10, DATA)
 
     # DATA = read_data_kosarak('../data/blocks.data')
     # DATA = read_data_kosarak('../data/skating.data')
-
-    # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-    # DATA = read_jmlr('machin', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
-
     # DATA = read_data_kosarak('../data/context.data')
+    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    #DATA = read_jmlr('machin', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
 
-    ITEMS = extract_items(DATA)
-    ITEMS, items_to_encoding, encoding_to_items = encode_items(ITEMS)
-    DATA = encode_data(DATA, items_to_encoding)
 
-    results = seq_scout(DATA, '1', time_budget=12000000, top_k=5, enable_i=False, vertical=True, iterations_limit=50)
+    #ITEMS = extract_items(DATA)
+    #ITEMS, items_to_encoding, encoding_to_items = encode_items(ITEMS)
+    #DATA = encode_data(DATA, items_to_encoding)
 
-    print_results_decode(results, encoding_to_items)
+    #results = seq_scout(DATA, '+', time_budget=12, top_k=5, enable_i=False, vertical=False)
+
+    results = seq_scout_api(DATA, '+', 10, 5)
+
+    #print_results_decode(results, encoding_to_items)
 
 
 if __name__ == '__main__':

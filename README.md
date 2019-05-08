@@ -1,6 +1,6 @@
 # SeqScout
 
-This folder holds the code used in the paper sent to DSAA 2019 "SeqScout: Using bandit algorithm to mine discriminative patterns in sequences".
+This folder holds the code used in the paper sent to DSAA 2019 "SeqScout: Using a bandit algorithm to discover interesting subgroups within labeled sequences".
 
 * Main code is present in seqscout
 * Tests contains unit test.
