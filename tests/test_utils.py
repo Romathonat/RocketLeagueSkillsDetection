@@ -1,7 +1,7 @@
 from seqscout.utils import sequence_mutable_to_immutable, \
     sequence_immutable_to_mutable, count_target_class_data, is_subsequence, \
     following_ones, generate_bitset, create_s_extension, create_i_extension, \
-    get_support_from_vector, compute_bitset_slot_size, compute_WRAcc, \
+    get_support_from_vector, compute_bitset_slot_size, compute_quality, \
     compute_quality_vertical, jaccard_measure, find_LCS
 
 data = [['+', {'A', 'B'}, {'C'}], ['-', {'A'}, {'B'}]]
@@ -14,8 +14,8 @@ kwargs = {'first_zero_mask': first_zero_mask, 'last_ones_mask': last_ones_mask,
 
 
 def test_wracc():
-    assert compute_WRAcc(data, [{'B'}], '-') == 0
-    assert compute_WRAcc(data, [{'C'}], '+') == 0.25
+    assert compute_quality(data, [{'B'}], '-') == 0
+    assert compute_quality(data, [{'C'}], '+') == 0.25
 
 
 def test_wracc_vertical():

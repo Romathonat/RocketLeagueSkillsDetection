@@ -74,7 +74,7 @@ def boxplot_dataset_iterations():
                                                                                       len(results_beam)))
             if len(result_ucb_opti) < TOP_K:
                 print(
-                    "Too few example on SeqScout on dataset {}: {} results".format(datasets_names[i],
+                    "Too few example on seqscout on dataset {}: {} results".format(datasets_names[i],
                                                                                    len(result_ucb_opti)))
 
             data_add_generic(data_final, WRAcc=max(0, average_results(results_misere)), dataset=datasets_names[i],
@@ -82,7 +82,7 @@ def boxplot_dataset_iterations():
             data_add_generic(data_final, WRAcc=max(0, average_results(results_beam)), dataset=datasets_names[i],
                              Algorithm='beam')
             data_add_generic(data_final, WRAcc=max(0, average_results(result_ucb_opti)), dataset=datasets_names[i],
-                             Algorithm='SeqScout')
+                             Algorithm='seqscout')
 
     df = pd.DataFrame(data=data_final)
 
@@ -130,7 +130,7 @@ def show_quality_over_iterations_ucb(number_dataset):
             data_add_generic(data_final, WRAcc=max(0, average_results(results_beam.get())), iterations=iterations_limit,
                              Algorithm='beam')
             data_add_generic(data_final, WRAcc=max(0, average_results(result_ucb_opti.get())), iterations=iterations_limit,
-                             Algorithm='SeqScout')
+                             Algorithm='seqscout')
 
         iterations_limit += iterations_step
 
@@ -176,7 +176,7 @@ def compare_ground_truth():
                                                 'iterations_limit': iterations_limit})
 
             data_add_generic(data_final, WRAcc=max(0, average_results(result_ucb_opti.get())) / ground_truth,
-                             iterations=iterations_limit, Algorithm='SeqScout')
+                             iterations=iterations_limit, Algorithm='seqscout')
 
         iterations_limit += iteration_step
 
@@ -240,7 +240,7 @@ def other_measures():
                                                                                           len(results_beam)))
                 if len(result_ucb_opti) < TOP_K:
                     print(
-                        "Too few example on SeqScout on dataset {}: {} results".format(datasets_names[i],
+                        "Too few example on seqscout on dataset {}: {} results".format(datasets_names[i],
                                                                                        len(result_ucb_opti)))
 
                 mean_misere += average_results(results_misere)
@@ -296,7 +296,7 @@ def quality_over_theta():
             data_add_generic(data_final, WRAcc=max(0, average_results(results_misere)), theta=theta, Algorithm='misere')
             data_add_generic(data_final, WRAcc=max(0, average_results(results_beam)), theta=theta, Algorithm='beam')
             data_add_generic(data_final, WRAcc=max(0, average_results(result_ucb_opti)), theta=theta,
-                             Algorithm='SeqScout')
+                             Algorithm='seqscout')
 
         theta += 0.1
 
@@ -355,7 +355,7 @@ def quality_over_top_k():
             data_add_generic(data_final, WRAcc=max(0, average_results(results_misere)), top_k=top_k, Algorithm='misere')
             data_add_generic(data_final, WRAcc=max(0, average_results(results_beam)), top_k=top_k, Algorithm='beam')
             data_add_generic(data_final, WRAcc=max(0, average_results(result_ucb_opti)), top_k=top_k,
-                             Algorithm='SeqScout')
+                             Algorithm='seqscout')
 
         top_k += 10
 
@@ -417,7 +417,7 @@ def quality_over_size():
             data_add_generic(data_final, WRAcc=max(0, average_results(results_misere)), size=size, Algorithm='misere')
             data_add_generic(data_final, WRAcc=max(0, average_results(results_beam)), size=size, Algorithm='beam')
             data_add_generic(data_final, WRAcc=max(0, average_results(result_ucb_opti)), size=size,
-                             Algorithm='SeqScout')
+                             Algorithm='seqscout')
 
         size += size_step
 
@@ -521,7 +521,7 @@ def boxplots_description_lengths():
 
         add_lengths(results_misere, datasets_names[i], data_final, 'misere')
         add_lengths(results_beam, datasets_names[i], data_final, 'beam')
-        add_lengths(result_ucb_opti, datasets_names[i], data_final, 'SeqScout')
+        add_lengths(result_ucb_opti, datasets_names[i], data_final, 'seqscout')
 
     df = pd.DataFrame(data=data_final)
 

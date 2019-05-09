@@ -545,34 +545,60 @@ def extract_l_max(data):
     return lmax
 
 
-def compute_WRAcc(data, subsequence, target_class):
+def compute_quality(data, subsequence, target_class, quality_measure=conf.QUALITY_MEASURE):
     seqscout.global_var.increase_it_number()
-    subsequence_supp = 0
+    support = 0
     data_supp = len(data)
-    class_subsequence_supp = 0
-    class_data_supp = 0
+    class_pattern_count = 0
+    class_data_count = 0
 
     for sequence in data:
         current_class = sequence[0]
         sequence = sequence[1:]
 
         if is_subsequence(subsequence, sequence):
-            subsequence_supp += 1
+            support += 1
             if current_class == target_class:
-                class_subsequence_supp += 1
+                class_pattern_count += 1
 
         if current_class == target_class:
-            class_data_supp += 1
+            class_data_count += 1
 
-    try:
-        wracc = (subsequence_supp / data_supp) * (
-            class_subsequence_supp / subsequence_supp -
-            class_data_supp / data_supp)
 
+    if quality_measure == 'WRAcc':
+        # we find the number of elements who have the right target_class
+        try:
+            class_pattern_ratio = class_pattern_count / support
+        except ZeroDivisionError:
+            return -0.25
+
+        class_data_ratio = class_data_count / len(data)
+        wracc = support / len(data) * (class_pattern_ratio - class_data_ratio)
         return wracc
 
-    except:
-        return 0
+    elif quality_measure == 'Informedness':
+        tn = len(data) - support - (class_data_count - class_pattern_count)
+
+        tpr = class_pattern_count / (class_pattern_count + (class_data_count - class_pattern_count))
+
+        tnr = tn / (class_pattern_count + tn)
+        return tnr + tpr - 1
+
+    elif quality_measure == 'F1':
+        try:
+            class_pattern_ratio = class_pattern_count / support
+        except ZeroDivisionError:
+            return 0, 0
+        precision = class_pattern_ratio
+        recall = class_pattern_count / class_data_count
+        try:
+            f1 = 2 * precision * recall / (precision + recall)
+        except:
+            f1 = 0
+        return f1
+    else:
+        raise ValueError('The quality measure name is not valid')
+
 
 
 import seqscout.global_var

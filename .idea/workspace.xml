@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/beam_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/beam_search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/exhaustive.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/exhaustive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/exhaustive_size.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/exhaustive_size.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/misere.py" beforeDir="false" afterPath="$PROJECT_DIR$/competitors/misere.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/search_space.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/search_space.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/seq_scout.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/seq_scout.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xp/xp_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/xp_main.py" afterDir="false" />
-    </list>
+    <list default="true" id="5c7a5cef-b079-4589-9a28-026b73476f10" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,48 +14,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
+        <entry file="file://$PROJECT_DIR$/../seqscout/xp/xp_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="486" column="35" selection-start-line="486" selection-start-column="35" selection-end-line="486" selection-end-column="35" />
-              <folding>
-                <element signature="e#519#1002#0" />
-                <element signature="e#1149#1214#0" />
-                <element signature="e#1512#4529#0" />
-                <element signature="e#17517#19955#0" />
-                <element signature="e#5119#6420#0" />
-                <element signature="e#5202#6375#0" />
-                <element signature="e#4960#5096#0" />
-                <element signature="e#5228#5367#0" />
-                <element signature="e#6187#7578#0" />
-                <element signature="e#6694#7267#0" />
-                <element signature="e#6777#7223#0" />
-                <element signature="e#6886#7031#0" />
-                <element signature="e#7590#7964#0" />
-                <element signature="e#7970#10563#0" />
-                <element signature="e#43678#46171#0" />
-                <element signature="e#10430#12164#0" />
-                <element signature="e#10512#12143#0" />
-                <element signature="e#10826#10956#0" />
-                <element signature="e#11064#11181#0" />
-                <element signature="e#46203#48847#0" />
-                <element signature="e#12761#14436#0" />
-                <element signature="e#12893#14409#0" />
-                <element signature="e#13192#13295#0" />
-                <element signature="e#48918#50583#0" />
-                <element signature="e#50648#50808#0" />
-                <element signature="e#18857#18984#0" />
-                <element signature="e#19027#21781#0" />
-              </folding>
+            <state relative-caret-position="180">
+              <caret line="29" selection-start-line="29" selection-end-line="29" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../seqscout/main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
-              <caret line="6" column="50" selection-start-line="6" selection-start-column="50" selection-end-line="6" selection-end-column="50" />
+              <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -74,42 +34,64 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/xp/lengths/boxplot.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/seqscout/search_space.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/seq_scout.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-405">
-              <caret line="75" column="25" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#111#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/seqscout/utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="547" column="13" selection-start-line="547" selection-start-column="13" selection-end-line="547" selection-end-column="13" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/seqscout/seq_scout.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="359" column="20" selection-start-line="359" selection-start-column="20" selection-end-line="359" selection-end-column="20" />
+            <state relative-caret-position="-933">
+              <caret line="298" column="3" selection-start-line="298" selection-start-column="3" selection-end-line="298" selection-end-column="3" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/conf.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" column="15" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../seqscout/setup.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../seqscout/requirements.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/compute_stats.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="12" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="587" column="35" selection-start-line="587" selection-start-column="35" selection-end-line="587" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -139,15 +121,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/seqehc/utils.py" />
-        <option value="$PROJECT_DIR$/seqehc/seq_samp_hill.py" />
-        <option value="$PROJECT_DIR$/xp/other_xp_results/seqsamphill_18seconds_promoters_output" />
-        <option value="$PROJECT_DIR$/competitors/seed_explore_v2.py" />
-        <option value="$PROJECT_DIR$/tests/test_utils.py" />
-        <option value="$PROJECT_DIR$/data/expanded" />
-        <option value="$PROJECT_DIR$/data/modify_mushroom.py" />
-        <option value="$PROJECT_DIR$/data/read_mushroom.py" />
-        <option value="$PROJECT_DIR$/sax/breakpoints.py" />
         <option value="$PROJECT_DIR$/sax/sax.py" />
         <option value="$PROJECT_DIR$/sax/lookup_table.py" />
         <option value="$PROJECT_DIR$/tests/test_seed_explore.py" />
@@ -178,9 +151,7 @@
         <option value="$PROJECT_DIR$/data/auslan2.data" />
         <option value="$PROJECT_DIR$/data/jmlr/format.py" />
         <option value="$PROJECT_DIR$/seqscout/prepare_dataset.py" />
-        <option value="$PROJECT_DIR$/seqscout/compute_stats.py" />
         <option value="$PROJECT_DIR$/seqscout/priorityset.py" />
-        <option value="$PROJECT_DIR$/seqscout/conf.py" />
         <option value="$PROJECT_DIR$/competitors/beam_search.py" />
         <option value="$PROJECT_DIR$/seqscout/utils.py" />
         <option value="$PROJECT_DIR$/competitors/misere.py" />
@@ -188,8 +159,19 @@
         <option value="$PROJECT_DIR$/competitors/exhaustive_size.py" />
         <option value="$PROJECT_DIR$/seqscout/search_space.py" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/seqscout/seq_scout.py" />
+        <option value="$PROJECT_DIR$/seqscout/conf.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/seqscout/global_var.py" />
+        <option value="$PROJECT_DIR$/seqscout/seq_scout.py" />
+        <option value="$PROJECT_DIR$/seqscout/compute_stats.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/../seqscout/setup.py" />
+        <option value="$PROJECT_DIR$/../seqscout/requirements.txt" />
+        <option value="$PROJECT_DIR$/../seqscout/seqscout/global_var.py" />
+        <option value="$PROJECT_DIR$/../seqscout/main.py" />
+        <option value="$PROJECT_DIR$/../seqscout/seqscout/seq_scout.py" />
+        <option value="$PROJECT_DIR$/../seqscout/seqscout/conf.py" />
+        <option value="$PROJECT_DIR$/../seqscout/seqscout/utils.py" />
       </list>
     </option>
   </component>
@@ -225,18 +207,23 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="SeqScout" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SeqScout" type="462c0819:PsiDirectoryNode" />
+              <item name="seqscout" type="b2602c69:ProjectViewProjectNode" />
+              <item name="seqscout" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="seqscout" type="b2602c69:ProjectViewProjectNode" />
+              <item name="seqscout" type="462c0819:PsiDirectoryNode" />
+              <item name="seqscout" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -272,20 +259,62 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="exhaustive_size" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SeqScout" />
+  <component name="RunManager" selected="Python.seq_scout">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="seqscout" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/competitors" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="compute_stats" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="seqscout" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seqscout" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/competitors/exhaustive_size.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqscout/compute_stats.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="conf" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="seqscout" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../seqscout/seqscout" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../seqscout/seqscout/conf.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -295,7 +324,7 @@
       <method v="2" />
     </configuration>
     <configuration name="flat_UCB" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SeqScout" />
+      <module name="seqscout" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -315,29 +344,8 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SeqScout" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="search_space" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SeqScout" />
+    <configuration name="global_var" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="seqscout" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -348,7 +356,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqscout/search_space.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqscout/global_var.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -357,19 +365,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="xp_main" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true">
-      <module name="SeqScout" />
+    <configuration name="seq_scout" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="seqscout" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/xp" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../seqscout/seqscout" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xp/xp_main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../seqscout/seqscout/seq_scout.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -467,18 +475,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.flat_UCB" />
-      <item itemvalue="Python.xp_main" />
-      <item itemvalue="Python.exhaustive_size" />
-      <item itemvalue="Python.search_space" />
-      <item itemvalue="Python.main" />
+      <item itemvalue="Python.global_var" />
+      <item itemvalue="Python.compute_stats" />
+      <item itemvalue="Python.conf" />
+      <item itemvalue="Python.seq_scout" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
+        <item itemvalue="Python.seq_scout" />
+        <item itemvalue="Python.conf" />
         <item itemvalue="Python.flat_UCB" />
-        <item itemvalue="Python.search_space" />
-        <item itemvalue="Python.exhaustive_size" />
-        <item itemvalue="Python.xp_main" />
+        <item itemvalue="Python.compute_stats" />
+        <item itemvalue="Python.global_var" />
       </list>
     </recent_temporary>
   </component>
@@ -512,7 +520,7 @@
       <window_info id="Structure" order="1" weight="0.17237744" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.2687704" />
-      <window_info active="true" anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.49710068" visible="true" weight="0.3960827" />
+      <window_info active="true" anchor="bottom" auto_hide="true" id="Run" order="2" sideWeight="0.49710068" visible="true" weight="0.3079434" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4960464" weight="0.2883569" />
       <window_info anchor="bottom" id="TODO" order="4" sideWeight="0.4978903" weight="0.31794333" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
@@ -603,24 +611,19 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/datagen/datagen_main.py</url>
+          <url>file://$PROJECT_DIR$/../seqscout/datagen/datagen_main.py</url>
           <line>107</line>
           <option name="timeStamp" value="191" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/datagen/datagen_main.py</url>
+          <url>file://$PROJECT_DIR$/../seqscout/datagen/datagen_main.py</url>
           <line>150</line>
           <option name="timeStamp" value="192" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mctseq/mctseq_main.py</url>
+          <url>file://$PROJECT_DIR$/../seqscout/mctseq/mctseq_main.py</url>
           <line>92</line>
           <option name="timeStamp" value="255" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/seqscout/seq_scout.py</url>
-          <line>306</line>
-          <option name="timeStamp" value="398" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -638,68 +641,23 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/data/aslbu.data">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="410" column="6" selection-start-line="410" selection-start-column="6" selection-end-line="410" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mctsextend/node.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1035">
-          <caret line="72" column="40" selection-start-line="72" selection-start-column="40" selection-end-line="72" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mctsextend/mctsextend_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2085">
-          <caret line="156" column="50" selection-start-line="156" selection-start-column="50" selection-end-line="156" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#956#1009#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/mctsextend/mctsextend_main.py" />
+    <entry file="file://$PROJECT_DIR$/../seqscout/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-694" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/expanded">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-90" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/auslan2.data">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2164" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/prepare_dataset.py">
+    <entry file="file://$PROJECT_DIR$/data/expanded" />
+    <entry file="file://$PROJECT_DIR$/data/auslan2.data" />
+    <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/prepare_dataset.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/other_xp_results/exhaustive_output">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/other_xp_results/wracc_120_top5.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/other_xp_results/wracc_60_top1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/other_xp_results/sc2_over_time.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/other_xp_results/seqsamphill_18seconds_promoters_output">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_priority_set.py">
+    <entry file="file://$PROJECT_DIR$/xp/other_xp_results/exhaustive_output" />
+    <entry file="file://$PROJECT_DIR$/xp/other_xp_results/wracc_120_top5.png" />
+    <entry file="file://$PROJECT_DIR$/xp/other_xp_results/wracc_60_top1.png" />
+    <entry file="file://$PROJECT_DIR$/xp/other_xp_results/sc2_over_time.png" />
+    <entry file="file://$PROJECT_DIR$/xp/other_xp_results/seqsamphill_18seconds_promoters_output" />
+    <entry file="file://$PROJECT_DIR$/../seqscout/tests/test_priority_set.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
@@ -709,34 +667,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/space_size/result">
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/space_size/result">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/compute_stats.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="27" lean-forward="true" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/jmlr/format.py">
+    <entry file="file://$PROJECT_DIR$/../seqscout/data/jmlr/format.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="34" selection-start-line="34" selection-end-line="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/global_var.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/top_k/over_theta.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/priorityset.py">
+    <entry file="file://$PROJECT_DIR$/xp/top_k/over_theta.png" />
+    <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/priorityset.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="99" column="52" selection-start-line="99" selection-start-column="52" selection-end-line="99" selection-end-column="52" />
@@ -748,23 +690,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/barplot.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/time_ucb/over_iterationspromoters.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_utils.py">
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/barplot.png" />
+    <entry file="file://$PROJECT_DIR$/xp/time_ucb/over_iterationspromoters.png" />
+    <entry file="file://$PROJECT_DIR$/../seqscout/tests/test_utils.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/beam_search.py">
+    <entry file="file://$PROJECT_DIR$/../seqscout/competitors/beam_search.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="482">
           <caret line="129" column="96" selection-start-line="129" selection-start-column="96" selection-end-line="129" selection-end-column="96" />
@@ -774,52 +705,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/space_size/over_size_promoters.png">
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/space_size/over_size_promoters.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/space_size/wracc_over_complexity.png">
+    <entry file="file://$PROJECT_DIR$/xp/space_size/wracc_over_complexity.png" />
+    <entry file="file://$PROJECT_DIR$/xp/time/promoters_over_time.png" />
+    <entry file="file://$PROJECT_DIR$/xp/time_ucb/aslbu_over_time.png" />
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/theta/over_theta.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/time/promoters_over_time.png">
+    <entry file="file://$PROJECT_DIR$/xp/vertical/vertical_vs_horizontal.png" />
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/box_plot.png" />
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/mcts.png" />
+    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/result_f1" />
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/space_size/over_size.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/time_ucb/aslbu_over_time.png">
+    <entry file="file://$PROJECT_DIR$/xp/naive/naive.png" />
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/ground_truth/gt.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/theta/over_theta.png">
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/top_k/over_top_k.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/vertical/vertical_vs_horizontal.png">
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/wracc_datasets/iterations_boxplot.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/box_plot.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/mcts.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/result_f1">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/space_size/over_size.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/naive/naive.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/number_iterations_optima/it_optima.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/ground_truth/gt.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/top_k/over_top_k.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/wracc_datasets/iterations_boxplot.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/misere.py">
+    <entry file="file://$PROJECT_DIR$/../seqscout/competitors/misere.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1042">
           <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
@@ -829,7 +741,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/exhaustive.py">
+    <entry file="file://$PROJECT_DIR$/../seqscout/competitors/exhaustive.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-663">
           <folding>
@@ -838,24 +750,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/competitors/exhaustive_size.py">
+    <entry file="file://$PROJECT_DIR$/../seqscout/competitors/exhaustive_size.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-438">
           <caret line="5" column="57" selection-start-line="5" selection-start-column="57" selection-end-line="5" selection-end-column="57" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/search_space.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-405">
-          <caret line="75" column="25" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#111#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="file://$PROJECT_DIR$/../seqscout/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="30">
@@ -865,77 +767,99 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/lengths/result">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/lengths/result">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/utils.py">
+    <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/search_space.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="547" column="13" selection-start-line="547" selection-start-column="13" selection-end-line="547" selection-end-column="13" />
+        <state relative-caret-position="15">
+          <caret line="75" column="25" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#111#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/lengths/boxplot.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/data/splice.data">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/compute_stats.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="12" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/global_var.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/number_iterations_optima/it_optima.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/xp/xp_main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="15" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="587" column="35" selection-start-line="587" selection-start-column="35" selection-end-line="587" selection-end-column="35" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xp/lengths/boxplot.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xp/xp_main.py">
+    <entry file="file://$PROJECT_DIR$/../seqscout/seqscout/seq_scout.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="486" column="35" selection-start-line="486" selection-start-column="35" selection-end-line="486" selection-end-column="35" />
-          <folding>
-            <element signature="e#519#1002#0" />
-            <element signature="e#1149#1214#0" />
-            <element signature="e#1512#4529#0" />
-            <element signature="e#17517#19955#0" />
-            <element signature="e#5119#6420#0" />
-            <element signature="e#5202#6375#0" />
-            <element signature="e#4960#5096#0" />
-            <element signature="e#5228#5367#0" />
-            <element signature="e#6187#7578#0" />
-            <element signature="e#6694#7267#0" />
-            <element signature="e#6777#7223#0" />
-            <element signature="e#6886#7031#0" />
-            <element signature="e#7590#7964#0" />
-            <element signature="e#7970#10563#0" />
-            <element signature="e#43678#46171#0" />
-            <element signature="e#10430#12164#0" />
-            <element signature="e#10512#12143#0" />
-            <element signature="e#10826#10956#0" />
-            <element signature="e#11064#11181#0" />
-            <element signature="e#46203#48847#0" />
-            <element signature="e#12761#14436#0" />
-            <element signature="e#12893#14409#0" />
-            <element signature="e#13192#13295#0" />
-            <element signature="e#48918#50583#0" />
-            <element signature="e#50648#50808#0" />
-            <element signature="e#18857#18984#0" />
-            <element signature="e#19027#21781#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/seqscout/seq_scout.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="359" column="20" selection-start-line="359" selection-start-column="20" selection-end-line="359" selection-end-column="20" />
+        <state relative-caret-position="-933">
+          <caret line="298" column="3" selection-start-line="298" selection-start-column="3" selection-end-line="298" selection-end-column="3" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="50" selection-start-line="6" selection-start-column="50" selection-end-line="6" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>

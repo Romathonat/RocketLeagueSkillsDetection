@@ -9,7 +9,7 @@ from seqscout.utils import read_data, read_data_kosarak, \
     sequence_mutable_to_immutable,  \
     read_data_sc2, k_length,  \
     compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, extract_items, compute_WRAcc, compute_quality_vertical,  \
+    count_target_class_data, extract_items, compute_quality, compute_quality_vertical,  \
     sequence_immutable_to_mutable, encode_items, encode_data, \
     print_results_decode, read_jmlr, reduce_k_length
 
@@ -83,7 +83,7 @@ def compute_variations_better_quality(sequence, items, data, itemsets_memory, ta
                                                                                                  last_ones_mask,
                                                                                                  quality_measure=quality_measure)
                     else:
-                        new_variation_i_quality = compute_WRAcc(data, new_variation_i_extension, target_class)
+                        new_variation_i_quality = compute_quality(data, new_variation_i_extension, target_class)
 
                     variations.append(
                         (new_variation_i_extension, new_variation_i_quality))
@@ -107,9 +107,9 @@ def compute_variations_better_quality(sequence, items, data, itemsets_memory, ta
                                                                                          last_ones_mask,
                                                                                          quality_measure=quality_measure)
             else:
-                new_variation_s_quality = compute_WRAcc(data,
-                                                      new_variation_s_extension,
-                                                      target_class)
+                new_variation_s_quality = compute_quality(data,
+                                                          new_variation_s_extension,
+                                                          target_class)
 
             variations.append(
                 (new_variation_s_extension, new_variation_s_quality))
@@ -139,9 +139,9 @@ def compute_variations_better_quality(sequence, items, data, itemsets_memory, ta
                                                                                                        last_ones_mask,
                                                                                                        quality_measure=quality_measure)
                 else:
-                    new_variation_remove_quality = compute_WRAcc(data,
-                                                               new_variation_remove,
-                                                               target_class)
+                    new_variation_remove_quality = compute_quality(data,
+                                                                   new_variation_remove,
+                                                                   target_class)
 
                 variations.append(
                     (new_variation_remove, new_variation_remove_quality))
@@ -164,9 +164,9 @@ def compute_variations_better_quality(sequence, items, data, itemsets_memory, ta
                                                                                      last_ones_mask,
                                                                                      quality_measure=quality_measure)
         else:
-            new_variation_s_quality = compute_WRAcc(data,
-                                                  new_variation_s_extension,
-                                                  target_class)
+            new_variation_s_quality = compute_quality(data,
+                                                      new_variation_s_extension,
+                                                      target_class)
 
         variations.append(
             (new_variation_s_extension, new_variation_s_quality))
@@ -197,7 +197,7 @@ def generalize_sequence(sequence, data, target_class, quality_measure=conf.QUALI
                                             VERTICAL_TOOLS['itemsets_bitsets'], VERTICAL_TOOLS['class_data_count'],
                                             VERTICAL_TOOLS['first_zero_mask'], VERTICAL_TOOLS['last_ones_mask'], quality_measure=quality_measure)
     else:
-        quality = compute_WRAcc(data, sequence, target_class)
+        quality = compute_quality(data, sequence, target_class)
     return sequence, quality
 
 
@@ -296,11 +296,9 @@ def seq_scout(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K
 
         N += 1
 
-    print("SeqScout optimized iterations: {}".format(N))
+    print("seqscout optimized iterations: {}".format(N))
 
     best_patterns = sorted_patterns.get_top_k_non_redundant(data, top_k)
-
-    #print(seqscout.global_var.ITERATION_NUMBER)
 
     for pattern in best_patterns:
         pattern_mutable = sequence_immutable_to_mutable(pattern[1])
@@ -310,17 +308,50 @@ def seq_scout(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K
         sorted_patterns.add(optimized_pattern, optimized_quality)
 
 
-    #print(seqscout.global_var.ITERATION_NUMBER)
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
 
-def seq_scout_api(data, target_class, time_budget, top_k):
+def seq_scout_api(dataset=conf.DATA, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K):
     '''
     Launch seq_scout.
     This function is for the simplicity of the user, so that she does not needs to specify iterations number,
     which is here only for experiments.
     '''
+
+    if dataset == 'splice':
+        data = read_data(pathlib.Path(__file__).parent.parent / '/data/splice.data')
+        target_class = 'EI'
+        enable_i = False
+    elif dataset == 'alsbu':
+        data = read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/aslbu.data')
+        target_class = '195'
+        enable_i = False
+    elif dataset == 'alsbu':
+        data = read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/blocks.data')
+        target_class = '7'
+        enable_i = False
+    elif dataset == 'context':
+        data = read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/context.data')
+        target_class = '4'
+        enable_i = False
+    elif dataset == 'sc2':
+        data = read_data_sc2(pathlib.Path(__file__).parent.parent / 'data/sequences-TZ-45.txt')[:5000]
+        target_class = '1'
+        enable_i = True
+    elif dataset == 'skating':
+        data = read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/skating.data')
+        target_class = '1'
+        enable_i = False
+    elif dataset == 'jmlr':
+        data = read_jmlr('svm', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
+        target_class = '+'
+        enable_i = False
+    else:
+        data = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+        target_class = '+'
+        enable_i = False
+
     class_present = False
     for sequence in data:
         if target_class == sequence[0]:
@@ -334,7 +365,7 @@ def seq_scout_api(data, target_class, time_budget, top_k):
     items, items_to_encoding, encoding_to_items = encode_items(items)
     data = encode_data(data, items_to_encoding)
 
-    results = seq_scout(data, target_class, top_k=top_k, vertical=False, time_budget=time_budget, iterations_limit=10000000000000)
+    results = seq_scout(data, target_class, top_k=top_k, vertical=False, time_budget=time_budget, iterations_limit=10000000000000, enable_i=enable_i)
 
     print_results_decode(results, encoding_to_items)
     return results
@@ -347,17 +378,17 @@ def launch():
     # DATA = read_data_kosarak('../data/blocks.data')
     # DATA = read_data_kosarak('../data/skating.data')
     # DATA = read_data_kosarak('../data/context.data')
-    DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-    #DATA = read_jmlr('machin', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
+    # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
+    DATA = read_jmlr('machin', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
 
 
     #ITEMS = extract_items(DATA)
     #ITEMS, items_to_encoding, encoding_to_items = encode_items(ITEMS)
     #DATA = encode_data(DATA, items_to_encoding)
 
-    #results = seq_scout(DATA, '+', time_budget=12, top_k=5, enable_i=False, vertical=False)
+    results = seq_scout(DATA, '+', time_budget=12, top_k=5, enable_i=False, vertical=False, iterations_limit=100)
 
-    results = seq_scout_api(DATA, '+', 10, 5)
+    #results = seq_scout_api(DATA, '+', 10, 5)
 
     #print_results_decode(results, encoding_to_items)
 

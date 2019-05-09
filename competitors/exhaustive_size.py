@@ -7,7 +7,7 @@ from seqscout.utils import read_data, read_data_kosarak, \
     is_subsequence, sequence_mutable_to_immutable, print_results, \
     read_data_sc2, k_length, generate_bitset, following_ones, \
     get_support_from_vector, compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, compute_WRAcc, compute_quality_vertical, create_s_extension, create_i_extension, extract_items, \
+    count_target_class_data, compute_quality, compute_quality_vertical, create_s_extension, create_i_extension, extract_items, \
     reduce_k_length, extract_l_max
 
 from seqscout.priorityset import PrioritySet
