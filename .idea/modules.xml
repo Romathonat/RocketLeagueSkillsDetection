@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../seqscout/.idea/seqscout.iml" filepath="$PROJECT_DIR$/../seqscout/.idea/seqscout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ComplexSeqScout.iml" filepath="$PROJECT_DIR$/.idea/ComplexSeqScout.iml" />
     </modules>
   </component>
 </project>

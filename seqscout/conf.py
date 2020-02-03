@@ -1,8 +1,8 @@
 # this file holds the default value for problem configuration
-TOP_K = 10
+TOP_K = 5
 ITERATIONS_NUMBER = 10000
 TIME_BUDGET = 10
-THETA = 0.5
+THETA = 0.8
 DATA = 'promoters' # promoters, sc2, splice, context, block, skating, jmlr, aslbu
 QUALITY_MEASURE = 'WRAcc' # WRAcc, F1, Informedness
 

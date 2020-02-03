@@ -4,20 +4,21 @@ import copy
 import pathlib
 
 import math
+import numpy as np
 
-from seqscout.utils import read_data, read_data_kosarak, \
-    sequence_mutable_to_immutable,  \
-    read_data_sc2, k_length,  \
-    compute_first_zero_mask, compute_last_ones_mask, \
-    count_target_class_data, extract_items, compute_quality, compute_quality_vertical,  \
-    sequence_immutable_to_mutable, encode_items, encode_data, \
-    print_results_decode, read_jmlr, reduce_k_length
+from sklearn.model_selection import cross_val_score
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+from seqscout.utils import sequence_mutable_to_immutable, \
+    k_length, \
+    count_target_class_data, extract_items, compute_quality, \
+    sequence_immutable_to_mutable, encode_data, \
+    read_json_rl, print_results, pattern_mutable_to_immutable, encode_data_pattern
 
 from seqscout.priorityset import PrioritySet, PrioritySetUCB
 import seqscout.conf as conf
-
-VERTICAL_TOOLS = {}
-VERTICAL_RPZ = False
 
 
 def filter_target_class(data, target_class):
@@ -37,6 +38,25 @@ def get_itemset_memory(data):
     return memory
 
 
+def preprocess(DATA):
+    """
+    :param DATA
+    :return: a dict, containing for each variable the ordered list of all its possible values
+    """
+    numerics_values = {}
+    for line in DATA:
+        for state in line[1:]:
+            buttons, numerics = state
+            for numeric, value in numerics.items():
+                numerics_values.setdefault(numeric, set()).add(value)
+
+    # now we transform those set to sorted list (not very optimised, should do it in the for loop)
+    for numeric, numeric_set in numerics_values.items():
+        numerics_values[numeric] = sorted(numeric_set)
+
+    return numerics_values
+
+
 def is_included(pattern, pattern_set):
     if pattern in pattern_set:
         return True
@@ -47,157 +67,55 @@ def is_included(pattern, pattern_set):
         return False
 
 
-def compute_variations_better_quality(sequence, items, data, itemsets_memory, target_class, target_quality, enable_i=True, quality_measure=conf.QUALITY_MEASURE):
-    '''
-    Compute variations until quality increases
-    :param sequence:
-    :param items: the list of all possible items
-    :return: the best new element (sequence, quality), or None if we are on a local optimum
-    '''
-    variations = []
-
-    if VERTICAL_RPZ:
-        bitset_slot_size = VERTICAL_TOOLS['bitset_slot_size']
-        itemsets_bitsets = VERTICAL_TOOLS['itemsets_bitsets']
-        class_data_count = VERTICAL_TOOLS['class_data_count']
-        first_zero_mask = VERTICAL_TOOLS['first_zero_mask']
-        last_ones_mask = VERTICAL_TOOLS['last_ones_mask']
-
-    for itemset_i, itemset in enumerate(sequence):
-        # i_extension
-        if enable_i:
-            for item_possible in items:
-                new_variation_i_extension = copy.deepcopy(sequence)
-                new_variation_i_extension[itemset_i].add(item_possible)
-
-                # we check if created pattern is present in data before
-                if is_included(new_variation_i_extension, itemsets_memory):
-                    if VERTICAL_RPZ:
-                        new_variation_i_quality, new_variation_i_bitset = compute_quality_vertical(data,
-                                                                                                 new_variation_i_extension,
-                                                                                                 target_class,
-                                                                                                 bitset_slot_size,
-                                                                                                 itemsets_bitsets,
-                                                                                                 class_data_count,
-                                                                                                 first_zero_mask,
-                                                                                                 last_ones_mask,
-                                                                                                 quality_measure=quality_measure)
-                    else:
-                        new_variation_i_quality = compute_quality(data, new_variation_i_extension, target_class)
-
-                    variations.append(
-                        (new_variation_i_extension, new_variation_i_quality))
-
-                    if new_variation_i_quality > target_quality:
-                        return variations[-1]
-
-        # s_extension
-        for item_possible in items:
-            new_variation_s_extension = copy.deepcopy(sequence)
-            new_variation_s_extension.insert(itemset_i, {item_possible})
-
-            if VERTICAL_RPZ:
-                new_variation_s_quality, new_variation_s_bitset = compute_quality_vertical(data,
-                                                                                         new_variation_s_extension,
-                                                                                         target_class,
-                                                                                         bitset_slot_size,
-                                                                                         itemsets_bitsets,
-                                                                                         class_data_count,
-                                                                                         first_zero_mask,
-                                                                                         last_ones_mask,
-                                                                                         quality_measure=quality_measure)
-            else:
-                new_variation_s_quality = compute_quality(data,
-                                                          new_variation_s_extension,
-                                                          target_class)
-
-            variations.append(
-                (new_variation_s_extension, new_variation_s_quality))
-
-            if new_variation_s_quality > target_quality:
-                return variations[-1]
-
-        for item_i, item in enumerate(itemset):
-            new_variation_remove = copy.deepcopy(sequence)
-
-            # we can switch this item, remove it or add it as s or i-extension
-
-            if (k_length(sequence) > 1):
-                new_variation_remove[itemset_i].remove(item)
-
-                if len(new_variation_remove[itemset_i]) == 0:
-                    new_variation_remove.pop(itemset_i)
-
-                if VERTICAL_RPZ:
-                    new_variation_remove_quality, new_variation_remove_bitset = compute_quality_vertical(data,
-                                                                                                       new_variation_remove,
-                                                                                                       target_class,
-                                                                                                       bitset_slot_size,
-                                                                                                       itemsets_bitsets,
-                                                                                                       class_data_count,
-                                                                                                       first_zero_mask,
-                                                                                                       last_ones_mask,
-                                                                                                       quality_measure=quality_measure)
-                else:
-                    new_variation_remove_quality = compute_quality(data,
-                                                                   new_variation_remove,
-                                                                   target_class)
-
-                variations.append(
-                    (new_variation_remove, new_variation_remove_quality))
-                if new_variation_remove_quality > target_quality:
-                    return variations[-1]
-
-    # s_extension for last element
-    for item_possible in items:
-        new_variation_s_extension = copy.deepcopy(sequence)
-        new_variation_s_extension.append({item_possible})
-
-        if VERTICAL_RPZ:
-            new_variation_s_quality, new_variation_s_bitset = compute_quality_vertical(data,
-                                                                                     new_variation_s_extension,
-                                                                                     target_class,
-                                                                                     bitset_slot_size,
-                                                                                     itemsets_bitsets,
-                                                                                     class_data_count,
-                                                                                     first_zero_mask,
-                                                                                     last_ones_mask,
-                                                                                     quality_measure=quality_measure)
-        else:
-            new_variation_s_quality = compute_quality(data,
-                                                      new_variation_s_extension,
-                                                      target_class)
-
-        variations.append(
-            (new_variation_s_extension, new_variation_s_quality))
-        if new_variation_s_quality > target_quality:
-            return variations[-1]
-
-    return None
+def find_i_value(numeric_values, value):
+    """
+    Find the position of value in numeric_values
+    :param numeric_values:
+    :param value:
+    :return:
+    """
+    for i, value_numeric in enumerate(numeric_values):
+        if value_numeric == value:
+            return i
+    return -1
 
 
-def generalize_sequence(sequence, data, target_class, quality_measure=conf.QUALITY_MEASURE):
+def generalize_sequence(sequence, data, target_class, numerics_values=None, quality_measure=conf.QUALITY_MEASURE):
     sequence = copy.deepcopy(sequence)
-    # we remove z items randomly
-    seq_items_nb = len([i for j_set in sequence for i in j_set])
+
+    # we remove z items randomly among buttons
+    seq_items_nb = len([i for j_set in sequence for i in j_set[0]])
+
     z = random.randint(0, seq_items_nb - 1)
+
     for _ in range(z):
         chosen_itemset_i = random.randint(0, len(sequence) - 1)
-        chosen_itemset = sequence[chosen_itemset_i]
+        chosen_itemset = sequence[chosen_itemset_i][0]
 
         chosen_itemset.remove(random.sample(chosen_itemset, 1)[0])
 
         if len(chosen_itemset) == 0:
             sequence.pop(chosen_itemset_i)
 
-    # now we compute the Wracc
-    if VERTICAL_RPZ:
-        quality, _ = compute_quality_vertical(data, sequence, target_class,
-                                            VERTICAL_TOOLS['bitset_slot_size'],
-                                            VERTICAL_TOOLS['itemsets_bitsets'], VERTICAL_TOOLS['class_data_count'],
-                                            VERTICAL_TOOLS['first_zero_mask'], VERTICAL_TOOLS['last_ones_mask'], quality_measure=quality_measure)
-    else:
-        quality = compute_quality(data, sequence, target_class)
+    # for numerics, we take a random element to the right, and a random to the left (considering the list is sorted)
+    for _, numerics in sequence:
+        for numeric, value in numerics.items():
+            i_value = find_i_value(numerics_values[numeric], value)
+
+            if i_value == 0:
+                left_value = 0
+            else:
+                left_value = random.sample(numerics_values[numeric][:i_value], 1)[0]
+
+            if i_value == len(numerics_values[numeric]) - 1:
+                rigth_value = len(numerics_values[numeric]) - 1
+            else:
+                rigth_value = random.sample(numerics_values[numeric][i_value + 1:], 1)[0]
+            numerics[numeric] = [left_value, rigth_value]
+
+    # now we compute the quality measure
+    quality = compute_quality(data, sequence, target_class, quality_measure=quality_measure)
+
     return sequence, quality
 
 
@@ -206,28 +124,7 @@ def UCB(score, Ni, N):
     return (score + 0.25) * 2 + 0.5 * math.sqrt(2 * math.log(N) / Ni)
 
 
-def exploit_arm(pattern, quality, items, data, itemsets_memory, target_class, enable_i=True, quality_measure=conf.QUALITY_MEASURE):
-    # we optimize until we find local optima
-    # print("Optimize")
-    while 'climbing hill':
-        # we compute all possible variations
-        try:
-
-            pattern, quality = compute_variations_better_quality(pattern,
-                                                                 items, data,
-                                                                 itemsets_memory,
-                                                                 target_class,
-                                                                 quality,
-                                                                 enable_i=enable_i,
-                                                                 quality_measure=quality_measure)
-
-        except TypeError:
-            # print("Already a local optima")
-            break
-    return pattern, quality
-
-
-def play_arm(sequence, data, target_class, quality_measure=conf.QUALITY_MEASURE):
+def play_arm(sequence, data, target_class, numerics_values=None, quality_measure=conf.QUALITY_MEASURE):
     '''
     Select object, generalise
     :param sequence: immutable sequence to generalise
@@ -238,38 +135,22 @@ def play_arm(sequence, data, target_class, quality_measure=conf.QUALITY_MEASURE)
     sequence = sequence_immutable_to_mutable(sequence)
 
     pattern, quality = generalize_sequence(sequence,
-                                         data,
-                                         target_class,
-                                         quality_measure=quality_measure)
+                                           data,
+                                           target_class,
+                                           numerics_values=numerics_values,
+                                           quality_measure=quality_measure)
 
     return pattern, quality
 
 
-def seq_scout(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K, enable_i=True, vertical=True,
+def seq_scout(data, target_class, numerics_values=None, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K,
               iterations_limit=conf.ITERATIONS_NUMBER, theta=conf.THETA, quality_measure=conf.QUALITY_MEASURE):
-    items = extract_items(data)
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
     data_target_class = filter_target_class(data, target_class)
     sorted_patterns = PrioritySet(k=top_k, theta=theta)
     UCB_scores = PrioritySetUCB()
-    itemsets_memory = get_itemset_memory(data)
-
-    # removing class
-    bitset_slot_size = len(max(data, key=lambda x: len(x))) - 1
-
-    global VERTICAL_RPZ
-    VERTICAL_RPZ = vertical
-
-    global VERTICAL_TOOLS
-    VERTICAL_TOOLS = {
-        "bitset_slot_size": bitset_slot_size,
-        "first_zero_mask": compute_first_zero_mask(len(data), bitset_slot_size),
-        "last_ones_mask": compute_last_ones_mask(len(data), bitset_slot_size),
-        "class_data_count": count_target_class_data(data, target_class),
-        "itemsets_bitsets": {}
-    }
 
     N = 1
 
@@ -285,8 +166,9 @@ def seq_scout(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K
         # we take the best UCB
         _, Ni, mean_quality, sequence = UCB_scores.pop()
 
-        pattern, quality = play_arm(sequence, data, target_class, quality_measure=quality_measure)
-        pattern = sequence_mutable_to_immutable(pattern)
+        pattern, quality = play_arm(sequence, data, target_class, numerics_values=numerics_values,
+                                    quality_measure=quality_measure)
+        pattern = pattern_mutable_to_immutable(pattern)
         sorted_patterns.add(pattern, quality)
 
         # we update scores
@@ -298,100 +180,45 @@ def seq_scout(data, target_class, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K
 
     print("seqscout optimized iterations: {}".format(N))
 
-    best_patterns = sorted_patterns.get_top_k_non_redundant(data, top_k)
-
-    for pattern in best_patterns:
-        pattern_mutable = sequence_immutable_to_mutable(pattern[1])
-        optimized_pattern, optimized_quality = exploit_arm(pattern_mutable, pattern[0], items, data, itemsets_memory,
-                                                         target_class, enable_i=enable_i, quality_measure=quality_measure)
-        optimized_pattern = sequence_mutable_to_immutable(optimized_pattern)
-        sorted_patterns.add(optimized_pattern, optimized_quality)
-
-
-
-    return sorted_patterns.get_top_k_non_redundant(data, top_k)
-
-
-def seq_scout_api(dataset=conf.DATA, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K):
-    '''
-    Launch seq_scout.
-    This function is for the simplicity of the user, so that she does not needs to specify iterations number,
-    which is here only for experiments.
-    '''
-
-    if dataset == 'splice':
-        data = read_data(pathlib.Path(__file__).parent.parent / '/data/splice.data')
-        target_class = 'EI'
-        enable_i = False
-    elif dataset == 'alsbu':
-        data = read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/aslbu.data')
-        target_class = '195'
-        enable_i = False
-    elif dataset == 'alsbu':
-        data = read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/blocks.data')
-        target_class = '7'
-        enable_i = False
-    elif dataset == 'context':
-        data = read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/context.data')
-        target_class = '4'
-        enable_i = False
-    elif dataset == 'sc2':
-        data = read_data_sc2(pathlib.Path(__file__).parent.parent / 'data/sequences-TZ-45.txt')[:5000]
-        target_class = '1'
-        enable_i = True
-    elif dataset == 'skating':
-        data = read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/skating.data')
-        target_class = '1'
-        enable_i = False
-    elif dataset == 'jmlr':
-        data = read_jmlr('svm', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
-        target_class = '+'
-        enable_i = False
-    else:
-        data = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-        target_class = '+'
-        enable_i = False
-
-    class_present = False
-    for sequence in data:
-        if target_class == sequence[0]:
-            class_present = True
-            break
-
-    if not class_present:
-        raise ValueError('The target class does not appear in data')
-
-    items = extract_items(data)
-    items, items_to_encoding, encoding_to_items = encode_items(items)
-    data = encode_data(data, items_to_encoding)
-
-    results = seq_scout(data, target_class, top_k=top_k, vertical=False, time_budget=time_budget, iterations_limit=10000000000000, enable_i=enable_i)
-
-    print_results_decode(results, encoding_to_items)
-    return results
+    #return sorted_patterns.get_top_k_non_redundant(data, top_k)
+    return sorted_patterns.get_top_k(top_k)
 
 
 def launch():
-    #DATA = read_data_sc2('../data/sequences-TZ-45.txt')[:5000]
-    #DATA = reduce_k_length(10, DATA)
+    DATA = read_json_rl('../data/final_sequences.json')
 
-    # DATA = read_data_kosarak('../data/blocks.data')
-    # DATA = read_data_kosarak('../data/skating.data')
-    # DATA = read_data_kosarak('../data/context.data')
-    # DATA = read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data')
-    DATA = read_jmlr('machin', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr')
+    # shuffle data
+    random.shuffle(DATA)
 
+    # take 80% for train
+    indice_split = int(0.8 * len(DATA))
+    DATA_TRAIN = DATA[:indice_split]
+    DATA_TEST = DATA[indice_split:]
 
-    #ITEMS = extract_items(DATA)
-    #ITEMS, items_to_encoding, encoding_to_items = encode_items(ITEMS)
-    #DATA = encode_data(DATA, items_to_encoding)
+    numerics_values = preprocess(DATA)
 
-    results = seq_scout(DATA, '+', time_budget=12, top_k=5, enable_i=False, vertical=False, iterations_limit=100)
+    patterns_immu, patterns_mutable = [], []
 
-    #results = seq_scout_api(DATA, '+', 10, 5)
+    # we do not use what is discriminative of -1 (other thing)
+    #for i in ["1", "2", "3", "5", "6", "7"]:
+    for i in ["1"]:
+        patterns_immu_temp, patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=10, top_k=30, iterations_limit=10000)
+        patterns_immu += patterns_immu_temp
+        patterns_mutable += patterns_mutable_temp
 
-    #print_results_decode(results, encoding_to_items)
+    # look for pattern for each possible class
+    print_results(patterns_immu)
 
+    '''
+    encoded_data_train = np.array(encode_data_pattern(DATA_TRAIN, patterns_mutable))
+    encoded_data_test = np.array(encode_data_pattern(DATA_TEST, patterns_mutable))
 
+    Y_train, X_train = encoded_data_train[:, 0], encoded_data_train[:, 1:]
+    Y_test, X_test = encoded_data_test[:, 0], encoded_data_test[:, 1:]
+
+    Y_pred = OneVsRestClassifier(DecisionTreeClassifier(random_state=0)).fit(X_train, Y_train).predict(X_test)
+
+    print(accuracy_score(Y_test, Y_pred))
+    '''
 if __name__ == '__main__':
     launch()

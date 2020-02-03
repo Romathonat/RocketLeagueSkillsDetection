@@ -1,6 +1,7 @@
 from multiprocessing.pool import Pool
 
 import sys
+import pathlib
 
 import pandas as pd
 
@@ -21,14 +22,14 @@ sys.setrecursionlimit(500000)
 
 # third element: enable_i
 datasets = [
-    (read_data_kosarak('../data/aslbu.data'), '195', False),
-    (read_data('../data/promoters.data'), '+', False),
-    (read_data_kosarak('../data/blocks.data'), '7', False),
-    (read_data_kosarak('../data/context.data'), '4', False),
-    (read_data('../data/splice.data'), 'EI', False),
-    (read_data_sc2('../data/sequences-TZ-45.txt')[:5000], '1', False),
-    (read_data_kosarak('../data/skating.data'), '1', False),
-    (read_jmlr('svm', '../data/jmlr/jmlr'), '+', False)
+    (read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/aslbu.data'), '195', False),
+    (read_data(pathlib.Path(__file__).parent.parent / 'data/promoters.data'), '+', False),
+    (read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/blocks.data'), '7', False),
+    (read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/context.data'), '4', False),
+    (read_data(pathlib.Path(__file__).parent.parent / 'data/splice.data'), 'EI', False),
+    (read_data_sc2(pathlib.Path(__file__).parent.parent / 'data/sequences-TZ-45.txt')[:5000], '1', False),
+    (read_data_kosarak(pathlib.Path(__file__).parent.parent / 'data/skating.data'), '1', False),
+    (read_jmlr('svm', pathlib.Path(__file__).parent.parent / 'data/jmlr/jmlr'), '+', False)
 ]
 
 datasets_names = ['aslbu', 'promoters', 'blocks', 'context', 'splice', 'sc2', 'skating', 'jmlr']
@@ -139,10 +140,10 @@ def show_quality_over_iterations_ucb(number_dataset):
     sns.set(rc={'figure.figsize': (8, 6.5)})
 
     plt.clf()
-    ax = sns.lineplot(data=df, x='iterations', y='WRAcc', hue='Algorithm')
+    ax = sns.lineplot(data=df, x='iterations', y='WRAcc', hue='Algorithm', markers=True)
 
     plt.savefig('./iterations_ucb/over_iterations{}.png'.format(datasets_names[number_dataset]))
-    df.to_pickle('./iterations_ucb/result')
+    df.to_pickle('./iterations_ucb/result{}'.format(datasets_names[number_dataset]))
 
     if SHOW:
         plt.show()
@@ -445,7 +446,7 @@ def number_iterations_optima():
     nb_launched = 5
 
     data_final = {'cost': [], 'iterations': [], 'dataset_name': []}
-    for j, (data, target, enable_i) in enumerate(datasets):
+    for j, (data, target, enable_i) in enumerate(datasets[:-1]):
         for i in range(nb_launched):
             # we reset the count of iterations
             seqscout.global_var.ITERATION_NUMBER = 0
@@ -536,17 +537,16 @@ def boxplots_description_lengths():
         plt.show()
 
 
-
 if __name__ == '__main__':
-    #boxplot_dataset_iterations()
-    #quality_over_theta()
-    #show_quality_over_iterations_ucb(1)
-    #show_quality_over_iterations_ucb(5)
-    #show_quality_over_iterations_ucb(6)
-    #compare_ground_truth()
-    #quality_over_top_k()
-    #quality_over_size()
-    #naive_vs_bitset_seqscout()
-    #number_iterations_optima()
-    boxplots_description_lengths()
-    #other_measures()
+    # boxplot_dataset_iterations()
+    # quality_over_theta()
+    show_quality_over_iterations_ucb(1)
+    show_quality_over_iterations_ucb(5)
+    # show_quality_over_iterations_ucb(6)
+    # compare_ground_truth()
+    # quality_over_top_k()
+    # quality_over_size()
+    # naive_vs_bitset_seqscout()
+    # number_iterations_optima()
+    # boxplots_description_lengths()
+    # other_measures()
