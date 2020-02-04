@@ -118,7 +118,11 @@ def read_json_rl(filename):
             del state[1]['Time']
             line['sequence'][i] = [set(state[0]), state[1]]
 
-        new_line = [line['figure']] + line['sequence']
+        if line['figure'] == "8":
+            new_line = ["-1"] + line['sequence']
+        else:
+            new_line = [line['figure']] + line['sequence']
+
         output_data.append(new_line)
     return output_data
 
@@ -174,7 +178,7 @@ def print_results(results):
     for result in results:
         pattern_display = ''
         for itemset in result[1]:
-            pattern_display += repr(set(itemset))
+            pattern_display += str(itemset)
 
         sum_result += result[0]
 

@@ -101,7 +101,11 @@ class PrioritySet(object):
 
     def get_top_k(self, k):
         data = heapq.nlargest(k, self.heap)
-        return data
+        output = []
+        for i, pattern in enumerate(data):
+            output.append([pattern[0], sequence_immutable_to_mutable(pattern[1])])
+
+        return output
 
     def get_top_k_non_redundant(self, data, k):
         filtered_result = filter_results_misere(self.heap, data, self.theta, k)
@@ -110,7 +114,7 @@ class PrioritySet(object):
         for i, pattern in enumerate(top_k):
             output.append([pattern[0], sequence_immutable_to_mutable(pattern[1])])
 
-        return top_k, output
+        return output
 
 
 class PrioritySetv2(object):

@@ -2,38 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="721e8540-47da-473f-a3ba-c039fac68c20" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/ComplexSeqScout.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/seqscout.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/beam_search.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/exhaustive.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/exhaustive_size.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/competitors/misere.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/aslbu.data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/blocks.data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/context.data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/easy.data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/jmlr/format.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/jmlr/jmlr.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/jmlr/jmlr.lab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/promoters.data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sequences-TZ-45.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/skating.data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/splice.data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/compute_stats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/conf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/prepare_dataset.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/seqscout/priorityset.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/priorityset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/search_space.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/seqscout/seq_scout.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/seq_scout.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seqscout/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xp/xp_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/xp_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +49,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="stats_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ComplexSeqScout" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seqscout" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqscout/stats_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test_utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ComplexSeqScout" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -98,9 +91,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ComplexSeqScout" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seqscout" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqscout/utils.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.seq_scout" />
+        <item itemvalue="Python.stats_data" />
+        <item itemvalue="Python.utils" />
         <item itemvalue="Python.test_utils" />
       </list>
     </recent_temporary>
@@ -123,38 +139,50 @@
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
     <state x="418" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580721233704" />
-    <state width="1897" height="287" key="GridCell.Tab.0.bottom" timestamp="1580723742829">
+    <state x="100" y="100" width="1720" height="880" key="DiffContextDialog" timestamp="1580742161650">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="287" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580723742829" />
-    <state width="1897" height="287" key="GridCell.Tab.0.center" timestamp="1580723742829">
+    <state x="100" y="100" width="1720" height="880" key="DiffContextDialog/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580742161650" />
+    <state width="1897" height="239" key="GridCell.Tab.0.bottom" timestamp="1580756211912">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="287" key="GridCell.Tab.0.center/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580723742829" />
-    <state width="1897" height="287" key="GridCell.Tab.0.left" timestamp="1580723742828">
+    <state width="1897" height="239" key="GridCell.Tab.0.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211912" />
+    <state width="1897" height="204" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580750372328" />
+    <state width="1897" height="239" key="GridCell.Tab.0.center" timestamp="1580756211912">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="287" key="GridCell.Tab.0.left/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580723742828" />
-    <state width="1897" height="287" key="GridCell.Tab.0.right" timestamp="1580723742829">
+    <state width="1897" height="239" key="GridCell.Tab.0.center/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211912" />
+    <state width="1897" height="204" key="GridCell.Tab.0.center/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580750372328" />
+    <state width="1897" height="239" key="GridCell.Tab.0.left" timestamp="1580756211911">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="287" key="GridCell.Tab.0.right/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580723742829" />
-    <state width="1897" height="354" key="GridCell.Tab.1.bottom" timestamp="1580722915144">
+    <state width="1897" height="239" key="GridCell.Tab.0.left/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211911" />
+    <state width="1897" height="204" key="GridCell.Tab.0.left/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580750372328" />
+    <state width="1897" height="239" key="GridCell.Tab.0.right" timestamp="1580756211912">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="354" key="GridCell.Tab.1.bottom/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580722915144" />
-    <state width="1897" height="354" key="GridCell.Tab.1.center" timestamp="1580722915144">
+    <state width="1897" height="239" key="GridCell.Tab.0.right/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211912" />
+    <state width="1897" height="204" key="GridCell.Tab.0.right/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580750372328" />
+    <state width="1897" height="195" key="GridCell.Tab.1.bottom" timestamp="1580756211907">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="354" key="GridCell.Tab.1.center/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580722915144" />
-    <state width="1897" height="354" key="GridCell.Tab.1.left" timestamp="1580722915144">
+    <state width="1897" height="195" key="GridCell.Tab.1.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211907" />
+    <state width="1897" height="204" key="GridCell.Tab.1.bottom/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580750372328" />
+    <state width="1897" height="195" key="GridCell.Tab.1.center" timestamp="1580756211906">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="354" key="GridCell.Tab.1.left/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580722915144" />
-    <state width="1897" height="354" key="GridCell.Tab.1.right" timestamp="1580722915144">
+    <state width="1897" height="195" key="GridCell.Tab.1.center/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211906" />
+    <state width="1897" height="204" key="GridCell.Tab.1.center/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580750372328" />
+    <state width="1897" height="195" key="GridCell.Tab.1.left" timestamp="1580756211906">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="354" key="GridCell.Tab.1.right/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580722915144" />
+    <state width="1897" height="195" key="GridCell.Tab.1.left/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211906" />
+    <state width="1897" height="204" key="GridCell.Tab.1.left/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580750372328" />
+    <state width="1897" height="195" key="GridCell.Tab.1.right" timestamp="1580756211907">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state width="1897" height="195" key="GridCell.Tab.1.right/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211907" />
+    <state width="1897" height="204" key="GridCell.Tab.1.right/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580750372328" />
     <state x="449" y="175" key="SettingsEditor" timestamp="1580721242343">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>

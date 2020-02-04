@@ -10,6 +10,11 @@ from sklearn.model_selection import cross_val_score
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import cross_val_score
+import xgboost as xgb
 
 from seqscout.utils import sequence_mutable_to_immutable, \
     k_length, \
@@ -19,6 +24,7 @@ from seqscout.utils import sequence_mutable_to_immutable, \
 
 from seqscout.priorityset import PrioritySet, PrioritySetUCB
 import seqscout.conf as conf
+from tpot import TPOTClassifier
 
 
 def filter_target_class(data, target_class):
@@ -178,15 +184,16 @@ def seq_scout(data, target_class, numerics_values=None, time_budget=conf.TIME_BU
 
         N += 1
 
-    print("seqscout optimized iterations: {}".format(N))
+    print("seqscout iterations: {}".format(N))
 
     #return sorted_patterns.get_top_k_non_redundant(data, top_k)
     return sorted_patterns.get_top_k(top_k)
 
 
 def launch():
+    '''
+    #EXTRACTING PATTERNS
     DATA = read_json_rl('../data/final_sequences.json')
-
     # shuffle data
     random.shuffle(DATA)
 
@@ -197,28 +204,119 @@ def launch():
 
     numerics_values = preprocess(DATA)
 
-    patterns_immu, patterns_mutable = [], []
+    patterns_mutable = []
 
     # we do not use what is discriminative of -1 (other thing)
-    #for i in ["1", "2", "3", "5", "6", "7"]:
-    for i in ["1"]:
-        patterns_immu_temp, patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=10, top_k=30, iterations_limit=10000)
-        patterns_immu += patterns_immu_temp
+    for i in ["-1", "1", "2", "3", "5", "6", "7"]:
+        patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000, iterations_limit=20000, top_k=30)
         patterns_mutable += patterns_mutable_temp
 
-    # look for pattern for each possible class
-    print_results(patterns_immu)
+        # look for pattern for each possible class
+    print_results(patterns_mutable)
 
-    '''
     encoded_data_train = np.array(encode_data_pattern(DATA_TRAIN, patterns_mutable))
     encoded_data_test = np.array(encode_data_pattern(DATA_TEST, patterns_mutable))
 
     Y_train, X_train = encoded_data_train[:, 0], encoded_data_train[:, 1:]
     Y_test, X_test = encoded_data_test[:, 0], encoded_data_test[:, 1:]
 
-    Y_pred = OneVsRestClassifier(DecisionTreeClassifier(random_state=0)).fit(X_train, Y_train).predict(X_test)
-
-    print(accuracy_score(Y_test, Y_pred))
+    np.save("Y_train", Y_train)
+    np.save("X_train", X_train)
+    np.save("Y_test", Y_test)
+    np.save("X_test", X_test)
     '''
+
+    X_train = np.load("X_train.npy")
+    Y_train = np.load("Y_train.npy")
+    X_test = np.load("X_test.npy")
+    Y_test = np.load("Y_test.npy")
+
+    X_train = X_train.astype(int)
+    Y_train = Y_train.astype(int)
+    X_test = X_test.astype(int)
+    Y_test = Y_test.astype(int)
+
+    # clf = OneVsRestClassifier(DecisionTreeClassifier(random_state=0)).fit(X_train, Y_train)
+    clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100)).fit(X_train, Y_train)
+    # clf = OneVsRestClassifier(xgb.XGBClassifier()).fit(X_train, Y_train)
+
+    Y_pred_proba = clf.predict_proba(X_test)
+    Y_pred = clf.predict(X_test)
+
+    # some stats
+    classes = np.unique(Y_train)
+    print(classes)
+
+    sum_diff_one_by_n = {key: 0 for key in classes}
+    one_by_n = 1 / len(classes)
+
+    for i, probas in enumerate(Y_pred_proba):
+        for j in probas:
+            sum_diff_one_by_n[Y_test[i]] += abs(one_by_n - j)
+
+    print(sum_diff_one_by_n)
+
+
+    '''
+    pipeline_optimizer = TPOTClassifier(generations=50, population_size=100, cv=5,
+                                    random_state=42, verbosity=2)
+
+    pipeline_optimizer.fit(X_train, Y_train)
+    print(pipeline_optimizer.score(X_test, Y_test))
+    pipeline_optimizer.export("saved_optimizer.py")
+    '''
+
+
+    print("Train score {}".format(accuracy_score(clf.predict(X_train), Y_train)))
+    print("Test score {}".format(accuracy_score(Y_test, Y_pred)))
+    print(confusion_matrix(Y_test, Y_pred))
+
+def launch_leave_one_out():
+    # EXTRACTING PATTERNS
+    DATA = read_json_rl('../data/final_sequences.json')
+
+    numerics_values = preprocess(DATA)
+
+    Y_all_data = np.array(DATA)[:, 0]
+    Y_pred_all_data = np.zeros(Y_all_data.shape)
+
+    for i, line in enumerate(DATA):
+        DATA_TRAIN, DATA_TEST = DATA[:i] + DATA[i+1:], [line]
+
+        patterns = []
+
+        # look for pattern for each possible class
+        for i in ["-1", "1", "2", "3", "5", "6", "7"]:
+            patterns_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000,
+                                              iterations_limit=400, top_k=30)
+            patterns += patterns_temp
+
+        encoded_data_train = np.array(encode_data_pattern(DATA_TRAIN, patterns))
+        encoded_data_test = np.array(encode_data_pattern(DATA_TEST, patterns))
+
+        Y_train, X_train = encoded_data_train[:, 0], encoded_data_train[:, 1:]
+        Y_test, X_test = encoded_data_test[:, 0], encoded_data_test[:, 1:]
+
+        X_train = X_train.astype(int)
+        Y_train = Y_train.astype(int)
+        X_test = X_test.astype(int)
+        Y_test = Y_test.astype(int)
+
+        clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100)).fit(X_train, Y_train)
+
+        Y_pred_all_data[i, 0] = clf.predict(X_test)
+
+
+    print("Test score {}".format(accuracy_score(Y_all_data, Y_pred_all_data)))
+    print(confusion_matrix(Y_all_data, Y_pred_all_data))
+
 if __name__ == '__main__':
-    launch()
+ launch()
+
+# BEST CONF: no redundant, time=300, top-k=30, random forest -> 82%
+
+# try with only numerics/ with only buttons
+
+# first try to get the best possible patterns !
+# leave one out
+# Try to use the level from misere ???
