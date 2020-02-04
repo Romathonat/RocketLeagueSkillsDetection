@@ -184,14 +184,13 @@ def seq_scout(data, target_class, numerics_values=None, time_budget=conf.TIME_BU
 
         N += 1
 
-    print("seqscout iterations: {}".format(N))
+    #print("seqscout iterations: {}".format(N))
 
     #return sorted_patterns.get_top_k_non_redundant(data, top_k)
     return sorted_patterns.get_top_k(top_k)
 
 
 def launch():
-    '''
     #EXTRACTING PATTERNS
     DATA = read_json_rl('../data/final_sequences.json')
     # shuffle data
@@ -208,7 +207,7 @@ def launch():
 
     # we do not use what is discriminative of -1 (other thing)
     for i in ["-1", "1", "2", "3", "5", "6", "7"]:
-        patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000, iterations_limit=20000, top_k=30)
+        patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000, iterations_limit=400, top_k=3)
         patterns_mutable += patterns_mutable_temp
 
         # look for pattern for each possible class
@@ -220,16 +219,17 @@ def launch():
     Y_train, X_train = encoded_data_train[:, 0], encoded_data_train[:, 1:]
     Y_test, X_test = encoded_data_test[:, 0], encoded_data_test[:, 1:]
 
+    '''
     np.save("Y_train", Y_train)
     np.save("X_train", X_train)
     np.save("Y_test", Y_test)
     np.save("X_test", X_test)
-    '''
 
     X_train = np.load("X_train.npy")
     Y_train = np.load("Y_train.npy")
     X_test = np.load("X_test.npy")
     Y_test = np.load("Y_test.npy")
+    '''
 
     X_train = X_train.astype(int)
     Y_train = Y_train.astype(int)
@@ -277,17 +277,22 @@ def launch_leave_one_out():
 
     numerics_values = preprocess(DATA)
 
-    Y_all_data = np.array(DATA)[:, 0]
+    Y_all_data = np.array([int(i[0]) for i in DATA])
     Y_pred_all_data = np.zeros(Y_all_data.shape)
 
+
     for i, line in enumerate(DATA):
-        DATA_TRAIN, DATA_TEST = DATA[:i] + DATA[i+1:], [line]
+        print("{}%".format(i/len(DATA)))
+        if i < len(DATA) - 1:
+            DATA_TRAIN, DATA_TEST = DATA[:i] + DATA[i+1:], [line]
+        else:
+            DATA_TRAIN, DATA_TEST = DATA[:i], [line]
 
         patterns = []
 
         # look for pattern for each possible class
-        for i in ["-1", "1", "2", "3", "5", "6", "7"]:
-            patterns_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000,
+        for j in ["-1", "1", "2", "3", "5", "6", "7"]:
+            patterns_temp = seq_scout(DATA_TRAIN, j, numerics_values=numerics_values, time_budget=1000,
                                               iterations_limit=400, top_k=30)
             patterns += patterns_temp
 
@@ -304,18 +309,23 @@ def launch_leave_one_out():
 
         clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100)).fit(X_train, Y_train)
 
-        Y_pred_all_data[i, 0] = clf.predict(X_test)
+        Y_pred_all_data[i] = clf.predict(X_test)
 
+        print("Test score {}".format(accuracy_score(Y_all_data, Y_pred_all_data)))
 
     print("Test score {}".format(accuracy_score(Y_all_data, Y_pred_all_data)))
     print(confusion_matrix(Y_all_data, Y_pred_all_data))
 
 if __name__ == '__main__':
- launch()
-
-# BEST CONF: no redundant, time=300, top-k=30, random forest -> 82%
+    launch()
+    # launch_leave_one_out()
+# BEST CONF: no redundant, time=inf, 20k iterations, top-k=30, random forest -> 82%
 
 # try with only numerics/ with only buttons
+
+# ajouter le time
+# verifier le True: Ajouter cet évènement aux boutons ?
+
 
 # first try to get the best possible patterns !
 # leave one out
