@@ -114,8 +114,24 @@ def read_json_rl(filename):
 
     output_data = []
     for line in data:
+        # data cleaning: if the sequence has more than 130 states in this dataset, it is an error
+        if len(line['sequence']) > 130:
+            continue
+
+        offset_begin_move = -1
         for i, state in enumerate(line['sequence']):
-            del state[1]['Time']
+            # we remove the time
+            if offset_begin_move < 0:
+                offset_begin_move = state[1]['Time']
+
+            # we offset this value since the beginning of the move
+            state[1]['Time'] = state[1]['Time'] - offset_begin_move
+            #del state[1]['Time']
+
+            # we add the goal to the itemset of events
+            if state[1]['goal']:
+                state[0].append('goal')
+            del state[1]['goal']
             line['sequence'][i] = [set(state[0]), state[1]]
 
         if line['figure'] == "8":
@@ -125,6 +141,7 @@ def read_json_rl(filename):
 
         output_data.append(new_line)
     return output_data
+
 
 
 def encode_data(data, item_to_encoding):

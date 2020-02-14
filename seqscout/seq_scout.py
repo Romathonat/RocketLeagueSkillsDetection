@@ -9,11 +9,10 @@ import numpy as np
 from sklearn.model_selection import cross_val_score
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import MultiLabelBinarizer
-from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import cross_val_score
+from sklearn.metrics import confusion_matrix, accuracy_score
+from sklearn.model_selection import cross_val_score, StratifiedKFold
 import xgboost as xgb
 
 from seqscout.utils import sequence_mutable_to_immutable, \
@@ -86,7 +85,7 @@ def find_i_value(numeric_values, value):
     return -1
 
 
-def generalize_sequence(sequence, data, target_class, numerics_values=None, quality_measure=conf.QUALITY_MEASURE):
+def generalize_sequence(sequence, data, target_class, numerics_values=None, quality_measure=conf.QUALITY_MEASURE, numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA):
     sequence = copy.deepcopy(sequence)
 
     # we remove z items randomly among buttons
@@ -119,6 +118,10 @@ def generalize_sequence(sequence, data, target_class, numerics_values=None, qual
                 rigth_value = random.sample(numerics_values[numeric][i_value + 1:], 1)[0]
             numerics[numeric] = [left_value, rigth_value]
 
+            # with numeric_remove_proba chance we remove this numeric !
+            if random.random() < numeric_remove_proba:
+                numerics[numeric] = [-float('inf'), float('inf')]
+
     # now we compute the quality measure
     quality = compute_quality(data, sequence, target_class, quality_measure=quality_measure)
 
@@ -130,7 +133,7 @@ def UCB(score, Ni, N):
     return (score + 0.25) * 2 + 0.5 * math.sqrt(2 * math.log(N) / Ni)
 
 
-def play_arm(sequence, data, target_class, numerics_values=None, quality_measure=conf.QUALITY_MEASURE):
+def play_arm(sequence, data, target_class, numerics_values=None, quality_measure=conf.QUALITY_MEASURE, numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA):
     '''
     Select object, generalise
     :param sequence: immutable sequence to generalise
@@ -144,13 +147,14 @@ def play_arm(sequence, data, target_class, numerics_values=None, quality_measure
                                            data,
                                            target_class,
                                            numerics_values=numerics_values,
-                                           quality_measure=quality_measure)
+                                           quality_measure=quality_measure,
+                                           numeric_remove_proba=numeric_remove_proba)
 
     return pattern, quality
 
 
 def seq_scout(data, target_class, numerics_values=None, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K,
-              iterations_limit=conf.ITERATIONS_NUMBER, theta=conf.THETA, quality_measure=conf.QUALITY_MEASURE):
+              iterations_limit=conf.ITERATIONS_NUMBER, theta=conf.THETA, quality_measure=conf.QUALITY_MEASURE, numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -173,7 +177,7 @@ def seq_scout(data, target_class, numerics_values=None, time_budget=conf.TIME_BU
         _, Ni, mean_quality, sequence = UCB_scores.pop()
 
         pattern, quality = play_arm(sequence, data, target_class, numerics_values=numerics_values,
-                                    quality_measure=quality_measure)
+                                    quality_measure=quality_measure, numeric_remove_proba=numeric_remove_proba)
         pattern = pattern_mutable_to_immutable(pattern)
         sorted_patterns.add(pattern, quality)
 
@@ -184,15 +188,19 @@ def seq_scout(data, target_class, numerics_values=None, time_budget=conf.TIME_BU
 
         N += 1
 
-    #print("seqscout iterations: {}".format(N))
+    # print("seqscout iterations: {}".format(N))
 
-    #return sorted_patterns.get_top_k_non_redundant(data, top_k)
-    return sorted_patterns.get_top_k(top_k)
+    return sorted_patterns.get_top_k_non_redundant(data, top_k)
+    # return sorted_patterns.get_top_k(top_k)
 
 
 def launch():
-    #EXTRACTING PATTERNS
+    # EXTRACTING PATTERNS
     DATA = read_json_rl('../data/final_sequences.json')
+
+    # REMOVING BUTTONS FOR TESTING
+    # DATA = [[data[0], [{1}, data[1][1]]] for data in DATA]
+
     # shuffle data
     random.shuffle(DATA)
 
@@ -206,8 +214,10 @@ def launch():
     patterns_mutable = []
 
     # we do not use what is discriminative of -1 (other thing)
-    for i in ["-1", "1", "2", "3", "5", "6", "7"]:
-        patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000, iterations_limit=400, top_k=3)
+    for i in ["1", "2", "3", "5", "6", "7"]:
+    #for i in ["1"]:
+        patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000,
+                                          iterations_limit=5000, top_k=20)
         patterns_mutable += patterns_mutable_temp
 
         # look for pattern for each possible class
@@ -219,7 +229,6 @@ def launch():
     Y_train, X_train = encoded_data_train[:, 0], encoded_data_train[:, 1:]
     Y_test, X_test = encoded_data_test[:, 0], encoded_data_test[:, 1:]
 
-    '''
     np.save("Y_train", Y_train)
     np.save("X_train", X_train)
     np.save("Y_test", Y_test)
@@ -229,15 +238,14 @@ def launch():
     Y_train = np.load("Y_train.npy")
     X_test = np.load("X_test.npy")
     Y_test = np.load("Y_test.npy")
-    '''
 
     X_train = X_train.astype(int)
     Y_train = Y_train.astype(int)
     X_test = X_test.astype(int)
     Y_test = Y_test.astype(int)
 
-    # clf = OneVsRestClassifier(DecisionTreeClassifier(random_state=0)).fit(X_train, Y_train)
-    clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100)).fit(X_train, Y_train)
+    clf = OneVsRestClassifier(DecisionTreeClassifier(random_state=0)).fit(X_train, Y_train)
+    #clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(X_train, Y_train)
     # clf = OneVsRestClassifier(xgb.XGBClassifier()).fit(X_train, Y_train)
 
     Y_pred_proba = clf.predict_proba(X_test)
@@ -256,44 +264,110 @@ def launch():
 
     print(sum_diff_one_by_n)
 
-
-    '''
-    pipeline_optimizer = TPOTClassifier(generations=50, population_size=100, cv=5,
-                                    random_state=42, verbosity=2)
-
-    pipeline_optimizer.fit(X_train, Y_train)
-    print(pipeline_optimizer.score(X_test, Y_test))
-    pipeline_optimizer.export("saved_optimizer.py")
-    '''
-
-
     print("Train score {}".format(accuracy_score(clf.predict(X_train), Y_train)))
     print("Test score {}".format(accuracy_score(Y_test, Y_pred)))
     print(confusion_matrix(Y_test, Y_pred))
 
-def launch_leave_one_out():
+def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K, iteration_limit=conf.ITERATIONS_NUMBER, classif=conf.CLASSIFICATION_ALGORITHM, numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA):
+    # EXTRACTING PATTERNS
+    DATA = read_json_rl('../data/final_sequences.json')
+
+    X = np.array([i[1:] for i in DATA])
+    Y = np.array([[i[0]] for i in DATA])
+
+    numerics_values = preprocess(DATA)
+
+    skf = StratifiedKFold(n_splits=k)
+
+    mean_accuracy = 0
+    accuracy_list = []
+
+    for i_cv, (train_index, test_index) in enumerate(skf.split(X, Y)):
+        print("Progression {}%".format((i_cv) * 100 / k))
+        patterns_mutable = []
+
+        DATA_TRAIN = [[Y[i]] + list(X[i]) for i in train_index]
+        DATA_TEST = [[Y[i]] + list(X[i]) for i in test_index]
+
+        # we do not use what is discriminative of -1 (noise)
+        for i in ["1", "2", "3", "5", "6", "7"]:
+            # for i in ["1"]:
+            patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000,
+                                              iterations_limit=iteration_limit, top_k=pattern_number, numeric_remove_proba=numeric_remove_proba)
+            patterns_mutable += patterns_mutable_temp
+
+            # look for pattern for each possible class
+        #print_results(patterns_mutable)
+
+        encoded_data_train = np.array(encode_data_pattern(DATA_TRAIN, patterns_mutable))
+        encoded_data_test = np.array(encode_data_pattern(DATA_TEST, patterns_mutable))
+
+        Y_train, X_train = encoded_data_train[:, 0], encoded_data_train[:, 1:]
+        Y_test, X_test = encoded_data_test[:, 0], encoded_data_test[:, 1:]
+
+        Y_train = Y_train.astype(int)
+        Y_test = Y_test.astype(int)
+
+        if classif == "DT":
+            clf = OneVsRestClassifier(DecisionTreeClassifier(random_state=0)).fit(X_train, Y_train)
+        elif classif == "RF":
+            clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(X_train,
+                                                                                                             Y_train)
+        else:
+            raise ValueError('Wrong classification algorithm name')
+
+        Y_pred_proba = clf.predict_proba(X_test)
+        Y_pred = clf.predict(X_test)
+
+        # some stats
+        classes = np.unique(Y_train)
+        print(classes)
+
+        sum_diff_one_by_n = {key: 0 for key in classes}
+        one_by_n = 1 / len(classes)
+
+        for i, probas in enumerate(Y_pred_proba):
+            for j in probas:
+                sum_diff_one_by_n[Y_test[i]] += abs(one_by_n - j)
+
+        print(sum_diff_one_by_n)
+
+        accuracy_iter = accuracy_score(Y_test, Y_pred)
+        print("Train score {}".format(accuracy_score(clf.predict(X_train), Y_train)))
+        print("Test score {}".format(accuracy_iter))
+        print(confusion_matrix(Y_test, Y_pred))
+        mean_accuracy += accuracy_iter
+        accuracy_list.append(accuracy_iter)
+
+    mean_accuracy /= k
+    print('The mean accuracy is {}'.format(mean_accuracy))
+    return mean_accuracy, accuracy_list
+
+def cross_validate(k):
     # EXTRACTING PATTERNS
     DATA = read_json_rl('../data/final_sequences.json')
 
     numerics_values = preprocess(DATA)
 
-    Y_all_data = np.array([int(i[0]) for i in DATA])
-    Y_pred_all_data = np.zeros(Y_all_data.shape)
+    Y_test_all = np.array([int(data[0]) for data in DATA])
+    Y_pred_all = np.zeros(Y_test_all.shape)
 
+    for i_k in range(k):
+        print("Progression {}%".format((i_k) * 100 / k))
+        test_size = (int(len(DATA) / k))
 
-    for i, line in enumerate(DATA):
-        print("{}%".format(i/len(DATA)))
-        if i < len(DATA) - 1:
-            DATA_TRAIN, DATA_TEST = DATA[:i] + DATA[i+1:], [line]
+        if i_k != k - 1:
+            DATA_TRAIN, DATA_TEST = DATA[:i_k * test_size] + DATA[(i_k + 1) * test_size:], \
+                                    DATA[i_k * test_size:(i_k + 1) * test_size]
         else:
-            DATA_TRAIN, DATA_TEST = DATA[:i], [line]
+            DATA_TRAIN, DATA_TEST = DATA[:i_k * test_size], DATA[i_k * test_size:]
 
         patterns = []
 
         # look for pattern for each possible class
-        for j in ["-1", "1", "2", "3", "5", "6", "7"]:
+        for j in ["1", "2", "3", "5", "6", "7"]:
             patterns_temp = seq_scout(DATA_TRAIN, j, numerics_values=numerics_values, time_budget=1000,
-                                              iterations_limit=400, top_k=30)
+                                      iterations_limit=5000, top_k=30)
             patterns += patterns_temp
 
         encoded_data_train = np.array(encode_data_pattern(DATA_TRAIN, patterns))
@@ -307,26 +381,26 @@ def launch_leave_one_out():
         X_test = X_test.astype(int)
         Y_test = Y_test.astype(int)
 
-        clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100)).fit(X_train, Y_train)
+        clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(X_train, Y_train)
 
-        Y_pred_all_data[i] = clf.predict(X_test)
+        for i_pred, prediction in enumerate(clf.predict(X_test)):
+            Y_pred_all[i_k * test_size + i_pred] = prediction
 
-        print("Test score {}".format(accuracy_score(Y_all_data, Y_pred_all_data)))
+    print("Test score {}".format(accuracy_score(Y_test_all, Y_pred_all)))
+    print(confusion_matrix(Y_test_all, Y_pred_all))
 
-    print("Test score {}".format(accuracy_score(Y_all_data, Y_pred_all_data)))
-    print(confusion_matrix(Y_all_data, Y_pred_all_data))
 
 if __name__ == '__main__':
-    launch()
-    # launch_leave_one_out()
-# BEST CONF: no redundant, time=inf, 20k iterations, top-k=30, random forest -> 82%
-
-# try with only numerics/ with only buttons
-
-# ajouter le time
-# verifier le True: Ajouter cet évènement aux boutons ?
+    #launch()
+    #cross_validate(5)
+    stratified_k_fold()
 
 
-# first try to get the best possible patterns !
-# leave one out
-# Try to use the level from misere ???
+# BEST CONF######
+# : no redundant (not mandatory), time=inf, 1000 iterations, top-k=30, random forest -> 86%
+# 1/2 no restriction on numeric, adding time since the beggining, leave-one-out
+
+# TODO
+# try with only numerics (with only buttons ?) -> good on train (1), bad on test
+# Try to use the level from misere ??? -> not easy to adapt because numerics
+# noise (-1) is a problem: remove it with a threshold ?

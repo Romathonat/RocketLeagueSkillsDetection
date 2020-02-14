@@ -2,13 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="721e8540-47da-473f-a3ba-c039fac68c20" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/seqscout/boss.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/seqscout/dtw.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xp/xp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seqscout/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/conf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seqscout/seq_scout.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/seq_scout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seqscout/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xp/xp_main.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -23,9 +36,78 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../mctsextent" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.seq_scout">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/xp" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.xp">
+    <configuration name="boss" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ComplexSeqScout" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seqscout" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqscout/boss.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="conf" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ComplexSeqScout" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seqscout" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqscout/conf.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dtw" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ComplexSeqScout" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seqscout" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqscout/dtw.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="seq_scout" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="ComplexSeqScout" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -47,7 +129,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="stats_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="xp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ComplexSeqScout" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -55,53 +137,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seqscout" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/xp" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqscout/stats_data.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test_utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ComplexSeqScout" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/test_utils.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ComplexSeqScout" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seqscout" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seqscout/utils.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xp/xp.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -111,17 +151,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.boss" />
+      <item itemvalue="Python.conf" />
+      <item itemvalue="Python.dtw" />
       <item itemvalue="Python.seq_scout" />
-      <item itemvalue="Python.stats_data" />
-      <item itemvalue="Python.test_utils" />
-      <item itemvalue="Python.utils" />
+      <item itemvalue="Python.xp" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.xp" />
         <item itemvalue="Python.seq_scout" />
-        <item itemvalue="Python.stats_data" />
-        <item itemvalue="Python.utils" />
-        <item itemvalue="Python.test_utils" />
+        <item itemvalue="Python.dtw" />
+        <item itemvalue="Python.boss" />
+        <item itemvalue="Python.conf" />
       </list>
     </recent_temporary>
   </component>
@@ -147,49 +189,81 @@
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
     <state x="100" y="100" width="1720" height="880" key="DiffContextDialog/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580742161650" />
-    <state width="1897" height="360" key="GridCell.Tab.0.bottom" timestamp="1580822560581">
+    <state x="743" y="315" width="424" height="482" key="FileChooserDialogImpl" timestamp="1581675405432">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="239" key="GridCell.Tab.0.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211912" />
-    <state width="1897" height="360" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580822560581" />
-    <state width="1897" height="360" key="GridCell.Tab.0.center" timestamp="1580822560580">
+    <state x="743" y="315" width="424" height="482" key="FileChooserDialogImpl/0.34.1920.1046@0.34.1920.1046" timestamp="1581675405432" />
+    <state width="1897" height="285" key="GridCell.Tab.0.bottom" timestamp="1581686063726">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="239" key="GridCell.Tab.0.center/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211912" />
-    <state width="1897" height="360" key="GridCell.Tab.0.center/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580822560580" />
-    <state width="1897" height="360" key="GridCell.Tab.0.left" timestamp="1580822560580">
+    <state width="1897" height="285" key="GridCell.Tab.0.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1581686063726" />
+    <state width="1897" height="244" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1581354699369" />
+    <state width="1897" height="190" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1581359087590" />
+    <state width="1897" height="285" key="GridCell.Tab.0.center" timestamp="1581686063726">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="239" key="GridCell.Tab.0.left/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211911" />
-    <state width="1897" height="360" key="GridCell.Tab.0.left/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580822560580" />
-    <state width="1897" height="360" key="GridCell.Tab.0.right" timestamp="1580822560581">
+    <state width="1897" height="285" key="GridCell.Tab.0.center/0.34.1920.1046@0.34.1920.1046" timestamp="1581686063726" />
+    <state width="1897" height="244" key="GridCell.Tab.0.center/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1581354699368" />
+    <state width="1897" height="190" key="GridCell.Tab.0.center/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1581359087590" />
+    <state width="1897" height="285" key="GridCell.Tab.0.left" timestamp="1581686063726">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="239" key="GridCell.Tab.0.right/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211912" />
-    <state width="1897" height="360" key="GridCell.Tab.0.right/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580822560581" />
-    <state width="1897" height="313" key="GridCell.Tab.1.bottom" timestamp="1580818926962">
+    <state width="1897" height="285" key="GridCell.Tab.0.left/0.34.1920.1046@0.34.1920.1046" timestamp="1581686063726" />
+    <state width="1897" height="244" key="GridCell.Tab.0.left/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1581354699368" />
+    <state width="1897" height="190" key="GridCell.Tab.0.left/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1581359087590" />
+    <state width="1897" height="285" key="GridCell.Tab.0.right" timestamp="1581686063726">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="195" key="GridCell.Tab.1.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211907" />
-    <state width="1897" height="313" key="GridCell.Tab.1.bottom/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580818926962" />
-    <state width="1897" height="313" key="GridCell.Tab.1.center" timestamp="1580818926962">
-      <screen x="0" y="34" width="1920" height="1046" />
+    <state width="1897" height="285" key="GridCell.Tab.0.right/0.34.1920.1046@0.34.1920.1046" timestamp="1581686063726" />
+    <state width="1897" height="244" key="GridCell.Tab.0.right/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1581354699368" />
+    <state width="1897" height="190" key="GridCell.Tab.0.right/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1581359087590" />
+    <state width="1897" height="244" key="GridCell.Tab.1.bottom" timestamp="1581359087587">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1897" height="195" key="GridCell.Tab.1.center/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211906" />
-    <state width="1897" height="313" key="GridCell.Tab.1.center/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580818926962" />
-    <state width="1897" height="313" key="GridCell.Tab.1.left" timestamp="1580818926962">
-      <screen x="0" y="34" width="1920" height="1046" />
+    <state width="1897" height="233" key="GridCell.Tab.1.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1581093818369" />
+    <state width="1897" height="244" key="GridCell.Tab.1.bottom/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1581354699369" />
+    <state width="1897" height="244" key="GridCell.Tab.1.bottom/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1581359087587" />
+    <state width="1897" height="244" key="GridCell.Tab.1.center" timestamp="1581359087587">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1897" height="195" key="GridCell.Tab.1.left/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211906" />
-    <state width="1897" height="313" key="GridCell.Tab.1.left/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580818926962" />
-    <state width="1897" height="313" key="GridCell.Tab.1.right" timestamp="1580818926962">
-      <screen x="0" y="34" width="1920" height="1046" />
+    <state width="1897" height="233" key="GridCell.Tab.1.center/0.34.1920.1046@0.34.1920.1046" timestamp="1581093818369" />
+    <state width="1897" height="244" key="GridCell.Tab.1.center/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1581354699369" />
+    <state width="1897" height="244" key="GridCell.Tab.1.center/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1581359087587" />
+    <state width="1897" height="244" key="GridCell.Tab.1.left" timestamp="1581359087587">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1897" height="195" key="GridCell.Tab.1.right/0.34.1920.1046@0.34.1920.1046" timestamp="1580756211907" />
-    <state width="1897" height="313" key="GridCell.Tab.1.right/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580818926962" />
+    <state width="1897" height="233" key="GridCell.Tab.1.left/0.34.1920.1046@0.34.1920.1046" timestamp="1581093818369" />
+    <state width="1897" height="244" key="GridCell.Tab.1.left/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1581354699369" />
+    <state width="1897" height="244" key="GridCell.Tab.1.left/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1581359087587" />
+    <state width="1897" height="244" key="GridCell.Tab.1.right" timestamp="1581359087587">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1897" height="233" key="GridCell.Tab.1.right/0.34.1920.1046@0.34.1920.1046" timestamp="1581093818369" />
+    <state width="1897" height="244" key="GridCell.Tab.1.right/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1581354699369" />
+    <state width="1897" height="244" key="GridCell.Tab.1.right/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1581359087587" />
     <state x="449" y="175" key="SettingsEditor" timestamp="1580721242343">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
     <state x="449" y="175" key="SettingsEditor/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580721242343" />
+    <state width="960" height="523" key="XDebugger.FullValuePopup" timestamp="1580982167639">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state width="960" height="523" key="XDebugger.FullValuePopup/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580982167639" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/seqscout/boss.py</url>
+          <line>64</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="X_train[1]" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
