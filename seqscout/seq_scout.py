@@ -200,84 +200,6 @@ def seq_scout(data, target_class, numerics_values=None, time_budget=conf.TIME_BU
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
 
-
-def launch():
-    # EXTRACTING PATTERNS
-    DATA = read_json_rl('../data/rocket_league_new.json')
-
-
-    # REMOVING BUTTONS FOR TESTING
-    # DATA = [[data[0], [{1}, data[1][1]]] for data in DATA]
-
-    # shuffle data
-    random.shuffle(DATA)
-
-    # take 80% for train
-    indice_split = int(0.8 * len(DATA))
-    DATA_TRAIN = DATA[:indice_split]
-    DATA_TEST = DATA[indice_split:]
-
-    numerics_values = preprocess(DATA)
-
-    patterns_mutable = []
-
-    # we do not use what is discriminative of -1 (other thing)
-    #for i in ["1", "2", "3", "5", "6", "7"]:
-    for i in ["1"]:
-        # for i in ["1"]:
-        patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000,
-                                          iterations_limit=8000, top_k=20)
-        patterns_mutable += patterns_mutable_temp
-
-        # look for pattern for each possible class
-    print_results(patterns_mutable)
-
-    encoded_data_train = np.array(encode_data_pattern(DATA_TRAIN, patterns_mutable))
-    encoded_data_test = np.array(encode_data_pattern(DATA_TEST, patterns_mutable))
-
-    Y_train, X_train = encoded_data_train[:, 0], encoded_data_train[:, 1:]
-    Y_test, X_test = encoded_data_test[:, 0], encoded_data_test[:, 1:]
-
-    np.save("Y_train", Y_train)
-    np.save("X_train", X_train)
-    np.save("Y_test", Y_test)
-    np.save("X_test", X_test)
-
-    X_train = np.load("X_train.npy")
-    Y_train = np.load("Y_train.npy")
-    X_test = np.load("X_test.npy")
-    Y_test = np.load("Y_test.npy")
-
-    X_train = X_train.astype(int)
-    Y_train = Y_train.astype(int)
-    X_test = X_test.astype(int)
-    Y_test = Y_test.astype(int)
-
-    clf = OneVsRestClassifier(DecisionTreeClassifier(random_state=0)).fit(X_train, Y_train)
-    # clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(X_train, Y_train)
-    # clf = OneVsRestClassifier(xgb.XGBClassifier()).fit(X_train, Y_train)
-
-    Y_pred_proba = clf.predict_proba(X_test)
-    Y_pred = clf.predict(X_test)
-
-    # some stats
-    classes = np.unique(Y_train)
-    print(classes)
-
-    sum_diff_one_by_n = {key: 0 for key in classes}
-    one_by_n = 1 / len(classes)
-
-    for i, probas in enumerate(Y_pred_proba):
-        for j in probas:
-            sum_diff_one_by_n[Y_test[i]] += abs(one_by_n - j)
-
-    print(sum_diff_one_by_n)
-
-    print("Train score {}".format(accuracy_score(clf.predict(X_train), Y_train)))
-    print("Test score {}".format(accuracy_score(Y_test, Y_pred)))
-    print(confusion_matrix(Y_test, Y_pred))
-
-
 def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K, iteration_limit=conf.ITERATIONS_NUMBER,
                       classif=conf.CLASSIFICATION_ALGORITHM, numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA,
                       theta=conf.THETA, no_filtering=False,
@@ -376,53 +298,6 @@ def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K,
     print('The mean accuracy is {}'.format(mean_accuracy))
     return mean_accuracy, accuracy_list
 
-
-def cross_validate(k):
-    # EXTRACTING PATTERNS
-    DATA = read_json_rl('../data/rocket_league_new.json')
-
-    numerics_values = preprocess(DATA)
-
-    Y_test_all = np.array([int(data[0]) for data in DATA])
-    Y_pred_all = np.zeros(Y_test_all.shape)
-
-    for i_k in range(k):
-        print("Progression {}%".format((i_k) * 100 / k))
-        test_size = (int(len(DATA) / k))
-
-        if i_k != k - 1:
-            DATA_TRAIN, DATA_TEST = DATA[:i_k * test_size] + DATA[(i_k + 1) * test_size:], \
-                                    DATA[i_k * test_size:(i_k + 1) * test_size]
-        else:
-            DATA_TRAIN, DATA_TEST = DATA[:i_k * test_size], DATA[i_k * test_size:]
-
-        patterns = []
-
-        # look for pattern for each possible class
-        for j in ["1", "2", "3", "5", "6", "7"]:
-            patterns_temp = seq_scout(DATA_TRAIN, j, numerics_values=numerics_values, time_budget=1000,
-                                      iterations_limit=5000, top_k=30)
-            patterns += patterns_temp
-
-        encoded_data_train = np.array(encode_data_pattern(DATA_TRAIN, patterns))
-        encoded_data_test = np.array(encode_data_pattern(DATA_TEST, patterns))
-
-        Y_train, X_train = encoded_data_train[:, 0], encoded_data_train[:, 1:]
-        Y_test, X_test = encoded_data_test[:, 0], encoded_data_test[:, 1:]
-
-        X_train = X_train.astype(int)
-        Y_train = Y_train.astype(int)
-        X_test = X_test.astype(int)
-        Y_test = Y_test.astype(int)
-
-        clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(X_train,
-                                                                                                             Y_train)
-
-        for i_pred, prediction in enumerate(clf.predict(X_test)):
-            Y_pred_all[i_k * test_size + i_pred] = prediction
-
-    print("Test score {}".format(accuracy_score(Y_test_all, Y_pred_all)))
-    print(confusion_matrix(Y_test_all, Y_pred_all))
 
 
 if __name__ == '__main__':
