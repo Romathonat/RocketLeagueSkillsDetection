@@ -7,7 +7,9 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedKFold
+
 from seqscout.utils import read_json_rl
+import seqscout.conf as conf
 
 
 def dtw(x, y, dist, warp=1, w=inf, s=1.0):
@@ -161,9 +163,12 @@ def knn(X_train, X_test, y_train, k):
     return pred
 
 
-def launch_knn_dtw(k):
-    # we transform data in multivariate time series of form [class, {'timeserie_name': np_array}]
-    DATA = read_json_rl('../data/final_sequences.json')
+def launch_knn_dtw():
+    # 1-NN
+    k = 1
+
+    # we transform data to multivariate time series of form [class, {'timeserie_name': np_array}]
+    DATA = read_json_rl('../data/rocket_league_new.json')
     DATA_FORMATED = []
 
     # process time, and Goals in events
@@ -228,7 +233,7 @@ def launch_knn_dtw(k):
 
 
     # KNN step s
-    FOLD_NUMBER = 5
+    FOLD_NUMBER = conf.CROSS_VALIDATION_NUMBER
 
     skf = StratifiedKFold(n_splits=FOLD_NUMBER)
     skf.get_n_splits(X, y)
@@ -252,6 +257,7 @@ def launch_knn_dtw(k):
     mean_accuracy /= FOLD_NUMBER
 
     print("The mean accuracy is {}".format(mean_accuracy))
+    return mean_accuracy
 
 if __name__ == '__main__':
     launch_knn_dtw(1)

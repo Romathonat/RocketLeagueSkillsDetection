@@ -74,7 +74,7 @@ def is_subsequence(a, b):
     while i_a < len(a) and i_b < len(b):
         # we check if buttons are present
         if a[i_a][0].issubset(b[i_b][0]):
-        # now we check if numeric value is inside interval
+            # now we check if numeric value is inside interval
             if all([value >= a[i_a][1][numeric][0] and value <= a[i_a][1][numeric][1] for numeric, value in
                     b[i_b][1].items()]):
                 i_a += 1
@@ -115,8 +115,11 @@ def read_json_rl(filename):
     output_data = []
     for line in data:
         # data cleaning: if the sequence has more than 130 states in this dataset, it is an error
+        ''' 
         if len(line['sequence']) > 130:
+            print(line['figure'])
             continue
+        '''
 
         offset_begin_move = -1
         for i, state in enumerate(line['sequence']):
@@ -126,7 +129,7 @@ def read_json_rl(filename):
 
             # we offset this value since the beginning of the move
             state[1]['Time'] = state[1]['Time'] - offset_begin_move
-            #del state[1]['Time']
+            # del state[1]['Time']
 
             # we add the goal to the itemset of events
             if state[1]['goal']:
@@ -134,14 +137,80 @@ def read_json_rl(filename):
             del state[1]['goal']
             line['sequence'][i] = [set(state[0]), state[1]]
 
+        '''
         if line['figure'] == "8":
             new_line = ["-1"] + line['sequence']
         else:
-            new_line = [line['figure']] + line['sequence']
+        '''
+        new_line = [line['figure']] + line['sequence']
 
         output_data.append(new_line)
     return output_data
 
+
+def extract_stats(data):
+    size_max = 0
+    length_max = 0
+    inputs = set()
+    numerics = {}
+
+    for line in data:
+        if len(line[1:]) > size_max:
+            size_max = len(line[1:])
+
+        length = 0
+        for state in line[1:]:
+            length += len(state[0])
+            length += len(state[1])
+
+            for elt in state[0]:
+                inputs.add(elt)
+
+            for numeric, value in state[1].items():
+                if numeric not in numerics:
+                    numerics[numeric] = {value}
+                else:
+                    numerics[numeric].add(value)
+
+        if length > length_max:
+            length_max = length
+
+    print(f"The size max is {size_max}")
+    print(f"The length max is {length_max}")
+    print(f"The number of different inputs is {len(inputs)}")
+
+    for numeric in numerics:
+        print(f"for {numeric} the min is {min(numerics[numeric])} and the max is {max(numerics[numeric])}")
+
+def filter_sequence_goals(data):
+    '''
+    Filter sequences containing a goal event
+    :param data: results from read_json_rl
+    :return: filtered data
+    '''
+    FILTERED_DATA = []
+    for line in data:
+        append = False
+        for state in line[1:]:
+            if "goal" in state[0]:
+                append = True
+        if append:
+            FILTERED_DATA.append(line)
+
+    return FILTERED_DATA
+
+
+def filter_sequence_numerics(data):
+    '''
+    keep only numerics in sequences
+    :param data:
+    :return:
+    '''
+    for line in data:
+        for state in line[1:]:
+            state[0] = {"useless value"}
+
+    return data
 
 
 def encode_data(data, item_to_encoding):
@@ -286,3 +355,9 @@ def encode_data_pattern(DATA, patterns):
         encoded_data.append(new_line)
 
     return encoded_data
+
+
+
+if __name__ == '__main__':
+    DATA = read_json_rl('../data/rocket_league_new.json')
+    extract_stats(DATA)

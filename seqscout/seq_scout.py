@@ -13,13 +13,16 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.model_selection import cross_val_score, StratifiedKFold
+from sklearn import svm
+from sklearn.naive_bayes import GaussianNB
+
 import xgboost as xgb
 
 from seqscout.utils import sequence_mutable_to_immutable, \
     k_length, \
     count_target_class_data, extract_items, compute_quality, \
     sequence_immutable_to_mutable, encode_data, \
-    read_json_rl, print_results, pattern_mutable_to_immutable, encode_data_pattern
+    read_json_rl, print_results, pattern_mutable_to_immutable, encode_data_pattern, filter_sequence_goals, filter_sequence_numerics
 
 from seqscout.priorityset import PrioritySet, PrioritySetUCB
 import seqscout.conf as conf
@@ -85,7 +88,8 @@ def find_i_value(numeric_values, value):
     return -1
 
 
-def generalize_sequence(sequence, data, target_class, numerics_values=None, quality_measure=conf.QUALITY_MEASURE, numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA):
+def generalize_sequence(sequence, data, target_class, numerics_values=None, quality_measure=conf.QUALITY_MEASURE,
+                        numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA):
     sequence = copy.deepcopy(sequence)
 
     # we remove z items randomly among buttons
@@ -110,12 +114,12 @@ def generalize_sequence(sequence, data, target_class, numerics_values=None, qual
             if i_value == 0:
                 left_value = 0
             else:
-                left_value = random.sample(numerics_values[numeric][:i_value], 1)[0]
+                left_value = random.sample(numerics_values[numeric][:i_value+1], 1)[0]
 
             if i_value == len(numerics_values[numeric]) - 1:
                 rigth_value = len(numerics_values[numeric]) - 1
             else:
-                rigth_value = random.sample(numerics_values[numeric][i_value + 1:], 1)[0]
+                rigth_value = random.sample(numerics_values[numeric][i_value:], 1)[0]
             numerics[numeric] = [left_value, rigth_value]
 
             # with numeric_remove_proba chance we remove this numeric !
@@ -133,7 +137,8 @@ def UCB(score, Ni, N):
     return (score + 0.25) * 2 + 0.5 * math.sqrt(2 * math.log(N) / Ni)
 
 
-def play_arm(sequence, data, target_class, numerics_values=None, quality_measure=conf.QUALITY_MEASURE, numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA):
+def play_arm(sequence, data, target_class, numerics_values=None, quality_measure=conf.QUALITY_MEASURE,
+             numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA):
     '''
     Select object, generalise
     :param sequence: immutable sequence to generalise
@@ -154,7 +159,8 @@ def play_arm(sequence, data, target_class, numerics_values=None, quality_measure
 
 
 def seq_scout(data, target_class, numerics_values=None, time_budget=conf.TIME_BUDGET, top_k=conf.TOP_K,
-              iterations_limit=conf.ITERATIONS_NUMBER, theta=conf.THETA, quality_measure=conf.QUALITY_MEASURE, numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA):
+              iterations_limit=conf.ITERATIONS_NUMBER, theta=conf.THETA, quality_measure=conf.QUALITY_MEASURE,
+              numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA, no_filtering=False):
     begin = datetime.datetime.utcnow()
     time_budget = datetime.timedelta(seconds=time_budget)
 
@@ -189,14 +195,16 @@ def seq_scout(data, target_class, numerics_values=None, time_budget=conf.TIME_BU
         N += 1
 
     # print("seqscout iterations: {}".format(N))
+    if no_filtering:
+        return sorted_patterns.get_top_k(top_k)
 
     return sorted_patterns.get_top_k_non_redundant(data, top_k)
-    # return sorted_patterns.get_top_k(top_k)
 
 
 def launch():
     # EXTRACTING PATTERNS
-    DATA = read_json_rl('../data/final_sequences.json')
+    DATA = read_json_rl('../data/rocket_league_new.json')
+
 
     # REMOVING BUTTONS FOR TESTING
     # DATA = [[data[0], [{1}, data[1][1]]] for data in DATA]
@@ -214,10 +222,11 @@ def launch():
     patterns_mutable = []
 
     # we do not use what is discriminative of -1 (other thing)
-    for i in ["1", "2", "3", "5", "6", "7"]:
-    #for i in ["1"]:
+    #for i in ["1", "2", "3", "5", "6", "7"]:
+    for i in ["1"]:
+        # for i in ["1"]:
         patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000,
-                                          iterations_limit=5000, top_k=20)
+                                          iterations_limit=8000, top_k=20)
         patterns_mutable += patterns_mutable_temp
 
         # look for pattern for each possible class
@@ -245,7 +254,7 @@ def launch():
     Y_test = Y_test.astype(int)
 
     clf = OneVsRestClassifier(DecisionTreeClassifier(random_state=0)).fit(X_train, Y_train)
-    #clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(X_train, Y_train)
+    # clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(X_train, Y_train)
     # clf = OneVsRestClassifier(xgb.XGBClassifier()).fit(X_train, Y_train)
 
     Y_pred_proba = clf.predict_proba(X_test)
@@ -268,9 +277,19 @@ def launch():
     print("Test score {}".format(accuracy_score(Y_test, Y_pred)))
     print(confusion_matrix(Y_test, Y_pred))
 
-def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K, iteration_limit=conf.ITERATIONS_NUMBER, classif=conf.CLASSIFICATION_ALGORITHM, numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA):
+
+def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K, iteration_limit=conf.ITERATIONS_NUMBER,
+                      classif=conf.CLASSIFICATION_ALGORITHM, numeric_remove_proba=conf.NUMERIC_REMOVE_PROBA,
+                      theta=conf.THETA, no_filtering=False,
+                      only_goals=False, only_numerics=False):
     # EXTRACTING PATTERNS
-    DATA = read_json_rl('../data/final_sequences.json')
+    DATA = read_json_rl('../data/rocket_league_new.json')
+
+    if only_goals:
+        DATA = filter_sequence_goals(DATA)
+
+    if only_numerics:
+        DATA = filter_sequence_numerics(DATA)
 
     X = np.array([i[1:] for i in DATA])
     Y = np.array([[i[0]] for i in DATA])
@@ -291,13 +310,18 @@ def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K,
 
         # we do not use what is discriminative of -1 (noise)
         for i in ["1", "2", "3", "5", "6", "7"]:
+            # we do not have waving dashes if we consider only sequences with goals
+            if i == "3" and only_goals:
+                continue
             # for i in ["1"]:
-            patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=1000,
-                                              iterations_limit=iteration_limit, top_k=pattern_number, numeric_remove_proba=numeric_remove_proba)
+            patterns_mutable_temp = seq_scout(DATA_TRAIN, i, numerics_values=numerics_values, time_budget=10,
+                                              iterations_limit=iteration_limit, top_k=pattern_number,
+                                              numeric_remove_proba=numeric_remove_proba, theta=theta,
+                                              no_filtering=no_filtering)
             patterns_mutable += patterns_mutable_temp
 
             # look for pattern for each possible class
-        #print_results(patterns_mutable)
+        # print_results(patterns_mutable)
 
         encoded_data_train = np.array(encode_data_pattern(DATA_TRAIN, patterns_mutable))
         encoded_data_test = np.array(encode_data_pattern(DATA_TEST, patterns_mutable))
@@ -311,8 +335,15 @@ def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K,
         if classif == "DT":
             clf = OneVsRestClassifier(DecisionTreeClassifier(random_state=0)).fit(X_train, Y_train)
         elif classif == "RF":
-            clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(X_train,
-                                                                                                             Y_train)
+            clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(
+                X_train,
+                Y_train)
+        elif classif == "XGB":
+            clf = OneVsRestClassifier(xgb.XGBClassifier()).fit(X_train, Y_train)
+        elif classif == "SVM":
+            clf = OneVsRestClassifier(svm.SVC(probability=True)).fit(X_train, Y_train)
+        elif classif == "NB":
+            clf = OneVsRestClassifier(GaussianNB()).fit(X_train, Y_train)
         else:
             raise ValueError('Wrong classification algorithm name')
 
@@ -320,6 +351,7 @@ def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K,
         Y_pred = clf.predict(X_test)
 
         # some stats
+        '''
         classes = np.unique(Y_train)
         print(classes)
 
@@ -331,6 +363,7 @@ def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K,
                 sum_diff_one_by_n[Y_test[i]] += abs(one_by_n - j)
 
         print(sum_diff_one_by_n)
+        '''
 
         accuracy_iter = accuracy_score(Y_test, Y_pred)
         print("Train score {}".format(accuracy_score(clf.predict(X_train), Y_train)))
@@ -343,9 +376,10 @@ def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K,
     print('The mean accuracy is {}'.format(mean_accuracy))
     return mean_accuracy, accuracy_list
 
+
 def cross_validate(k):
     # EXTRACTING PATTERNS
-    DATA = read_json_rl('../data/final_sequences.json')
+    DATA = read_json_rl('../data/rocket_league_new.json')
 
     numerics_values = preprocess(DATA)
 
@@ -381,7 +415,8 @@ def cross_validate(k):
         X_test = X_test.astype(int)
         Y_test = Y_test.astype(int)
 
-        clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(X_train, Y_train)
+        clf = OneVsRestClassifier(RandomForestClassifier(random_state=0, n_estimators=100, max_depth=6)).fit(X_train,
+                                                                                                             Y_train)
 
         for i_pred, prediction in enumerate(clf.predict(X_test)):
             Y_pred_all[i_k * test_size + i_pred] = prediction
@@ -391,16 +426,6 @@ def cross_validate(k):
 
 
 if __name__ == '__main__':
-    #launch()
-    #cross_validate(5)
-    stratified_k_fold()
+    stratified_k_fold(no_filtering=True)
 
 
-# BEST CONF######
-# : no redundant (not mandatory), time=inf, 1000 iterations, top-k=30, random forest -> 86%
-# 1/2 no restriction on numeric, adding time since the beggining, leave-one-out
-
-# TODO
-# try with only numerics (with only buttons ?) -> good on train (1), bad on test
-# Try to use the level from misere ??? -> not easy to adapt because numerics
-# noise (-1) is a problem: remove it with a threshold ?

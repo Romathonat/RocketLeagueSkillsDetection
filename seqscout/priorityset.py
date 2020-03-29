@@ -164,7 +164,7 @@ class PrioritySetv2(object):
         return self.heap[:k]
 
     def get_top_k_non_redundant(self, data, k):
-        self.heap = filter_results_misere(self.heap, data, THETA, k)
+        self.heap = filter_results_misere(self.heap, data, conf.THETA, k)
         # TEST
         # similarity_first = jaccard_measure_misere(self.heap[0][1], self.heap[1][1], data)
         # print(similarity_first)
