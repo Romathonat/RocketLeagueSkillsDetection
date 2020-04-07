@@ -13,13 +13,17 @@ As inputs of the controller create a long sequence, we propose a visual represen
 
 ![](https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/ceiling_shot_1.png)
 
+Here is the legend:
+<img src="https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/legend.png" alt="drawing" width="120"/>
+
+
 Now let's look at a second example
 ### Ceiling shot 2
 <a href="https://www.youtube.com/watch?v=WlWMyznvTj4" target="_blank"><img src="https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/ceiling_shot_2_mini.png" border="10" /></a>
 
 ![](https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/ceiling_shot_2.png)
 
-Clearly, sequences of inputs created are different. However, there are (more or less) hidden patterns in those figures. The aim of this work is to automatically discover them, so that we will be able to classify figures in real time. This project is a proof-of-concept, but we showed in the paper that this system could integrated in-game, to classify players actions.
+Clearly, sequences of inputs created are different. However, there are (more or less) hidden patterns in those figures. **The aim of this work is to automatically discover them, so that we will be able to classify figures in real time**. 
 
 ## List of skills
 Here we list an example of each skill we want to be able to detect in the scope of this project.
@@ -48,3 +52,6 @@ Here we list an example of each skill we want to be able to detect in the scope 
 <a href="https://www.youtube.com/watch?v=o0FwER0dFgE" target="_blank"><img src="https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/musty_flick_mini.png" border="10" /></a>
 
 ![](https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/musyt_flick.png)
+
+## Conclusion
+This project is a proof-of-concept, but we showed in the paper that this system could be integrated in-game, in order to classify players actions. This could be interesting to better rank players, or to create new game modes based on skills performances (like the [horse](https://fr.wikipedia.org/wiki/HORSE_(basket-ball)) game). Note also that it could be interesting to create a mode where new players could learn special skills in a "[Guitar Hero](https://en.wikipedia.org/wiki/Guitar_Hero) fashion": for a specific shot in training, inputs would be displayed, and player would have to press them correctly to succesfuly perform the shot.
