@@ -4,7 +4,7 @@ This repo holds the code for the paper submited to IEEE Conference on Games 2020
 
 ## Same skill, different sequences
 First we want to illustrate that the sequence of inputs of the player will vary a lot when performing the same skill.
-The first example of ceiling shot:
+The first example is a ceiling shot:
 ### Ceiling shot 1
 <a href="https://www.youtube.com/watch?v=ybQJ1hs1slE
 " target="_blank"><img src="https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/ceiling_shot_1_mini.png" border="10" /></a>
@@ -17,7 +17,7 @@ Here is the legend:
 <img src="https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/legend.png" alt="drawing" width="120"/>
 
 
-Now let's look at a second example
+Now let's look at a second example of ceiling shot
 ### Ceiling shot 2
 <a href="https://www.youtube.com/watch?v=WlWMyznvTj4" target="_blank"><img src="https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/ceiling_shot_2_mini.png" border="10" /></a>
 
