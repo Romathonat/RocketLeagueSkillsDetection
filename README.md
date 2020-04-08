@@ -24,6 +24,8 @@ Now let's look at a second example
 ![](https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/ceiling_shot_2.png)
 
 Clearly, sequences of inputs created are different, even if they are different instances of **the same figure**. However, there are (more or less) hidden patterns in them. **The aim of this work is to automatically discover them, so that we will be able to classify figures in real time**. 
+  
+**Important**: Note that here we show only sequences of inputs for simplification, but there are also game information in sequences, like positions, speed, distance to the ball etc (see paper).
 
 ## List of skills
 Here we list an example of each skill we want to be able to detect in the scope of this project.
