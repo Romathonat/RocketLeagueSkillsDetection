@@ -32,7 +32,7 @@ Clearly, sequences of inputs created are different, even if they are different i
 
 **The aim of this work is to automatically discover them, so that we will be able to classify figures in real time**. 
   
-**Important**: Note that here we only show sequences of inputs for simplification, but there are also a lot of game information we used in our workflow that is not represented here, like positions, speed, distance to the ball etc (see paper).
+**Important**: Note that here we only show sequences of inputs for simplification. However, there are a lot of game information we used in our workflow that is not represented here, like positions, speed, distance to the ball etc (see paper).
 
 ## List of skills
 Here we list an example of each skill we want to be able to detect in the scope of this project.
