@@ -32,7 +32,7 @@ Clearly, sequences of inputs created are different, even if they are different i
 
 **The aim of this work is to automatically discover them, so that we will be able to classify figures in real time**. 
   
-**Important**: Note that here we show only sequences of inputs for simplification, but there are also game information in sequences, like positions, speed, distance to the ball etc (see paper).
+**Important**: Note that here we only show sequences of inputs for simplification, but there are also a lot of game information we used in our workflow that is not represented here, like positions, speed, distance to the ball etc (see paper).
 
 ## List of skills
 Here we list an example of each skill we want to be able to detect in the scope of this project.
@@ -63,6 +63,6 @@ Here we list an example of each skill we want to be able to detect in the scope 
 ![](https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/musyt_flick.png)
 
 ## Conclusion
-This project is a proof-of-concept, but we showed in the paper that this system could be integrated in-game, in order to classify players actions. This could be interesting to better rank players, or to create new game modes based on skills performances (like the [horse](https://fr.wikipedia.org/wiki/HORSE_(basket-ball)) game). Note also that it could be interesting to create a mode where new players could learn special skills in a "[Guitar Hero](https://en.wikipedia.org/wiki/Guitar_Hero) fashion": for a specific shot in training, inputs would be displayed, and player would have to press them correctly to succesfuly perform the shot.
+This project is a proof-of-concept, but we showed in the paper that this system could be integrated in-game, in order to classify players actions. This could help improving a better ranking system for players, or to create new game modes based on skills performances (like the [horse](https://fr.wikipedia.org/wiki/HORSE_(basket-ball)) game). Note also that it could be interesting to create a mode where new players could learn special skills in a "[Guitar Hero](https://en.wikipedia.org/wiki/Guitar_Hero) fashion": for a specific shot in training, inputs would be displayed, and player would have to press them correctly to succesfuly perform the shot.
 
 [1] R. Mathonat, D. Nurbakova, J. Boulicaut and M. Kaytoue, "SeqScout: Using a Bandit Model to Discover Interesting Subgroups in Labeled Sequences," 2019 IEEE International Conference on Data Science and Advanced Analytics (DSAA), Washington, DC, USA, 2019, pp. 81-90.
