@@ -9,7 +9,7 @@ The first example is a ceiling shot:
 <a href="https://www.youtube.com/watch?v=ybQJ1hs1slE
 " target="_blank"><img src="https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/ceiling_shot_1_mini.png" border="10" /></a>
 
-As inputs of the controller create a long sequence, we propose a visual representation of it. The following schema reprents buttons pressed over time.
+As inputs of the controller create a long sequence, we propose a visual representation of it. The following schema presents buttons pressed over time.
 
 ![](https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/ceiling_shot_1.png)
 
