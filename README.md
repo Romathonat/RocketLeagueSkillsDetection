@@ -23,7 +23,7 @@ Now let's look at a second example of ceiling shot
 
 ![](https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/ceiling_shot_2.png)
 
-Clearly, sequences of inputs created are different, even if they are different instances of **the same figure**. However, there are (more or less) hidden patterns in them:
+Clearly, sequences of inputs created are different, even if they are different instances of **the same figure**. However, they contains (more or less) hidden patterns:
 
 
 ![](https://raw.githubusercontent.com/Romathonat/RocketLeagueSkillsDetection/master/images/ceiling_2_pattern.png) 
