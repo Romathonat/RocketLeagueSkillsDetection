@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="721e8540-47da-473f-a3ba-c039fac68c20" name="Default Changelist" comment="" />
+    <list default="true" id="721e8540-47da-473f-a3ba-c039fac68c20" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/data/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -215,10 +218,10 @@
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
     <state width="1897" height="292" key="GridCell.Tab.1.right/0.34.1920.1046@0.34.1920.1046" timestamp="1600099208106" />
-    <state x="449" y="192" key="SettingsEditor" timestamp="1600095186889">
+    <state x="449" y="192" key="SettingsEditor" timestamp="1600100512332">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state x="449" y="192" key="SettingsEditor/0.34.1920.1046@0.34.1920.1046" timestamp="1600095186889" />
+    <state x="449" y="192" key="SettingsEditor/0.34.1920.1046@0.34.1920.1046" timestamp="1600100512332" />
     <state x="651" y="267" width="618" height="580" key="find.popup" timestamp="1600098164054">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>

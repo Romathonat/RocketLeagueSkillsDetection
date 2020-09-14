@@ -26,7 +26,6 @@ from seqscout.utils import sequence_mutable_to_immutable, \
 
 from seqscout.priorityset import PrioritySet, PrioritySetUCB
 import seqscout.conf as conf
-from tpot import TPOTClassifier
 
 def filter_target_class(data, target_class):
     filter_data = []
