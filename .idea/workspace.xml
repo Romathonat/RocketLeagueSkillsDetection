@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="721e8540-47da-473f-a3ba-c039fac68c20" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/final_sequences.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/rocket_league_new.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/boss.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/conf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/dtw.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/dtw.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seqscout/priorityset.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/priorityset.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seqscout/seq_scout.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/seq_scout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seqscout/stats_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/stats_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seqscout/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/seqscout/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xp/xp.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/xp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xp/qual_vs_theta/qual_vs_theta.png" beforeDir="false" afterPath="$PROJECT_DIR$/xp/qual_vs_theta/qual_vs_theta.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xp/regenerate.py" beforeDir="false" afterPath="$PROJECT_DIR$/xp/regenerate.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +29,6 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -164,13 +161,14 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.seq_scout" />
+        <item itemvalue="Python.utils" />
         <item itemvalue="Python.stats_data" />
         <item itemvalue="Python.worm_xp" />
         <item itemvalue="Python.ecg" />
-        <item itemvalue="Python.utils" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -185,87 +183,61 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="418" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582115464262">
+    <state x="743" y="315" width="495" height="482" key="FileChooserDialogImpl" timestamp="1600094711296">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state x="418" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.34.1920.1046@0.34.1920.1046" timestamp="1581760493385" />
-    <state x="418" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1582115464262" />
-    <state x="693" y="306" width="524" height="500" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1585240736606">
+    <state x="743" y="315" width="495" height="482" key="FileChooserDialogImpl/0.34.1920.1046@0.34.1920.1046" timestamp="1600094711296" />
+    <state width="1897" height="292" key="GridCell.Tab.0.bottom" timestamp="1600099131046">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state x="693" y="306" width="524" height="500" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.34.1920.1046@0.34.1920.1046" timestamp="1585240736606" />
-    <state x="100" y="100" width="1720" height="880" key="DiffContextDialog" timestamp="1580742161650">
+    <state width="1897" height="292" key="GridCell.Tab.0.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1600099131046" />
+    <state width="1897" height="292" key="GridCell.Tab.0.center" timestamp="1600099131045">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state x="100" y="100" width="1720" height="880" key="DiffContextDialog/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580742161650" />
-    <state x="743" y="315" width="424" height="482" key="FileChooserDialogImpl" timestamp="1585330845468">
+    <state width="1897" height="292" key="GridCell.Tab.0.center/0.34.1920.1046@0.34.1920.1046" timestamp="1600099131045" />
+    <state width="1897" height="292" key="GridCell.Tab.0.left" timestamp="1600099131045">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state x="743" y="315" width="424" height="482" key="FileChooserDialogImpl/0.34.1920.1046@0.34.1920.1046" timestamp="1585330845468" />
-    <state x="743" y="315" width="424" height="482" key="FileChooserDialogImpl/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1582707311713" />
-    <state x="2663" y="290" key="FileChooserDialogImpl/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1582710079870" />
-    <state width="1897" height="281" key="GridCell.Tab.0.bottom" timestamp="1585247387643">
+    <state width="1897" height="292" key="GridCell.Tab.0.left/0.34.1920.1046@0.34.1920.1046" timestamp="1600099131045" />
+    <state width="1897" height="292" key="GridCell.Tab.0.right" timestamp="1600099131046">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="281" key="GridCell.Tab.0.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1585247387643" />
-    <state width="1897" height="261" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1582126575482" />
-    <state width="1897" height="281" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1582733378456" />
-    <state width="1897" height="281" key="GridCell.Tab.0.center" timestamp="1585247387643">
+    <state width="1897" height="292" key="GridCell.Tab.0.right/0.34.1920.1046@0.34.1920.1046" timestamp="1600099131046" />
+    <state width="1897" height="292" key="GridCell.Tab.1.bottom" timestamp="1600099132416">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="281" key="GridCell.Tab.0.center/0.34.1920.1046@0.34.1920.1046" timestamp="1585247387643" />
-    <state width="1897" height="261" key="GridCell.Tab.0.center/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1582126575482" />
-    <state width="1897" height="281" key="GridCell.Tab.0.center/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1582733378456" />
-    <state width="1897" height="281" key="GridCell.Tab.0.left" timestamp="1585247387642">
+    <state width="1897" height="292" key="GridCell.Tab.1.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1600099132416" />
+    <state width="1897" height="292" key="GridCell.Tab.1.center" timestamp="1600099132416">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="281" key="GridCell.Tab.0.left/0.34.1920.1046@0.34.1920.1046" timestamp="1585247387642" />
-    <state width="1897" height="261" key="GridCell.Tab.0.left/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1582126575482" />
-    <state width="1897" height="281" key="GridCell.Tab.0.left/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1582733378456" />
-    <state width="1897" height="281" key="GridCell.Tab.0.right" timestamp="1585247387643">
+    <state width="1897" height="292" key="GridCell.Tab.1.center/0.34.1920.1046@0.34.1920.1046" timestamp="1600099132416" />
+    <state width="1897" height="292" key="GridCell.Tab.1.left" timestamp="1600099132416">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="1897" height="281" key="GridCell.Tab.0.right/0.34.1920.1046@0.34.1920.1046" timestamp="1585247387643" />
-    <state width="1897" height="261" key="GridCell.Tab.0.right/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1582126575482" />
-    <state width="1897" height="281" key="GridCell.Tab.0.right/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1582733378456" />
-    <state width="1897" height="232" key="GridCell.Tab.1.bottom" timestamp="1582129588890">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1897" height="233" key="GridCell.Tab.1.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1581093818369" />
-    <state width="1897" height="232" key="GridCell.Tab.1.bottom/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1582113868399" />
-    <state width="1897" height="232" key="GridCell.Tab.1.bottom/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1582129588890" />
-    <state width="1897" height="232" key="GridCell.Tab.1.center" timestamp="1582129588890">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1897" height="233" key="GridCell.Tab.1.center/0.34.1920.1046@0.34.1920.1046" timestamp="1581093818369" />
-    <state width="1897" height="232" key="GridCell.Tab.1.center/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1582113868399" />
-    <state width="1897" height="232" key="GridCell.Tab.1.center/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1582129588890" />
-    <state width="1897" height="232" key="GridCell.Tab.1.left" timestamp="1582129588890">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1897" height="233" key="GridCell.Tab.1.left/0.34.1920.1046@0.34.1920.1046" timestamp="1581093818369" />
-    <state width="1897" height="232" key="GridCell.Tab.1.left/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1582113868399" />
-    <state width="1897" height="232" key="GridCell.Tab.1.left/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1582129588890" />
-    <state width="1897" height="232" key="GridCell.Tab.1.right" timestamp="1582129588890">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1897" height="233" key="GridCell.Tab.1.right/0.34.1920.1046@0.34.1920.1046" timestamp="1581093818369" />
-    <state width="1897" height="232" key="GridCell.Tab.1.right/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1582113868399" />
-    <state width="1897" height="232" key="GridCell.Tab.1.right/1920.0.1920.1080/0.34.1920.1046@1920.0.1920.1080" timestamp="1582129588890" />
-    <state x="449" y="175" key="SettingsEditor" timestamp="1580721242343">
+    <state width="1897" height="292" key="GridCell.Tab.1.left/0.34.1920.1046@0.34.1920.1046" timestamp="1600099132416" />
+    <state width="1897" height="292" key="GridCell.Tab.1.right" timestamp="1600099132416">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state x="449" y="175" key="SettingsEditor/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580721242343" />
-    <state width="960" height="523" key="XDebugger.FullValuePopup" timestamp="1580982167639">
+    <state width="1897" height="292" key="GridCell.Tab.1.right/0.34.1920.1046@0.34.1920.1046" timestamp="1600099132416" />
+    <state x="449" y="192" key="SettingsEditor" timestamp="1600095186889">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state width="960" height="523" key="XDebugger.FullValuePopup/1920.0.1920.1080/0.34.1920.1046@0.34.1920.1046" timestamp="1580982167639" />
-    <state x="528" y="234" width="863" height="646" key="find.popup" timestamp="1581753733747">
+    <state x="449" y="192" key="SettingsEditor/0.34.1920.1046@0.34.1920.1046" timestamp="1600095186889" />
+    <state x="651" y="267" width="618" height="580" key="find.popup" timestamp="1600098164054">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
-    <state x="528" y="234" width="863" height="646" key="find.popup/0.34.1920.1046@0.34.1920.1046" timestamp="1581753733747" />
+    <state x="651" y="267" width="618" height="580" key="find.popup/0.34.1920.1046@0.34.1920.1046" timestamp="1600098164054" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/seqscout/seq_scout.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="X_train[1]" />

@@ -8,7 +8,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedKFold
 
-from seqscout.utils import read_json_rl
+from seqscout.utils import read_rocket_league_data
 import seqscout.conf as conf
 
 
@@ -168,7 +168,7 @@ def launch_knn_dtw():
     k = 1
 
     # we transform data to multivariate time series of form [class, {'timeserie_name': np_array}]
-    DATA = read_json_rl('../data/rocket_league_new.json')
+    DATA = read_rocket_league_data()
     DATA_FORMATED = []
 
     # process time, and Goals in events

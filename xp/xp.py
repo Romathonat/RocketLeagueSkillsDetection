@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from seqscout.seq_scout import stratified_k_fold, seq_scout
-from seqscout.utils import read_json_rl
+from seqscout.utils import read_rocket_league_data
 from seqscout.seq_scout import preprocess
 from seqscout.dtw import launch_knn_dtw
 
@@ -44,7 +44,7 @@ def pattern_WRAcc_vs_alpha():
     for alpha in [x * 0.1 for x in range(0, 11)]:
         # in order to have have bar errors
         for _ in range(5):
-            DATA = read_json_rl('../data/rocket_league_new.json')
+            DATA = read_rocket_league_data()
 
             numerics_values = preprocess(DATA)
 

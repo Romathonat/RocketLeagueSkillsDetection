@@ -108,45 +108,35 @@ def subsequence_indices(a, b):
     return indices_b
 
 
-def read_json_rl(filename):
-    with open(filename) as f:
-        data = json.load(f)
+def read_rocket_league_data():
+    BUTTON_INPUTS = {'up', 'accelerate', 'slow', 'goal', 'left', 'boost', 'camera', 'down', 'right', 'slide', 'jump'}
+    data = []
+    with open('../data/rocket_league_skillshots.data') as f:
+        dict_headers = next(f).split()
+        new_line = []
+        for line_i, line in enumerate(f):
+            if len(line) < 5:
+                if line_i > 0:
+                    data.append(new_line)
+                new_line = [line.strip()]
+            else:
+                if len(dict_headers) != len(line.split()):
+                    raise ValueError('Number of data and variables do not match')
 
-    output_data = []
-    for line in data:
-        # data cleaning: if the sequence has more than 130 states in this dataset, it is an error
-        ''' 
-        if len(line['sequence']) > 130:
-            print(line['figure'])
-            continue
-        '''
+                numerics = {}
+                buttons = set()
 
-        offset_begin_move = -1
-        for i, state in enumerate(line['sequence']):
-            # we remove the time
-            if offset_begin_move < 0:
-                offset_begin_move = state[1]['Time']
+                for i, value in enumerate(line.split()):
+                    if dict_headers[i] in BUTTON_INPUTS:
+                        if value == '1':
+                            buttons.add(dict_headers[i])
+                    else:
+                        numerics[dict_headers[i]] = float(value)
 
-            # we offset this value since the beginning of the move
-            state[1]['Time'] = state[1]['Time'] - offset_begin_move
-            # del state[1]['Time']
-
-            # we add the goal to the itemset of events
-            if state[1]['goal']:
-                state[0].append('goal')
-            del state[1]['goal']
-            line['sequence'][i] = [set(state[0]), state[1]]
-
-        '''
-        if line['figure'] == "8":
-            new_line = ["-1"] + line['sequence']
-        else:
-        '''
-        new_line = [line['figure']] + line['sequence']
-
-        output_data.append(new_line)
-    return output_data
-
+                state = [buttons, numerics]
+                new_line.append(state)
+        data.append(new_line)
+    return data
 
 def extract_stats(data):
     size_max = 0
@@ -357,7 +347,3 @@ def encode_data_pattern(DATA, patterns):
     return encoded_data
 
 
-
-if __name__ == '__main__':
-    DATA = read_json_rl('../data/rocket_league_new.json')
-    extract_stats(DATA)

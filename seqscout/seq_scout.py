@@ -22,12 +22,11 @@ from seqscout.utils import sequence_mutable_to_immutable, \
     k_length, \
     count_target_class_data, extract_items, compute_quality, \
     sequence_immutable_to_mutable, encode_data, \
-    read_json_rl, print_results, pattern_mutable_to_immutable, encode_data_pattern, filter_sequence_goals, filter_sequence_numerics
+    print_results, pattern_mutable_to_immutable, encode_data_pattern, filter_sequence_goals, filter_sequence_numerics, read_rocket_league_data
 
 from seqscout.priorityset import PrioritySet, PrioritySetUCB
 import seqscout.conf as conf
 from tpot import TPOTClassifier
-
 
 def filter_target_class(data, target_class):
     filter_data = []
@@ -205,7 +204,7 @@ def stratified_k_fold(k=conf.CROSS_VALIDATION_NUMBER, pattern_number=conf.TOP_K,
                       theta=conf.THETA, no_filtering=False,
                       only_goals=False, only_numerics=False):
     # EXTRACTING PATTERNS
-    DATA = read_json_rl('../data/rocket_league_new.json')
+    DATA = read_rocket_league_data()
 
     if only_goals:
         DATA = filter_sequence_goals(DATA)
