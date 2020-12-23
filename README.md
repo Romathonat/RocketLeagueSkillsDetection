@@ -1,6 +1,6 @@
 # Rocket League Skills Detection 
 
-This repo holds the code for the paper submited to IEEE Conference on Games 2020 "A Behavioral Pattern Mining Approach to Model Player Skills in Rocket League". This is an application paper that uses the algorithm SeqScout from [1]. You can also see a video presentation of the project [here](https://www.youtube.com/watch?v=0zUlOIaDzqs&feature=youtu.be&ab_channel=IEEECOG)
+This repo holds the code for the paper submited to IEEE Conference on Games 2020 "A Behavioral Pattern Mining Approach to Model Player Skills in Rocket League" (you can access it freely [here](https://www.researchgate.net/publication/343852416_A_Behavioral_Pattern_Mining_Approach_to_Model_Player_Skills_in_Rocket_League)). This is an application paper that uses the algorithm SeqScout from [1]. You can also see a video presentation of the project [here](https://www.youtube.com/watch?v=0zUlOIaDzqs&feature=youtu.be&ab_channel=IEEECOG)
 
 ## Same skill, different sequences
 First we want to illustrate that the sequence of inputs of the player will vary a lot when performing the same skill.
